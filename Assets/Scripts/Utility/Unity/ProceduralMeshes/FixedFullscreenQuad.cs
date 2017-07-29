@@ -1,4 +1,4 @@
-﻿namespace DLS.USG.Prototypes.Scrolling.Scripts
+﻿namespace DLS.Utility.Unity.ProceduralMeshes
 {
     using UnityEngine;
     using Utility.Unity.Cameras;
