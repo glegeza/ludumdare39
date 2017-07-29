@@ -18,8 +18,47 @@
         {
             get; private set;
         }
-        
-        public bool GetTileCoords(Vector2 worldCoords, out float x, out float y)
+
+        /// <summary>
+        /// Gets the local coordinates of the center of the given
+        /// tile
+        /// </summary>
+        /// <param name="x">x position of the tile</param>
+        /// <param name="y">y position of the tile</param>
+        /// <returns>The tile's center in local space</returns>
+        public Vector2 GetLocalCoords(int x, int y)
+        {
+            var tileLocal = new Vector2(
+                x * TileSize.x,
+                y * TileSize.y);
+            tileLocal += new Vector2(
+                -WorldSize.x / 2.0f, -WorldSize.y / 2.0f);
+            return tileLocal + new Vector2(TileSize.x / 2.0f, TileSize.y / 2.0f);
+        }
+
+        /// <summary>
+        /// Gets the world coordinates of the center of the given
+        /// tile
+        /// </summary>
+        /// <param name="x">x position of the tile</param>
+        /// <param name="y">y position of the tile</param>
+        /// <returns>The tile's center in world space</returns>
+        public Vector2 GetWorldCoords(int x, int y)
+        {
+            return transform.TransformPoint(GetLocalCoords(x, y));
+        }
+
+        /// <summary>
+        /// Returns the x, y coordinates of a tile at a given point in
+        /// world space. Tiles are numbered from 0,0 at the bottom left
+        /// to width-1, height-1 at the top right.
+        /// </summary>
+        /// <param name="worldCoords">The world space point to check</param>
+        /// <param name="x">X coordinate of the tile</param>
+        /// <param name="y">Y coordinate of the tile</param>
+        /// <returns>True if the given world space coordinate lies within the
+        /// tile map.</returns>
+        public bool GetTileCoords(Vector2 worldCoords, out int x, out int y)
         {
             x = y = -1;
             var localCoords = transform.InverseTransformPoint(worldCoords);
@@ -30,15 +69,10 @@
             localCoords += new Vector3(halfWidth, halfHeight, 0.0f);
 
             x = (int)localCoords.x;
-            y = (int)(Height - localCoords.y);
+            y = (int)localCoords.y;
 
-            if (localCoords.x < 0.0f || localCoords.x > WorldSize.x ||
-                localCoords.y < 0.0f || localCoords.y > WorldSize.y)
-            {
-                return false;
-            }
-            
-            return true;
+            return !(localCoords.x < 0.0f || localCoords.x > WorldSize.x ||
+                localCoords.y < 0.0f || localCoords.y > WorldSize.y);
         }
 
         private void Start()
