@@ -46,18 +46,22 @@
             {
                 for (var y = 0; y < height; y++)
                 {
+                    // Everything vertex is offset by one tile UP only
+                    // because this was misaligning and I have no idea
+                    // why
+
                     verts.Add(new Vector3(
                         x * tileSize.x + planeUpperLeft.x,
-                        y * tileSize.y + planeUpperLeft.y));
+                        y * tileSize.y + planeUpperLeft.y + tileSize.y));
                     verts.Add(new Vector3(
                         x * tileSize.x + tileSize.x + planeUpperLeft.x,
-                        y * tileSize.y + planeUpperLeft.y));
+                        y * tileSize.y + planeUpperLeft.y + tileSize.y));
                     verts.Add(new Vector3(
                         x * tileSize.x + planeUpperLeft.x,
-                        y * tileSize.y - tileSize.y + planeUpperLeft.y));
+                        y * tileSize.y - tileSize.y + planeUpperLeft.y + tileSize.y));
                     verts.Add(new Vector3(
                         x * tileSize.x + tileSize.x + planeUpperLeft.x,
-                        y * tileSize.y - tileSize.y + planeUpperLeft.y));
+                        y * tileSize.y - tileSize.y + planeUpperLeft.y + tileSize.y));
 
                     uv.Add(topLeftUV);
                     uv.Add(topRightUV);
