@@ -22,14 +22,13 @@
             var hit = Physics2D.Raycast(ray, Vector2.zero);
             if (hit.collider != null)
             {
-                float x, y;
+                int x, y;
                 if (_map.GetTileCoords(hit.point, out x, out y))
                 {
-                    
+                    var world = _map.GetWorldCoords(x, y);
                 }
-
-                Debug.LogFormat("{0}, {1}", x, y);
             }
+            
         }
     }
 }
