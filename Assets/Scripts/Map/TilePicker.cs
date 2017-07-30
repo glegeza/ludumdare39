@@ -1,38 +1,35 @@
 ﻿namespace DLS.LD39.Map
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
-
-    [RequireComponent(typeof(TileMap))]
-    public class TilePicker : MonoBehaviour
+    
+    public class TilePicker
     {
         private TileMap _map;
 
-        private void Start()
+        public TilePicker(TileMap map)
         {
-            _map = GetComponent<TileMap>();
+            if (map == null)
+            {
+                throw new ArgumentNullException("map");
+            }
+            _map = map;
         }
 
-        private void Update()
+        public Tile GetTileAtScreenPosition(Vector2 screenPos)
         {
-            if (Input.GetMouseButton(0))
+            var ray = Camera.main.ScreenToWorldPoint(screenPos);
+            var hit = Physics2D.Raycast(ray, Vector2.zero);
+            if (hit.collider != null)
             {
-                var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                var hit = Physics2D.Raycast(ray, Vector2.zero);
-                if (hit.collider != null)
+                int x, y;
+                if (_map.GetTileCoords(hit.point, out x, out y))
                 {
-                    int x, y;
-                    if (_map.GetTileCoords(hit.point, out x, out y))
-                    {
-                        _map.SetTileAt(x, y);
-
-                    }
+                    return _map.GetTile(x, y);
                 }
             }
-            
+
+            return null;
         }
     }
 }

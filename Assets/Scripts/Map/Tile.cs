@@ -3,6 +3,7 @@
     using DLS.Utility;
     using System;
     using System.Collections.Generic;
+    using UnityEngine;
 
     public class Tile : IEquatable<Tile>
     {
@@ -27,12 +28,27 @@
             Y = y;
             Layer = layer;
             Map = map;
+            LocalCoords = map.GetLocalCoords(x, y);
         }
 
         public TileMap Map
         {
             get;
             private set;
+        }
+
+        public Vector2 LocalCoords
+        {
+            get;
+            private set;
+        }
+
+        public Vector2 WorldCoords
+        {
+            get
+            {
+                return Map.transform.TransformPoint(LocalCoords);
+            }
         }
 
         public int X

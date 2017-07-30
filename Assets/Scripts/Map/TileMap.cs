@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Map
 {
+    using System.Collections.Generic;
     using UnityEngine;
 
     [RequireComponent(typeof(MeshFilter))]
@@ -13,6 +14,7 @@
         private MeshFilter _filter;
         private BoxCollider2D _collider;
         private TileMapMesh _mesh;
+        private List<Tile> _tiles = new List<Tile>();
 
         public Vector2 WorldSize
         {
@@ -75,6 +77,22 @@
                 localCoords.y < 0.0f || localCoords.y > WorldSize.y);
         }
 
+        public Tile GetTile(int x, int y)
+        {
+            return _tiles[y * Height + x];
+        }
+
+        public Tile GetTileAtWorldCoords(Vector2 worldCoords)
+        {
+            int x, y;
+            if (!GetTileCoords(worldCoords, out x, out y))
+            {
+                return null;
+            }
+
+            return GetTile(x, y);
+        }
+
         public void SetTileAt(int x, int y)
         {
             _mesh.SetTileUV(new Vector2(0.25f, 0.0f), 0.25f, 1.0f, x, y);
@@ -88,6 +106,13 @@
             WorldSize = new Vector2(Width * TileSize.x,
                 Width * TileSize.y);
             _collider.size = WorldSize;
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    _tiles.Add(new Tile(x, y, 0, this));
+                }
+            }
         }
 
         private void Update()
