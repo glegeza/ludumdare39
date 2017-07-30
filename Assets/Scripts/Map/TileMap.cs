@@ -1,7 +1,6 @@
 ﻿namespace DLS.LD39.Map
 {
     using UnityEngine;
-    using Utility.Unity.ProceduralMeshes;
 
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(BoxCollider2D))]
@@ -13,6 +12,7 @@
 
         private MeshFilter _filter;
         private BoxCollider2D _collider;
+        private TileMapMesh _mesh;
 
         public Vector2 WorldSize
         {
@@ -75,6 +75,11 @@
                 localCoords.y < 0.0f || localCoords.y > WorldSize.y);
         }
 
+        public void SetTileAt(int x, int y)
+        {
+            _mesh.SetTileUV(new Vector2(0.25f, 0.0f), 0.25f, 1.0f, x, y);
+        }
+
         private void Start()
         {
             _filter = GetComponent<MeshFilter>();
@@ -85,10 +90,15 @@
             _collider.size = WorldSize;
         }
 
+        private void Update()
+        {
+            _mesh.UpdateMesh();
+        }
+
         private void GetMesh()
         {
-            var mesh = TilePlaneGenerator.GetPlane(TileSize, Width, Height);
-            _filter.sharedMesh = mesh;
+            _mesh = new TileMapMesh(TileSize, Width, Height);
+            _filter.sharedMesh = _mesh.Mesh;
         }
     }
 }

@@ -18,14 +18,18 @@
 
         private void Update()
         {
-            var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var hit = Physics2D.Raycast(ray, Vector2.zero);
-            if (hit.collider != null)
+            if (Input.GetMouseButton(0))
             {
-                int x, y;
-                if (_map.GetTileCoords(hit.point, out x, out y))
+                var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var hit = Physics2D.Raycast(ray, Vector2.zero);
+                if (hit.collider != null)
                 {
-                    var world = _map.GetWorldCoords(x, y);
+                    int x, y;
+                    if (_map.GetTileCoords(hit.point, out x, out y))
+                    {
+                        _map.SetTileAt(x, y);
+
+                    }
                 }
             }
             
