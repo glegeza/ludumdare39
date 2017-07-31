@@ -7,6 +7,18 @@
     [RequireComponent(typeof(BoxCollider2D))]
     public class TileMap : MonoBehaviour
     {
+        static private Dictionary<TileEdge, Vector2> _edgeMap = new Dictionary<TileEdge, Vector2>()
+        {
+            { TileEdge.Down, new Vector2(0, -1) },
+            { TileEdge.Left, new Vector2(-1, 0) },
+            { TileEdge.Right, new Vector2(1, 0) },
+            { TileEdge.Up, new Vector2(0, 1) },
+            { TileEdge.DownLeft, new Vector2(-1, -1) },
+            { TileEdge.DownRight, new Vector2(1, -1) },
+            { TileEdge.UpLeft, new Vector2(-1, 1) },
+            { TileEdge.UpRight, new Vector2(1, 1) },
+        };
+
         public int Width;
         public int Height;
         public Vector2 TileSize;
@@ -15,10 +27,28 @@
         private BoxCollider2D _collider;
         private TileMapMesh _mesh;
         private List<Tile> _tiles = new List<Tile>();
+        private List<TileMap> _adjacentMaps = new List<TileMap>();
 
-        public Vector2 WorldSize
+        public Vector2 WorldSpaceSize
         {
             get; private set;
+        }
+
+        /// <summary>
+        /// Joins two tile maps.
+        /// </summary>
+        /// <param name="map1">The first map to join</param>
+        /// <param name="map1Tile"></param>
+        /// <param name="tile1Edge"></param>
+        /// <param name="map2"></param>
+        /// <param name="map2Tile"></param>
+        /// <param name="tile2Edge"></param>
+        public static void JoinMaps(TileMap map1, Tile map1Tile, TileEdge tile1Edge, TileMap map2, Tile map2Tile, TileEdge tile2Edge)
+        {
+            map1._adjacentMaps.Add(map2);
+            map2._adjacentMaps.Add(map1);
+            map1Tile.AddAdjacentTile(map2Tile, tile1Edge);
+            map2Tile.AddAdjacentTile(map1Tile, tile2Edge);
         }
 
         /// <summary>
@@ -34,7 +64,7 @@
                 x * TileSize.x,
                 y * TileSize.y);
             tileLocal += new Vector2(
-                -WorldSize.x / 2.0f, -WorldSize.y / 2.0f);
+                -WorldSpaceSize.x / 2.0f, -WorldSpaceSize.y / 2.0f);
             return tileLocal + new Vector2(TileSize.x / 2.0f, TileSize.y / 2.0f);
         }
 
@@ -66,19 +96,24 @@
             var localCoords = transform.InverseTransformPoint(worldCoords);
 
             // Translate so we're starting from the upper left corner
-            var halfWidth = WorldSize.x / 2.0f;
-            var halfHeight = WorldSize.y / 2.0f;
+            var halfWidth = WorldSpaceSize.x / 2.0f;
+            var halfHeight = WorldSpaceSize.y / 2.0f;
             localCoords += new Vector3(halfWidth, halfHeight, 0.0f);
 
             x = (int)localCoords.x;
             y = (int)localCoords.y;
 
-            return !(localCoords.x < 0.0f || localCoords.x > WorldSize.x ||
-                localCoords.y < 0.0f || localCoords.y > WorldSize.y);
+            return !(localCoords.x < 0.0f || localCoords.x > WorldSpaceSize.x ||
+                localCoords.y < 0.0f || localCoords.y > WorldSpaceSize.y);
         }
 
         public Tile GetTile(int x, int y)
         {
+            var idx = y * Height + x;
+            if (x < 0 || y < 0 || x >= Width || y >= Height)
+            {
+                return null;
+            }
             return _tiles[y * Height + x];
         }
 
@@ -103,14 +138,36 @@
             _filter = GetComponent<MeshFilter>();
             _collider = GetComponent<BoxCollider2D>();
             GetMesh();
-            WorldSize = new Vector2(Width * TileSize.x,
+            WorldSpaceSize = new Vector2(Width * TileSize.x,
                 Width * TileSize.y);
-            _collider.size = WorldSize;
+            _collider.size = WorldSpaceSize;
+
+            // Create tiles
             for (var y = 0; y < Height; y++)
             {
                 for (var x = 0; x < Width; x++)
                 {
                     _tiles.Add(new Tile(x, y, 0, this));
+                }
+            }
+
+            // Build adjacency data
+            for (var y = 0; y < Height; y++)
+            {
+                for (var x = 0; x < Width; x++)
+                {
+                    var tile = GetTile(x, y);
+                    foreach (var edge in _edgeMap)
+                    {
+                        var adjX = x + (int)edge.Value.x;
+                        var adjY = y + (int)edge.Value.y;
+                        var adjTile = GetTile(adjX, adjY);
+                        if (adjTile != null)
+                        {
+                            tile.AddAdjacentTile(adjTile, edge.Key);
+                        }
+                    }
+
                 }
             }
         }

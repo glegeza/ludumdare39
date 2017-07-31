@@ -7,7 +7,7 @@
 
     public class Tile : IEquatable<Tile>
     {
-        private HashSet<Tile> _adjacentTiles = new HashSet<Tile>();
+        private Dictionary<TileEdge, Tile> _adjacentTiles = new Dictionary<TileEdge, Tile>();
 
         public Tile(int x, int y, int layer, TileMap map)
         {
@@ -71,17 +71,48 @@
 
         public IEnumerable<Tile> AdjacentTiles
         {
-            get;
-            private set;
+            get
+            {
+                return _adjacentTiles.Values;
+            }
         }
 
-        public void AddAdjacentTile(Tile tile)
+        public bool IsAdjacent(Tile tile)
         {
-            if (_adjacentTiles.Count == 8)
+            if (tile == null)
             {
-                throw new Exception("Trying to add 9th adjacent tile!");
+                throw new ArgumentNullException("tile");
             }
-            _adjacentTiles.Add(tile);
+
+            foreach (var t in _adjacentTiles.Values)
+            {
+                if (t.Equals(tile))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Tile GetAdjacent(TileEdge edge)
+        {
+            if (_adjacentTiles.ContainsKey(edge))
+            {
+                return _adjacentTiles[edge];
+            }
+            return null;
+        }
+
+        public void AddAdjacentTile(Tile tile, TileEdge edge)
+        {
+            if (_adjacentTiles.ContainsKey(edge))
+            {
+                var error = String.Format("Adding duplicate edge {0}", edge);
+                Debug.LogErrorFormat(error);
+                throw new ArgumentException(error);
+            }
+
+            _adjacentTiles.Add(edge, tile);
         }
 
         public override bool Equals(object obj)
