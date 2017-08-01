@@ -143,6 +143,10 @@
 
         public bool Equals(Tile other)
         {
+            if (other == null)
+            {
+                return false;
+            }
             return X == other.X && Y == other.Y &&
                 Map.Equals(other.Map) && Layer == other.Layer;
         }
