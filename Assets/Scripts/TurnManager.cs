@@ -4,60 +4,66 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using Priority_Queue;
+    using UnityEngine;
 
-    public class TurnManager
+    class TurnManager : MonoBehaviour
     {
-        private List<Initiative> _units = new List<Initiative>();
+        public float DelayTime = 1.0f;
 
-        private Queue<Initiative> _unitOrder = new Queue<Initiative>();
-        private Initiative _activeUnit;
+        private List<GameUnit> _units = new List<GameUnit>();
 
-        public void RegisterUnit(Initiative unit)
+        private SimplePriorityQueue<GameUnit> _unitsRemaining = new SimplePriorityQueue<GameUnit>();
+
+        public GameUnit ActiveUnit
+        {
+            get; private set;
+        }
+
+        public void EndCurrentUnitTurn()
+        {
+            if (ActiveUnit == null)
+            {
+                return;
+            }
+            ActiveUnit.EndTurn();
+        }
+
+        public void RegisterUnit(GameUnit unit)
         {
             _units.Add(unit);
+            unit.TurnEnded += OnUnitTurnEnded;
             UpdateTurnOrder();
         }
 
         public void UpdateTurnOrder()
         {
-            _unitOrder.Clear();
-            var ordered = _units.OrderByDescending(i => i.InitiativeValue);
+            _unitsRemaining.Clear();
 
-            if (_activeUnit == null)
+            foreach (var unit in _units)
             {
-                foreach (var i in ordered)
-                {
-                    _unitOrder.Enqueue(i);
-                }
-                return;
+                _unitsRemaining.Enqueue(unit, unit.Init.InitiativeValue);
+            }
+        }
+
+        private void OnUnitTurnEnded(object sender, EventArgs e)
+        {
+            var unit = sender as GameUnit;
+            if (unit == null)
+            {
+                throw new InvalidOperationException("OnUnitTurnEnded subscribed to non-GameUnit event");
             }
 
-            var completedUnits = new Queue<Initiative>();
-            var inBackQueue = true;
-            foreach (var i in ordered)
-            {
-                if (i == _activeUnit)
-                {
-                    inBackQueue = false;
-                    continue;
-                }
+            SetNextUnit();
+        }
 
-                if (inBackQueue)
-                {
-                    completedUnits.Enqueue(i);
-                }
-                else
-                {
-                    _unitOrder.Enqueue(i);
-                }
-            }
-            
-            
-            while (completedUnits.Any())
+        private void SetNextUnit()
+        {
+            if (!_unitsRemaining.Any())
             {
-                _unitOrder.Enqueue(completedUnits.Dequeue());
+                UpdateTurnOrder();
             }
+            ActiveUnit = _unitsRemaining.Dequeue();
         }
     }
 }

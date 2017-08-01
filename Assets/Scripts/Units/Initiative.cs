@@ -14,7 +14,7 @@
             private set;
         }
 
-        public bool IsActive
+        public bool IsActiveUnit
         {
             get;
             private set;
@@ -22,12 +22,12 @@
 
         public void BeginTurn()
         {
-
+            IsActiveUnit = true;
         }
 
         public void EndTurn()
         {
-
+            IsActiveUnit = false;
         }
     }
 }

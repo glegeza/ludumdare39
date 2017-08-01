@@ -8,10 +8,12 @@
     using Pathfinding;
 
     [RequireComponent(typeof(TilePosition))]
+    [RequireComponent(typeof(GameUnit))]
     public class MoveToTile : MonoBehaviour
     {
         public float MoveTimer = 1.0f;
-        
+
+        private GameUnit _unit;
         private TilePosition _position;
         private Queue<Tile> _path = new Queue<Tile>();
         private float _timeSinceLastMove = 0.0f;
@@ -22,6 +24,14 @@
 
         public event EventHandler<EventArgs> UnitBlocked;
 
+        public bool HasQueuedMovement
+        {
+            get
+            {
+                return _path.Any();
+            }
+        }
+
         public bool SetNewTarget(Tile target)
         {
             _path.Clear();
@@ -29,8 +39,16 @@
             return _path.Any();
         }
 
+        public void BeginTurn()
+        {
+            _timeSinceLastMove = 0.0f;
+        }
+
+        public void EndTurn() { }
+
         private void Start()
         {
+            _unit = GetComponent<GameUnit>();
             var tileMap = FindObjectOfType<TileMap>();
             _position = GetComponent<TilePosition>();
             _position.SetTile(tileMap.GetTile(0, 0));
@@ -38,10 +56,11 @@
 
         private void Update()
         {
-            if (!_path.Any())
+            if (!_unit.Init.IsActiveUnit || !_path.Any())
             {
                 return;
             }
+            
 
             _timeSinceLastMove += Time.deltaTime;
             if (_timeSinceLastMove > MoveTimer)
@@ -52,7 +71,8 @@
 
         private void TakeStep()
         {
-            var nextMove = _path.Dequeue();
+            
+            var nextMove = _path.Peek();
             if (TileIsValid(nextMove))
             {
                 _position.SetTile(nextMove);
@@ -71,11 +91,19 @@
             }
         }
 
+        private int GetTileCost(Tile target)
+        {
+            return (target.X == _position.CurrentTile.X || target.Y == _position.CurrentTile.Y)
+                ? 10
+                : 14;
+        }
+
         private bool TileIsValid(Tile target)
         {
             return Mathf.Abs(target.X - _position.CurrentTile.X) <= 1 &&
                 Mathf.Abs(target.Y - _position.CurrentTile.Y) <= 1 &&
-                target.Passable;
+                target.Passable &&
+                GetTileCost(target) <= _unit.AP.PointsRemaining;
         }
 
         private void ArrivedAtDestination()

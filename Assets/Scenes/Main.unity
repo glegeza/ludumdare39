@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 556749108}
   - component: {fileID: 556749107}
   - component: {fileID: 556749106}
+  - component: {fileID: 556749112}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -139,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 639e4d14c1891e84897f2e5f5b809cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveTimer: 0.25
+  MoveTimer: 1
 --- !u!114 &556749107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +216,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &556749112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 556749105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e650e1a061adba541b5a5aa2fde5a292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &826187620
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +239,7 @@ GameObject:
   - component: {fileID: 826187623}
   - component: {fileID: 826187621}
   - component: {fileID: 826187626}
+  - component: {fileID: 826187622}
   m_Layer: 0
   m_Name: TileMap
   m_TagString: Untagged
@@ -266,6 +279,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &826187622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 826187620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087dd2af1c7485846bd318570c222585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &826187623
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,7 +14,6 @@
             _picker = new TilePicker(_tileMap);
         }
 
-
         private void Update()
         {
             if (Input.GetMouseButton(1))
