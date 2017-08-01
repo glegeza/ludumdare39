@@ -11,39 +11,33 @@
     public class MoveToTile : MonoBehaviour
     {
         public float MoveTimer = 1.0f;
-
-        private static Dictionary<KeyCode, TileEdge> _keyMoveMap = new Dictionary<KeyCode, TileEdge>()
-        {
-            { KeyCode.UpArrow, TileEdge.Up },
-            { KeyCode.DownArrow, TileEdge.Down },
-            { KeyCode.LeftArrow, TileEdge.Left },
-            { KeyCode.RightArrow, TileEdge.Right },
-        };
-        private TilePicker _picker;
+        
         private TilePosition _position;
         private Queue<Tile> _path = new Queue<Tile>();
         private float _timeSinceLastMove = 0.0f;
         private SimplePathfinder _pathFinder = new SimplePathfinder();
+        private Tile _target;
+
+        public event EventHandler<EventArgs> UnitArrived;
+
+        public event EventHandler<EventArgs> UnitBlocked;
+
+        public bool SetNewTarget(Tile target)
+        {
+            _path.Clear();
+            _path = _pathFinder.GetPath(_position.CurrentTile, target);
+            return _path.Any();
+        }
 
         private void Start()
         {
             var tileMap = FindObjectOfType<TileMap>();
-            _picker = new TilePicker(tileMap);
             _position = GetComponent<TilePosition>();
             _position.SetTile(tileMap.GetTile(0, 0));
         }
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                var targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
-                if (targetTile != null)
-                {
-                    SetNewPath(targetTile);
-                }
-            }
-
             if (!_path.Any())
             {
                 return;
@@ -56,12 +50,6 @@
             }
         }
 
-        private void SetNewPath(Tile target)
-        {
-            _path.Clear();
-            _path = _pathFinder.GetPath(_position.CurrentTile, target);
-        }
-
         private void TakeStep()
         {
             var nextMove = _path.Dequeue();
@@ -69,12 +57,17 @@
             {
                 _position.SetTile(nextMove);
                 _timeSinceLastMove = 0.0f;
+                if (nextMove.Equals(_target))
+                {
+                    ArrivedAtDestination();
+                    _path.Clear();
+                }
             }
             else
             {
                 _path.Clear();
                 _timeSinceLastMove = 0.0f;
-                Debug.LogError("Invalid move attempted.");
+                DestinationUnreachable();
             }
         }
 
@@ -83,6 +76,22 @@
             return Mathf.Abs(target.X - _position.CurrentTile.X) <= 1 &&
                 Mathf.Abs(target.Y - _position.CurrentTile.Y) <= 1 &&
                 target.Passable;
+        }
+
+        private void ArrivedAtDestination()
+        {
+            if (UnitArrived != null)
+            {
+                UnitArrived(this, EventArgs.Empty);
+            }
+        }
+
+        private void DestinationUnreachable()
+        {
+            if (UnitBlocked != null)
+            {
+                UnitBlocked(this, EventArgs.Empty);
+            }
         }
     }
 }
