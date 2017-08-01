@@ -29,6 +29,7 @@
             Layer = layer;
             Map = map;
             LocalCoords = map.GetLocalCoords(x, y);
+            Passable = true;
         }
 
         public TileMap Map
@@ -49,6 +50,11 @@
             {
                 return Map.transform.TransformPoint(LocalCoords);
             }
+        }
+
+        public bool Passable
+        {
+            get; set;
         }
 
         public int X
