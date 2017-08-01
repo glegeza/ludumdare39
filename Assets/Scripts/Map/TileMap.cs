@@ -128,9 +128,9 @@
             return GetTile(x, y);
         }
 
-        public void SetTileAt(int x, int y)
+        public void SetTileAt(int x, int y, int tileType)
         {
-            _mesh.SetTileUV(new Vector2(0.25f, 0.0f), 0.25f, 1.0f, x, y);
+            _mesh.SetTileUV(new Vector2(0.25f * tileType, 0.0f), 0.25f, 1.0f, x, y);
         }
 
         private void Start()
