@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using Pathfinding;
 
     [RequireComponent(typeof(TilePosition))]
     public class MoveToTile : MonoBehaviour
@@ -22,6 +23,7 @@
         private TilePosition _position;
         private Queue<Tile> _path = new Queue<Tile>();
         private float _timeSinceLastMove = 0.0f;
+        private SimplePathfinder _pathFinder = new SimplePathfinder();
 
         private void Start()
         {
@@ -56,61 +58,31 @@
 
         private void SetNewPath(Tile target)
         {
-            const int MaxSteps = 1000; // something has gone super wrong if it takes 1000 steps to get anywhere
-            _timeSinceLastMove = 0.0f;
-
             _path.Clear();
-            if (target == null)
-            {
-                throw new ArgumentNullException("target");
-            }
-            if (_position.CurrentTile.Equals(target))
-            {
-                return;
-            }
-
-            Tile currentStep = _position.CurrentTile;
-            var steps = 0;
-            while (steps < MaxSteps)
-            {
-                currentStep = GetNextStep(currentStep, target);
-                _path.Enqueue(currentStep);
-                if (currentStep.Equals(target))
-                {
-                    break;
-                }
-                steps++;
-            }
-        }
-
-        // HACK this is terrible and won't work at all if the map isn't actually a square or if shit is in the way or whatever
-        private Tile GetNextStep(Tile currentTile, Tile targetTile)
-        {
-            Tile next = null;
-            if (targetTile.X < currentTile.X)
-            {
-                next = currentTile.GetAdjacent(TileEdge.Left);
-            }
-            else if (targetTile.X > currentTile.X)
-            {
-                next = currentTile.GetAdjacent(TileEdge.Right);
-            }
-            else if (targetTile.Y > currentTile.Y)
-            {
-                next = currentTile.GetAdjacent(TileEdge.Up);
-            }
-            else if (targetTile.Y < currentTile.Y)
-            {
-                next = currentTile.GetAdjacent(TileEdge.Down);
-            }
-            return next;
+            _path = _pathFinder.GetPath(_position.CurrentTile, target);
         }
 
         private void TakeStep()
         {
             var nextMove = _path.Dequeue();
-            _position.SetTile(nextMove);
-            _timeSinceLastMove = 0.0f;
+            if (TileIsValid(nextMove))
+            {
+                _position.SetTile(nextMove);
+                _timeSinceLastMove = 0.0f;
+            }
+            else
+            {
+                _path.Clear();
+                _timeSinceLastMove = 0.0f;
+                Debug.LogError("Invalid move attempted.");
+            }
+        }
+
+        private bool TileIsValid(Tile target)
+        {
+            return Mathf.Abs(target.X - _position.CurrentTile.X) <= 1 &&
+                Mathf.Abs(target.Y - _position.CurrentTile.Y) <= 1 &&
+                target.Passable;
         }
     }
 }
