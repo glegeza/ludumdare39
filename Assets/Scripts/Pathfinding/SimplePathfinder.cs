@@ -1,33 +1,92 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
     using DLS.LD39.Map;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
+    using Priority_Queue;
 
     class SimplePathfinder
     {
-        public List<Node> GetPath(Tile start, Tile target)
+        public Queue<Tile> GetPath(Tile start, Tile target)
         {
-            var path = new List<Node>();
+            if (start == null || target == null)
+            {
+                throw new ArgumentException("start or target is null");
+            }
+            if (start.Equals(target))
+            {
+                return new Queue<Tile>();
+            }
 
+            var frontier = new SimplePriorityQueue<Tile>();
+            var cameFrom = new Dictionary<Tile, Tile>();
+            var cost = new Dictionary<Tile, int>();
+            frontier.Enqueue(start, 0);
+            cameFrom.Add(start, null);
+            cost.Add(start, 0);
 
+            while (frontier.Any())
+            {
+                var current = frontier.Dequeue();
 
-            return path;
+                if (current.Equals(target))
+                {
+                    break;
+                }
+
+                foreach (var next in current.AdjacentTiles)
+                {
+                    if (!next.Passable)
+                    {
+                        continue;
+                    }
+                    var newCost = cost[current] + GetTileCost(current, next);
+                    if (!cost.ContainsKey(next) || newCost < cost[next])
+                    {
+                        cost[next] = newCost;
+                        var priority = newCost + Heuristic(next, target);
+                        frontier.Enqueue(next, priority);
+                        cameFrom[next] = current;
+                    }
+                }
+            }
+
+            // target is unreachable
+            if (!cameFrom.ContainsKey(target))
+            {
+                return new Queue<Tile>();
+            }
+
+            var path = new List<Tile>();
+            var nextInPath = target;
+            while (nextInPath != start)
+            {
+                path.Add(nextInPath);
+                nextInPath = cameFrom[nextInPath];
+            }
+            var pathQueue = new Queue<Tile>();
+            path.Reverse();
+
+            foreach (var step in path)
+            {
+                pathQueue.Enqueue(step);
+            }
+
+            return pathQueue;
         }
 
-        private int GetGValue(Node parent, Tile candidate)
+        private int Heuristic(Tile current, Tile target)
         {
-            var parentTile = parent.NodeTile;
-            return parent.G + (parentTile.X == candidate.X || parentTile.Y == candidate.Y
+            return Mathf.Abs(target.X - current.X) + Mathf.Abs(target.Y - current.Y);
+        }
+
+        private int GetTileCost(Tile parent, Tile candidate)
+        {
+            return (parent.X == candidate.X || parent.Y == candidate.Y
                 ? 10
                 : 14);
-        }
-
-        private int GetHValue(Tile candidate, Tile target)
-        {
-            var xDis = Mathf.Abs(target.X - candidate.X);
-            var yDis = Mathf.Abs(target.Y - candidate.Y);
-            return (xDis + yDis) * 10;
         }
     }
 }
