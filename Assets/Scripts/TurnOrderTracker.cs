@@ -70,12 +70,20 @@
 
         public void RegisterUnit(GameUnit unit)
         {
-            _unitsDone.Add(unit);
             unit.TurnEnded += OnUnitTurnEnded;
 
             if (ActiveUnit == null)
             {
+                _unitsDone.Add(unit);
                 SetNextUnit();
+            }
+            else if (unit.Initiative.InitiativeValue < ActiveUnit.Initiative.InitiativeValue)
+            {
+                _unitsDone.Add(unit);
+            }
+            else
+            {
+                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
             }
         }
 
