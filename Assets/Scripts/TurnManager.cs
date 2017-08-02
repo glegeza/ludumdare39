@@ -9,18 +9,43 @@
 
     class TurnManager : MonoBehaviour
     {
+        private static TurnManager _instance;
+
         public float DelayTime = 1.0f;
 
-        private List<GameUnit> _units = new List<GameUnit>();
+        private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
+        private List<GameUnit> _unitsDone = new List<GameUnit>();
 
-        private SimplePriorityQueue<GameUnit> _unitsRemaining = new SimplePriorityQueue<GameUnit>();
+        public static TurnManager Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
+        public IEnumerable<GameUnit> UnitsDone
+        {
+            get
+            {
+                return _unitsDone;
+            }
+        }
 
         public GameUnit ActiveUnit
         {
             get; private set;
         }
 
-        public void EndCurrentUnitTurn()
+        public IEnumerable<GameUnit> UnitsWaiting
+        {
+            get
+            {
+                return _unitsWaiting;
+            }
+        }
+
+        public void AdvanceTurn()
         {
             if (ActiveUnit == null)
             {
@@ -29,20 +54,53 @@
             ActiveUnit.EndTurn();
         }
 
-        public void RegisterUnit(GameUnit unit)
+        public void BeginNewRound()
         {
-            _units.Add(unit);
-            unit.TurnEnded += OnUnitTurnEnded;
-            UpdateTurnOrder();
+            if (ActiveUnit != null)
+            {
+
+            }
+            _unitsWaiting.Clear();
+
+            foreach (var unit in _unitsDone)
+            {
+                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
+            }
         }
 
-        public void UpdateTurnOrder()
+        public void RegisterUnit(GameUnit unit)
         {
-            _unitsRemaining.Clear();
-
-            foreach (var unit in _units)
+            if (ActiveUnit == null)
             {
-                _unitsRemaining.Enqueue(unit, unit.Init.InitiativeValue);
+                ActiveUnit = unit;
+                ActiveUnit.BeginTurn();
+            }
+            else if (unit.Initiative.InitiativeValue < ActiveUnit.Initiative.InitiativeValue)
+            {
+                _unitsDone.Add(unit);
+            }
+            else
+            {
+                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
+            }
+            unit.TurnEnded += OnUnitTurnEnded;
+        }
+
+        public void UnregisterUnit(GameUnit unit)
+        {
+            _unitsWaiting.Remove(unit);
+            _unitsDone.Remove(unit);
+        }
+
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                _instance = this;
             }
         }
 
@@ -53,17 +111,23 @@
             {
                 throw new InvalidOperationException("OnUnitTurnEnded subscribed to non-GameUnit event");
             }
-
+            Debug.LogFormat("Turn ended for unit {0}", unit.name);
             SetNextUnit();
         }
 
         private void SetNextUnit()
         {
-            if (!_unitsRemaining.Any())
+            if (ActiveUnit != null)
             {
-                UpdateTurnOrder();
+                _unitsDone.Add(ActiveUnit);
+                ActiveUnit = null;
             }
-            ActiveUnit = _unitsRemaining.Dequeue();
+            if (!_unitsWaiting.Any())
+            {
+                BeginNewRound();
+            }
+            ActiveUnit = _unitsWaiting.Dequeue();
+            ActiveUnit.BeginTurn();
         }
     }
 }
