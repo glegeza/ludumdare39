@@ -54,6 +54,12 @@
             _path.Clear();
             _path = _pathFinder.GetPath(_position.CurrentTile, target);
             _target = target;
+
+            if (!_path.Any())
+            {
+                Debug.Log("No path to target");
+            }
+
             return _path.Any();
         }
 
