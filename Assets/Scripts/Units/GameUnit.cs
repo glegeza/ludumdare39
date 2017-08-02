@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Units
 {
+    using DLS.LD39.Map;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,6 +13,11 @@
     class GameUnit : MonoBehaviour
     {
         public event EventHandler<EventArgs> TurnEnded;
+
+        public TilePosition Position
+        {
+            get; private set;
+        }
 
         public ActionPoints AP
         {

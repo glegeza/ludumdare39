@@ -9,7 +9,7 @@
 
     [RequireComponent(typeof(TilePosition))]
     [RequireComponent(typeof(GameUnit))]
-    public class MoveToTile : MonoBehaviour
+    public class MoveToTile : MonoBehaviour, IGameUnitComponent
     {
         public float MoveTimer = 1.0f;
 

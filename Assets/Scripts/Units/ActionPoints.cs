@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    class ActionPoints : MonoBehaviour
+    class ActionPoints : MonoBehaviour, IGameUnitComponent
     {
         public int PointsPerTurn
         {
