@@ -109,12 +109,12 @@
 
         public Tile GetTile(int x, int y)
         {
-            var idx = y * Height + x;
+            var idx = y * Width + x;
             if (x < 0 || y < 0 || x >= Width || y >= Height)
             {
                 return null;
             }
-            return _tiles[y * Height + x];
+            return _tiles[y * Width + x];
         }
 
         public Tile GetTileAtWorldCoords(Vector2 worldCoords)
@@ -139,7 +139,7 @@
             _collider = GetComponent<BoxCollider2D>();
             GetMesh();
             WorldSpaceSize = new Vector2(Width * TileSize.x,
-                Width * TileSize.y);
+                Height * TileSize.y);
             _collider.size = WorldSpaceSize;
 
             // Create tiles
