@@ -1,17 +1,12 @@
 ﻿namespace DLS.LD39.Controllers
 {
     using DLS.LD39.Map;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
 
     class MapClickController : MonoBehaviour
     {
         private static MapClickController _instance;
-
-        private TileMap _tileMap;
+        
         private TilePicker _picker;
 
         private IMapClickInputHandler _spawnHandler;
@@ -59,8 +54,7 @@
 
         public void Initialize()
         {
-            _tileMap = FindObjectOfType<TileMap>();
-            _picker = new TilePicker(_tileMap);
+            _picker = new TilePicker();
 
             _spawnHandler = new UnitSpawnClickHandler();
             _editHandler = new MapClickEditor();
