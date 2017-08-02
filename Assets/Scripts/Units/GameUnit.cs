@@ -38,6 +38,11 @@
             get; private set;
         }
 
+        public UnitRenderer Renderer
+        {
+            get; private set;
+        }
+
         public void Initialize(Tile startPos, Faction faction, string unitType)
         {
             if (startPos == null)
@@ -54,6 +59,7 @@
             Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();
+            Renderer.BeginTurn();
         }
 
         public void EndTurn()
@@ -61,6 +67,7 @@
             Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();
+            Renderer.EndTurn();
 
             if (TurnEnded != null)
             {
@@ -74,6 +81,7 @@
             AP = gameObject.AddComponent<ActionPoints>();
             Initiative = gameObject.AddComponent<Initiative>();
             MoveController = gameObject.AddComponent<MoveToTile>();
+            Renderer = gameObject.AddComponent<UnitRenderer>();
         }
     }
 }

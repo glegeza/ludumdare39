@@ -15,6 +15,7 @@
         public GameObject UnitPrefab;
 
         private List<GameUnit> _activeUnits = new List<GameUnit>();
+        private float _testInit = 0.0f;
 
         public GameUnit UnitAtTile(Tile tile)
         {
@@ -46,8 +47,10 @@
             mover.Initialize(unit);
             unitObject.name = unitName;
             _activeUnits.Add(unit);
-            unit.Initiative.InitiativeValue = UnityEngine.Random.Range(0.1f, 10.0f);
-            TurnManager.Instance.RegisterUnit(unit);
+            unit.Initiative.InitiativeValue = _testInit;
+            TurnOrderTracker.Instance.RegisterUnit(unit);
+
+            _testInit += 0.2f;
 
             Debug.LogFormat("Spawning {0} at {1}", unitName, tilePos);
 
@@ -59,7 +62,7 @@
             Debug.LogFormat("Removing {0} from {1}", unit.name, unit.Position.CurrentTile);
 
             _activeUnits.Remove(unit);
-            TurnManager.Instance.UnregisterUnit(unit);
+            TurnOrderTracker.Instance.UnregisterUnit(unit);
             Destroy(unit.gameObject);
         }
 

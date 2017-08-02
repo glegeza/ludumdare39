@@ -7,16 +7,14 @@
     using Priority_Queue;
     using UnityEngine;
 
-    class TurnManager : MonoBehaviour
+    class TurnOrderTracker : MonoBehaviour
     {
-        private static TurnManager _instance;
-
-        public float DelayTime = 1.0f;
+        private static TurnOrderTracker _instance;
 
         private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
         private List<GameUnit> _unitsDone = new List<GameUnit>();
 
-        public static TurnManager Instance
+        public static TurnOrderTracker Instance
         {
             get
             {
@@ -49,6 +47,7 @@
         {
             if (ActiveUnit == null)
             {
+                SetNextUnit();
                 return;
             }
             ActiveUnit.EndTurn();
@@ -66,24 +65,18 @@
             {
                 _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
             }
+            _unitsDone.Clear();
         }
 
         public void RegisterUnit(GameUnit unit)
         {
+            _unitsDone.Add(unit);
+            unit.TurnEnded += OnUnitTurnEnded;
+
             if (ActiveUnit == null)
             {
-                ActiveUnit = unit;
-                ActiveUnit.BeginTurn();
+                SetNextUnit();
             }
-            else if (unit.Initiative.InitiativeValue < ActiveUnit.Initiative.InitiativeValue)
-            {
-                _unitsDone.Add(unit);
-            }
-            else
-            {
-                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
-            }
-            unit.TurnEnded += OnUnitTurnEnded;
         }
 
         public void UnregisterUnit(GameUnit unit)
@@ -117,15 +110,27 @@
 
         private void SetNextUnit()
         {
+            // Move the currently active unit (if any) to the done list
             if (ActiveUnit != null)
             {
                 _unitsDone.Add(ActiveUnit);
                 ActiveUnit = null;
             }
+
+            // Bail if there aren't any units registered
+            if (!_unitsDone.Any())
+            {
+                return;
+            }
+
+            // If everyone has acted, start a new round
             if (!_unitsWaiting.Any())
             {
                 BeginNewRound();
             }
+
+            // Finally, get the next unit to act, notify it that its turn is
+            // starting
             ActiveUnit = _unitsWaiting.Dequeue();
             ActiveUnit.BeginTurn();
         }

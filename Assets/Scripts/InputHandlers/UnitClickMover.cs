@@ -10,7 +10,7 @@
 
         public bool HandleTileClick(int button, Tile clickedTile)
         {
-            var activeUnit = TurnManager.Instance.ActiveUnit;
+            var activeUnit = TurnOrderTracker.Instance.ActiveUnit;
             if (activeUnit == null)
             {
                 return false;

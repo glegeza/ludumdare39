@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 2788154}
   - component: {fileID: 2788156}
   - component: {fileID: 2788155}
+  - component: {fileID: 2788157}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -186,6 +187,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DelayTime: 1
+--- !u!114 &2788157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2788151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16797f7f46e6f849b04e2e811208a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BaseCubeMaterial: {fileID: 2100000, guid: af4f0162ae23a60469b9a1e3f5dd5b07, type: 2}
+  SelectedCubeMaterial: {fileID: 2100000, guid: d8303d0c8c7a1a841aabd0e85cfd1207,
+    type: 2}
 --- !u!1 &22811902
 GameObject:
   m_ObjectHideFlags: 0
