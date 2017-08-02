@@ -11,13 +11,13 @@
         public float InitiativeValue
         {
             get;
-            private set;
+            set;
         }
 
         public bool IsActiveUnit
         {
             get;
-            private set;
+            set;
         }
 
         public void BeginTurn()
