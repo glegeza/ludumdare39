@@ -30,9 +30,14 @@
 
         }
 
+        public bool CanSpendPoints(int amount)
+        {
+            return amount <= PointsRemaining;
+        }
+
         public void SpendPoints(int amount)
         {
-            if (amount > PointsRemaining)
+            if (!CanSpendPoints(amount))
             {
                 Debug.LogError("Unit attempting to spend too many points");
                 return;
