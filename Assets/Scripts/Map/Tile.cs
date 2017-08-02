@@ -141,6 +141,11 @@
             return SimpleHashBuilder.GetHash(X, Y, Layer, Map);
         }
 
+        public override string ToString()
+        {
+            return String.Format("{0} [{1}, {2}]", Map.name, X, Y);
+        }
+
         public bool Equals(Tile other)
         {
             if (other == null)
