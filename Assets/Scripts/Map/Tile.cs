@@ -118,7 +118,8 @@
         {
             if (_adjacentTiles.ContainsKey(edge))
             {
-                var error = String.Format("Adding duplicate edge {0}", edge);
+                var error = String.Format("Adding duplicate edge {0} to {1}", 
+                    edge, this);
                 Debug.LogErrorFormat(error);
                 throw new ArgumentException(error);
             }
