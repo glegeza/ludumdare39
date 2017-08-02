@@ -2,17 +2,21 @@
 {
     using DLS.LD39.Map;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
 
-    [RequireComponent(typeof(ActionPoints))]
-    [RequireComponent(typeof(Initiative))]
-    [RequireComponent(typeof(MoveToTile))]
     class GameUnit : MonoBehaviour
     {
         public event EventHandler<EventArgs> TurnEnded;
+
+        public string UnitType
+        {
+            get; private set;
+        }
+
+        public Faction Faction
+        {
+            get; private set;
+        }
 
         public TilePosition Position
         {
@@ -24,7 +28,7 @@
             get; private set;
         }
 
-        public Initiative Init
+        public Initiative Initiative
         {
             get; private set;
         }
@@ -34,16 +38,27 @@
             get; private set;
         }
 
+        public void Initialize(Tile startPos, Faction faction, string unitType)
+        {
+            if (startPos == null)
+            {
+                throw new ArgumentNullException("startPos");
+            }
+            Position.SetTile(startPos);
+            MoveController.Initialize(this);
+            UnitType = unitType;
+        }
+
         public void BeginTurn()
         {
-            Init.BeginTurn();
+            Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();
         }
 
         public void EndTurn()
         {
-            Init.EndTurn();
+            Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();
 
@@ -53,11 +68,12 @@
             }
         }
 
-        private void Start()
+        private void Awake()
         {
-            AP = GetComponent<ActionPoints>();
-            Init = GetComponent<Initiative>();
-            MoveController = GetComponent<MoveToTile>();
+            Position = gameObject.AddComponent<TilePosition>();
+            AP = gameObject.AddComponent<ActionPoints>();
+            Initiative = gameObject.AddComponent<Initiative>();
+            MoveController = gameObject.AddComponent<MoveToTile>();
         }
     }
 }

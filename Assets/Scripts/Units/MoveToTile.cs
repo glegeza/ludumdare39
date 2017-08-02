@@ -7,11 +7,16 @@
     using UnityEngine;
     using Pathfinding;
 
-    [RequireComponent(typeof(TilePosition))]
-    [RequireComponent(typeof(GameUnit))]
-    public class MoveToTile : MonoBehaviour, IGameUnitComponent
+    class MoveToTile : MonoBehaviour, IGameUnitComponent
     {
-        public float MoveTimer = 1.0f;
+        public enum MoveResult
+        {
+            Success,
+            Blocked,
+            NoAP
+        }
+
+        public float MoveTimer = 0.25f;
 
         private GameUnit _unit;
         private TilePosition _position;
@@ -19,6 +24,7 @@
         private float _timeSinceLastMove = 0.0f;
         private SimplePathfinder _pathFinder = new SimplePathfinder();
         private Tile _target;
+        private bool _outOfAP;
 
         public event EventHandler<EventArgs> UnitArrived;
 
@@ -32,62 +38,116 @@
             }
         }
 
+        public void Initialize(GameUnit unit)
+        {
+            if (unit == null)
+            {
+                throw new ArgumentNullException("unit");
+            }
+            _unit = unit;
+            _position = _unit.Position;
+            _outOfAP = false;
+        }
+
         public bool SetNewTarget(Tile target)
         {
             _path.Clear();
             _path = _pathFinder.GetPath(_position.CurrentTile, target);
+            _target = target;
             return _path.Any();
+        }
+
+        public MoveResult Move(Tile target)
+        {
+            var cost = GetTileCost(target);
+            var validMove = TileIsValid(target);
+
+            if (validMove && _unit.AP.CanSpendPoints(cost))
+            {
+                _unit.AP.SpendPoints(cost);
+                _position.SetTile(target);
+                _timeSinceLastMove = 0.0f;
+                Debug.Log("Moving!");
+                return MoveResult.Success;
+            }
+            else if (!validMove)
+            {
+                Debug.Log("Blocked!");
+                return MoveResult.Blocked;
+            }
+
+            Debug.Log("Out of AP!");
+            return MoveResult.NoAP;
         }
 
         public void BeginTurn()
         {
             _timeSinceLastMove = 0.0f;
+            _outOfAP = false;
         }
 
         public void EndTurn() { }
 
-        private void Start()
-        {
-            _unit = GetComponent<GameUnit>();
-            var tileMap = FindObjectOfType<TileMap>();
-            _position = GetComponent<TilePosition>();
-            _position.SetTile(tileMap.GetTile(0, 0));
-        }
-
         private void Update()
         {
-            if (!_unit.Init.IsActiveUnit || !_path.Any())
+            if (_outOfAP || !_unit.Initiative.IsActiveUnit || !_path.Any())
             {
                 return;
             }
             
-
             _timeSinceLastMove += Time.deltaTime;
             if (_timeSinceLastMove > MoveTimer)
             {
-                TakeStep();
+                TakeStepOnPath();
             }
         }
 
-        private void TakeStep()
+        private void TakeStepOnPath()
         {
             
             var nextMove = _path.Peek();
-            if (TileIsValid(nextMove))
+            var result = Move(nextMove);
+            if (result == MoveResult.Blocked)
             {
-                _position.SetTile(nextMove);
-                _timeSinceLastMove = 0.0f;
-                if (nextMove.Equals(_target))
-                {
-                    ArrivedAtDestination();
-                    _path.Clear();
-                }
+                DestinationUnreachable();                
+            }
+            else if (result == MoveResult.NoAP)
+            {
+                _outOfAP = true;
+                return;
             }
             else
             {
-                _path.Clear();
-                _timeSinceLastMove = 0.0f;
-                DestinationUnreachable();
+                _path.Dequeue();
+            }
+
+            if (_position.CurrentTile.Equals(_target))
+            {
+                ArrivedAtDestination();
+            }
+        }
+
+        private void ArrivedAtDestination()
+        {
+            Debug.Log("Arrived!");
+            _path.Clear();
+            _timeSinceLastMove = 0.0f;
+            _target = null;
+            if (UnitArrived != null)
+            {
+                UnitArrived(this, EventArgs.Empty);
+            }
+        }
+
+        private void DestinationUnreachable()
+        {
+            Debug.Log("Destination unreachable!");
+            _path.Clear();
+            _timeSinceLastMove = 0.0f;
+            _target = null;
+            if (UnitBlocked != null)
+            {
+                UnitBlocked(this, EventArgs.Empty);
             }
         }
 
@@ -100,26 +160,7 @@
 
         private bool TileIsValid(Tile target)
         {
-            return Mathf.Abs(target.X - _position.CurrentTile.X) <= 1 &&
-                Mathf.Abs(target.Y - _position.CurrentTile.Y) <= 1 &&
-                target.Passable &&
-                GetTileCost(target) <= _unit.AP.PointsRemaining;
-        }
-
-        private void ArrivedAtDestination()
-        {
-            if (UnitArrived != null)
-            {
-                UnitArrived(this, EventArgs.Empty);
-            }
-        }
-
-        private void DestinationUnreachable()
-        {
-            if (UnitBlocked != null)
-            {
-                UnitBlocked(this, EventArgs.Empty);
-            }
+            return target.IsAdjacent(_position.CurrentTile) && target.IsEnterable();
         }
     }
 }

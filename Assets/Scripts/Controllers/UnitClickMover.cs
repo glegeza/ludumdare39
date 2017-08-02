@@ -2,31 +2,23 @@
 {
     using DLS.LD39.Map;
     using DLS.LD39.Units;
-    using UnityEngine;
 
-    [RequireComponent(typeof(MoveToTile))]
-    class UnitClickMover : MonoBehaviour
+    class UnitClickMover : IMapClickInputHandler
     {
         private TilePicker _picker;
         private MoveToTile _mover;
 
-        private void Start()
+        public bool HandleTileClick(int button, Tile clickedTile)
         {
-            var tileMap = FindObjectOfType<TileMap>();
-            _mover = GetComponent<MoveToTile>();
-            _picker = new TilePicker(tileMap);
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
+            var activeUnit = TurnManager.Instance.ActiveUnit;
+            if (activeUnit == null)
             {
-                var targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
-                if (targetTile != null)
-                {
-                    _mover.SetNewTarget(targetTile);
-                }
+                return false;
             }
+            
+            activeUnit.GetComponent<MoveToTile>().SetNewTarget(clickedTile);
+
+            return false;
         }
     }
 }
