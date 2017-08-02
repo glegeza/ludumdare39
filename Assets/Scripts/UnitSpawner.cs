@@ -16,6 +16,7 @@
 
         private List<GameUnit> _activeUnits = new List<GameUnit>();
         private float _testInit = 0.0f;
+        private int _testUnitIdx = 0;
 
         public GameUnit UnitAtTile(Tile tile)
         {
@@ -36,11 +37,11 @@
                 return false;
             }
 
-            var unitName = String.Format("{0} - {1}", "Unit", "TestUnit");
+            var unitName = String.Format("{0} - {1}", "TestUnit", _testUnitIdx++);
             var unitObject = Instantiate(UnitPrefab);
             var unit = unitObject.AddComponent<GameUnit>();
             var mover = unitObject.AddComponent<MoveToTile>();
-            unit.Initialize(tilePos, Faction.Player, "TestUnit");
+            unit.Initialize(tilePos, Faction.Player, "TestUnit", unitName);
             unit.AP.MaximumPoints = 40;
             unit.AP.PointsPerTurn = 20;
             unit.AP.PointsRemaining = 20;

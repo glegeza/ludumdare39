@@ -13,6 +13,11 @@
             get; private set;
         }
 
+        public string Name
+        {
+            get; private set;
+        }
+
         public Faction Faction
         {
             get; private set;
@@ -43,7 +48,7 @@
             get; private set;
         }
 
-        public void Initialize(Tile startPos, Faction faction, string unitType)
+        public void Initialize(Tile startPos, Faction faction, string type, string name)
         {
             if (startPos == null)
             {
@@ -51,7 +56,8 @@
             }
             Position.SetTile(startPos);
             MoveController.Initialize(this);
-            UnitType = unitType;
+            UnitType = type;
+            Name = name;
         }
 
         public void BeginTurn()
