@@ -1,11 +1,16 @@
 ﻿namespace DLS.LD39.Controllers
 {
+    using InputHandlers;
     using DLS.LD39.Map;
     using UnityEngine;
 
-    class MapClickController : MonoBehaviour
+    /// <summary>
+    /// Responsible for calling the appropriate IMapClickInputHandler when the
+    /// player clicks the mouse anywhere on the map. 
+    /// </summary>
+    class MapClickRouter : MonoBehaviour
     {
-        private static MapClickController _instance;
+        private static MapClickRouter _instance;
         
         private TilePicker _picker;
 
@@ -15,7 +20,7 @@
 
         private IMapClickInputHandler _activeHandler;
 
-        public static MapClickController Instance
+        public static MapClickRouter Instance
         {
             get
             {
@@ -35,9 +40,16 @@
             }
         }
 
-        public void SetMoveMode()
+        public void ToggleMoveMode()
         {
-            _activeHandler = _moveHandler;
+            if (_activeHandler == _moveHandler)
+            {
+                _activeHandler = null;
+            }
+            else
+            {
+                _activeHandler = _moveHandler;
+            }
         }
 
         public void ToggleEditMode()

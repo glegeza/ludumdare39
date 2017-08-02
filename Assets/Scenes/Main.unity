@@ -1326,7 +1326,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2788152}
-        m_MethodName: SetMoveMode
+        m_MethodName: ToggleMoveMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

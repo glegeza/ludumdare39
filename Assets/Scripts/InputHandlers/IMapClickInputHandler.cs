@@ -1,4 +1,4 @@
-﻿namespace DLS.LD39.Controllers
+﻿namespace DLS.LD39.InputHandlers
 {
     using DLS.LD39.Map;
 

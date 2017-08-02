@@ -33,7 +33,7 @@
 
         private void Start()
         {
-            MapClickController.Instance.Initialize();
+            MapClickRouter.Instance.Initialize();
         }
     }
 }
