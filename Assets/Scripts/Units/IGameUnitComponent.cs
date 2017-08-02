@@ -4,8 +4,8 @@
 
     interface IGameUnitComponent
     {
-        public void BeginTurn();
+        void BeginTurn();
 
-        public void EndTurn();
+        void EndTurn();
     }
 }
