@@ -83,6 +83,11 @@
             }
         }
 
+        public bool IsEnterable()
+        {
+            return Passable && UnitSpawner.Instance.UnitAtTile(this) == null;
+        }
+
         public bool IsAdjacent(Tile tile)
         {
             if (tile == null)
