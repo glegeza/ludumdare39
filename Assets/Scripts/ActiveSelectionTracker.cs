@@ -21,7 +21,6 @@
 
         public void SetSelection(GameObject obj)
         {
-            Debug.Log("Setting selection");
             if (obj != SelectedObject)
             {
                 SelectedObject = obj;
