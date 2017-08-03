@@ -92,14 +92,34 @@
                 return;
             }
 
+            var checkedForTarget = false;
+            Tile targetTile = null;
             for (var btn = 0; btn < 3; btn++)
             {
                 if (Input.GetMouseButtonDown(btn))
                 {
-                    var targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
+                    if (targetTile == null && !checkedForTarget)
+                    {
+                        targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
+                        checkedForTarget = true;
+                    }
+
                     if (targetTile != null)
                     {
                         _activeHandler.HandleTileClick(btn, targetTile);
+                    }
+                }
+                else if (Input.GetMouseButton(btn))
+                {
+                    if (targetTile == null && !checkedForTarget)
+                    {
+                        targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
+                        checkedForTarget = true;
+                    }
+
+                    if (targetTile != null)
+                    {
+                        _activeHandler.HandleButtonDown(btn, targetTile);
                     }
                 }
             }

@@ -1,10 +1,16 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
+    using System;
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
 
     class UnitClickMover : IMapClickInputHandler
     {
+        public bool HandleButtonDown(int button, Tile tile)
+        {
+            return false;
+        }
+
         public bool HandleTileClick(int button, Tile clickedTile)
         {
             var activeUnit = TurnOrderTracker.Instance.ActiveUnit;

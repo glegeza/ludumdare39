@@ -1,9 +1,15 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
+    using System;
     using DLS.LD39.Map;
 
     class UnitSpawnClickHandler : IMapClickInputHandler
     {
+        public bool HandleButtonDown(int button, Tile tile)
+        {
+            return false;
+        }
+
         public bool HandleTileClick(int button, Tile clickedTile)
         {
             if (button == 0)

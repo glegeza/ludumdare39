@@ -4,14 +4,23 @@
 
     class MapClickEditor : IMapClickInputHandler
     {
-        public bool HandleTileClick(int button, Tile targetTile)
+        private enum Mode
         {
-            if (button != 0)
+            DoNothing,
+            Passable,
+            Impassable
+        }
+
+        private Mode _currentMode = Mode.DoNothing;
+
+        public bool HandleButtonDown(int button, Tile targetTile)
+        {
+            if (button != 0 || _currentMode == Mode.DoNothing)
             {
                 return false;
             }
 
-            if (targetTile.Passable)
+            if (_currentMode == Mode.Impassable)
             {
                 targetTile.Passable = false;
                 targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, 1);
@@ -21,6 +30,18 @@
                 targetTile.Passable = true;
                 targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, 0);
             }
+
+            return false;
+        }
+
+        public bool HandleTileClick(int button, Tile targetTile)
+        {
+            if (button != 0 || targetTile == null)
+            {
+                return false;
+            }
+
+            _currentMode = targetTile.Passable ? Mode.Impassable : Mode.Passable;
 
             return false;
         }
