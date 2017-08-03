@@ -800,9 +800,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca4e640435b7be48816a09461dc72c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 12
-  Height: 10
-  TileSize: {x: 1, y: 1}
+  Width: 24
+  Height: 18
+  TileSize: {x: 0.5, y: 0.5}
 --- !u!33 &731603497
 MeshFilter:
   m_ObjectHideFlags: 0
