@@ -103,7 +103,6 @@
             if (mover != null)
             {
                 max = mover.GetMaxMoveAlongPath(_trackedPathfinder.Path);
-                Debug.Log(max);
             }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)
