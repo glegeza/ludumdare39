@@ -2,6 +2,7 @@
 {
     using DLS.LD39.Map;
     using System;
+    using System.Collections.Generic;
     using UnityEngine;
 
     class MoveAction : MonoBehaviour, IGameUnitComponent
@@ -28,7 +29,7 @@
 
         public MoveResult Move(Tile target)
         {
-            var cost = GetTileCost(target);
+            var cost = GetTileCost(_position.CurrentTile, target);
             var validMove = TileIsValid(target);
 
             if (validMove && _unit.AP.CanSpendPoints(cost))
@@ -52,9 +53,33 @@
 
         public void EndTurn() { }
 
-        private int GetTileCost(Tile target)
+        public int GetMaxMoveAlongPath(IEnumerable<Tile> path)
         {
-            return (target.X == _position.CurrentTile.X || target.Y == _position.CurrentTile.Y)
+            var curMove = 0;
+            var apLeft = _unit.AP.PointsRemaining;
+            var lastStep = _position.CurrentTile;
+            foreach (var nextStep in path)
+            {
+                var cost = GetTileCost(lastStep, nextStep);
+                if (cost > apLeft)
+                {
+                    break;
+                }
+                apLeft -= cost;
+                lastStep = nextStep;
+                curMove++;
+            }
+
+            return curMove;
+        }
+
+        private int GetTileCost(Tile start, Tile target)
+        {
+            if (!start.IsAdjacent(target))
+            {
+                throw new ArgumentException(String.Format("GetTileCost: {0} is not adjacent to {1}", start, target));
+            }
+            return (target.X == start.X || target.Y == start.Y)
                 ? 10
                 : 14;
         }
