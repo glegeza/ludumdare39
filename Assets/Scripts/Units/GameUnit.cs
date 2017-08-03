@@ -73,6 +73,7 @@
             AP.BeginTurn();
             MoveController.BeginTurn();
             Renderer.BeginTurn();
+            PathController.BeginTurn();
             ActiveSelectionTracker.Instance.SetSelection(this);
         }
 

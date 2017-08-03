@@ -77,6 +77,11 @@
             return _path.Any();
         }
 
+        public void BeginTurn()
+        {
+            OnPathChanged();
+        }
+
         public void StartMove()
         {
             if (_position == null || _target == null || !_path.Any())
