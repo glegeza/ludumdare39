@@ -31,6 +31,14 @@
             get; private set;
         }
 
+        public Tile Target
+        {
+            get
+            {
+                return _target;
+            }
+        }
+
         public IEnumerable<Tile> Path
         {
             get
