@@ -24,6 +24,8 @@
 
         public Material BaseCubeMaterial;
         public Material SelectedCubeMaterial;
+        public Material PathMarkerMaterial;
+        public Material FuturePathMarkerMaterial;
         
         private void Awake()
         {
