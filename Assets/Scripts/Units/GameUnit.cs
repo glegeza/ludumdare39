@@ -44,7 +44,7 @@
             get; private set;
         }
 
-        public PathToTargetController PathController
+        public UnitPathfinder PathController
         {
             get; private set;
         }
@@ -87,7 +87,7 @@
             Initiative = gameObject.AddComponent<Initiative>();
             MoveController = gameObject.AddComponent<MoveAction>();
             Renderer = gameObject.AddComponent<UnitRenderer>();
-            PathController = gameObject.AddComponent<PathToTargetController>();
+            PathController = gameObject.AddComponent<UnitPathfinder>();
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
         }
 

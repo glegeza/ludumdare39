@@ -13,7 +13,7 @@
                 return false;
             }
             
-            activeUnit.GetComponent<PathToTargetController>().SetTarget(clickedTile);
+            activeUnit.GetComponent<UnitPathfinder>().SetTarget(clickedTile);
 
             return false;
         }
