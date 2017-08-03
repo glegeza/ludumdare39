@@ -39,7 +39,7 @@
             get; private set;
         }
 
-        public MoveToTile MoveController
+        public MoveAction MoveController
         {
             get; private set;
         }
@@ -85,7 +85,7 @@
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
             Initiative = gameObject.AddComponent<Initiative>();
-            MoveController = gameObject.AddComponent<MoveToTile>();
+            MoveController = gameObject.AddComponent<MoveAction>();
             Renderer = gameObject.AddComponent<UnitRenderer>();
             PathController = gameObject.AddComponent<PathToTargetController>();
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;

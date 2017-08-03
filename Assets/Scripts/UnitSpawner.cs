@@ -40,7 +40,7 @@
             var unitName = String.Format("{0} - {1}", "TestUnit", _testUnitIdx++);
             var unitObject = Instantiate(UnitPrefab);
             var unit = unitObject.AddComponent<GameUnit>();
-            var mover = unitObject.AddComponent<MoveToTile>();
+            var mover = unitObject.AddComponent<MoveAction>();
             unit.Initialize(tilePos, Faction.Player, "TestUnit", unitName);
             unit.AP.MaximumPoints = 40;
             unit.AP.PointsPerTurn = 20;

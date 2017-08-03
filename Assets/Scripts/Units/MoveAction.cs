@@ -4,7 +4,7 @@
     using System;
     using UnityEngine;
 
-    class MoveToTile : MonoBehaviour, IGameUnitComponent
+    class MoveAction : MonoBehaviour, IGameUnitComponent
     {
         public enum MoveResult
         {

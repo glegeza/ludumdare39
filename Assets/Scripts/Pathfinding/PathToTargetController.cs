@@ -10,7 +10,7 @@
     class PathToTargetController : MonoBehaviour
     {
         private TilePosition _position;
-        private MoveToTile _mover;
+        private MoveAction _mover;
         private Tile _target;
 
         private Queue<Tile> _path = new Queue<Tile>();
@@ -29,7 +29,7 @@
             get; private set;
         }
 
-        public void Initialize(TilePosition position, MoveToTile mover)
+        public void Initialize(TilePosition position, MoveAction mover)
         {
             if (position == null)
             {
@@ -96,12 +96,12 @@
         {
             var nextStep = _path.Peek();
             var result = _mover.Move(nextStep);
-            if (result == MoveToTile.MoveResult.Blocked)
+            if (result == MoveAction.MoveResult.Blocked)
             {
                 DestinationUnreachable();
                 MoveCompleted();
             }
-            else if (result == MoveToTile.MoveResult.NoAP)
+            else if (result == MoveAction.MoveResult.NoAP)
             {
                 MoveCompleted();
             }
