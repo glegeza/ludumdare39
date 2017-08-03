@@ -83,6 +83,22 @@
             }
         }
 
+        public int GetMoveCost(Tile target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+            if (!IsAdjacent(target))
+            {
+                throw new ArgumentException(String.Format("GetTileCost: {0} is not adjacent to {1}", this, target));
+            }
+
+            return (target.X == X || target.Y == Y)
+                ? 10
+                : 14;
+        }
+
         public bool IsEnterable()
         {
             return Passable && UnitSpawner.Instance.UnitAtTile(this) == null;

@@ -29,7 +29,7 @@
 
         public MoveResult Move(Tile target)
         {
-            var cost = GetTileCost(_position.CurrentTile, target);
+            var cost = _position.CurrentTile.GetMoveCost(target);
             var validMove = TileIsValid(target);
 
             if (validMove && _unit.AP.CanSpendPoints(cost))
@@ -60,7 +60,7 @@
             var lastStep = _position.CurrentTile;
             foreach (var nextStep in path)
             {
-                var cost = GetTileCost(lastStep, nextStep);
+                var cost = lastStep.GetMoveCost(nextStep);
                 if (cost > apLeft)
                 {
                     break;
@@ -72,18 +72,7 @@
 
             return curMove;
         }
-
-        private int GetTileCost(Tile start, Tile target)
-        {
-            if (!start.IsAdjacent(target))
-            {
-                throw new ArgumentException(String.Format("GetTileCost: {0} is not adjacent to {1}", start, target));
-            }
-            return (target.X == start.X || target.Y == start.Y)
-                ? 10
-                : 14;
-        }
-
+        
         private bool TileIsValid(Tile target)
         {
             return target.IsAdjacent(_position.CurrentTile) && target.IsEnterable();

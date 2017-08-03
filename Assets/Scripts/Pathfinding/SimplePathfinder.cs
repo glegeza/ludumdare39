@@ -84,9 +84,7 @@
 
         private int GetTileCost(Tile parent, Tile candidate)
         {
-            return (parent.X == candidate.X || parent.Y == candidate.Y
-                ? 10
-                : 14);
+            return parent.GetMoveCost(candidate);
         }
     }
 }
