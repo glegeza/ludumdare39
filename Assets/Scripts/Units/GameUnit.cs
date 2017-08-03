@@ -3,10 +3,13 @@
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
     using System;
+    using System.Linq;
     using UnityEngine;
 
     class GameUnit : MonoBehaviour
     {
+        private bool _endOfTurnPending = false;
+
         public event EventHandler<EventArgs> TurnEnded;
 
         public string UnitType
@@ -79,7 +82,15 @@
 
         public void EndTurn()
         {
-            PathController.StartMove();
+            if (PathController.Path.Any())
+            {
+                _endOfTurnPending = true;
+                PathController.StartMove();
+            }
+            else
+            {
+                OnTurnEnd();
+            }
         }
 
         private void Awake()
@@ -95,6 +106,15 @@
 
         private void OnFinishedEndOfTurnMove(object sender, EventArgs e)
         {
+            if (_endOfTurnPending)
+            {
+                OnTurnEnd();
+            }
+        }
+
+        private void OnTurnEnd()
+        {
+            _endOfTurnPending = false;
             Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();

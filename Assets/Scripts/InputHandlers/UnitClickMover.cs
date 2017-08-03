@@ -12,8 +12,21 @@
             {
                 return false;
             }
-            
-            activeUnit.GetComponent<UnitPathfinder>().SetTarget(clickedTile);
+
+            var pathfinder = activeUnit.GetComponent<UnitPathfinder>();
+            if (pathfinder == null)
+            {
+                return false;
+            }
+
+            if (clickedTile == pathfinder.Target)
+            {
+                pathfinder.StartMove();
+            }
+            else
+            {
+                pathfinder.SetTarget(clickedTile);
+            }
 
             return false;
         }
