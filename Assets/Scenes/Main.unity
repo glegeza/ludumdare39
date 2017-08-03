@@ -202,6 +202,9 @@ MonoBehaviour:
   BaseCubeMaterial: {fileID: 2100000, guid: af4f0162ae23a60469b9a1e3f5dd5b07, type: 2}
   SelectedCubeMaterial: {fileID: 2100000, guid: d8303d0c8c7a1a841aabd0e85cfd1207,
     type: 2}
+  PathMarkerMaterial: {fileID: 2100000, guid: 89f5fbd3f5be36d4bb3d9004afb1342e, type: 2}
+  FuturePathMarkerMaterial: {fileID: 2100000, guid: 6f2842be6cb660b45ba22b8a5365901a,
+    type: 2}
 --- !u!114 &2788158
 MonoBehaviour:
   m_ObjectHideFlags: 0
