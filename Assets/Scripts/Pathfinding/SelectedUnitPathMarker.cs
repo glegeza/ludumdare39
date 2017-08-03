@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
+    using DLS.LD39.Units;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -97,12 +98,27 @@
                 return;
             }
 
+            var mover = _trackedObject.GetComponent<MoveAction>();
+            var max = MarkerPoolSize + 1;
+            if (mover != null)
+            {
+                max = mover.GetMaxMoveAlongPath(_trackedPathfinder.Path);
+                Debug.Log(max);
+            }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)
             {
                 var currentMarker = _markerPool[idx++];
                 currentMarker.SetActive(true);
                 currentMarker.transform.position = step.WorldCoords;
+                if (idx > max)
+                {
+                    currentMarker.GetComponent<MeshRenderer>().material = MaterialRepository.Instance.FuturePathMarkerMaterial;
+                }
+                else
+                {
+                    currentMarker.GetComponent<MeshRenderer>().material = MaterialRepository.Instance.PathMarkerMaterial;
+                }
             }
         }
 
