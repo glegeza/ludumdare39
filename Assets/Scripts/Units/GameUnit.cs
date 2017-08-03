@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Units
 {
     using DLS.LD39.Map;
+    using DLS.LD39.Pathfinding;
     using System;
     using UnityEngine;
 
@@ -43,6 +44,11 @@
             get; private set;
         }
 
+        public PathToTargetController PathController
+        {
+            get; private set;
+        }
+
         public UnitRenderer Renderer
         {
             get; private set;
@@ -56,6 +62,7 @@
             }
             Position.SetTile(startPos);
             MoveController.Initialize(this);
+            PathController.Initialize(Position, MoveController);
             UnitType = type;
             Name = name;
         }
@@ -70,15 +77,7 @@
 
         public void EndTurn()
         {
-            Initiative.EndTurn();
-            AP.EndTurn();
-            MoveController.EndTurn();
-            Renderer.EndTurn();
-
-            if (TurnEnded != null)
-            {
-                TurnEnded(this, EventArgs.Empty);
-            }
+            PathController.StartMove();
         }
 
         private void Awake()
@@ -88,6 +87,21 @@
             Initiative = gameObject.AddComponent<Initiative>();
             MoveController = gameObject.AddComponent<MoveToTile>();
             Renderer = gameObject.AddComponent<UnitRenderer>();
+            PathController = gameObject.AddComponent<PathToTargetController>();
+            PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
+        }
+
+        private void OnFinishedEndOfTurnMove(object sender, EventArgs e)
+        {
+            Initiative.EndTurn();
+            AP.EndTurn();
+            MoveController.EndTurn();
+            Renderer.EndTurn();
+
+            if (TurnEnded != null)
+            {
+                TurnEnded(this, EventArgs.Empty);
+            }
         }
     }
 }

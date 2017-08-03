@@ -1,13 +1,10 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
     using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using DLS.LD39.Pathfinding;
 
     class UnitClickMover : IMapClickInputHandler
     {
-        private TilePicker _picker;
-        private MoveToTile _mover;
-
         public bool HandleTileClick(int button, Tile clickedTile)
         {
             var activeUnit = TurnOrderTracker.Instance.ActiveUnit;
@@ -16,7 +13,7 @@
                 return false;
             }
             
-            activeUnit.GetComponent<MoveToTile>().SetNewTarget(clickedTile);
+            activeUnit.GetComponent<PathToTargetController>().SetTarget(clickedTile);
 
             return false;
         }
