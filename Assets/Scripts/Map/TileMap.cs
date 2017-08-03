@@ -5,6 +5,7 @@
 
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(BoxCollider2D))]
+    [RequireComponent(typeof(MeshRenderer))]
     public class TileMap : MonoBehaviour
     {
         static private Dictionary<TileEdge, Vector2> _edgeMap = new Dictionary<TileEdge, Vector2>()
@@ -19,13 +20,16 @@
             { TileEdge.UpRight, new Vector2(1, 1) },
         };
 
+        public int DefaultTile = 7;
         public int Width;
         public int Height;
         public Vector2 TileSize;
 
         private MeshFilter _filter;
         private BoxCollider2D _collider;
+        private MeshRenderer _renderer;
         private TileMapMesh _mesh;
+        private TileSheet _sheet;
         private List<Tile> _tiles = new List<Tile>();
         private List<TileMap> _adjacentMaps = new List<TileMap>();
 
@@ -130,13 +134,18 @@
 
         public void SetTileAt(int x, int y, int tileType)
         {
-            _mesh.SetTileUV(new Vector2(0.25f * tileType, 0.0f), 0.25f, 1.0f, x, y);
+            var tile = _sheet.GetIndexedTile(tileType);
+            _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 
         private void Start()
         {
             _filter = GetComponent<MeshFilter>();
             _collider = GetComponent<BoxCollider2D>();
+            _renderer = GetComponent<MeshRenderer>();
+
+            _sheet = new TileSheet(_renderer.material.mainTexture, 32);
+
             GetMesh();
             WorldSpaceSize = new Vector2(Width * TileSize.x,
                 Height * TileSize.y);
@@ -148,6 +157,7 @@
                 for (var x = 0; x < Width; x++)
                 {
                     _tiles.Add(new Tile(x, y, 0, this));
+                    SetTileAt(x, y, DefaultTile);
                 }
             }
 

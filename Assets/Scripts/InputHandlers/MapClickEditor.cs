@@ -4,6 +4,9 @@
 
     class MapClickEditor : IMapClickInputHandler
     {
+        private const int PassableIdx = 7;
+        private const int ImpassableIdx = 4;
+
         private enum Mode
         {
             DoNothing,
@@ -23,12 +26,12 @@
             if (_currentMode == Mode.Impassable)
             {
                 targetTile.Passable = false;
-                targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, 1);
+                targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, ImpassableIdx);
             }
             else
             {
                 targetTile.Passable = true;
-                targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, 0);
+                targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, PassableIdx);
             }
 
             return false;
