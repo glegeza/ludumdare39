@@ -121,6 +121,8 @@ GameObject:
   - component: {fileID: 2788156}
   - component: {fileID: 2788155}
   - component: {fileID: 2788157}
+  - component: {fileID: 2788159}
+  - component: {fileID: 2788158}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -200,6 +202,31 @@ MonoBehaviour:
   BaseCubeMaterial: {fileID: 2100000, guid: af4f0162ae23a60469b9a1e3f5dd5b07, type: 2}
   SelectedCubeMaterial: {fileID: 2100000, guid: d8303d0c8c7a1a841aabd0e85cfd1207,
     type: 2}
+--- !u!114 &2788158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2788151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3312d924845793a48a3e6ead0a5909ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkerPoolSize: 100
+  MarkerPrefab: {fileID: 1281748706539238, guid: c5e1cb0a17d35d04286725387b2f00f3,
+    type: 2}
+--- !u!114 &2788159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2788151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b39b8ba3b28fb4284ac0d4dce08497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &22811902
 GameObject:
   m_ObjectHideFlags: 0
