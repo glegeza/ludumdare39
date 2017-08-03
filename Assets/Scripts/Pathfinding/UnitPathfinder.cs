@@ -24,9 +24,19 @@
 
         public event EventHandler<EventArgs> UnitBlocked;
 
+        public event EventHandler<EventArgs> PathChanged;
+
         public float MoveTimer
         {
             get; private set;
+        }
+
+        public IEnumerable<Tile> Path
+        {
+            get
+            {
+                return _path;
+            }
         }
 
         public void Initialize(TilePosition position, MoveAction mover)
@@ -63,6 +73,7 @@
                     _position.CurrentTile, target);
             }
 
+            OnPathChanged();
             return _path.Any();
         }
 
@@ -108,6 +119,7 @@
             else
             {
                 _path.Dequeue();
+                OnPathChanged();
             }
 
             if (_position.CurrentTile.Equals(_target))
@@ -148,6 +160,14 @@
             if (UnitBlocked != null)
             {
                 UnitBlocked(this, EventArgs.Empty);
+            }
+        }
+
+        private void OnPathChanged()
+        {
+            if (PathChanged != null)
+            {
+                PathChanged(this, EventArgs.Empty);
             }
         }
     }
