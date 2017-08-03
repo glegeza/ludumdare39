@@ -23,7 +23,6 @@
             {
                 var tile = new IndexedTile(this, i,
                     new Vector2(i * _tileWidth, 0.0f), _tileWidth, _tileHeight);
-                Debug.LogFormat("{0} - {1} - {2}", tile.BottomLeft.x, tile.Width, tile.Height);
                 _tiles.Add(tile);
             }
         }
