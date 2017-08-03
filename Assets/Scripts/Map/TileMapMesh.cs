@@ -122,7 +122,7 @@
             var uvTopRight = new Vector2(uvTopLeft.x + uvWidth, uvTopLeft.y);
             var uvBotRight = new Vector2(uvBotLeft.x + uvWidth, uvBotLeft.y);
 
-            var startIdx = (y * Height + x) * 4;
+            var startIdx = (y * Width + x) * 4;
 
             _uvs[startIdx] = uvTopLeft;
             _uvs[startIdx + 1] = uvTopRight;
