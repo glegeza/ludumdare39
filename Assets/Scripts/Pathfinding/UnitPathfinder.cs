@@ -122,8 +122,19 @@
             var result = _mover.Move(nextStep);
             if (result == MoveAction.MoveResult.Blocked)
             {
-                DestinationUnreachable();
-                MoveCompleted();
+                // attempt to recalculate
+                var oldTarget = _target;
+                _target = null;
+                var targetSet = SetTarget(oldTarget);
+                if (!targetSet)
+                {
+                    DestinationUnreachable();
+                    MoveCompleted();
+                }
+                else
+                {
+                    Debug.Log("New path calculated");
+                }
             }
             else if (result == MoveAction.MoveResult.NoAP)
             {
