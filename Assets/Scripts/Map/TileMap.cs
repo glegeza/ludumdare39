@@ -100,8 +100,8 @@
             var halfHeight = WorldSpaceSize.y / 2.0f;
             localCoords += new Vector3(halfWidth, halfHeight, 0.0f);
 
-            x = (int)localCoords.x;
-            y = (int)localCoords.y;
+            x = (int)(localCoords.x / TileSize.x);
+            y = (int)(localCoords.y / TileSize.y);
 
             return !(localCoords.x < 0.0f || localCoords.x > WorldSpaceSize.x ||
                 localCoords.y < 0.0f || localCoords.y > WorldSpaceSize.y);
