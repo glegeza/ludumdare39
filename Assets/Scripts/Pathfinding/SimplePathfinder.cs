@@ -38,7 +38,7 @@
 
                 foreach (var next in current.AdjacentTiles)
                 {
-                    if (!next.Passable)
+                    if (!next.Passable || UnitSpawner.Instance.UnitAtTile(next))
                     {
                         continue;
                     }
