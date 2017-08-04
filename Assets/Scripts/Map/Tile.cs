@@ -60,7 +60,7 @@
         {
             get
             {
-                return _isPassable && _props.Values.All(p => p.Passable);
+                return _isPassable && _props.Values.All(p => p.Data.Passable);
             }
             set
             {
@@ -113,7 +113,7 @@
 
         public void AddProp(Prop prop)
         {
-            _props[prop.Layer] = prop;
+            _props[prop.Data.Layer] = prop;
         }
 
         public int GetMoveCost(Tile target)

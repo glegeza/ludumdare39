@@ -26,7 +26,7 @@
 
             if (_currentMode == Mode.PlaceWall && currentProp == null)
             {
-                PlaceWall(clickedTile);
+                PropFactory.Instance.BuildPropAndAddToTile("test_wall", clickedTile);
             }
             else if (_currentMode == Mode.RemoveWall && currentProp != null)
             {
@@ -49,15 +49,6 @@
             _currentMode = prop == null ? Mode.PlaceWall : Mode.RemoveWall;
 
             return false;
-        }
-
-        private void PlaceWall(Tile tile)
-        {
-            var wallPrefab = PropRepository.Instance.WallPrefab;
-            var obj = GameObject.Instantiate(wallPrefab);
-            var pos = obj.GetComponent<TilePosition>();
-            pos.SetTile(tile);
-            tile.AddProp(obj.GetComponent<Prop>());
         }
     }
 }

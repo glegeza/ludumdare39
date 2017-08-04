@@ -242,8 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996254c8eddad6f4b9f554763b7e5ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallPrefab: {fileID: 114158743581670784, guid: 67458dca0ca4157409afa8e2bae26242,
-    type: 2}
+  Props:
+  - {fileID: 11400000, guid: e0b506780d04d7445a0c25c72dd777a0, type: 2}
+  Scaling: {x: 0.5, y: 0.5, z: 1}
 --- !u!1 &22811902
 GameObject:
   m_ObjectHideFlags: 0

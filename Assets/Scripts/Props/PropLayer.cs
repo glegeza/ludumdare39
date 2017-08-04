@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    enum PropLayer
+    public enum PropLayer
     {
         Floor,
         Wall

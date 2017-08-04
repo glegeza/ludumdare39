@@ -1,33 +1,29 @@
 ﻿namespace DLS.LD39.Props
 {
     using DLS.LD39.Map;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
 
+    [RequireComponent(typeof(TilePosition))]
     class Prop : MonoBehaviour
     {
-        public PropLayer Layer;
-        public bool Passable;
-
-        private SpriteRenderer _renderer;
+        public PropData Data
+        {
+            get; private set;
+        }
 
         public TilePosition Position
         {
             get; private set;
         }
 
-        private void Awake()
+        public void Initialize(PropData data)
         {
-            _renderer = GetComponent<SpriteRenderer>();
-            Position = GetComponent<TilePosition>();
+            Data = data;
         }
 
-        private void Update()
+        private void Awake()
         {
-            _renderer.sortingOrder = (int)((transform.position.y * 100) * -1);
+            Position = GetComponent<TilePosition>();
         }
     }
 }
