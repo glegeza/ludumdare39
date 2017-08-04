@@ -106,6 +106,11 @@
             }
         }
 
+        public void RemoveProp(PropLayer layer)
+        {
+            _props.Remove(layer);
+        }
+
         public void AddProp(Prop prop)
         {
             _props[prop.Layer] = prop;
