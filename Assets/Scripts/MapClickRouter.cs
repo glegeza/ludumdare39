@@ -17,6 +17,7 @@
         private IMapClickInputHandler _spawnHandler;
         private IMapClickInputHandler _moveHandler;
         private IMapClickInputHandler _editHandler;
+        private IMapClickInputHandler _propHandler;
 
         private IMapClickInputHandler _activeHandler;
 
@@ -64,6 +65,18 @@
             }
         }
 
+        public void TogglePlaceMode()
+        {
+            if (_activeHandler == _propHandler)
+            {
+                _activeHandler = null;
+            }
+            else
+            {
+                _activeHandler = _propHandler;
+            }
+        }
+
         public void Initialize()
         {
             _picker = new TilePicker();
@@ -71,6 +84,7 @@
             _spawnHandler = new UnitSpawnClickHandler();
             _editHandler = new MapClickEditor();
             _moveHandler = new UnitClickMover();
+            _propHandler = new PropPlacer();
         }
 
         private void Awake()
