@@ -3,7 +3,7 @@
     using DLS.LD39.Props;
     using UnityEditor;
 
-    public class YourClassAsset
+    public class PropDataAsset
     {
         [MenuItem("Assets/Create/Prop")]
         public static void CreateAsset()
