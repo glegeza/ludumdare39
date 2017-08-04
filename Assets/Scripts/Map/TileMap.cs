@@ -21,7 +21,7 @@
         };
 
         public TileSetData TileData;
-        public int DefaultTile = 7;
+        public string DefaultTile = "floor_tile";
         public int Width;
         public int Height;
         public Vector2 TileSize;
@@ -136,6 +136,12 @@
         public void SetTileAt(int x, int y, int tileType)
         {
             var tile = _tileSet.GetIndexedTile(tileType);
+            _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
+        }
+
+        public void SetTileAt(int x, int y, string tileType)
+        {
+            var tile = _tileSet.GetTileByID(tileType);
             _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 
