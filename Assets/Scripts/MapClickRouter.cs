@@ -3,6 +3,7 @@
     using InputHandlers;
     using DLS.LD39.Map;
     using UnityEngine;
+    using UnityEngine.EventSystems;
 
     /// <summary>
     /// Responsible for calling the appropriate IMapClickInputHandler when the
@@ -101,7 +102,7 @@
 
         private void Update()
         {
-            if (_activeHandler == null)
+            if (_activeHandler == null || EventSystem.current.IsPointerOverGameObject())
             {
                 return;
             }
