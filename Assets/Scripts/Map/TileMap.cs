@@ -20,16 +20,17 @@
             { TileEdge.UpRight, new Vector2(1, 1) },
         };
 
+        public TileSetData TileData;
         public int DefaultTile = 7;
         public int Width;
         public int Height;
         public Vector2 TileSize;
 
+        private TileSet _tileSet;
         private MeshFilter _filter;
         private BoxCollider2D _collider;
         private MeshRenderer _renderer;
         private TileMapMesh _mesh;
-        private TileSheet _sheet;
         private List<Tile> _tiles = new List<Tile>();
         private List<TileMap> _adjacentMaps = new List<TileMap>();
 
@@ -134,17 +135,16 @@
 
         public void SetTileAt(int x, int y, int tileType)
         {
-            var tile = _sheet.GetIndexedTile(tileType);
+            var tile = _tileSet.GetIndexedTile(tileType);
             _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 
         private void Start()
         {
+            _tileSet = new TileSet(TileData);
             _filter = GetComponent<MeshFilter>();
             _collider = GetComponent<BoxCollider2D>();
             _renderer = GetComponent<MeshRenderer>();
-
-            _sheet = new TileSheet(_renderer.material.mainTexture, 32);
 
             GetMesh();
             WorldSpaceSize = new Vector2(Width * TileSize.x,

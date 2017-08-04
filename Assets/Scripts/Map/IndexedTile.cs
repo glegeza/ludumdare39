@@ -2,18 +2,13 @@
 {
     using UnityEngine;
 
-    class IndexedTile
+    public class IndexedTile
     {
-        public IndexedTile(TileSheet sheet, int idx, Vector2 bottomLeft, float width, float height)
+        public IndexedTile(int idx, Vector2 bottomLeft, float width, float height)
         {
             BottomLeft = bottomLeft;
             Width = width;
             Height = height;
-        }
-
-        public TileSheet Sheet
-        {
-            get; private set;
         }
 
         public int Index
