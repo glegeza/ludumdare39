@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    public class TilePosition : MonoBehaviour
+    class TilePosition : MonoBehaviour
     {
         public Tile CurrentTile
         {

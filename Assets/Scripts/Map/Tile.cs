@@ -1,13 +1,17 @@
 ﻿namespace DLS.LD39.Map
 {
+    using DLS.LD39.Props;
     using DLS.Utility;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
 
-    public class Tile : IEquatable<Tile>
+    class Tile : IEquatable<Tile>
     {
         private Dictionary<TileEdge, Tile> _adjacentTiles = new Dictionary<TileEdge, Tile>();
+        private Dictionary<PropLayer, Prop> _props = new Dictionary<PropLayer, Prop>();
+        private bool _isPassable;
 
         public Tile(int x, int y, int layer, TileMap map)
         {
@@ -54,7 +58,14 @@
 
         public bool Passable
         {
-            get; set;
+            get
+            {
+                return _isPassable && _props.Values.All(p => p.Passable);
+            }
+            set
+            {
+                _isPassable = value;
+            }
         }
 
         public int X
@@ -81,6 +92,23 @@
             {
                 return _adjacentTiles.Values;
             }
+        }
+
+        public Prop PropOnLayer(PropLayer layer)
+        {
+            if (_props.ContainsKey(layer))
+            {
+                return _props[layer];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void AddProp(Prop prop)
+        {
+            _props[prop.Layer] = prop;
         }
 
         public int GetMoveCost(Tile target)

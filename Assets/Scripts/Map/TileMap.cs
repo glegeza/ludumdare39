@@ -6,7 +6,7 @@
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(BoxCollider2D))]
     [RequireComponent(typeof(MeshRenderer))]
-    public class TileMap : MonoBehaviour
+    class TileMap : MonoBehaviour
     {
         static private Dictionary<TileEdge, Vector2> _edgeMap = new Dictionary<TileEdge, Vector2>()
         {

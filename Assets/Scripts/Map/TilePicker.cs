@@ -2,7 +2,7 @@
 {
     using UnityEngine;
     
-    public class TilePicker
+    class TilePicker
     {
         public Tile GetTileAtScreenPosition(Vector2 screenPos)
         {
