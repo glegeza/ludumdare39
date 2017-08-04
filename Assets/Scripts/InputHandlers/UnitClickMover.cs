@@ -13,6 +13,10 @@
 
         public bool HandleTileClick(int button, Tile clickedTile)
         {
+            if (button != 0)
+            {
+                return false;
+            }
             var activeUnit = TurnOrderTracker.Instance.ActiveUnit;
             if (activeUnit == null)
             {
