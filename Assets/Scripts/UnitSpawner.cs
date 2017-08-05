@@ -17,6 +17,21 @@
         private List<GameUnit> _activeUnits = new List<GameUnit>();
         private float _testInit = 0.0f;
         private int _testUnitIdx = 0;
+        private Dictionary<string, UnitData> _unitTypes = new Dictionary<string, UnitData>();
+
+        //public UnitData GetUnitTypeByID(string id)
+        //{
+        //    id = id.ToLower();
+        //    if (!_unitTypes.ContainsKey(id))
+        //    {
+        //        Debug.LogErrorFormat("Unknown unit type {0}", id);
+        //    }
+
+        //    var unitObj = new GameObject(String.Format("Unit: {0}", id));
+        //    var renderer = unitObj.AddComponent<SpriteRenderer>();
+            
+
+        //}
 
         public GameUnit UnitAtTile(Tile tile)
         {

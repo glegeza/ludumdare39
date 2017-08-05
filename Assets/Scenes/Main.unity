@@ -244,7 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Props:
   - {fileID: 11400000, guid: e0b506780d04d7445a0c25c72dd777a0, type: 2}
-  Scaling: {x: 0.5, y: 0.5, z: 1}
+  Scaling: {x: 1, y: 1, z: 1}
 --- !u!1 &22811902
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,9 +903,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TileData: {fileID: 11400000, guid: 77f31d4c8ca68fb45b2c49242c32ea45, type: 2}
   DefaultTile: floor_tile
-  Width: 40
-  Height: 30
-  TileSize: {x: 0.5, y: 0.5}
+  Width: 20
+  Height: 15
+  TileSize: {x: 1, y: 1}
 --- !u!33 &731603497
 MeshFilter:
   m_ObjectHideFlags: 0
