@@ -20,12 +20,20 @@
             new Dictionary<string, IMapClickInputHandler>();
 
         private IMapClickInputHandler _activeHandler;
-
+        
         public static MapClickRouter Instance
         {
             get
             {
                 return _instance;
+            }
+        }
+
+        public IMapClickInputHandler ActiveMode
+        {
+            get
+            {
+                return _activeHandler;
             }
         }
 
