@@ -4,6 +4,8 @@
 
     interface IMapClickInputHandler
     {
+        string HandlerID { get; }
+
         bool HandleTileClick(int button, Tile clickedTile);
 
         bool HandleButtonDown(int button, Tile tile);

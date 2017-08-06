@@ -4,14 +4,17 @@
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
 
-    class UnitClickMover : IMapClickInputHandler
+    class UnitClickMover : MapClickInputHandler
     {
-        public bool HandleButtonDown(int button, Tile tile)
+        public UnitClickMover() : base("move")
+        { }
+
+        public override bool HandleButtonDown(int button, Tile tile)
         {
             return false;
         }
 
-        public bool HandleTileClick(int button, Tile clickedTile)
+        public override bool HandleTileClick(int button, Tile clickedTile)
         {
             if (button != 0)
             {

@@ -4,7 +4,7 @@
     using DLS.LD39.Props;
     using UnityEngine;
 
-    class PropPlacer : IMapClickInputHandler
+    class PropPlacer : MapClickInputHandler
     {
         private enum Mode
         {
@@ -15,7 +15,12 @@
 
         private Mode _currentMode = Mode.DoNothing;
 
-        public bool HandleButtonDown(int button, Tile clickedTile)
+        public PropPlacer() : base("prop")
+        {
+
+        }
+
+        public override bool HandleButtonDown(int button, Tile clickedTile)
         {
             if (button != 0 || _currentMode == Mode.DoNothing)
             {
@@ -37,7 +42,7 @@
             return false;
         }
 
-        public bool HandleTileClick(int button, Tile clickedTile)
+        public override bool HandleTileClick(int button, Tile clickedTile)
         {
             if (button != 0 || clickedTile == null)
             {

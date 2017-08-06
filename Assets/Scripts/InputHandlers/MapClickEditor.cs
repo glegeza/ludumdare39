@@ -2,7 +2,7 @@
 {
     using DLS.LD39.Map;
 
-    class MapClickEditor : IMapClickInputHandler
+    class MapClickEditor : MapClickInputHandler
     {
         private const int PassableIdx = 7;
         private const int ImpassableIdx = 4;
@@ -16,7 +16,12 @@
 
         private Mode _currentMode = Mode.DoNothing;
 
-        public bool HandleButtonDown(int button, Tile targetTile)
+        public MapClickEditor() : base("edit")
+        {
+
+        }
+
+        public override bool HandleButtonDown(int button, Tile targetTile)
         {
             if (button != 0 || _currentMode == Mode.DoNothing)
             {
@@ -37,7 +42,7 @@
             return false;
         }
 
-        public bool HandleTileClick(int button, Tile targetTile)
+        public override bool HandleTileClick(int button, Tile targetTile)
         {
             if (button != 0 || targetTile == null)
             {
