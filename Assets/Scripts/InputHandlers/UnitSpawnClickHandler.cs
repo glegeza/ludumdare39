@@ -4,7 +4,7 @@
 
     class UnitSpawnClickHandler : MapClickInputHandler
     {
-        public UnitSpawnClickHandler() : base("spawn")
+        public UnitSpawnClickHandler() : base("spawn", "Unit Spawning")
         { }
 
         public override bool HandleButtonDown(int button, Tile tile)

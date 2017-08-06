@@ -4,14 +4,20 @@
 
     abstract class MapClickInputHandler : IMapClickInputHandler
     {
+        protected MapClickInputHandler(string id, string name)
+        {
+            HandlerID = id;
+            Name = name;
+        }
+
         public string HandlerID
         {
             get; private set;
         }
 
-        protected MapClickInputHandler(string id)
+        public string Name
         {
-            HandlerID = id;
+            get; private set;
         }
 
         public virtual bool HandleButtonDown(int button, Tile tile)

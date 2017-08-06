@@ -6,7 +6,7 @@
 
     class UnitClickMover : MapClickInputHandler
     {
-        public UnitClickMover() : base("move")
+        public UnitClickMover() : base("move", "Move")
         { }
 
         public override bool HandleButtonDown(int button, Tile tile)

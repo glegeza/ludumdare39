@@ -15,7 +15,7 @@
 
         private Mode _currentMode = Mode.DoNothing;
 
-        public PropPlacer() : base("prop")
+        public PropPlacer() : base("prop", "Prop Placement")
         {
 
         }

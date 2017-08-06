@@ -16,7 +16,7 @@
 
         private Mode _currentMode = Mode.DoNothing;
 
-        public MapClickEditor() : base("edit")
+        public MapClickEditor() : base("edit", "Map Editing")
         {
 
         }
