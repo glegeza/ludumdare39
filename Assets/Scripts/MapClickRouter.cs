@@ -4,6 +4,7 @@
     using DLS.LD39.Map;
     using UnityEngine;
     using UnityEngine.EventSystems;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Responsible for calling the appropriate IMapClickInputHandler when the
@@ -15,10 +16,8 @@
         
         private TilePicker _picker;
 
-        private IMapClickInputHandler _spawnHandler;
-        private IMapClickInputHandler _moveHandler;
-        private IMapClickInputHandler _editHandler;
-        private IMapClickInputHandler _propHandler;
+        private Dictionary<string, IMapClickInputHandler> _inputHandlers =
+            new Dictionary<string, IMapClickInputHandler>();
 
         private IMapClickInputHandler _activeHandler;
 
@@ -30,51 +29,27 @@
             }
         }
 
-        public void ToggleSpawnMode()
+        public void AddHandler(IMapClickInputHandler handler)
         {
-            if (_activeHandler == _spawnHandler)
-            {
-                _activeHandler = null;
-            }
-            else
-            {
-                _activeHandler = _spawnHandler;
-            }
+            _inputHandlers.Add(handler.HandlerID, handler);
         }
 
-        public void ToggleMoveMode()
+        public void ToggleHandler(string id)
         {
-            if (_activeHandler == _moveHandler)
+            if (!_inputHandlers.ContainsKey(id))
             {
-                _activeHandler = null;
+                Debug.LogErrorFormat("Unknown map click handler {0}", id);
+                return;
             }
-            else
-            {
-                _activeHandler = _moveHandler;
-            }
-        }
 
-        public void ToggleEditMode()
-        {
-            if (_activeHandler == _editHandler)
+            var newHandler = _inputHandlers[id];
+            if (_activeHandler != null && _activeHandler == newHandler)
             {
                 _activeHandler = null;
             }
             else
             {
-                _activeHandler = _editHandler;
-            }
-        }
-
-        public void TogglePlaceMode()
-        {
-            if (_activeHandler == _propHandler)
-            {
-                _activeHandler = null;
-            }
-            else
-            {
-                _activeHandler = _propHandler;
+                _activeHandler = newHandler;
             }
         }
 
@@ -82,10 +57,10 @@
         {
             _picker = new TilePicker();
 
-            _spawnHandler = new UnitSpawnClickHandler();
-            _editHandler = new MapClickEditor();
-            _moveHandler = new UnitClickMover();
-            _propHandler = new PropPlacer();
+            AddHandler(new UnitSpawnClickHandler());
+            AddHandler(new MapClickEditor());
+            AddHandler(new UnitClickMover());
+            AddHandler(new PropPlacer());
         }
 
         private void Awake()
