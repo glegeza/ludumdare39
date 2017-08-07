@@ -30,6 +30,7 @@
             var unitData = _unitTypes[id];
             var name = String.Format("{0} : {1}", "Unit", id);
             var unit = _unitFactory.GetUnit(name, unitData, tilePos);
+            ActiveUnits.Instance.AddActiveUnit(unit);
 
             return true;
         }
