@@ -20,10 +20,10 @@
             }
             else if (button == 1)
             {
-                var unit = UnitSpawner.Instance.UnitAtTile(clickedTile);
+                var unit = ActiveUnits.Instance.GetUnitAtTile(clickedTile);
                 if (unit != null)
                 {
-                    UnitSpawner.Instance.RemoveUnit(unit);
+                    ActiveUnits.Instance.RemoveUnit(unit);
                 }
             }
             return false;

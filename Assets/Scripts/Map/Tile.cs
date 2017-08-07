@@ -134,7 +134,7 @@
 
         public bool IsEnterable()
         {
-            return Passable && UnitSpawner.Instance.UnitAtTile(this) == null;
+            return Passable && ActiveUnits.Instance.GetUnitAtTile(this) == null;
         }
 
         public bool IsAdjacent(Tile tile)
