@@ -18,3 +18,4 @@ MonoBehaviour:
   APRegen: 80
   BaseInitMin: 0
   BaseInitMax: 10
+  Stats: {fileID: 11400000, guid: ccbd576180b62464c81be4067a9ddde4, type: 2}

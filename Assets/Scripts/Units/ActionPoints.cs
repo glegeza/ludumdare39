@@ -4,9 +4,14 @@
 
     class ActionPoints : MonoBehaviour, IGameUnitComponent
     {
+        private GameUnit _unit;
+
         public int PointsPerTurn
         {
-            get; set;
+            get
+            {
+                return _unit.Stats.Speed * 3;
+            }
         }
 
         public int PointsRemaining
@@ -16,7 +21,15 @@
 
         public int MaximumPoints
         {
-            get; set;
+            get
+            {
+                return _unit.Stats.Speed * 6;
+            }
+        }
+
+        public void Initialize(GameUnit unit)
+        {
+            _unit = unit;
         }
 
         public void BeginTurn()
@@ -25,10 +38,7 @@
             PointsRemaining = Mathf.Min(PointsRemaining, MaximumPoints);
         }
 
-        public void EndTurn()
-        {
-
-        }
+        public void EndTurn() { }
 
         public bool CanSpendPoints(int amount)
         {

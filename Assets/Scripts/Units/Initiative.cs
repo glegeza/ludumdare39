@@ -6,18 +6,27 @@
     /// Component used to indicate that an object is part of the regular turn
     /// order.
     /// </summary>
-    public class Initiative : MonoBehaviour, IGameUnitComponent
+    class Initiative : MonoBehaviour, IGameUnitComponent
     {
+        private GameUnit _unit;
+
         public float InitiativeValue
         {
-            get;
-            set;
+            get
+            {
+                return _unit.Stats.Speed;
+            }
         }
 
         public bool IsActiveUnit
         {
             get;
             set;
+        }
+
+        public void Initialize(GameUnit unit)
+        {
+            _unit = unit;
         }
 
         public void BeginTurn()

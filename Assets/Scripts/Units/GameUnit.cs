@@ -57,16 +57,24 @@
             get; private set;
         }
 
-        public void Initialize(Tile startPos, Faction faction, string type, string name)
+        public Stats Stats
+        {
+            get; private set;
+        }
+
+        public void Initialize(UnitData data, Tile startPos, string name)
         {
             if (startPos == null)
             {
                 throw new ArgumentNullException("startPos");
             }
+            Stats.Initialize(data.Stats);
+            AP.Initialize(this);
+            Initiative.Initialize(this);
             Position.SetTile(startPos);
             MoveController.Initialize(this);
             PathController.Initialize(Position, MoveController);
-            UnitType = type;
+            UnitType = data.ID;
             Name = name;
         }
 
@@ -101,6 +109,8 @@
             MoveController = gameObject.AddComponent<MoveAction>();
             Renderer = gameObject.AddComponent<UnitRenderer>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
+            Stats = gameObject.AddComponent<Stats>();
+
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
         }
 
