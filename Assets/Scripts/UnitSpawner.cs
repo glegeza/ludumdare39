@@ -12,26 +12,30 @@
 
         public static UnitSpawner Instance { get { return _instance; } }
 
-        public GameObject UnitPrefab;
+        public List<UnitData> UnitTypes = new List<UnitData>();
 
+        private UnitFactory _unitFactory = new UnitFactory();
         private List<GameUnit> _activeUnits = new List<GameUnit>();
-        private float _testInit = 0.0f;
-        private int _testUnitIdx = 0;
         private Dictionary<string, UnitData> _unitTypes = new Dictionary<string, UnitData>();
 
-        //public UnitData GetUnitTypeByID(string id)
-        //{
-        //    id = id.ToLower();
-        //    if (!_unitTypes.ContainsKey(id))
-        //    {
-        //        Debug.LogErrorFormat("Unknown unit type {0}", id);
-        //    }
+        public bool SpawnTestUnit(string id, Tile tilePos)
+        {
+            id = id.ToLower();
+            if (!_unitTypes.ContainsKey(id))
+            {
+                Debug.LogErrorFormat("Unknown unit type {0}", id);
+                return false;
+            }
 
-        //    var unitObj = new GameObject(String.Format("Unit: {0}", id));
-        //    var renderer = unitObj.AddComponent<SpriteRenderer>();
-            
+            var unitData = _unitTypes[id];
+            var name = String.Format("{0} : {1}", "Unit", id);
+            var unit = _unitFactory.GetUnit(name, unitData, tilePos);
 
-        //}
+            TurnOrderTracker.Instance.RegisterUnit(unit);
+            _activeUnits.Add(unit);
+
+            return true;
+        }
 
         public GameUnit UnitAtTile(Tile tile)
         {
@@ -43,34 +47,6 @@
                 }
             }
             return null;
-        }
-
-        public bool SpawnTestUnit(Tile tilePos)
-        {
-            if (!CanSpawnUnit(tilePos))
-            {
-                return false;
-            }
-
-            var unitName = String.Format("{0} - {1}", "TestUnit", _testUnitIdx++);
-            var unitObject = Instantiate(UnitPrefab);
-            var unit = unitObject.AddComponent<GameUnit>();
-            var mover = unitObject.AddComponent<MoveAction>();
-            unit.Initialize(tilePos, Faction.Player, "TestUnit", unitName);
-            unit.AP.MaximumPoints = 40;
-            unit.AP.PointsPerTurn = 20;
-            unit.AP.PointsRemaining = 20;
-            mover.Initialize(unit);
-            unitObject.name = unitName;
-            _activeUnits.Add(unit);
-            unit.Initiative.InitiativeValue = _testInit;
-            TurnOrderTracker.Instance.RegisterUnit(unit);
-
-            _testInit += 0.2f;
-
-            Debug.LogFormat("Spawning {0} at {1}", unitName, tilePos);
-
-            return true;
         }
 
         public void RemoveUnit(GameUnit unit)
@@ -109,6 +85,14 @@
             else
             {
                 _instance = this;
+            }
+        }
+
+        private void Start()
+        {
+            foreach (var unit in UnitTypes)
+            {
+                _unitTypes.Add(unit.ID, unit);
             }
         }
     }

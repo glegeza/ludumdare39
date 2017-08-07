@@ -11,5 +11,11 @@
         public string ID;
         public Sprite Sprite;
         public Faction Faction;
+
+        public int MaximumAP;
+        public int APRegen;
+
+        public float BaseInitMin;
+        public float BaseInitMax;
     }
 }

@@ -16,7 +16,7 @@
         {
             if (button == 0)
             {
-                UnitSpawner.Instance.SpawnTestUnit(clickedTile);
+                UnitSpawner.Instance.SpawnTestUnit("test_player", clickedTile);
             }
             else if (button == 1)
             {
