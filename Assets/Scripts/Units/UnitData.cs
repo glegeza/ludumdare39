@@ -17,5 +17,7 @@
 
         public float BaseInitMin;
         public float BaseInitMax;
+
+        public StatsData Stats;
     }
 }
