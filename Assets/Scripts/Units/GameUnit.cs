@@ -57,6 +57,11 @@
             get; private set;
         }
 
+        public Combat CombatInfo
+        {
+            get; private set;
+        }
+
         public Stats Stats
         {
             get; private set;
@@ -71,6 +76,7 @@
             Stats.Initialize(data.Stats);
             AP.Initialize(this);
             Initiative.Initialize(this);
+            CombatInfo.Initialize(this);
             Position.SetTile(startPos);
             MoveController.Initialize(this);
             PathController.Initialize(Position, MoveController);
@@ -110,6 +116,7 @@
             Renderer = gameObject.AddComponent<UnitRenderer>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             Stats = gameObject.AddComponent<Stats>();
+            CombatInfo = gameObject.AddComponent<Combat>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
         }
