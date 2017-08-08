@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a35531ad00f432942a8b5ef764452499, type: 3}
   m_Name: test_wall_red
   m_EditorClassIdentifier: 
-  ID: red_wall
+  ID: test_wall_red
   Layer: 1
   Passable: 0
   BlocksLineOfSight: 1
