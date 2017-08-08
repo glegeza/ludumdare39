@@ -21,7 +21,7 @@
                 return false;
             }
             var activeUnit = TurnOrderTracker.Instance.ActiveUnit;
-            if (activeUnit == null)
+            if (activeUnit == null || activeUnit.Faction != Units.Faction.Player)
             {
                 return false;
             }
