@@ -10,6 +10,6 @@
         public Texture TileTexture;
         public int TileWidthPixels;
         public int TileHeightPixels;
-        public List<string> TileNames = new List<string>();
+        public List<TileType> TileTypes = new List<TileType>();
     }
 }

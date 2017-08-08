@@ -17,9 +17,9 @@
 
             var tilemap = FindObjectOfType<TileMap>();
             var options = new List<string>();
-            foreach (var tile in tilemap.TileData.TileNames)
+            foreach (var tile in tilemap.TileData.TileTypes)
             {
-                options.Add(tile);
+                options.Add(tile.ID);
             }
             _dropdown.AddOptions(options);
         }
