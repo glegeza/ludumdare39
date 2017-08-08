@@ -42,6 +42,7 @@
             {
                 _currentFrame = (_currentFrame + 1) % _frames.Count;
                 _renderer.sprite = _frames[_currentFrame];
+                _elapsedTime = 0.0f;
             }
         }
     }

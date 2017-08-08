@@ -13,6 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: tentacle_alien
   Sprite: {fileID: 21300000, guid: 3997294a014a3194f906d2bc4833dbee, type: 3}
+  Animation:
+    FrameSpeed: 1
+    SpriteTexture: {fileID: 2800000, guid: 3997294a014a3194f906d2bc4833dbee, type: 3}
   Faction: 1
   DefaultState: {fileID: 11400000, guid: 141d496b747de824cb5a6eaeaad6404c, type: 2}
   Stats: {fileID: 11400000, guid: 3da174f613b10c54f8c56dd65197f746, type: 2}
