@@ -11,10 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0740afd3b2329648a00394facad6ab2, type: 3}
   m_Name: MoveRandomlyBehavior
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Move Randomly
   Initializer: {fileID: 0}
   Finalizer: {fileID: 0}
-  Actions: []
+  Actions:
+  - {fileID: 11400000, guid: bf4226ca89eab66438c7bf40dd55a8f6, type: 2}
   ActionTransitions: []
   TurnStartTransitions: []
   TurnEndTransitions: []
