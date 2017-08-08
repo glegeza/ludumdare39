@@ -23,10 +23,6 @@
             _frameSpeed = data.FrameSpeed;
             _isRunning = true;
             _frames.AddRange(Resources.LoadAll<Sprite>("sprites/" + data.SpriteTexture.name));
-            foreach (var frame in _frames)
-            {
-                Debug.Log(frame.name);
-            }
             _elapsedTime = 0.0f;
         }
 
