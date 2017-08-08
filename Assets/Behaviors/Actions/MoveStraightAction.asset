@@ -11,3 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e972696e419bcc14fba19b833ffc97e0, type: 3}
   m_Name: MoveStraightAction
   m_EditorClassIdentifier: 
+  MoveChance: 100

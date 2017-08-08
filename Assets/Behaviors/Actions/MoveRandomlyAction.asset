@@ -11,3 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d42ec3da578274d99a051611da11aa, type: 3}
   m_Name: MoveRandomlyAction
   m_EditorClassIdentifier: 
+  MoveChance: 100

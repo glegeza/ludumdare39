@@ -7,8 +7,17 @@
     [CreateAssetMenu(menuName = "AI/Actions/MoveStraightUntilBlocked")]
     class MoveStraightUntilBlocked : AIAction
     {
+        [Range(0, 100)]
+        public int MoveChance;
+
         public override bool Act(StateController controller)
         {
+            var chance = UnityEngine.Random.Range(0, 100);
+            if (chance > MoveChance)
+            {
+                return true;
+            }
+
             if (controller.Data == null)
             {
                 controller.Data = new MoveDirectionData();
