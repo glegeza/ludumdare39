@@ -13,6 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: alien_drunk
   Sprite: {fileID: 21300004, guid: f80bed423853a7d408d10ab2778fe2e1, type: 3}
+  Animation:
+    FrameSpeed: 0
+    Frames: 0
+    SpriteTexture: {fileID: 2800000, guid: b16f08d881875f646a0558b60ea8e669, type: 3}
   Faction: 1
   DefaultState: {fileID: 11400000, guid: 141d496b747de824cb5a6eaeaad6404c, type: 2}
   Stats: {fileID: 11400000, guid: 3da174f613b10c54f8c56dd65197f746, type: 2}
