@@ -17,9 +17,9 @@
 
             var factory = PropFactory.Instance;
             var options = new List<string>();
-            foreach (var prop in factory.Props)
+            foreach (var prop in factory.PropIDs)
             {
-                options.Add(prop.ID);
+                options.Add(prop);
             }
             _dropdown.AddOptions(options);
         }
