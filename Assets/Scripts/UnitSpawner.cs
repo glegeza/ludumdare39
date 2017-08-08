@@ -9,8 +9,6 @@
 
     class UnitSpawner : SingletonComponent<UnitSpawner>
     {
-        public List<UnitData> UnitTypes = new List<UnitData>();
-
         private UnitFactory _unitFactory = new UnitFactory();
         private Dictionary<string, UnitData> _unitTypes = new Dictionary<string, UnitData>();
 
@@ -59,9 +57,12 @@
                 ActiveUnits.Instance.GetUnitAtTile(tilePos) == null;
         }
 
-        private void Start()
+        protected override void Awake()
         {
-            foreach (var unit in UnitTypes)
+            base.Awake();
+
+            var units = Resources.LoadAll<UnitData>("Units");
+            foreach (var unit in units)
             {
                 _unitTypes.Add(unit.ID, unit);
             }

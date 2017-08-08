@@ -15,9 +15,9 @@
             var spawner = UnitSpawner.Instance;
             _dropdown.ClearOptions();
             var options = new List<string>();
-            foreach (var item in spawner.UnitTypes)
+            foreach (var item in spawner.UnitTypeIDs)
             {
-                options.Add(item.ID);
+                options.Add(item);
             }
             _dropdown.AddOptions(options);
         }
