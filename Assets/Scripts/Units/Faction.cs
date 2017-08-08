@@ -3,6 +3,6 @@
     public enum Faction
     {
         Player,
-        BadGuys
+        Aliens
     }
 }
