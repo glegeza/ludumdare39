@@ -11,6 +11,9 @@
     {
         public int MarkerPoolSize = 100;
         public GameObject MarkerPrefab;
+        public Sprite TurnPath;
+        public Sprite FuturePath;
+        public Sprite TargetPath;
 
         private static SelectedUnitPathMarker _instance;
 
@@ -110,13 +113,18 @@
                 var currentMarker = _markerPool[idx++];
                 currentMarker.SetActive(true);
                 currentMarker.transform.position = step.WorldCoords;
-                if (idx > max)
+                var renderer = currentMarker.GetComponent<SpriteRenderer>();
+                if (idx == _trackedPathfinder.Path.Count())
                 {
-                    currentMarker.GetComponent<MeshRenderer>().material = MaterialRepository.Instance.FuturePathMarkerMaterial;
+                    renderer.sprite = TargetPath;
+                }
+                else if (idx > max)
+                {
+                    renderer.sprite = FuturePath;
                 }
                 else
                 {
-                    currentMarker.GetComponent<MeshRenderer>().material = MaterialRepository.Instance.PathMarkerMaterial;
+                    renderer.sprite = TurnPath;
                 }
             }
         }
