@@ -249,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Props:
   - {fileID: 11400000, guid: e0b506780d04d7445a0c25c72dd777a0, type: 2}
+  - {fileID: 11400000, guid: b8a5b453480a48f4cbe91ef2c0aa4ade, type: 2}
   Scaling: {x: 1, y: 1, z: 1}
 --- !u!114 &2788161
 MonoBehaviour:
