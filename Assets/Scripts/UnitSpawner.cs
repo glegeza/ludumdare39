@@ -13,6 +13,14 @@
         private UnitFactory _unitFactory = new UnitFactory();
         private Dictionary<string, UnitData> _unitTypes = new Dictionary<string, UnitData>();
 
+        public IEnumerable<string> UnitTypeIDs
+        {
+            get
+            {
+                return _unitTypes.Keys;
+            }
+        }
+
         public bool SpawnTestUnit(string id, Tile tilePos)
         {
             id = id.ToLower();
