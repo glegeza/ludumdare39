@@ -1,11 +1,19 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
+    using DLS.LD39.Interface;
     using DLS.LD39.Map;
+    using UnityEngine;
+    using UnityEngine.UI;
 
     class UnitSpawnClickHandler : MapClickInputHandler
     {
+        private Dropdown _selector;
+
         public UnitSpawnClickHandler() : base("spawn", "Unit Spawning")
-        { }
+        {
+            var selectorObj = GameObject.FindObjectOfType<SpawnDropdownPopulator>();
+            _selector = selectorObj.GetComponent<Dropdown>();
+        }
 
         public override bool HandleButtonDown(int button, Tile tile)
         {
@@ -14,9 +22,10 @@
 
         public override bool HandleTileClick(int button, Tile clickedTile)
         {
+            var id = _selector.options[_selector.value].text;
             if (button == 0)
             {
-                UnitSpawner.Instance.SpawnTestUnit("test_player", clickedTile);
+                UnitSpawner.Instance.SpawnTestUnit(id, clickedTile);
             }
             else if (button == 1)
             {
