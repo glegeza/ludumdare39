@@ -1,23 +1,25 @@
 ﻿namespace DLS.LD39.Interface
 {
     using System.Collections.Generic;
-    using UnityEngine;
     using UnityEngine.UI;
+    using UnityEngine;
+    using DLS.LD39.Props;
 
     [RequireComponent(typeof(Dropdown))]
-    class SpawnDropdownPopulator : MonoBehaviour
+    public class PropDropdownPopulator : MonoBehaviour
     {
         private Dropdown _dropdown;
 
         private void Start()
         {
             _dropdown = GetComponent<Dropdown>();
-            var spawner = UnitSpawner.Instance;
             _dropdown.ClearOptions();
+
+            var factory = PropFactory.Instance;
             var options = new List<string>();
-            foreach (var item in spawner.UnitTypeIDs)
+            foreach (var prop in factory.PropIDs)
             {
-                options.Add(item);
+                options.Add(prop);
             }
             _dropdown.AddOptions(options);
         }

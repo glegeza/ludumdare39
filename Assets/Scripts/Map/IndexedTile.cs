@@ -4,11 +4,17 @@
 
     public class IndexedTile
     {
-        public IndexedTile(int idx, Vector2 bottomLeft, float width, float height)
+        public IndexedTile(int idx, Vector2 bottomLeft, float width, float height, TileType type)
         {
             BottomLeft = bottomLeft;
             Width = width;
             Height = height;
+            Type = type;
+        }
+
+        public TileType Type
+        {
+            get; private set;
         }
 
         public int Index

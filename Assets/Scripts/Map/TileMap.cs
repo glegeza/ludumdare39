@@ -136,12 +136,16 @@
         public void SetTileAt(int x, int y, int tileType)
         {
             var tile = _tileSet.GetIndexedTile(tileType);
+            var tileObj = GetTile(x, y);
+            tileObj.SetType(tile.Type);
             _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 
         public void SetTileAt(int x, int y, string tileType)
         {
             var tile = _tileSet.GetTileByID(tileType);
+            var tileObj = GetTile(x, y);
+            tileObj.SetType(tile.Type);
             _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 

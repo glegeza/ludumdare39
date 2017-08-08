@@ -39,13 +39,13 @@
                     var botLeft = new Vector2(
                         x * _tileUVWidth,
                         y * _tileUVHeight);
-                    var nextTile = new IndexedTile(curIdx, botLeft,
-                        _tileUVWidth, _tileUVHeight);
-                    if (curIdx < Data.TileNames.Count)
+                    if (curIdx < Data.TileTypes.Count)
                     {
-                        _tileDict.Add(Data.TileNames[curIdx].ToLower(), nextTile);
+                        var nextTile = new IndexedTile(curIdx, botLeft,
+                            _tileUVWidth, _tileUVHeight, Data.TileTypes[curIdx]);
+                        _tileDict.Add(Data.TileTypes[curIdx].ID.ToLower(), nextTile);
+                        _tiles.Add(nextTile);
                     }
-                    _tiles.Add(nextTile);
                     curIdx++;
                 }
             }

@@ -8,10 +8,15 @@
 
     class PropFactory : SingletonComponent<PropFactory>
     {
-        public List<PropData> Props = new List<PropData>();
-        public Vector3 Scaling = new Vector3(1, 1, 1);
-
         private Dictionary<string, PropData> _propDict = new Dictionary<string, PropData>();
+
+        public IEnumerable<string> PropIDs
+        {
+            get
+            {
+                return _propDict.Keys;
+            }
+        }
 
         public Prop BuildPropAndAddToTile(string id, Tile tile)
         {
@@ -32,7 +37,6 @@
             var propObj = new GameObject(String.Format("Prop: {0}", id));
 
             var renderer = propObj.AddComponent<SpriteRenderer>();
-            propObj.transform.localScale = Scaling;
             renderer.sprite = data.Sprite;
             switch (data.Layer)
             {
@@ -68,14 +72,10 @@
         {
             base.Awake();
 
-            foreach (var prop in Props)
+            var props = Resources.LoadAll<PropData>("Props");
+            foreach (var prop in props)
             {
-                var id = prop.ID.ToLower();
-                if (_propDict.ContainsKey(id))
-                {
-                    Debug.LogErrorFormat("Duplicate prop ID {0} in prop {1}", prop.ID, prop.name);
-                }
-                _propDict.Add(id, prop);
+                _propDict.Add(prop.ID, prop);
             }
         }
     }

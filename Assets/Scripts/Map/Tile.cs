@@ -36,6 +36,11 @@
             Passable = true;
         }
 
+        public TileType Type
+        {
+            get; private set;
+        }
+
         public TileMap Map
         {
             get;
@@ -114,6 +119,12 @@
         public void AddProp(Prop prop)
         {
             _props[prop.Data.Layer] = prop;
+        }
+
+        public void SetType(TileType tileType)
+        {
+            Type = tileType;
+            Passable = tileType.Passable;
         }
 
         public int GetMoveCost(Tile target)

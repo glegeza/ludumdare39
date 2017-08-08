@@ -1,23 +1,25 @@
 ﻿namespace DLS.LD39.Interface
 {
+    using DLS.LD39.Map;
     using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.UI;
 
     [RequireComponent(typeof(Dropdown))]
-    class SpawnDropdownPopulator : MonoBehaviour
+    class TileDropdownPopulator : MonoBehaviour
     {
         private Dropdown _dropdown;
 
         private void Start()
         {
             _dropdown = GetComponent<Dropdown>();
-            var spawner = UnitSpawner.Instance;
             _dropdown.ClearOptions();
+
+            var tilemap = FindObjectOfType<TileMap>();
             var options = new List<string>();
-            foreach (var item in spawner.UnitTypeIDs)
+            foreach (var tile in tilemap.TileData.TileTypes)
             {
-                options.Add(item);
+                options.Add(tile.ID);
             }
             _dropdown.AddOptions(options);
         }
