@@ -52,6 +52,8 @@
             GetMinMaxInt("HP", statsData.BaseHPMin, statsData.BaseHPMax, out outMin, out outMax);
             statsData.BaseHPMin = outMin;
             statsData.BaseHPMax = outMax;
+
+            EditorUtility.SetDirty(target);
         }
     }
 }
