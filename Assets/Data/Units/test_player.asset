@@ -14,8 +14,5 @@ MonoBehaviour:
   ID: test_player
   Sprite: {fileID: 21300000, guid: f80bed423853a7d408d10ab2778fe2e1, type: 3}
   Faction: 0
-  MaximumAP: 100
-  APRegen: 80
-  BaseInitMin: 0
-  BaseInitMax: 10
+  DefaultState: {fileID: 0}
   Stats: {fileID: 11400000, guid: ccbd576180b62464c81be4067a9ddde4, type: 2}

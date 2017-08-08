@@ -11,10 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8382d83f7b0a3cd4aac133176bf026ee, type: 3}
   m_Name: test_alien
   m_EditorClassIdentifier: 
-  ID: test_player
+  ID: alien
   Sprite: {fileID: 21300004, guid: f80bed423853a7d408d10ab2778fe2e1, type: 3}
-  Faction: 0
-  MaximumAP: 100
-  APRegen: 80
-  BaseInitMin: 0
-  BaseInitMax: 10
+  Faction: 1
+  DefaultState: {fileID: 11400000, guid: 4d63f2b91329fdc4196a166cb6f14fdc, type: 2}
+  Stats: {fileID: 11400000, guid: 3da174f613b10c54f8c56dd65197f746, type: 2}
