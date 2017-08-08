@@ -1,11 +1,12 @@
 fileFormatVersion: 2
 guid: 63988f4851b42cd479241d38ba381e9c
-timeCreated: 1502209509
+timeCreated: 1502210683
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: wall_block_32
     21300002: wall_block_32_red
+    21300004: props_ground_poop
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -124,6 +125,20 @@ TextureImporter:
         height: 64
       alignment: 9
       pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: props_ground_poop
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
