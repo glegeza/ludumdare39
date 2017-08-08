@@ -20,10 +20,10 @@
             renderer.sprite = unitData.Sprite;
             renderer.sortingLayerName = "Units";
 
-            if (unitData.Animation.SpriteTexture != null)
+            if (unitData.Controller != null)
             {
-                var animator = unitObj.AddComponent<SpriteAnimator>();
-                animator.Initialize(unitData.Animation);
+                var animator = unitObj.AddComponent<Animator>();
+                animator.runtimeAnimatorController = unitData.Controller;
             }
 
             unitObj.AddComponent<SortByY>();
