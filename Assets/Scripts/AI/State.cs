@@ -66,10 +66,10 @@
         /// </summary>
         /// <returns>True if the unit is ready wants to continue taking
         /// actions.</returns>
-        public bool UpdateState(StateController controller)
+        public bool DoNextAction(StateController controller, int action)
         {
             // UGLY DoActions returns true if ANY action was successful. If it returns false, then all of the actions have failed and it's time to end the turn.
-            return DoActions(controller);
+            return Actions[action].Act(controller);
         }
 
         /// <summary>
@@ -105,16 +105,6 @@
                     controller.TransitionToState(transition.FalseState);
                 }
             }
-        }
-
-        private bool DoActions(StateController controller)
-        {
-            var anySuccessful = false;
-            foreach (var action in Actions)
-            {
-                anySuccessful = anySuccessful || action.Act(controller);
-            }
-            return anySuccessful;
         }
     }
 }

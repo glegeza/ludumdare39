@@ -50,6 +50,7 @@
             get; private set;
         }
 
+        private int _currentAction = 0;
         private bool _controllerActive = false;
         private float _elapsedActionTime = 0.0f;
         private State _currentState;
@@ -99,6 +100,7 @@
                 Debug.Log("AI beginning turn");
                 _currentState.BeginTurn(this);
                 _controllerActive = true;
+                _currentAction = 0;
             }
         }
 
@@ -124,7 +126,8 @@
             if (_elapsedActionTime > ActionDelay)
             {
                 _elapsedActionTime = 0.0f;
-                var shouldEndTurn = !_currentState.UpdateState(this);
+                var shouldEndTurn = !_currentState.DoNextAction(this, _currentAction);
+                _currentAction = (_currentAction + 1) % _currentState.Actions.Count;
                 ActionsActive++;
                 if (shouldEndTurn)
                 {
