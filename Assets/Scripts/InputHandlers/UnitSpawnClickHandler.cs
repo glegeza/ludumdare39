@@ -25,7 +25,7 @@
             var id = _selector.options[_selector.value].text;
             if (button == 0)
             {
-                UnitSpawner.Instance.SpawnTestUnit(id, clickedTile);
+                UnitSpawner.Instance.SpawnUnit(id, clickedTile);
             }
             else if (button == 1)
             {

@@ -21,7 +21,7 @@
             }
         }
 
-        public bool SpawnTestUnit(string id, Tile tilePos)
+        public bool SpawnUnit(string id, Tile tilePos)
         {
             id = id.ToLower();
             if (!_unitTypes.ContainsKey(id))
