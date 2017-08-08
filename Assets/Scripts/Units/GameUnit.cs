@@ -67,6 +67,11 @@
             get; private set;
         }
 
+        public UnitController Controller
+        {
+            get; private set;
+        }
+
         public void Initialize(UnitData data, Tile startPos, string name)
         {
             if (startPos == null)
@@ -85,6 +90,11 @@
             Name = name;
         }
 
+        public void SetController(UnitController controller)
+        {
+            Controller = controller;
+        }
+
         public void BeginTurn()
         {
             Initiative.BeginTurn();
@@ -93,10 +103,18 @@
             Renderer.BeginTurn();
             PathController.BeginTurn();
             ActiveSelectionTracker.Instance.SetSelection(this);
+            if (Controller != null)
+            {
+                Controller.BeginTurn();
+            }
         }
 
         public void EndTurn()
         {
+            if (Controller != null)
+            {
+                Controller.EndTurn();
+            }
             if (PathController.Path.Any())
             {
                 _endOfTurnPending = true;

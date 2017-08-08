@@ -2,6 +2,7 @@
 {
     using DLS.LD39.Interface;
     using DLS.LD39.Map;
+    using DLS.LD39.Units;
     using UnityEngine;
     using UnityEngine.UI;
 

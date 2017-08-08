@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39
 {
+    using DLS.LD39.AI;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using System;
@@ -38,8 +39,17 @@
             var unitData = _unitTypes[id];
             var name = String.Format("{0} : {1}", "Unit", id);
             var unit = _unitFactory.GetUnit(name, unitData, tilePos);
-            ActiveUnits.Instance.AddActiveUnit(unit);
 
+            if (unitData.Faction != Faction.Player)
+            {
+                var controller = unit.gameObject.AddComponent<StateController>();
+                controller.Initialize(unit);
+                controller.TransitionToState(unitData.DefaultState);
+                unit.SetController(controller);
+
+            }
+
+            ActiveUnits.Instance.AddActiveUnit(unit);
             return true;
         }
 

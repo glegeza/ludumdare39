@@ -12,7 +12,7 @@
     /// <summary>
     /// Controls the AI state for AI controlled game units.
     /// </summary>
-    public class StateController : MonoBehaviour
+    public class StateController : UnitController
     {
         public float ActionDelay = 0.5f;
 
@@ -54,7 +54,7 @@
         private float _elapsedActionTime = 0.0f;
         private State _currentState;
 
-        public void Initialize(GameUnit unit)
+        public override void Initialize(GameUnit unit)
         {
             if (unit == null)
             {
@@ -92,21 +92,24 @@
             ActionsActive = 0;
         }
 
-        public void BeginTurn()
+        public override void BeginTurn()
         {
-            if (Unit == null || _controllerActive && _currentState != null)
+            if (Unit == null || _currentState != null)
             {
+                Debug.Log("AI beginning turn");
                 _currentState.BeginTurn(this);
+                _controllerActive = true;
             }
         }
 
-        public void EndTurn()
+        public override void EndTurn()
         {
-            if (Unit == null || _controllerActive && _currentState != null)
+            if (Unit == null || _currentState != null)
             {
+                Debug.Log("AI ending turn");
                 _currentState.EndTurn(this);
-                TurnOrderTracker.Instance.AdvanceTurn();
                 TurnsActive++;
+                _controllerActive = false;
             }
         }
 
@@ -125,7 +128,7 @@
                 ActionsActive++;
                 if (shouldEndTurn)
                 {
-                    EndTurn();
+                    TurnOrderTracker.Instance.AdvanceTurn();
                 }
             }
         }
