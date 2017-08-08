@@ -7,7 +7,7 @@
     /// discrete actions, like stepping to an adjacent tile or attacking an
     /// adjacent unit.
     /// </summary>
-    abstract class Action : ScriptableObject
+    abstract class AIAction : ScriptableObject
     {
         /// <summary>
         /// Called repeatedly to allow a unit to take actions during its turn.

@@ -30,7 +30,7 @@
         public StateFinalizer Finalizer;
 
         [Tooltip("The actions taken by the AI each turn that it is in this state.")]
-        public List<Action> Actions = new List<Action>();
+        public List<AIAction> Actions = new List<AIAction>();
 
         [Tooltip("Questions the AI asks itself after completing actions to determine if it should transition to a new state.")]
         public List<Transition> ActionTransitions = new List<Transition>();
