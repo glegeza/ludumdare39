@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    class MoveAction : MonoBehaviour, IGameUnitComponent
+    public class MoveAction : MonoBehaviour, IGameUnitComponent
     {
         public enum MoveResult
         {

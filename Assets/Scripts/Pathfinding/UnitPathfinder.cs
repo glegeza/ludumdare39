@@ -7,7 +7,7 @@
     using System.Linq;
     using UnityEngine;
 
-    class UnitPathfinder : MonoBehaviour
+    public class UnitPathfinder : MonoBehaviour
     {
         private TilePosition _position;
         private MoveAction _mover;

@@ -6,7 +6,7 @@
     /// Component used to indicate that an object is part of the regular turn
     /// order.
     /// </summary>
-    class Initiative : MonoBehaviour, IGameUnitComponent
+    public class Initiative : MonoBehaviour, IGameUnitComponent
     {
         private GameUnit _unit;
 

@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    class ActionPoints : MonoBehaviour, IGameUnitComponent
+    public class ActionPoints : MonoBehaviour, IGameUnitComponent
     {
         private GameUnit _unit;
 

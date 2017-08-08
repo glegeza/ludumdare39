@@ -8,7 +8,7 @@
     /// branch to one of two States based on the result of a Decision.
     /// </summary>
     [Serializable]
-    class Transition
+    public class Transition
     {
         [Tooltip("The Decision used by this Transition to branch to another State.")]
         public Decision Decision;

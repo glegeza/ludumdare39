@@ -18,7 +18,7 @@
     /// transition to a new state.
     /// </remarks>
     [CreateAssetMenu(menuName ="AI/State")]
-    class State : ScriptableObject
+    public class State : ScriptableObject
     {
         [Tooltip("State name displayed for debugging.")]
         public string Name;

@@ -4,7 +4,7 @@
     using UnityEngine;
 
     [RequireComponent(typeof(TilePosition))]
-    class Prop : MonoBehaviour
+    public class Prop : MonoBehaviour
     {
         public PropData Data
         {

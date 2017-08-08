@@ -2,7 +2,7 @@
 {
     using UnityEngine;
     
-    class UnitRenderer : MonoBehaviour
+    public class UnitRenderer : MonoBehaviour
     {
         private MeshRenderer _renderer;
 

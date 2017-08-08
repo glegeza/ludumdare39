@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    abstract class StateData : MonoBehaviour
+    public abstract class StateData
     {
     }
 }

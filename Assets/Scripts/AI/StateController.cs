@@ -12,7 +12,7 @@
     /// <summary>
     /// Controls the AI state for AI controlled game units.
     /// </summary>
-    class StateController : MonoBehaviour
+    public class StateController : MonoBehaviour
     {
         public float ActionDelay = 0.5f;
 
@@ -105,6 +105,7 @@
             if (Unit == null || _controllerActive && _currentState != null)
             {
                 _currentState.EndTurn(this);
+                TurnOrderTracker.Instance.AdvanceTurn();
                 TurnsActive++;
             }
         }

@@ -15,7 +15,7 @@
     /// constantly ask itself if it can see a target. If it can, then it should
     /// switch to hunter mode. If it can't, it should continue to patrol.
     /// </remarks>
-    abstract class Decision : ScriptableObject
+    public abstract class Decision : ScriptableObject
     {
         public abstract bool Decide(StateController controller);
     }

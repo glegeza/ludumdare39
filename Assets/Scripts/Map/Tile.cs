@@ -7,7 +7,7 @@
     using System.Linq;
     using UnityEngine;
 
-    class Tile : IEquatable<Tile>
+    public class Tile : IEquatable<Tile>
     {
         private Dictionary<TileEdge, Tile> _adjacentTiles = new Dictionary<TileEdge, Tile>();
         private Dictionary<PropLayer, Prop> _props = new Dictionary<PropLayer, Prop>();

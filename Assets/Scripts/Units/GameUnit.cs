@@ -6,7 +6,7 @@
     using System.Linq;
     using UnityEngine;
 
-    class GameUnit : MonoBehaviour
+    public class GameUnit : MonoBehaviour
     {
         private bool _endOfTurnPending = false;
 

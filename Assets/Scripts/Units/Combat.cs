@@ -3,7 +3,7 @@
     using System;
     using UnityEngine;
 
-    class Combat : MonoBehaviour, IDestructible, IAttackable
+    public class Combat : MonoBehaviour, IDestructible, IAttackable
     {
         private GameUnit _unit;
 
