@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bff4d36f8313d2d41b6a980aa3000e55, type: 3}
-  m_Name: test_alien_stats
+  m_Name: marine_stats
   m_EditorClassIdentifier: 
   BaseAimMin: 20
   BaseAimMax: 20
@@ -17,7 +17,7 @@ MonoBehaviour:
   BaseEvasionMax: 0
   BaseArmorMin: 0
   BaseArmorMax: 0
-  BaseSpeedMin: 0
-  BaseSpeedMax: 0
+  BaseSpeedMin: 15
+  BaseSpeedMax: 20
   BaseHPMin: 0
   BaseHPMax: 0

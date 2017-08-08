@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8382d83f7b0a3cd4aac133176bf026ee, type: 3}
-  m_Name: test_player
+  m_Name: marine
   m_EditorClassIdentifier: 
   ID: test_player
   Sprite: {fileID: 21300000, guid: f80bed423853a7d408d10ab2778fe2e1, type: 3}
