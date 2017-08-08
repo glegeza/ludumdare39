@@ -80,6 +80,7 @@
             Position.SetTile(startPos);
             MoveController.Initialize(this);
             PathController.Initialize(Position, MoveController);
+            Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
         }
