@@ -30,9 +30,21 @@
                 Debug.LogErrorFormat("Failed to build prop object for {0}", id);
             }
             var propObj = new GameObject(String.Format("Prop: {0}", id));
+
             var renderer = propObj.AddComponent<SpriteRenderer>();
             propObj.transform.localScale = Scaling;
             renderer.sprite = data.Sprite;
+            switch (data.Layer)
+            {
+                case PropLayer.Wall:
+                    renderer.sortingLayerName = "Wall Props";
+                    break;
+                case PropLayer.Floor:
+                    renderer.sortingLayerName = "Floor Props";
+                    break;
+            }
+
+
             propObj.AddComponent<SortByY>();
             propObj.AddComponent<TilePosition>();
             var propComp = propObj.AddComponent<Prop>();

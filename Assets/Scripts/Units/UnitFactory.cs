@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Units
 {
+    using DLS.LD39.Graphics;
     using DLS.LD39.Map;
     using System;
     using UnityEngine;
@@ -17,6 +18,9 @@
 
             var renderer = unitObj.AddComponent<SpriteRenderer>();
             renderer.sprite = unitData.Sprite;
+            renderer.sortingLayerName = "Units";
+
+            unitObj.AddComponent<SortByY>();
 
             return unitComp;
         }
