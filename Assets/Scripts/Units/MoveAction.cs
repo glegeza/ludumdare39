@@ -58,7 +58,7 @@
             }
 
             _unit.AP.SpendPoints(cost);
-            StartCoroutine(Movement(_position.TileWorldPosition, target));
+            StartCoroutine(DoMovement(_position.TileWorldPosition, target));
             return MoveResult.ValidMove;
         }
 
@@ -86,7 +86,7 @@
             return curMove;
         }
 
-        private IEnumerator Movement(Vector3 end, Tile target)
+        private IEnumerator DoMovement(Vector3 end, Tile target)
         {
             StartedMovement?.Invoke(this, EventArgs.Empty);
 
