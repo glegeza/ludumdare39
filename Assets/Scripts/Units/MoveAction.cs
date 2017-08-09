@@ -6,31 +6,46 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class MoveAction : MonoBehaviour, IGameUnitComponent
+    public class MoveAction : MonoBehaviour
     {
         private Animator _animator;
         private GameUnit _unit;
         private TilePosition _position;
         private float _inverseMoveTime;
+        private float _moveTime;
 
         public event EventHandler<EventArgs> StartedMovement;
 
         public event EventHandler<EventArgs> CompletedMovement;
+
+        public float MoveAnimationTime
+        {
+            get
+            {
+                return _moveTime;
+            }
+            set
+            {
+                _moveTime = value;
+                _moveTime = Mathf.Max(0.0f, _moveTime);
+                _inverseMoveTime = 1.0f / _moveTime;
+            }
+        }
 
         public bool IsMoving
         {
             get; private set;
         }
 
-        public void Initialize(GameUnit unit, float moveTime = 1.0f)
+        public void Initialize(GameUnit unit)
         {
             if (unit == null)
             {
                 throw new ArgumentNullException("unit");
             }
+            MoveAnimationTime = 1.0f;
             _unit = unit;
             _position = _unit.Position;
-            _inverseMoveTime = 1.0f / moveTime;
             _animator = GetComponent<Animator>();
         }
 
@@ -61,10 +76,6 @@
             StartCoroutine(DoMovement(_position.TileWorldPosition, target));
             return MoveResult.ValidMove;
         }
-
-        public void BeginTurn() { }
-
-        public void EndTurn() { }
 
         public int GetMaxMoveAlongPath(IEnumerable<Tile> path)
         {
