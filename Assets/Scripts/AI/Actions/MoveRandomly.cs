@@ -20,7 +20,7 @@
             var adjTiles = controller.Unit.Position.CurrentTile.AdjacentTiles.ToList();
             var nextTile = adjTiles[Random.Range(0, adjTiles.Count)];
 
-            if (controller.Unit.MoveController.Move(nextTile) == Units.MoveAction.MoveResult.Success)
+            if (controller.Unit.MoveController.Move(nextTile) == MoveResult.Success)
             {
                 return true;
             }

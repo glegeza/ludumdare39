@@ -38,12 +38,12 @@
             }
 
             var moveResult = controller.Unit.MoveController.Move(nextTile);
-            if (moveResult == Units.MoveAction.MoveResult.Blocked)
+            if (moveResult == MoveResult.Blocked)
             {
                 data.CurrentDirection = GetRandomDirection();
                 return false;
             }
-            else if (moveResult == Units.MoveAction.MoveResult.NoAP)
+            else if (moveResult == MoveResult.NoAP)
             {
                 return false;
             }

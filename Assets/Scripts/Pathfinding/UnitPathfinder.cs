@@ -129,7 +129,7 @@
         {
             var nextStep = _path.Peek();
             var result = _mover.Move(nextStep);
-            if (result == MoveAction.MoveResult.Blocked)
+            if (result == MoveResult.Blocked)
             {
                 // attempt to recalculate
                 var oldTarget = _target;
@@ -145,7 +145,7 @@
                     Debug.Log("New path calculated");
                 }
             }
-            else if (result == MoveAction.MoveResult.NoAP)
+            else if (result == MoveResult.NoAP)
             {
                 MoveCompleted();
             }

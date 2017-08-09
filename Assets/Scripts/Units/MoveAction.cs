@@ -8,13 +8,6 @@
 
     public class MoveAction : MonoBehaviour, IGameUnitComponent
     {
-        public enum MoveResult
-        {
-            Success,
-            Blocked,
-            NoAP
-        }
-
         private Animator _animator;
         private GameUnit _unit;
         private TilePosition _position;
