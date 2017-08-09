@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    public class ActionPoints : MonoBehaviour, IGameUnitComponent
+    public class ActionPoints : GameUnitComponent
     {
         private GameUnit _unit;
 
@@ -27,19 +27,6 @@
             }
         }
 
-        public void Initialize(GameUnit unit)
-        {
-            _unit = unit;
-        }
-
-        public void BeginTurn()
-        {
-            PointsRemaining += PointsPerTurn;
-            PointsRemaining = Mathf.Min(PointsRemaining, MaximumPoints);
-        }
-
-        public void EndTurn() { }
-
         public bool CanSpendPoints(int amount)
         {
             return amount <= PointsRemaining;
@@ -54,6 +41,17 @@
             }
 
             PointsRemaining -= amount;
+        }
+
+        protected override void OnInitialized(GameUnit unit)
+        {
+            _unit = unit;
+        }
+
+        protected override void OnTurnStarted()
+        {
+            PointsRemaining += PointsPerTurn;
+            PointsRemaining = Mathf.Min(PointsRemaining, MaximumPoints);
         }
     }
 }

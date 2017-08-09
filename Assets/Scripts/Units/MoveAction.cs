@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class MoveAction : MonoBehaviour
+    public class MoveAction : GameUnitComponent
     {
         private Animator _animator;
         private GameUnit _unit;
@@ -35,18 +35,6 @@
         public bool IsMoving
         {
             get; private set;
-        }
-
-        public void Initialize(GameUnit unit)
-        {
-            if (unit == null)
-            {
-                throw new ArgumentNullException("unit");
-            }
-            MoveAnimationTime = 1.0f;
-            _unit = unit;
-            _position = _unit.Position;
-            _animator = GetComponent<Animator>();
         }
 
         public MoveResult TryMove(Tile target)
@@ -95,6 +83,14 @@
             }
 
             return curMove;
+        }
+
+        protected override void OnInitialized(GameUnit unit)
+        {
+            MoveAnimationTime = 1.0f;
+            _unit = unit;
+            _position = _unit.Position;
+            _animator = GetComponent<Animator>();
         }
 
         private IEnumerator DoMovement(Vector3 end, Tile target)
