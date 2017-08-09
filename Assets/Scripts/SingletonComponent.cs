@@ -4,8 +4,6 @@
 
     public abstract class SingletonComponent<T> : MonoBehaviour where T : SingletonComponent<T>
     {
-
-        // Singleton reference
         private static T _instance;
 
         public static T Instance
