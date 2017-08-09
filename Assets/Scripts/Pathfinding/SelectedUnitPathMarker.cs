@@ -105,7 +105,7 @@
             var max = MarkerPoolSize + 1;
             if (mover != null)
             {
-                max = mover.GetMaxMoveAlongPath(_trackedPathfinder.Path);
+                max = mover.GetMaxMovementThisTurn(_trackedPathfinder.Path);
             }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)

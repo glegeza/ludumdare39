@@ -6,6 +6,10 @@
     using System.Collections.Generic;
     using UnityEngine;
 
+    /// <summary>
+    /// Allows a game unit to move from tile to tile. This class is only used
+    /// to move from one tile to an adjacent tile.
+    /// </summary>
     public class MoveController : GameUnitComponent
     {
         private Animator _animator;
@@ -14,10 +18,19 @@
         private float _inverseMoveTime;
         private float _moveTime;
 
+        /// <summary>
+        /// Raised when the unit begins moving from one tile to another.
+        /// </summary>
         public event EventHandler<EventArgs> StartedMovement;
 
+        /// <summary>
+        /// Raised when the unit arrives at its destination tile.
+        /// </summary>
         public event EventHandler<EventArgs> CompletedMovement;
 
+        /// <summary>
+        /// The number of seconds it takes a unit to move to an adjacent tile.
+        /// </summary>
         public float MoveAnimationTime
         {
             get
@@ -32,11 +45,21 @@
             }
         }
 
+        /// <summary>
+        /// True if the unit is currently in the process of moving between two
+        /// tiles. While a unit is moving, its position is still set to the
+        /// tile it was in when it began the move.
+        /// </summary>
         public bool IsMoving
         {
             get; private set;
         }
 
+        /// <summary>
+        /// Attempt to move to an adjacent tile.
+        /// </summary>
+        /// <param name="target">The target tile to move to.</param>
+        /// <returns>The result of the move.</returns>
         public MoveResult TryMove(Tile target)
         {
             if (IsMoving)
@@ -65,7 +88,14 @@
             return MoveResult.ValidMove;
         }
 
-        public int GetMaxMoveAlongPath(IEnumerable<Tile> path)
+        /// <summary>
+        /// The maximum number of moves this unit can make this turn along
+        /// the given path.
+        /// </summary>
+        /// <param name="path">The path to follow.</param>
+        /// <returns>The number of spaces it can move before running out of AP.
+        /// May be 0.</returns>
+        public int GetMaxMovementThisTurn(IEnumerable<Tile> path)
         {
             var curMove = 0;
             var cost = 0;
