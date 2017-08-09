@@ -68,7 +68,7 @@
             get; private set;
         }
 
-        public Stats Stats
+        public PrimaryStats Stats
         {
             get; private set;
         }
@@ -141,7 +141,7 @@
             MoveController = gameObject.AddComponent<MoveAction>();
             Renderer = gameObject.AddComponent<UnitRenderer>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
-            Stats = gameObject.AddComponent<Stats>();
+            Stats = gameObject.AddComponent<PrimaryStats>();
             CombatInfo = gameObject.AddComponent<Combat>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
