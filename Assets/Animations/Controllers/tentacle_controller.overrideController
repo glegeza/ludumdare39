@@ -6,9 +6,9 @@ AnimatorOverrideController:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: tentacle_controller
-  m_Controller: {fileID: 9100000, guid: 18003e9b926367646992fb09a37f0d01, type: 2}
+  m_Controller: {fileID: 9100000, guid: 662eb297de5b6774d9f59f6aa42cd76f, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: d502638987fffd54cade67f9147dfd2f, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 77c28182c96aab647b1e99ab3325054b, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 636e66382d48fdc4f904b65ebe18aeb5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 77c28182c96aab647b1e99ab3325054b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e7a75e93cc2768641b6c63bf27ef5894, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 77c28182c96aab647b1e99ab3325054b, type: 2}
