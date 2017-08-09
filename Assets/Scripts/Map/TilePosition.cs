@@ -9,12 +9,22 @@
             get; private set;
         }
 
-        public void SetTile(Tile tile)
+        public Vector2 TileWorldPosition
         {
-            var worldCoords = tile.WorldCoords;
-            transform.position = new Vector3(
-                worldCoords.x, worldCoords.y, transform.position.z);
+            get
+            {
+                return CurrentTile.WorldCoords;
+            }
+        }
+
+        public void SetTile(Tile tile, bool setWorldCoords=true)
+        {
             CurrentTile = tile;
+            if (setWorldCoords)
+            {
+                transform.position = new Vector3(
+                    TileWorldPosition.x, TileWorldPosition.y, transform.position.z);
+            }
         }
     }
 }
