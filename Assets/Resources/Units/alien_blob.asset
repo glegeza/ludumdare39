@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: alien_blob
   Sprite: {fileID: 21300004, guid: f80bed423853a7d408d10ab2778fe2e1, type: 3}
-  Controller: {fileID: 9100000, guid: 18003e9b926367646992fb09a37f0d01, type: 2}
+  Controller: {fileID: 22100000, guid: 85fc5ccc11c25a94eb7dd3ecb64ad2fa, type: 2}
   Faction: 1
   DefaultState: {fileID: 11400000, guid: 141d496b747de824cb5a6eaeaad6404c, type: 2}
   Stats: {fileID: 11400000, guid: 3da174f613b10c54f8c56dd65197f746, type: 2}
