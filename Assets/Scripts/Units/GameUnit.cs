@@ -79,6 +79,11 @@
             get; private set;
         }
 
+        public UnitAnimationController AnimationController
+        {
+            get; private set;
+        }
+
         public void Initialize(UnitData data, Tile startPos, string name)
         {
             if (startPos == null)
@@ -92,6 +97,7 @@
             Position.SetTile(startPos);
             MoveController.Initialize(this);
             PathController.Initialize(this);
+            AnimationController.Initialize(this);
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
@@ -141,6 +147,7 @@
             MoveController = gameObject.AddComponent<MoveAction>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<Combat>();
+            AnimationController = gameObject.AddComponent<UnitAnimationController>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
         }

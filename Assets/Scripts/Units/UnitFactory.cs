@@ -19,7 +19,6 @@
             {
                 animator = unitObj.AddComponent<Animator>();
                 animator.runtimeAnimatorController = unitData.Controller;
-                Debug.Log(animator);
             }
             unitObj.AddComponent<SortByY>();
 
