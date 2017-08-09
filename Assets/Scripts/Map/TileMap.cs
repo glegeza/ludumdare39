@@ -112,10 +112,15 @@
                 localCoords.y < 0.0f || localCoords.y > WorldSpaceSize.y);
         }
 
+        public bool TileCoordsValid(int x, int y)
+        {
+            return x >= 0 || y >= 0 || x < Width || y < Height;
+        }
+
         public Tile GetTile(int x, int y)
         {
             var idx = y * Width + x;
-            if (x < 0 || y < 0 || x >= Width || y >= Height)
+            if (!TileCoordsValid(x, y))
             {
                 return null;
             }
@@ -160,18 +165,25 @@
             WorldSpaceSize = new Vector2(Width * TileSize.x,
                 Height * TileSize.y);
             _collider.size = WorldSpaceSize;
+            
+            BuildTiles();
+            BuildAdjacenyData();
+        }
 
-            // Create tiles
+        private void BuildTiles()
+        {
             for (var y = 0; y < Height; y++)
             {
                 for (var x = 0; x < Width; x++)
                 {
-                    _tiles.Add(new Tile(x, y, 0, this));
+                    _tiles.Add(new Tile(x, y, this));
                     SetTileAt(x, y, DefaultTile);
                 }
             }
+        }
 
-            // Build adjacency data
+        private void BuildAdjacenyData()
+        {
             for (var y = 0; y < Height; y++)
             {
                 for (var x = 0; x < Width; x++)
