@@ -10,6 +10,7 @@
     public class GameUnit : MonoBehaviour
     {
         private bool _endOfTurnPending = false;
+        private bool _inTurn = false;
 
         public event EventHandler<EventArgs> TurnBegan;
 
@@ -32,7 +33,10 @@
 
         public bool Ready
         {
-            get; set;
+            get
+            {
+                return _inTurn && !MoveController.IsMoving;
+            }
         }
 
         public TilePosition Position
@@ -100,7 +104,7 @@
 
         public void BeginTurn()
         {
-            Ready = true;
+            _inTurn = true;
             Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();
@@ -152,6 +156,7 @@
         private void OnTurnEnd()
         {
             _endOfTurnPending = false;
+            _inTurn = false;
             Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();

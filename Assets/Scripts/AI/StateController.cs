@@ -1,12 +1,6 @@
 ﻿namespace DLS.LD39.AI
 {
-    using DLS.LD39.Map;
     using DLS.LD39.Units;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using UnityEngine;
 
     /// <summary>
