@@ -84,7 +84,7 @@
             {
                 throw new ArgumentNullException("startPos");
             }
-            Stats.Initialize(data.Stats);
+            Stats = new PrimaryStats(data.Stats);
             AP.Initialize(this);
             Initiative.Initialize(this);
             CombatInfo.Initialize(this);
@@ -141,7 +141,6 @@
             MoveController = gameObject.AddComponent<MoveAction>();
             Renderer = gameObject.AddComponent<UnitRenderer>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
-            Stats = gameObject.AddComponent<PrimaryStats>();
             CombatInfo = gameObject.AddComponent<Combat>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;

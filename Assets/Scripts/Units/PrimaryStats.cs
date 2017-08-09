@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    public class PrimaryStats : MonoBehaviour
+    public class PrimaryStats
     {
         private int _baseAim;
         private int _baseEvasion;
@@ -10,7 +10,7 @@
         private int _baseSpeed;
         private int _baseMaxHP;
 
-        public void Initialize(StatsData data)
+        public PrimaryStats(StatsData data)
         {
             _baseAim = Random.Range(data.BaseAimMin, data.BaseAimMax);
             _baseEvasion = Random.Range(data.BaseEvasionMin, data.BaseEvasionMax);
