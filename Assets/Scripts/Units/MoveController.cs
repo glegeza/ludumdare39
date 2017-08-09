@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class MoveAction : GameUnitComponent
+    public class MoveController : GameUnitComponent
     {
         private Animator _animator;
         private GameUnit _unit;

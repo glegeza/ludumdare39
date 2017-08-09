@@ -49,7 +49,7 @@
             get; private set;
         }
 
-        public MoveAction MoveController
+        public MoveController MoveController
         {
             get; private set;
         }
@@ -142,7 +142,7 @@
         {
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
-            MoveController = gameObject.AddComponent<MoveAction>();
+            MoveController = gameObject.AddComponent<MoveController>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<Combat>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
