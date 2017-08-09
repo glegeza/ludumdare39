@@ -72,6 +72,21 @@
             _moving = true;
         }
 
+        protected override void OnInitialized(GameUnit unit)
+        {
+            AttachedUnit.MoveController.CompletedMovement += OnUnitCompletedMovement;
+        }
+
+        private void OnUnitCompletedMovement(object sender, EventArgs e)
+        {
+            if (_moving)
+            {
+                _path.Dequeue();
+                OnPathChanged();
+                CheckPathState();
+            }
+        }
+
         protected override void OnTurnStarted()
         {
             OnPathChanged();
@@ -102,17 +117,6 @@
             }
             else if (result == MoveResult.NotEnoughAP)
             {
-                MoveCompleted();
-            }
-            else if (result == MoveResult.ValidMove)
-            {
-                _path.Dequeue();
-                OnPathChanged();
-            }
-
-            if (AtTarget())
-            {
-                ArrivedAtDestination();
                 MoveCompleted();
             }
         }
@@ -159,9 +163,13 @@
             PathChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private bool AtTarget()
+        private void CheckPathState()
         {
-            return AttachedUnit.Position.CurrentTile.Equals(_target);
+            if (AttachedUnit.Position.CurrentTile.Equals(_target))
+            {
+                ArrivedAtDestination();
+                MoveCompleted();
+            }
         }
     }
 }

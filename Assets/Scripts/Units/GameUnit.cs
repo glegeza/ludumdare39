@@ -155,6 +155,7 @@
             Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();
+            PathController.EndTurn();
 
             if (TurnEnded != null)
             {

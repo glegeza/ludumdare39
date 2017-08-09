@@ -4,7 +4,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using UnityEngine;
 
     class SelectedUnitPathMarker : MonoBehaviour
@@ -22,6 +21,7 @@
         private List<GameObject> _markerPool = new List<GameObject>();
         private GameObject _trackedObject = null;
         private UnitPathfinder _trackedPathfinder = null;
+        private MoveAction _trackedMover;
 
         public static SelectedUnitPathMarker Instance
         {
@@ -110,7 +110,7 @@
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)
             {
-                var currentMarker = _markerPool[idx++];
+                var currentMarker = _markerPool[idx];
                 currentMarker.SetActive(true);
                 currentMarker.transform.position = step.WorldCoords;
                 var renderer = currentMarker.GetComponent<SpriteRenderer>();
@@ -118,7 +118,7 @@
                 {
                     renderer.sprite = TargetPath;
                 }
-                else if (idx > max)
+                else if (idx >= max)
                 {
                     renderer.sprite = FuturePath;
                 }
@@ -126,6 +126,7 @@
                 {
                     renderer.sprite = TurnPath;
                 }
+                idx++;
             }
         }
 

@@ -61,27 +61,27 @@
             }
 
             _unit.AP.SpendPoints(cost);
-            StartCoroutine(DoMovement(_position.TileWorldPosition, target));
+            StartCoroutine(DoMovement(target));
             return MoveResult.ValidMove;
         }
 
         public int GetMaxMoveAlongPath(IEnumerable<Tile> path)
         {
             var curMove = 0;
-            var apLeft = _unit.AP.PointsRemaining;
-            var lastStep = _position.CurrentTile;
-            foreach (var nextStep in path)
+            var cost = 0;
+
+            var lastPos = _position.CurrentTile;
+            foreach (var tile in path)
             {
-                var cost = lastStep.GetMoveCost(nextStep);
-                if (cost > apLeft)
+                cost += lastPos.GetMoveCost(tile);
+                if (cost > _unit.AP.PointsRemaining)
                 {
                     break;
                 }
-                apLeft -= cost;
-                lastStep = nextStep;
+                lastPos = tile;
                 curMove++;
             }
-
+            
             return curMove;
         }
 
@@ -93,8 +93,9 @@
             _animator = GetComponent<Animator>();
         }
 
-        private IEnumerator DoMovement(Vector3 end, Tile target)
+        private IEnumerator DoMovement(Tile target)
         {
+            var end = new Vector3(target.WorldCoords.x, target.WorldCoords.y, transform.position.z);
             StartedMovement?.Invoke(this, EventArgs.Empty);
             IsMoving = true;
 
