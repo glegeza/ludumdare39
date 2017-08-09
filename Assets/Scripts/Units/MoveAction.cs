@@ -2,6 +2,7 @@
 {
     using DLS.LD39.Map;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -14,10 +15,12 @@
             NoAP
         }
 
+        private Animator _animator;
         private GameUnit _unit;
         private TilePosition _position;
+        private float _inverseMoveTime;
 
-        public void Initialize(GameUnit unit)
+        public void Initialize(GameUnit unit, float moveTime=1.0f)
         {
             if (unit == null)
             {
@@ -25,6 +28,8 @@
             }
             _unit = unit;
             _position = _unit.Position;
+            _inverseMoveTime = 1.0f / moveTime;
+            _animator = GetComponent<Animator>();
         }
 
         public MoveResult Move(Tile target)
@@ -35,8 +40,15 @@
             if (validMove && _unit.AP.CanSpendPoints(cost))
             {
                 _unit.AP.SpendPoints(cost);
-                _position.SetTile(target);
+                _position.SetTile(target, false);
                 Debug.Log("Moving!");
+                if (_animator)
+                {
+                    Debug.Log("Animating!");
+                    _animator.SetTrigger("walkingStart");
+                }
+                _unit.Ready = true;
+                StartCoroutine(Movement(_position.TileWorldPosition));
                 return MoveResult.Success;
             }
             else if (!validMove)
@@ -73,6 +85,24 @@
             return curMove;
         }
         
+        private IEnumerator Movement(Vector3 end)
+        {
+            float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+            
+            while (sqrRemainingDistance > float.Epsilon)
+            {
+                Vector3 newPostion = Vector3.MoveTowards(transform.position, end, _inverseMoveTime * Time.deltaTime);
+                transform.position = newPostion;
+                sqrRemainingDistance = (transform.position - end).sqrMagnitude;
+                yield return null;
+            }
+            if (_animator != null)
+            {
+                _animator.SetTrigger("idleStart");
+            }
+            _unit.Ready = false;
+        }
+
         private bool TileIsValid(Tile target)
         {
             return target.IsAdjacent(_position.CurrentTile) && target.IsEnterable();

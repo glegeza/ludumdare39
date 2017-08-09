@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 2788158}
   - component: {fileID: 2788160}
   - component: {fileID: 2788161}
+  - component: {fileID: 2788162}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -150,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2788151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1113.3909, y: 463.60593, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -254,6 +255,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 372187090ca79d347b2bf73540d37ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2788162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2788151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a33bff7c58911949b88caccba4b1bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4989804
@@ -3720,8 +3732,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2788156}
-        m_MethodName: AdvanceTurn
+      - m_Target: {fileID: 2788162}
+        m_MethodName: EndCurrentUnitTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

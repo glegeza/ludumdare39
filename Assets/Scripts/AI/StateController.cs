@@ -14,7 +14,7 @@
     /// </summary>
     public class StateController : UnitController
     {
-        public float ActionDelay = 0.5f;
+        public float ActionDelay = 0.1f;
 
         /// <summary>
         /// The Game Unit this StateController is controlling.
@@ -118,6 +118,11 @@
         private void Update()
         {
             if (Unit == null || !_controllerActive || _currentState == null)
+            {
+                return;
+            }
+
+            if (Unit.Ready)
             {
                 return;
             }
