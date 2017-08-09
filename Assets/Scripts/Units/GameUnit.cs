@@ -49,11 +49,6 @@
             get; private set;
         }
 
-        public Initiative Initiative
-        {
-            get; private set;
-        }
-
         public MoveAction MoveController
         {
             get; private set;
@@ -70,6 +65,11 @@
         }
 
         public PrimaryStats Stats
+        {
+            get; private set;
+        }
+
+        public SecondaryStats SecondaryStats
         {
             get; private set;
         }
@@ -91,8 +91,8 @@
                 throw new ArgumentNullException("startPos");
             }
             Stats = new PrimaryStats(data.Stats);
+            SecondaryStats = new SecondaryStats(Stats);
             AP.Initialize(this);
-            Initiative.Initialize(this);
             CombatInfo.Initialize(this);
             Position.SetTile(startPos);
             MoveController.Initialize(this);
@@ -111,7 +111,6 @@
         public void BeginTurn()
         {
             _inTurn = true;
-            Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();
             PathController.BeginTurn();
@@ -143,7 +142,6 @@
         {
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
-            Initiative = gameObject.AddComponent<Initiative>();
             MoveController = gameObject.AddComponent<MoveAction>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<Combat>();
@@ -164,15 +162,11 @@
         {
             _endOfTurnPending = false;
             _inTurn = false;
-            Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();
             PathController.EndTurn();
 
-            if (TurnEnded != null)
-            {
-                TurnEnded(this, EventArgs.Empty);
-            }
+            TurnEnded?.Invoke(this, EventArgs.Empty);
         }
     }
 }

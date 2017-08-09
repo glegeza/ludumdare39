@@ -63,7 +63,7 @@
 
             foreach (var unit in _unitsDone)
             {
-                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
+                _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
             _unitsDone.Clear();
         }
@@ -77,13 +77,13 @@
                 _unitsDone.Add(unit);
                 SetNextUnit();
             }
-            else if (unit.Initiative.InitiativeValue < ActiveUnit.Initiative.InitiativeValue)
+            else if (unit.SecondaryStats.Initiative < ActiveUnit.SecondaryStats.Initiative)
             {
                 _unitsDone.Add(unit);
             }
             else
             {
-                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
+                _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
         }
 
