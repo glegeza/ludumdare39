@@ -58,11 +58,6 @@
             get; private set;
         }
 
-        public UnitRenderer Renderer
-        {
-            get; private set;
-        }
-
         public Combat CombatInfo
         {
             get; private set;
@@ -107,7 +102,6 @@
             Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();
-            Renderer.BeginTurn();
             PathController.BeginTurn();
             ActiveSelectionTracker.Instance.SetSelection(this);
             if (Controller != null)
@@ -139,7 +133,6 @@
             AP = gameObject.AddComponent<ActionPoints>();
             Initiative = gameObject.AddComponent<Initiative>();
             MoveController = gameObject.AddComponent<MoveAction>();
-            Renderer = gameObject.AddComponent<UnitRenderer>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<Combat>();
 
@@ -160,7 +153,6 @@
             Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();
-            Renderer.EndTurn();
 
             if (TurnEnded != null)
             {
