@@ -96,6 +96,7 @@
         private IEnumerator DoMovement(Vector3 end, Tile target)
         {
             StartedMovement?.Invoke(this, EventArgs.Empty);
+            IsMoving = true;
 
             float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 

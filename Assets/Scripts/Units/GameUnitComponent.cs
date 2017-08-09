@@ -6,12 +6,24 @@
     {
         private bool _inTurn = false;
 
+        public GameUnit AttachedUnit
+        {
+            get; private set;
+        }
+
+        public bool ComponentInitialized
+        {
+            get; private set;
+        }
+
         public void Initialize(GameUnit unit)
         {
             if (unit == null)
             {
                 throw new System.ArgumentNullException("unit");
             }
+            AttachedUnit = unit;
+            ComponentInitialized = true;
             OnInitialized(unit);
         }
 
@@ -21,6 +33,7 @@
             {
                 throw new System.Exception("BeginTurn called twice.");
             }
+            _inTurn = true;
             OnTurnStarted();
         }
 
@@ -30,6 +43,7 @@
             {
                 throw new System.Exception("EndTurn called before BeginTurn.");
             }
+            _inTurn = false;
             OnTurnEnded();
         }
 
