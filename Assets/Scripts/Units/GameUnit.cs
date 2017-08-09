@@ -27,6 +27,11 @@
             get; private set;
         }
 
+        public bool Ready
+        {
+            get; set;
+        }
+
         public TilePosition Position
         {
             get; private set;
