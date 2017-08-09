@@ -114,7 +114,7 @@
 
         public bool TileCoordsValid(int x, int y)
         {
-            return x >= 0 || y >= 0 || x < Width || y < Height;
+            return x >= 0 && y >= 0 && x < Width && y < Height;
         }
 
         public Tile GetTile(int x, int y)
