@@ -62,7 +62,7 @@
             _unit = GetComponent<GameUnit>();
             _position = position;
             _mover = mover;
-            MoveTimer = 0.05f;
+            MoveTimer = 0.0f;
         }
 
         public bool SetTarget(Tile target)
@@ -99,6 +99,8 @@
                 MoveCompleted();
                 return;
             }
+
+            var animator = GetComponent<Animator>();
 
             _moving = true;
         }

@@ -42,11 +42,6 @@
                 _unit.AP.SpendPoints(cost);
                 _position.SetTile(target, false);
                 Debug.Log("Moving!");
-                if (_animator)
-                {
-                    Debug.Log("Animating!");
-                    _animator.SetTrigger("walkingStart");
-                }
                 _unit.Ready = false;
                 StartCoroutine(Movement(_position.TileWorldPosition));
                 return MoveResult.Success;
@@ -95,10 +90,6 @@
                 transform.position = newPostion;
                 sqrRemainingDistance = (transform.position - end).sqrMagnitude;
                 yield return null;
-            }
-            if (_animator != null)
-            {
-                _animator.SetTrigger("idleStart");
             }
             _unit.Ready = true;
         }
