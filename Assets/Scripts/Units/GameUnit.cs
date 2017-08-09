@@ -11,6 +11,8 @@
     {
         private bool _endOfTurnPending = false;
 
+        public event EventHandler<EventArgs> TurnBegan;
+
         public event EventHandler<EventArgs> TurnEnded;
 
         public string UnitType

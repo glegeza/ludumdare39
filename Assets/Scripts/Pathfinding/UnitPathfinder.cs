@@ -128,7 +128,7 @@
         private void TakeNextStepOnPath()
         {
             var nextStep = _path.Peek();
-            var result = _mover.Move(nextStep);
+            var result = _mover.TryMove(nextStep);
             if (result == MoveResult.Blocked)
             {
                 // attempt to recalculate
@@ -145,7 +145,7 @@
                     Debug.Log("New path calculated");
                 }
             }
-            else if (result == MoveResult.NoAP)
+            else if (result == MoveResult.NotEnoughAP)
             {
                 MoveCompleted();
             }

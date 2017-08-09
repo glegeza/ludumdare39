@@ -37,13 +37,13 @@
                 return false;
             }
 
-            var moveResult = controller.Unit.MoveController.Move(nextTile);
+            var moveResult = controller.Unit.MoveController.TryMove(nextTile);
             if (moveResult == MoveResult.Blocked)
             {
                 data.CurrentDirection = GetRandomDirection();
                 return false;
             }
-            else if (moveResult == MoveResult.NoAP)
+            else if (moveResult == MoveResult.NotEnoughAP)
             {
                 return false;
             }

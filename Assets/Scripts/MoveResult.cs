@@ -2,8 +2,10 @@
 {
     public enum MoveResult
     {
-        Success,
+        ValidMove,
+        InvalidDestination,
         Blocked,
-        NoAP
+        NotEnoughAP,
+        NotReady,
     }
 }

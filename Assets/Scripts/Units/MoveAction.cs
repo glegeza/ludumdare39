@@ -13,7 +13,16 @@
         private TilePosition _position;
         private float _inverseMoveTime;
 
-        public void Initialize(GameUnit unit, float moveTime=1.0f)
+        public event EventHandler<EventArgs> StartedMovement;
+
+        public event EventHandler<EventArgs> CompletedMovement;
+
+        public bool IsMoving
+        {
+            get; private set;
+        }
+
+        public void Initialize(GameUnit unit, float moveTime = 1.0f)
         {
             if (unit == null)
             {
@@ -25,28 +34,32 @@
             _animator = GetComponent<Animator>();
         }
 
-        public MoveResult Move(Tile target)
+        public MoveResult TryMove(Tile target)
         {
-            var cost = _position.CurrentTile.GetMoveCost(target);
-            var validMove = TileIsValid(target);
-
-            if (validMove && _unit.AP.CanSpendPoints(cost))
+            if (IsMoving)
             {
-                _unit.AP.SpendPoints(cost);
-                _position.SetTile(target, false);
-                Debug.Log("Moving!");
-                _unit.Ready = false;
-                StartCoroutine(Movement(_position.TileWorldPosition));
-                return MoveResult.Success;
+                return MoveResult.NotReady;
             }
-            else if (!validMove)
+
+            if (!target.IsAdjacent(_position.CurrentTile))
             {
-                Debug.Log("Blocked!");
+                return MoveResult.InvalidDestination;
+            }
+
+            if (!target.IsEnterable())
+            {
                 return MoveResult.Blocked;
             }
 
-            Debug.Log("Out of AP!");
-            return MoveResult.NoAP;
+            var cost = _position.CurrentTile.GetMoveCost(target);
+            if (!_unit.AP.CanSpendPoints(cost))
+            {
+                return MoveResult.NotEnoughAP;
+            }
+
+            _unit.AP.SpendPoints(cost);
+            StartCoroutine(Movement(_position.TileWorldPosition, target));
+            return MoveResult.ValidMove;
         }
 
         public void BeginTurn() { }
@@ -72,11 +85,13 @@
 
             return curMove;
         }
-        
-        private IEnumerator Movement(Vector3 end)
+
+        private IEnumerator Movement(Vector3 end, Tile target)
         {
+            StartedMovement?.Invoke(this, EventArgs.Empty);
+
             float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-            
+
             while (sqrRemainingDistance > float.Epsilon)
             {
                 Vector3 newPostion = Vector3.MoveTowards(transform.position, end, _inverseMoveTime * Time.deltaTime);
@@ -84,12 +99,11 @@
                 sqrRemainingDistance = (transform.position - end).sqrMagnitude;
                 yield return null;
             }
-            _unit.Ready = true;
-        }
 
-        private bool TileIsValid(Tile target)
-        {
-            return target.IsAdjacent(_position.CurrentTile) && target.IsEnterable();
+            _position.SetTile(target, false);
+            IsMoving = false;
+
+            CompletedMovement?.Invoke(this, EventArgs.Empty);
         }
     }
 }
