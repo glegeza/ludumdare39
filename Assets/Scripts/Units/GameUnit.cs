@@ -87,7 +87,7 @@
             CombatInfo.Initialize(this);
             Position.SetTile(startPos);
             MoveController.Initialize(this);
-            PathController.Initialize(Position, MoveController);
+            PathController.Initialize(this);
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;

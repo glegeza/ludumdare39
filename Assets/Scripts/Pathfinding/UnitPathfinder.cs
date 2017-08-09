@@ -7,12 +7,9 @@
     using System.Linq;
     using UnityEngine;
 
-    public class UnitPathfinder : MonoBehaviour
+    public class UnitPathfinder : GameUnitComponent
     {
-        private TilePosition _position;
-        private MoveAction _mover;
         private Tile _target;
-        private GameUnit _unit;
 
         private Queue<Tile> _path = new Queue<Tile>();
         private SimplePathfinder _pathFinder = new SimplePathfinder();
@@ -48,71 +45,41 @@
             }
         }
 
-        public void Initialize(TilePosition position, MoveAction mover)
-        {
-            if (position == null)
-            {
-                throw new ArgumentNullException("position");
-            }
-            if (mover == null)
-            {
-                throw new ArgumentNullException("mover");
-            }
-
-            _unit = GetComponent<GameUnit>();
-            _position = position;
-            _mover = mover;
-            MoveTimer = 0.0f;
-        }
-
         public bool SetTarget(Tile target)
         {
-            if (_position == null || target == null || 
-                _position.CurrentTile.Equals(target))
+            if (target == null || 
+                AttachedUnit.Position.CurrentTile.Equals(target))
             {
                 return false;
             }
 
             _path.Clear();
-            _path = _pathFinder.GetPath(_position.CurrentTile, target);
+            _path = _pathFinder.GetPath(AttachedUnit.Position.CurrentTile, target);
             _target = target;
-
-            if (!_path.Any())
-            {
-                Debug.LogFormat("No path from {0} to {1}", 
-                    _position.CurrentTile, target);
-            }
-
             OnPathChanged();
+
             return _path.Any();
-        }
-
-        public void BeginTurn()
-        {
-            OnPathChanged();
         }
 
         public void StartMove()
         {
-            if (_position == null || _target == null || !_path.Any())
+            if (_target == null || !_path.Any())
             {
                 MoveCompleted();
                 return;
             }
 
-            var animator = GetComponent<Animator>();
-
             _moving = true;
+        }
+
+        protected override void OnTurnStarted()
+        {
+            OnPathChanged();
         }
 
         private void Update()
         {
-            if (!_moving || _mover == null)
-            {
-                return;
-            }
-
-            if (!_unit.Ready)
+            if (!_moving || AttachedUnit.MoveController.IsMoving)
             {
                 return;
             }
@@ -128,36 +95,36 @@
         private void TakeNextStepOnPath()
         {
             var nextStep = _path.Peek();
-            var result = _mover.TryMove(nextStep);
+            var result = AttachedUnit.MoveController.TryMove(nextStep);
             if (result == MoveResult.Blocked)
             {
-                // attempt to recalculate
-                var oldTarget = _target;
-                _target = null;
-                var targetSet = SetTarget(oldTarget);
-                if (!targetSet)
-                {
-                    DestinationUnreachable();
-                    MoveCompleted();
-                }
-                else
-                {
-                    Debug.Log("New path calculated");
-                }
+                AttemptToRecalculatePath();
             }
             else if (result == MoveResult.NotEnoughAP)
             {
                 MoveCompleted();
             }
-            else
+            else if (result == MoveResult.ValidMove)
             {
                 _path.Dequeue();
                 OnPathChanged();
             }
 
-            if (_position.CurrentTile.Equals(_target))
+            if (AtTarget())
             {
                 ArrivedAtDestination();
+                MoveCompleted();
+            }
+        }
+
+        private void AttemptToRecalculatePath()
+        {
+            var oldTarget = _target;
+            _target = null;
+            var targetSet = SetTarget(oldTarget);
+            if (!targetSet)
+            {
+                DestinationUnreachable();
                 MoveCompleted();
             }
         }
@@ -166,10 +133,7 @@
         {
             Debug.Log("Move completed");
             _moving = false;
-            if (TurnMoveComplete != null)
-            {
-                TurnMoveComplete(this, EventArgs.Empty);
-            }
+            TurnMoveComplete?.Invoke(this, EventArgs.Empty);
         }
 
         private void ArrivedAtDestination()
@@ -178,10 +142,7 @@
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
-            if (UnitArrived != null)
-            {
-                UnitArrived(this, EventArgs.Empty);
-            }
+            UnitArrived?.Invoke(this, EventArgs.Empty);
         }
 
         private void DestinationUnreachable()
@@ -190,18 +151,17 @@
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
-            if (UnitBlocked != null)
-            {
-                UnitBlocked(this, EventArgs.Empty);
-            }
+            UnitBlocked?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnPathChanged()
         {
-            if (PathChanged != null)
-            {
-                PathChanged(this, EventArgs.Empty);
-            }
+            PathChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private bool AtTarget()
+        {
+            return AttachedUnit.Position.CurrentTile.Equals(_target);
         }
     }
 }
