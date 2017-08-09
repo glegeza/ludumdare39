@@ -102,6 +102,7 @@
 
         public void BeginTurn()
         {
+            Ready = true;
             Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();

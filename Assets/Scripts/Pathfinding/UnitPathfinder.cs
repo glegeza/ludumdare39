@@ -12,6 +12,7 @@
         private TilePosition _position;
         private MoveAction _mover;
         private Tile _target;
+        private GameUnit _unit;
 
         private Queue<Tile> _path = new Queue<Tile>();
         private SimplePathfinder _pathFinder = new SimplePathfinder();
@@ -58,9 +59,10 @@
                 throw new ArgumentNullException("mover");
             }
 
+            _unit = GetComponent<GameUnit>();
             _position = position;
             _mover = mover;
-            MoveTimer = 0.25f;
+            MoveTimer = 0.05f;
         }
 
         public bool SetTarget(Tile target)
@@ -94,7 +96,7 @@
         {
             if (_position == null || _target == null || !_path.Any())
             {
-                MoveCompleted(); ;
+                MoveCompleted();
                 return;
             }
 
@@ -104,6 +106,11 @@
         private void Update()
         {
             if (!_moving || _mover == null)
+            {
+                return;
+            }
+
+            if (!_unit.Ready)
             {
                 return;
             }

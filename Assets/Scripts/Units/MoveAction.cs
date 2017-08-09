@@ -47,7 +47,7 @@
                     Debug.Log("Animating!");
                     _animator.SetTrigger("walkingStart");
                 }
-                _unit.Ready = true;
+                _unit.Ready = false;
                 StartCoroutine(Movement(_position.TileWorldPosition));
                 return MoveResult.Success;
             }
@@ -100,7 +100,7 @@
             {
                 _animator.SetTrigger("idleStart");
             }
-            _unit.Ready = false;
+            _unit.Ready = true;
         }
 
         private bool TileIsValid(Tile target)

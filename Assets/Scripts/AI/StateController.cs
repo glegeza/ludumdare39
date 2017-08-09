@@ -122,7 +122,7 @@
                 return;
             }
 
-            if (Unit.Ready)
+            if (!Unit.Ready)
             {
                 return;
             }
