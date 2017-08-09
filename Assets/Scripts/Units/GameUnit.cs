@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Units
 {
+    using DLS.LD39.AI;
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
     using System;
@@ -72,7 +73,7 @@
             get; private set;
         }
 
-        public UnitController Controller
+        public StateController Controller
         {
             get; private set;
         }
@@ -95,7 +96,7 @@
             Name = name;
         }
 
-        public void SetController(UnitController controller)
+        public void SetController(StateController controller)
         {
             Controller = controller;
         }

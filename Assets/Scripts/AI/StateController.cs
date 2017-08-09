@@ -12,7 +12,7 @@
     /// <summary>
     /// Controls the AI state for AI controlled game units.
     /// </summary>
-    public class StateController : UnitController
+    public class StateController : MonoBehaviour
     {
         public float ActionDelay = 0.1f;
 
@@ -55,7 +55,7 @@
         private float _elapsedActionTime = 0.0f;
         private State _currentState;
 
-        public override void Initialize(GameUnit unit)
+        public void Initialize(GameUnit unit)
         {
             if (unit == null)
             {
@@ -93,7 +93,7 @@
             ActionsActive = 0;
         }
 
-        public override void BeginTurn()
+        public void BeginTurn()
         {
             if (Unit == null || _currentState != null)
             {
@@ -104,7 +104,7 @@
             }
         }
 
-        public override void EndTurn()
+        public void EndTurn()
         {
             if (Unit == null || _currentState != null)
             {
