@@ -16,6 +16,8 @@
 
         public event EventHandler<EventArgs> TurnEnded;
 
+        public event EventHandler<EventArgs> UnitDestroyed;
+
         public string UnitType
         {
             get; private set;
@@ -27,6 +29,11 @@
         }
 
         public Faction Faction
+        {
+            get; private set;
+        }
+
+        public bool Alive
         {
             get; private set;
         }
@@ -141,6 +148,7 @@
 
         private void Awake()
         {
+            Alive = true;
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
             MoveController = gameObject.AddComponent<MoveController>();
@@ -149,6 +157,11 @@
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
+            CombatInfo.Destroyed += (o, e) => 
+            {
+                Alive = false;
+                UnitDestroyed?.Invoke(this, EventArgs.Empty);
+            };
         }
 
         private void OnFinishedEndOfTurnMove(object sender, EventArgs e)
