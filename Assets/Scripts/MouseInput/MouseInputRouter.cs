@@ -1,11 +1,19 @@
 ﻿namespace DLS.LD39.MouseInput
 {
+    using DLS.LD39.Units;
     using System.Collections.Generic;
     using UnityEngine;
 
     public class MouseInputRouter : SingletonComponent<MouseInputRouter>
     {
         private List<IComponentClickHandler> _clickHandlers = new List<IComponentClickHandler>();
+
+        private UnitSelector _selector = new UnitSelector();
+
+        private void Start()
+        {
+            _clickHandlers.Add(new ComponentClickHandler<GameUnit>(_selector.SelectUnit));
+        }
 
         private void Update()
         {

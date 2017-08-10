@@ -123,7 +123,6 @@
             AP.BeginTurn();
             MoveController.BeginTurn();
             PathController.BeginTurn();
-            ActiveSelectionTracker.Instance.SetSelection(this);
             if (Controller != null)
             {
                 Controller.BeginTurn();

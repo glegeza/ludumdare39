@@ -14,6 +14,8 @@
         private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
         private List<GameUnit> _unitsDone = new List<GameUnit>();
 
+        public event EventHandler<EventArgs> TurnAdvanced;
+
         public static TurnOrderTracker Instance
         {
             get
@@ -152,6 +154,7 @@
             // starting
             ActiveUnit = _unitsWaiting.Dequeue();
             ActiveUnit.BeginTurn();
+            TurnAdvanced?.Invoke(this, EventArgs.Empty);
         }
     }
 }

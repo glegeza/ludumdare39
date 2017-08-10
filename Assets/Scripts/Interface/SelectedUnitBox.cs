@@ -5,7 +5,7 @@ namespace DLS.LD39.Interface
     using System;
 
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ActiveSelectionBox : MonoBehaviour
+    public class SelectedUnitBox : MonoBehaviour
     {
         private SpriteRenderer _renderer;
 
