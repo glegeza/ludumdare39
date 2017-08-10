@@ -89,8 +89,19 @@
 
         public void UnregisterUnit(GameUnit unit)
         {
-            _unitsWaiting.Remove(unit);
-            _unitsDone.Remove(unit);
+            if (ActiveUnit == unit)
+            {
+                ActiveUnit.TurnEnded -= OnUnitTurnEnded;
+                ActiveUnit = null;
+                unit.EndTurn();
+                AdvanceTurn();
+                return;
+            }
+
+            if (!_unitsDone.Remove(unit))
+            {
+                _unitsWaiting.Remove(unit);
+            }
         }
 
         private void Awake()
