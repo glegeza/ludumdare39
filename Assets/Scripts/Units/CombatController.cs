@@ -3,9 +3,16 @@
     using System;
     using UnityEngine;
     using Combat;
+    using DLS.LD39.Map;
 
     public class CombatController : GameUnitComponent, ITargetable
     {
+        public event EventHandler<EventArgs> StartedAttack;
+
+        public event EventHandler<EventArgs> CompletedAttack;
+
+        public event EventHandler<EventArgs> Destroyed;
+
         public int Evasion
         {
             get
@@ -27,7 +34,41 @@
             }
         }
 
-        public event EventHandler<EventArgs> Destroyed;
+        public WeaponStats EquippedWeapon
+        {
+            get; set;
+        }
+
+        public AttackResult TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
+        {
+            damage = null;
+            if (EquippedWeapon == null || EquippedWeapon.Type != WeaponType.Melee)
+            {
+                return AttackResult.InvalidAttackType;
+            }
+
+            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedWeapon, target);
+            if (!AttachedUnit.AP.PointsAvailable(cost))
+            {
+                return AttackResult.NotEnoughAP;
+            }
+            
+            var result = CombatManager.Instance.MakeMeleeAttack(
+                AttachedUnit, EquippedWeapon as MeleeWeapon, target, targetTile, out damage);
+            if (result == AttackResult.Hit || result == AttackResult.Missed)
+            {
+                // Only spend AP if the result is a hit or miss, because 
+                // otherwise something went wrong and no attack was made
+                AttachedUnit.AP.SpendPoints(cost);
+            }
+            
+            return result;
+        }
+
+        public AttackResult TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)
+        {
+            throw new NotImplementedException();
+        }
 
         public int ApplyDamage(int amt)
         {
