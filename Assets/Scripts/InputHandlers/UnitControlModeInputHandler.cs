@@ -1,12 +1,11 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using System;
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
 
-    class UnitClickMover : MapClickInputHandler
+    class UnitControlModeInputHandler : MapClickInputHandler
     {
-        public UnitClickMover() : base("move", "Move")
+        public UnitControlModeInputHandler() : base("move", "Move")
         { }
 
         public override bool HandleButtonDown(int button, Tile tile)

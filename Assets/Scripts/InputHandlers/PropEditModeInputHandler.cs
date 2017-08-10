@@ -6,7 +6,7 @@
     using UnityEngine;
     using UnityEngine.UI;
 
-    class PropPlacer : MapClickInputHandler
+    class PropEditModeInputHandler : MapClickInputHandler
     {
         private enum Mode
         {
@@ -18,7 +18,7 @@
         private Dropdown _selector;
         private Mode _currentMode = Mode.DoNothing;
 
-        public PropPlacer() : base("prop", "Prop Placement")
+        public PropEditModeInputHandler() : base("prop", "Prop Placement")
         {
             var selectorObj = GameObject.FindObjectOfType<PropDropdownPopulator>();
             _selector = selectorObj.GetComponent<Dropdown>();

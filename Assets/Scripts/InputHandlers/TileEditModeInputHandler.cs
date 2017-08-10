@@ -5,7 +5,7 @@
     using UnityEngine;
     using UnityEngine.UI;
 
-    class MapClickEditor : MapClickInputHandler
+    class TileEditModeInputHandler : MapClickInputHandler
     {
         private const int PassableIdx = 7;
         private const int ImpassableIdx = 4;
@@ -16,11 +16,10 @@
             Passable,
             Impassable
         }
-
-        //private Mode _currentMode = Mode.DoNothing;
+        
         private Dropdown _selector;
 
-        public MapClickEditor() : base("edit", "Map Editing")
+        public TileEditModeInputHandler() : base("edit", "Map Editing")
         {
             var selector = GameObject.FindObjectOfType<TileDropdownPopulator>();
             _selector = selector.gameObject.GetComponent<Dropdown>();
@@ -41,29 +40,11 @@
 
             targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, id);
 
-            //if (_currentMode == Mode.Impassable)
-            //{
-            //    targetTile.Passable = false;
-            //    targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, ImpassableIdx);
-            //}
-            //else
-            //{
-            //    targetTile.Passable = true;
-            //    targetTile.Map.SetTileAt(targetTile.X, targetTile.Y, PassableIdx);
-            //}
-
             return false;
         }
 
         public override bool HandleTileClick(int button, Tile targetTile)
         {
-            //if (button != 0 || targetTile == null)
-            //{
-            //    return false;
-            //}
-
-            //_currentMode = targetTile.Passable ? Mode.Impassable : Mode.Passable;
-
             return false;
         }
     }

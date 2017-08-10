@@ -5,11 +5,11 @@
     using UnityEngine;
     using UnityEngine.UI;
 
-    class UnitSpawnClickHandler : MapClickInputHandler
+    class UnitSpawnModeInputHandler : MapClickInputHandler
     {
         private Dropdown _selector;
 
-        public UnitSpawnClickHandler() : base("spawn", "Unit Spawning")
+        public UnitSpawnModeInputHandler() : base("spawn", "Unit Spawning")
         {
             var selectorObj = GameObject.FindObjectOfType<SpawnDropdownPopulator>();
             _selector = selectorObj.GetComponent<Dropdown>();

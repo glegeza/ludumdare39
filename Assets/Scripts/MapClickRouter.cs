@@ -65,10 +65,10 @@
         {
             _picker = new TilePicker();
 
-            AddHandler(new UnitSpawnClickHandler());
-            AddHandler(new MapClickEditor());
-            AddHandler(new UnitClickMover());
-            AddHandler(new PropPlacer());
+            AddHandler(new UnitSpawnModeInputHandler());
+            AddHandler(new TileEditModeInputHandler());
+            AddHandler(new UnitControlModeInputHandler());
+            AddHandler(new PropEditModeInputHandler());
         }
 
         private void Awake()
