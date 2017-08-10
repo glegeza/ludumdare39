@@ -3,7 +3,7 @@
     using System;
     using UnityEngine;
 
-    public class Combat : GameUnitComponent, IDestructible, IAttackable
+    public class CombatController : GameUnitComponent, IDestructible, IAttackable
     {
         public int Evasion
         {

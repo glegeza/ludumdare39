@@ -35,7 +35,8 @@
         {
             get
             {
-                return _inTurn && !MoveController.IsMoving;
+                return _inTurn && 
+                    !MoveController.IsMoving;
             }
         }
 
@@ -59,7 +60,7 @@
             get; private set;
         }
 
-        public Combat CombatInfo
+        public CombatController CombatInfo
         {
             get; private set;
         }
@@ -144,7 +145,7 @@
             AP = gameObject.AddComponent<ActionPoints>();
             MoveController = gameObject.AddComponent<MoveController>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
-            CombatInfo = gameObject.AddComponent<Combat>();
+            CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
