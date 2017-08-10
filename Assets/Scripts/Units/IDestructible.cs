@@ -8,12 +8,10 @@
 
         int HitPoints { get; }
 
-        int MaxHitPoints { get; }
-
         int Armor { get; }
 
-        int Damage(int amt);
+        int ApplyDamage(int amt);
 
-        int Heal(int amt);
+        int ApplyHeal(int amt);
     }
 }

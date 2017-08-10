@@ -3,15 +3,13 @@
     using System;
     using UnityEngine;
 
-    public class Combat : MonoBehaviour, IDestructible, IAttackable
+    public class Combat : GameUnitComponent, IDestructible, IAttackable
     {
-        private GameUnit _unit;
-
         public int Evasion
         {
             get
             {
-                return _unit.Stats.Evasion;
+                return AttachedUnit.Stats.Evasion;
             }
         }
 
@@ -20,30 +18,17 @@
             get; private set;
         }
 
-        public int MaxHitPoints
-        {
-            get
-            {
-                return _unit.Stats.MaxHP;
-            }
-        }
-
         public int Armor
         {
             get
             {
-                return _unit.Stats.Armor;
+                return AttachedUnit.Stats.Armor;
             }
         }
 
         public event EventHandler<EventArgs> Destroyed;
 
-        public void Initialize(GameUnit unit)
-        {
-            _unit = unit;
-        }
-
-        public int Damage(int amt)
+        public int ApplyDamage(int amt)
         {
             var dmg = Mathf.Max(amt - Armor, 0);
 
@@ -55,10 +40,10 @@
             return HitPoints;
         }
 
-        public int Heal(int amt)
+        public int ApplyHeal(int amt)
         {
             HitPoints += amt;
-            HitPoints = Mathf.Clamp(HitPoints, 0, MaxHitPoints);
+            HitPoints = Mathf.Clamp(HitPoints, 0, AttachedUnit.Stats.MaxHP);
             return HitPoints;
         }
 

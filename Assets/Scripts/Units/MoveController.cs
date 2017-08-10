@@ -78,7 +78,7 @@
             }
 
             var cost = _position.CurrentTile.GetMoveCost(target);
-            if (!_unit.AP.CanSpendPoints(cost))
+            if (!_unit.AP.PointsAvailable(cost))
             {
                 return MoveResult.NotEnoughAP;
             }
