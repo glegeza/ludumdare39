@@ -16,4 +16,5 @@ MonoBehaviour:
   Controller: {fileID: 22100000, guid: 85fc5ccc11c25a94eb7dd3ecb64ad2fa, type: 2}
   Faction: 0
   DefaultState: {fileID: 0}
+  DefaultWeapon: {fileID: 11400000, guid: 41b031d920f36544a89814b4d49c5bcd, type: 2}
   Stats: {fileID: 11400000, guid: ccbd576180b62464c81be4067a9ddde4, type: 2}
