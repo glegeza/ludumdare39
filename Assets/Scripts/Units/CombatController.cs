@@ -7,6 +7,8 @@
 
     public class CombatController : GameUnitComponent, ITargetable
     {
+        private bool _dead = false;
+
         public event EventHandler<EventArgs> StartedAttack;
 
         public event EventHandler<EventArgs> CompletedAttack;
@@ -91,6 +93,11 @@
 
         private void OnDestroyed()
         {
+            if (_dead)
+            {
+                return;
+            }
+            _dead = true;
             Destroyed?.Invoke(this, EventArgs.Empty);
         }
     }
