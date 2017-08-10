@@ -24,6 +24,11 @@
                 return false;
             }
 
+            if (!activeUnit.Ready)
+            {
+                return false;
+            }
+
             if (button == 0)
             {
                 DoMoveAction(activeUnit, clickedTile);
