@@ -15,6 +15,11 @@
 
         public event EventHandler<EventArgs> Destroyed;
 
+        public bool Attacking
+        {
+            get; private set;
+        }
+
         public int Evasion
         {
             get
@@ -59,6 +64,9 @@
                 AttachedUnit, EquippedWeapon as MeleeWeapon, target, targetTile, out damage);
             if (result == AttackResult.Hit || result == AttackResult.Missed)
             {
+                Attacking = true;
+                StartedAttack?.Invoke(this, EventArgs.Empty);
+                AttachedUnit.AnimationController.StartMeleeAnimation();
                 // Only spend AP if the result is a hit or miss, because 
                 // otherwise something went wrong and no attack was made
                 AttachedUnit.AP.SpendPoints(cost);
@@ -89,6 +97,18 @@
             HitPoints += amt;
             HitPoints = Mathf.Clamp(HitPoints, 0, AttachedUnit.Stats.MaxHP);
             return HitPoints;
+        }
+
+        protected override void OnInitialized(GameUnit unit)
+        {
+            AttachedUnit.AnimationController.ReturnedToIdle += (o, e) =>
+            {
+                if (Attacking)
+                {
+                    Attacking = false;
+                    CompletedAttack?.Invoke(this, EventArgs.Empty);
+                }
+            };
         }
 
         private void OnDestroyed()
