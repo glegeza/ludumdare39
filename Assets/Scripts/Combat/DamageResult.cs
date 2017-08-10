@@ -2,16 +2,18 @@
 {
     using DLS.LD39.Units;
 
-    public class AttackResult
+    /// <summary>
+    /// Stores information about a successful attack.
+    /// </summary>
+    public class DamageResult
     {
-        public AttackResult(GameUnit attacker, ITargetable target, int targetNum,
-            int roll, bool wasSuccessful, int damage)
+        public DamageResult(GameUnit attacker, ITargetable target, int targetNum,
+            int roll, int damage)
         {
             Attacker = attacker;
             Target = target;
             ModifiedRollTarget = targetNum;
             AttackRoll = roll;
-            AttackSuccessful = wasSuccessful;
             DamageDone = damage;
         }
 
@@ -31,11 +33,6 @@
         }
 
         public int AttackRoll
-        {
-            get; private set;
-        }
-
-        public bool AttackSuccessful
         {
             get; private set;
         }
