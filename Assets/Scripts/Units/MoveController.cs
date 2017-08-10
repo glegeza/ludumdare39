@@ -12,7 +12,6 @@
     /// </summary>
     public class MoveController : GameUnitComponent
     {
-        private Animator _animator;
         private GameUnit _unit;
         private TilePosition _position;
         private float _inverseMoveTime;
@@ -120,7 +119,7 @@
             MoveAnimationTime = 1.0f;
             _unit = unit;
             _position = _unit.Position;
-            _animator = GetComponent<Animator>();
+
         }
 
         private IEnumerator DoMovement(Tile target)
