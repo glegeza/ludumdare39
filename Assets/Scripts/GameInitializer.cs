@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39
 {
     using UnityEngine;
-    using Controllers;
+    using MouseInput;
     using DLS.Utility.Unity.Cameras;
 
     /// <summary>

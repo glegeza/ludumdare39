@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Interface
 {
-    using DLS.LD39.Controllers;
+    using MouseInput;
     using System;
     using UnityEngine;
     using UnityEngine.UI;

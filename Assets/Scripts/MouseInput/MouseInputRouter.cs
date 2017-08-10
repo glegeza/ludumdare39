@@ -1,4 +1,4 @@
-﻿namespace DLS.LD39
+﻿namespace DLS.LD39.MouseInput
 {
     using System.Collections.Generic;
     using UnityEngine;
