@@ -2,6 +2,7 @@
 {
     using System;
     using UnityEngine;
+    using Combat;
 
     public class CombatController : GameUnitComponent, IDestructible, IAttackable
     {
