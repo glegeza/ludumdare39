@@ -42,8 +42,9 @@
         {
             get
             {
-                return _inTurn && 
-                    !MoveController.IsMoving;
+                return _inTurn &&
+                    !MoveController.IsMoving &&
+                    !CombatInfo.Attacking;
             }
         }
 
