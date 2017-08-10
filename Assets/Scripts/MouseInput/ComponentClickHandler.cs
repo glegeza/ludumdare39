@@ -2,11 +2,11 @@
 {
     using UnityEngine;
 
-    public class ObjectTypeClickCallback<T> : IComponentClickHandler where T : MonoBehaviour
+    public class ComponentClickHandler<T> : IComponentClickHandler where T : MonoBehaviour
     {
         private ClickDelegate<T> _delegate;
 
-        public ObjectTypeClickCallback(ClickDelegate<T> del)
+        public ComponentClickHandler(ClickDelegate<T> del)
         {
             _delegate = del;
         }
