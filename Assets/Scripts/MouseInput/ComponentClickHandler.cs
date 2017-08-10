@@ -16,8 +16,10 @@
             var comp = obj.GetComponent<T>();
             if (comp != null)
             {
-                _delegate(comp, btn, hitPoint);
-                return true;
+                if (_delegate(comp, btn, hitPoint))
+                {
+                    return true;
+                }
             }
 
             return false;
