@@ -2,7 +2,7 @@
 {
     using System;
 
-    interface ITargetable
+    public interface ITargetable
     {
         event EventHandler<EventArgs> Destroyed;
 
