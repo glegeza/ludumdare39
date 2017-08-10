@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Combat
 {
+    using System;
     using DLS.LD39.Units;
 
     /// <summary>
@@ -40,6 +41,12 @@
         public int DamageDone
         {
             get; private set;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("{0} vs {1} for {2} damage!",
+                AttackRoll, ModifiedRollTarget, DamageDone);
         }
     }
 }
