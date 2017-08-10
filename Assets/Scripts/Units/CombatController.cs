@@ -4,7 +4,7 @@
     using UnityEngine;
     using Combat;
 
-    public class CombatController : GameUnitComponent, IDestructible, IAttackable
+    public class CombatController : GameUnitComponent, ITargetable
     {
         public int Evasion
         {

@@ -2,13 +2,15 @@
 {
     using System;
 
-    interface IDestructible
+    interface ITargetable
     {
         event EventHandler<EventArgs> Destroyed;
 
         int HitPoints { get; }
 
         int Armor { get; }
+
+        int Evasion { get; }
 
         int ApplyDamage(int amt);
 
