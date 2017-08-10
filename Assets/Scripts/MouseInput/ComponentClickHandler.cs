@@ -2,27 +2,8 @@
 {
     using UnityEngine;
 
-    public class ComponentClickHandler<T> : IComponentClickHandler where T : MonoBehaviour
+    public abstract class ComponentClickHandler : ScriptableObject
     {
-        private ClickDelegate<T> _delegate;
-
-        public ComponentClickHandler(ClickDelegate<T> del)
-        {
-            _delegate = del;
-        }
-
-        public bool CheckForComponent(GameObject obj, int btn, Vector2 hitPoint)
-        {
-            var comp = obj.GetComponent<T>();
-            if (comp != null)
-            {
-                if (_delegate(comp, btn, hitPoint))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        public abstract bool CheckForComponent(GameObject obj, int btn, Vector2 hitPoint);
     }
 }

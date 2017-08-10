@@ -1,19 +1,12 @@
 ﻿namespace DLS.LD39.MouseInput
 {
-    using DLS.LD39.Units;
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class MouseInputRouter : SingletonComponent<MouseInputRouter>
+    public class MouseInputRouter : MonoBehaviour
     {
-        private List<IComponentClickHandler> _clickHandlers = new List<IComponentClickHandler>();
-
-        private UnitSelector _selector = new UnitSelector();
-
-        private void Start()
-        {
-            _clickHandlers.Add(new ComponentClickHandler<GameUnit>(_selector.SelectUnit));
-        }
+        public List<ComponentClickHandler> ClickHandlers = new List<ComponentClickHandler>();
+        public LayerMask ClickLayer;
 
         private void Update()
         {
@@ -35,12 +28,12 @@
         private RaycastHit2D GetColliderHit(Vector3 position)
         {
             var ray = Camera.main.ScreenToWorldPoint(position);
-            return Physics2D.Raycast(ray, Vector2.zero);
+            return Physics2D.Raycast(ray, Vector2.zero, 10000, ClickLayer.value);
         }
 
         private void HandleClick(int btn, GameObject obj, Vector2 hitPoint)
         {
-            foreach (var handler in _clickHandlers)
+            foreach (var handler in ClickHandlers)
             {
                 if (handler.CheckForComponent(obj, btn, hitPoint))
                 {

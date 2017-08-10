@@ -1,23 +1,18 @@
 ﻿namespace DLS.LD39.MouseInput
 {
     using DLS.LD39.Units;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using UnityEngine;
 
-    public class UnitSelector
+    [CreateAssetMenu(menuName = "Input Handlers/Unit Selector")]
+    public class UnitSelector : BaseClickHandler<GameUnit>
     {
-        public bool SelectUnit(GameUnit g, int btn, Vector2 hp)
+        public override bool HandleClick(GameUnit comp, int btn, Vector2 hitPoint)
         {
-            if (btn != 0)
+            if (btn == 0)
             {
-                return false;
+                ActiveSelectionTracker.Instance.SetSelection(comp);
+                return true;
             }
-
-            ActiveSelectionTracker.Instance.SetSelection(g);
 
             return true;
         }
