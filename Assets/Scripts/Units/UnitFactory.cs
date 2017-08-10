@@ -26,6 +26,11 @@
             var unitComp = unitObj.AddComponent<GameUnit>();
             unitComp.Initialize(unitData, tile, name);
 
+            if (unitData.DefaultWeapon != null)
+            {
+                unitComp.CombatInfo.EquippedWeapon = unitData.DefaultWeapon.GetStats();
+            }
+
             return unitComp;
         }
     }
