@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 2788163}
   - component: {fileID: 2788164}
   - component: {fileID: 2788152}
+  - component: {fileID: 2788165}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -303,6 +304,19 @@ MonoBehaviour:
   ClickLayer:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &2788165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2788151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba518559b1d9c7d4faa193d22d9c6dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExplosionPrefab: {fileID: 114538696964274848, guid: 5e457efb92b0e1340bd47f7f57139602,
+    type: 2}
 --- !u!1 &4989804
 GameObject:
   m_ObjectHideFlags: 0
