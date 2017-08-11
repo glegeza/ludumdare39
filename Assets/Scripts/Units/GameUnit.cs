@@ -28,6 +28,11 @@
             get; private set;
         }
 
+        public UnitData Data
+        {
+            get; private set;
+        }
+
         public Faction Faction
         {
             get; private set;
@@ -99,6 +104,7 @@
             {
                 throw new ArgumentNullException("startPos");
             }
+            Data = data;
             Stats = new PrimaryStats(data.Stats);
             SecondaryStats = new SecondaryStats(Stats);
             AP.Initialize(this);
