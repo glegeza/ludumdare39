@@ -58,6 +58,11 @@
             get; private set;
         }
 
+        public UnitFacing Facing
+        {
+            get; private set;
+        }
+
         public ActionPoints AP
         {
             get; private set;
@@ -113,6 +118,7 @@
             MoveController.Initialize(this);
             PathController.Initialize(this);
             AnimationController.Initialize(this);
+            Facing.Initialize(this);
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
@@ -161,6 +167,7 @@
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
+            Facing = gameObject.AddComponent<UnitFacing>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 

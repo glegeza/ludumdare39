@@ -63,6 +63,7 @@
             }
 
             Attacking = true;
+            AttachedUnit.Facing.FaceTile(targetTile);
             _targetTile = targetTile;
             _targetUnit = target;
             StartedAttack?.Invoke(this, EventArgs.Empty);
