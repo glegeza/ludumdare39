@@ -22,7 +22,7 @@
 
         public void StartWalkAnimation()
         {
-            _animationController?.SetTrigger(WalkingTrigger);
+            SetTrigger(WalkingTrigger);
             _transitioning = true;
             _targetAnimation = WalkTag;
             if (_animationController == null)
@@ -33,7 +33,7 @@
 
         public void StartIdleAnimation()
         {
-            _animationController?.SetTrigger(IdleTrigger);
+            SetTrigger(IdleTrigger);
             if (_transitioning || _animating)
             {
                 OnAnimationComplete();
@@ -42,14 +42,14 @@
 
         public void StartWaitAnimation()
         {
-            _animationController?.SetTrigger(IdleTrigger);
+            SetTrigger(IdleTrigger);
             _transitioning = false;
             _animating = false;
         }
 
         public void StartMeleeAnimation()
         {
-            _animationController?.SetTrigger(MeleeTrigger);
+            SetTrigger(MeleeTrigger);
             _targetAnimation = MeleeTag;
             _transitioning = true;
             if (_animationController == null)
@@ -65,6 +65,14 @@
         protected override void OnInitialized(GameUnit unit)
         {
             _animationController = GetComponent<Animator>();
+        }
+
+        private void SetTrigger(string trigger)
+        {
+            if (_animationController != null)
+            {
+                _animationController.SetTrigger(trigger);
+            }
         }
 
         private void Update()

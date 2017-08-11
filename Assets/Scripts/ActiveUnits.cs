@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39
 {
+    using DLS.LD39.Graphics;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using System.Collections.Generic;
@@ -45,6 +46,10 @@
                 return;
             }
             RemoveUnit(unit);
+            if (unit.Data.DeathPrefab != null)
+            {
+                ExplosionController.Instance.SpawnExplosion(unit.Data.DeathPrefab, unit.Position.CurrentTile);
+            }
         }
     }
 }
