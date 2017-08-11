@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Name: test_melee
   m_EditorClassIdentifier: 
   ID: test_melee
-  MinDamage: 1
-  MaxDamage: 2
+  MinDamage: 4
+  MaxDamage: 10
   BaseToHitModifier: 10
