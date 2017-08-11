@@ -19,11 +19,20 @@
         
         private Dropdown _selector;
 
-        public TileEditModeInputHandler() : base("edit", "Map Editing")
+        private Dropdown Selector
         {
-            var selector = GameObject.FindObjectOfType<TileDropdownPopulator>();
-            _selector = selector.gameObject.GetComponent<Dropdown>();
+            get
+            {
+                if (_selector == null)
+                {
+                    _selector = GameObject.FindObjectOfType<TileDropdownPopulator>().GetComponent<Dropdown>();
+                }
+                return _selector;
+            }
         }
+
+        public TileEditModeInputHandler() : base("edit", "Map Editing")
+        { }
 
         public override bool HandleButtonDown(int button, Tile targetTile)
         {
@@ -31,7 +40,7 @@
             {
                 return false;
             }
-            var id = _selector.options[_selector.value].text;
+            var id = Selector.options[Selector.value].text;
             
             if (targetTile.Type.ID == id)
             {

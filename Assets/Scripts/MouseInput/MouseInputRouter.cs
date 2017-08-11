@@ -22,6 +22,14 @@
                         HandleClick(i, hit.collider.gameObject, hit.point);
                     }
                 }
+                if (Input.GetMouseButton(i))
+                {
+                    var hit = GetColliderHit(position);
+                    if (hit.collider != null)
+                    {
+                        HandleMouseDown(i, hit.collider.gameObject, hit.point);
+                    }
+                }
             }
         }
 
@@ -36,6 +44,17 @@
             foreach (var handler in ClickHandlers)
             {
                 if (handler.GameObjectClicked(obj, btn, hitPoint))
+                {
+                    break;
+                }
+            }
+        }
+
+        private void HandleMouseDown(int btn, GameObject obj, Vector2 hitPoint)
+        {
+            foreach (var handler in ClickHandlers)
+            {
+                if (handler.GameObjectMouseDown(obj, btn, hitPoint))
                 {
                     break;
                 }

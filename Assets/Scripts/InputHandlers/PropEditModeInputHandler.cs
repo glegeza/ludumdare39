@@ -18,15 +18,24 @@
         private Dropdown _selector;
         private Mode _currentMode = Mode.DoNothing;
 
-        public PropEditModeInputHandler() : base("prop", "Prop Placement")
+        private Dropdown Selector
         {
-            var selectorObj = GameObject.FindObjectOfType<PropDropdownPopulator>();
-            _selector = selectorObj.GetComponent<Dropdown>();
+            get
+            {
+                if (_selector == null)
+                {
+                    _selector = GameObject.FindObjectOfType<PropDropdownPopulator>().GetComponent<Dropdown>();
+                }
+                return _selector;
+            }
         }
+
+        public PropEditModeInputHandler() : base("prop", "Prop Placement")
+        { }
 
         public override bool HandleButtonDown(int button, Tile clickedTile)
         {
-            var id = _selector.options[_selector.value].text;
+            var id = Selector.options[Selector.value].text;
             var propData = PropFactory.Instance.GetPropByID(id);
             if (propData == null)
             {
@@ -56,7 +65,7 @@
 
         public override bool HandleTileClick(int button, Tile clickedTile)
         {
-            var id = _selector.options[_selector.value].text;
+            var id = Selector.options[Selector.value].text;
             var propData = PropFactory.Instance.GetPropByID(id);
             if (propData == null)
             {

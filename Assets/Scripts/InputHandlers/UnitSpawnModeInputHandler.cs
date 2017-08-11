@@ -10,9 +10,18 @@
         private Dropdown _selector;
 
         public UnitSpawnModeInputHandler() : base("spawn", "Unit Spawning")
+        { }
+
+        private Dropdown Selector
         {
-            var selectorObj = GameObject.FindObjectOfType<SpawnDropdownPopulator>();
-            _selector = selectorObj.GetComponent<Dropdown>();
+            get
+            {
+                if (_selector == null)
+                {
+                    _selector = GameObject.FindObjectOfType<SpawnDropdownPopulator>().GetComponent<Dropdown>();
+                }
+                return _selector;
+            }
         }
 
         public override bool HandleButtonDown(int button, Tile tile)
@@ -22,12 +31,7 @@
 
         public override bool HandleTileClick(int button, Tile clickedTile)
         {
-            if (_selector == null)
-            {
-                _selector = GameObject.FindObjectOfType<SpawnDropdownPopulator>().GetComponent<Dropdown>();
-            }
-
-            var id = _selector.options[_selector.value].text;
+            var id = Selector.options[Selector.value].text;
             if (button == 0)
             {
                 UnitSpawner.Instance.SpawnUnit(id, clickedTile);
