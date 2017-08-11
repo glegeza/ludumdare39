@@ -1,14 +1,10 @@
 ﻿namespace DLS.LD39.Units
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
 
     public class StatsData : ScriptableObject
     {
-        public static int MaxStatValue = 20;
+        public static int MaxStatValue = 80;
 
         public int BaseAimMin;
         public int BaseAimMax;
