@@ -16,6 +16,8 @@
 
         public event EventHandler<EventArgs> TurnEnded;
 
+        public event EventHandler<EventArgs> UnitDestroyed;
+
         public string UnitType
         {
             get; private set;
@@ -31,11 +33,18 @@
             get; private set;
         }
 
+        public bool Alive
+        {
+            get; private set;
+        }
+
         public bool Ready
         {
             get
             {
-                return _inTurn && !MoveController.IsMoving;
+                return _inTurn &&
+                    !MoveController.IsMoving &&
+                    !CombatInfo.Attacking;
             }
         }
 
@@ -49,12 +58,7 @@
             get; private set;
         }
 
-        public Initiative Initiative
-        {
-            get; private set;
-        }
-
-        public MoveAction MoveController
+        public MoveController MoveController
         {
             get; private set;
         }
@@ -64,12 +68,17 @@
             get; private set;
         }
 
-        public Combat CombatInfo
+        public CombatController CombatInfo
         {
             get; private set;
         }
 
         public PrimaryStats Stats
+        {
+            get; private set;
+        }
+
+        public SecondaryStats SecondaryStats
         {
             get; private set;
         }
@@ -91,8 +100,8 @@
                 throw new ArgumentNullException("startPos");
             }
             Stats = new PrimaryStats(data.Stats);
+            SecondaryStats = new SecondaryStats(Stats);
             AP.Initialize(this);
-            Initiative.Initialize(this);
             CombatInfo.Initialize(this);
             Position.SetTile(startPos);
             MoveController.Initialize(this);
@@ -111,11 +120,9 @@
         public void BeginTurn()
         {
             _inTurn = true;
-            Initiative.BeginTurn();
             AP.BeginTurn();
             MoveController.BeginTurn();
             PathController.BeginTurn();
-            ActiveSelectionTracker.Instance.SetSelection(this);
             if (Controller != null)
             {
                 Controller.BeginTurn();
@@ -141,15 +148,20 @@
 
         private void Awake()
         {
+            Alive = true;
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
-            Initiative = gameObject.AddComponent<Initiative>();
-            MoveController = gameObject.AddComponent<MoveAction>();
+            MoveController = gameObject.AddComponent<MoveController>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
-            CombatInfo = gameObject.AddComponent<Combat>();
+            CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
+            CombatInfo.Destroyed += (o, e) => 
+            {
+                Alive = false;
+                UnitDestroyed?.Invoke(this, EventArgs.Empty);
+            };
         }
 
         private void OnFinishedEndOfTurnMove(object sender, EventArgs e)
@@ -164,15 +176,11 @@
         {
             _endOfTurnPending = false;
             _inTurn = false;
-            Initiative.EndTurn();
             AP.EndTurn();
             MoveController.EndTurn();
             PathController.EndTurn();
 
-            if (TurnEnded != null)
-            {
-                TurnEnded(this, EventArgs.Empty);
-            }
+            TurnEnded?.Invoke(this, EventArgs.Empty);
         }
     }
 }

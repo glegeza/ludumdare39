@@ -13,24 +13,19 @@
         private Dictionary<PropLayer, Prop> _props = new Dictionary<PropLayer, Prop>();
         private bool _isPassable;
 
-        public Tile(int x, int y, int layer, TileMap map)
+        public Tile(int x, int y, TileMap map)
         {
             if (map == null)
             {
                 throw new ArgumentNullException("map");
             }
-            if (x < 0 || y < 0 || x >= map.Width || y >= map.Height)
+            if (!map.TileCoordsValid(x, y))
             {
                 throw new Exception("tile x, y invalid");
-            }
-            if (layer < 0)
-            {
-                throw new Exception("tile layer invalid");
             }
 
             X = x;
             Y = y;
-            Layer = layer;
             Map = map;
             LocalCoords = map.GetLocalCoords(x, y);
             Passable = true;
@@ -85,12 +80,6 @@
             private set;
         }
 
-        public int Layer
-        {
-            get;
-            private set;
-        }
-
         public IEnumerable<Tile> AdjacentTiles
         {
             get
@@ -101,14 +90,9 @@
 
         public Prop PropOnLayer(PropLayer layer)
         {
-            if (_props.ContainsKey(layer))
-            {
-                return _props[layer];
-            }
-            else
-            {
-                return null;
-            }
+            Prop propOnLayer;
+            _props.TryGetValue(layer, out propOnLayer);
+            return propOnLayer;
         }
 
         public void RemoveProp(PropLayer layer)
@@ -129,18 +113,28 @@
 
         public int GetMoveCost(Tile target)
         {
-            if (target == null)
+            if (IsOrthogonallyAdjacent(target))
             {
-                throw new ArgumentNullException("target");
+                return 10;
             }
-            if (!IsAdjacent(target))
+            if (IsDiagonallyAdjacent(target))
             {
-                throw new ArgumentException(String.Format("GetTileCost: {0} is not adjacent to {1}", this, target));
+                return 14;
             }
 
-            return (target.X == X || target.Y == Y)
-                ? 10
-                : 14;
+            throw new ArgumentException(String.Format("GetTileCost: {0} is not adjacent to {1}", this, target));
+        }
+
+        public bool IsOrthogonallyAdjacent(Tile target)
+        {
+            return IsAdjacent(target) && 
+                (target.X == X || target.Y == Y);
+        }
+
+        public bool IsDiagonallyAdjacent(Tile target)
+        {
+            return IsAdjacent(target) && 
+                (target.X != X && target.Y != Y);
         }
 
         public bool IsEnterable()
@@ -204,7 +198,7 @@
 
         public override int GetHashCode()
         {
-            return SimpleHashBuilder.GetHash(X, Y, Layer, Map);
+            return SimpleHashBuilder.GetHash(X, Y, Map);
         }
 
         public override string ToString()
@@ -219,7 +213,7 @@
                 return false;
             }
             return X == other.X && Y == other.Y &&
-                Map.Equals(other.Map) && Layer == other.Layer;
+                Map.Equals(other.Map);
         }
     }
 }

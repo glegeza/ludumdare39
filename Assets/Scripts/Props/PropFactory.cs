@@ -46,6 +46,9 @@
                 case PropLayer.Floor:
                     renderer.sortingLayerName = "Floor Props";
                     break;
+                case PropLayer.WallDeco:
+                    renderer.sortingLayerName = "Wall Decorations";
+                    break;
             }
 
 

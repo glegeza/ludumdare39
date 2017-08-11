@@ -11,6 +11,7 @@
 
         public void AddActiveUnit(GameUnit unit)
         {
+            unit.UnitDestroyed += OnUnitDestroyed;
             TurnOrderTracker.Instance.RegisterUnit(unit);
             _activeUnits.Add(unit);
         }
@@ -34,6 +35,16 @@
             _activeUnits.Remove(unit);
             TurnOrderTracker.Instance.UnregisterUnit(unit);
             Destroy(unit.gameObject);
+        }
+
+        private void OnUnitDestroyed(object sender, System.EventArgs e)
+        {
+            var unit = sender as GameUnit;
+            if (unit == null)
+            {
+                return;
+            }
+            RemoveUnit(unit);
         }
     }
 }

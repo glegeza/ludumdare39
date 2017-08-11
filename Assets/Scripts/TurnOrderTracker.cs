@@ -14,6 +14,8 @@
         private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
         private List<GameUnit> _unitsDone = new List<GameUnit>();
 
+        public event EventHandler<EventArgs> TurnAdvanced;
+
         public static TurnOrderTracker Instance
         {
             get
@@ -63,7 +65,7 @@
 
             foreach (var unit in _unitsDone)
             {
-                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
+                _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
             _unitsDone.Clear();
         }
@@ -77,20 +79,31 @@
                 _unitsDone.Add(unit);
                 SetNextUnit();
             }
-            else if (unit.Initiative.InitiativeValue < ActiveUnit.Initiative.InitiativeValue)
+            else if (unit.SecondaryStats.Initiative < ActiveUnit.SecondaryStats.Initiative)
             {
                 _unitsDone.Add(unit);
             }
             else
             {
-                _unitsWaiting.Enqueue(unit, unit.Initiative.InitiativeValue);
+                _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
         }
 
         public void UnregisterUnit(GameUnit unit)
         {
-            _unitsWaiting.Remove(unit);
-            _unitsDone.Remove(unit);
+            if (ActiveUnit == unit)
+            {
+                ActiveUnit.TurnEnded -= OnUnitTurnEnded;
+                ActiveUnit = null;
+                unit.EndTurn();
+                AdvanceTurn();
+                return;
+            }
+
+            if (!_unitsDone.Remove(unit))
+            {
+                _unitsWaiting.Remove(unit);
+            }
         }
 
         private void Awake()
@@ -141,6 +154,7 @@
             // starting
             ActiveUnit = _unitsWaiting.Dequeue();
             ActiveUnit.BeginTurn();
+            TurnAdvanced?.Invoke(this, EventArgs.Empty);
         }
     }
 }

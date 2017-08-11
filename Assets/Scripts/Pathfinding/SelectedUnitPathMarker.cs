@@ -21,7 +21,7 @@
         private List<GameObject> _markerPool = new List<GameObject>();
         private GameObject _trackedObject = null;
         private UnitPathfinder _trackedPathfinder = null;
-        private MoveAction _trackedMover;
+        private MoveController _trackedMover;
 
         public static SelectedUnitPathMarker Instance
         {
@@ -101,11 +101,11 @@
                 return;
             }
 
-            var mover = _trackedObject.GetComponent<MoveAction>();
+            var mover = _trackedObject.GetComponent<MoveController>();
             var max = MarkerPoolSize + 1;
             if (mover != null)
             {
-                max = mover.GetMaxMoveAlongPath(_trackedPathfinder.Path);
+                max = mover.GetMaxMovementThisTurn(_trackedPathfinder.Path);
             }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)

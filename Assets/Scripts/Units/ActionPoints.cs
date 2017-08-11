@@ -4,37 +4,19 @@
 
     public class ActionPoints : GameUnitComponent
     {
-        private GameUnit _unit;
-
-        public int PointsPerTurn
-        {
-            get
-            {
-                return _unit.Stats.Speed * 3;
-            }
-        }
-
         public int PointsRemaining
         {
-            get; set;
+            get; private set;
         }
 
-        public int MaximumPoints
-        {
-            get
-            {
-                return _unit.Stats.Speed * 6;
-            }
-        }
-
-        public bool CanSpendPoints(int amount)
+        public bool PointsAvailable(int amount)
         {
             return amount <= PointsRemaining;
         }
 
         public void SpendPoints(int amount)
         {
-            if (!CanSpendPoints(amount))
+            if (!PointsAvailable(amount))
             {
                 Debug.LogError("Unit attempting to spend too many points");
                 return;
@@ -43,15 +25,11 @@
             PointsRemaining -= amount;
         }
 
-        protected override void OnInitialized(GameUnit unit)
-        {
-            _unit = unit;
-        }
-
         protected override void OnTurnStarted()
         {
-            PointsRemaining += PointsPerTurn;
-            PointsRemaining = Mathf.Min(PointsRemaining, MaximumPoints);
+            PointsRemaining += AttachedUnit.SecondaryStats.ActionPointRegen;
+            PointsRemaining = Mathf.Min(
+                PointsRemaining, AttachedUnit.SecondaryStats.ActionPointCap);
         }
     }
 }

@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Map
+  - Units
   - 
   - 
   - 
@@ -55,4 +55,7 @@ TagManager:
     locked: 0
   - name: Wall Props
     uniqueID: 3143795797
+    locked: 0
+  - name: Wall Decorations
+    uniqueID: 3186341015
     locked: 0

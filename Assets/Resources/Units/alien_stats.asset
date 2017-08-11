@@ -14,10 +14,10 @@ MonoBehaviour:
   BaseAimMin: 20
   BaseAimMax: 20
   BaseEvasionMin: 0
-  BaseEvasionMax: 0
+  BaseEvasionMax: 4
   BaseArmorMin: 0
-  BaseArmorMax: 0
+  BaseArmorMax: 2
   BaseSpeedMin: 15
   BaseSpeedMax: 20
   BaseHPMin: 0
-  BaseHPMax: 0
+  BaseHPMax: 12

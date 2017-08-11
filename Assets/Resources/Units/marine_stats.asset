@@ -11,13 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bff4d36f8313d2d41b6a980aa3000e55, type: 3}
   m_Name: marine_stats
   m_EditorClassIdentifier: 
-  BaseAimMin: 20
-  BaseAimMax: 20
+  BaseAimMin: 50
+  BaseAimMax: 60
   BaseEvasionMin: 0
-  BaseEvasionMax: 0
+  BaseEvasionMax: 1
   BaseArmorMin: 0
-  BaseArmorMax: 0
+  BaseArmorMax: 2
   BaseSpeedMin: 15
   BaseSpeedMax: 20
-  BaseHPMin: 0
-  BaseHPMax: 0
+  BaseHPMin: 20
+  BaseHPMax: 20

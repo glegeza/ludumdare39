@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39
 {
     using UnityEngine;
-    using Controllers;
+    using MouseInput;
     using DLS.Utility.Unity.Cameras;
 
     /// <summary>
@@ -37,7 +37,6 @@
 
         private void Start()
         {
-            MapClickRouter.Instance.Initialize();
             _prevHeight = Camera.main.pixelHeight;
             _orthoCamera.VerticalResolution = Camera.main.pixelHeight;
             _orthoCamera.UpdateParams();
