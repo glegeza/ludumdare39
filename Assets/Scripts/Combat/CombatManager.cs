@@ -11,7 +11,7 @@
     {
         public GameObject CombatTextPrefab;
 
-        private const int ATTACK_COST = 24;
+        private const int ATTACK_COST = 4;
 
         public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target)
         {
