@@ -16,6 +16,7 @@
             new Dictionary<string, IMapClickInputHandler>();
 
         private IMapClickInputHandler _activeHandler;
+        private IMapClickInputHandler _defaultHandler;
 
         public IMapClickInputHandler ActiveMode
         {
@@ -36,7 +37,7 @@
             var newHandler = _inputHandlers[id];
             if (_activeHandler != null && _activeHandler == newHandler)
             {
-                _activeHandler = null;
+                _activeHandler = _defaultHandler;
             }
             else
             {
@@ -55,6 +56,8 @@
             AddHandler(new TileEditModeInputHandler());
             AddHandler(new UnitControlModeInputHandler());
             AddHandler(new PropEditModeInputHandler());
+            _defaultHandler = _inputHandlers["control"];
+            _activeHandler = _defaultHandler;
         }
 
         public override bool HandleClick(TileMap tileMap, int btn, Vector2 hitPoint)

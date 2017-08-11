@@ -8,7 +8,7 @@
 
     class UnitControlModeInputHandler : MapClickInputHandler
     {
-        public UnitControlModeInputHandler() : base("move", "Move")
+        public UnitControlModeInputHandler() : base("control", "Normal")
         { }
 
         public override bool HandleButtonDown(int button, Tile tile)

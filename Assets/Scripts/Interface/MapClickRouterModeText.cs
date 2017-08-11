@@ -8,6 +8,7 @@
     [RequireComponent(typeof(Text))]
     class MapClickRouterModeText : MonoBehaviour
     {
+        public MapClickRouter _router;
         private Text _text;
 
         private void Start()
@@ -17,10 +18,10 @@
 
         private void Update()
         {
-            //var mode = MapClickRouter.Instance.ActiveMode;
-            //var modeName = mode == null ?
-            //    "None" : mode.Name;
-            //_text.text = String.Format("Current Mode: {0}", modeName);
+            var mode = _router.ActiveMode;
+            var modeName = mode == null ?
+                "None" : mode.Name;
+            _text.text = String.Format("Current Mode: {0}", modeName);
         }
     }
 }
