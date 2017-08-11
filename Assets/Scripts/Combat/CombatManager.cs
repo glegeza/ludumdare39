@@ -5,7 +5,6 @@
     using DLS.LD39.Units;
     using System;
     using UnityEngine;
-    using UnityEngine.UI;
 
     public class CombatManager : SingletonComponent<CombatManager>
     {

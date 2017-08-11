@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a35531ad00f432942a8b5ef764452499, type: 3}
-  m_Name: New DLS.LD39.Props.PropData
+  m_Name: basic_wall_with_midsection
   m_EditorClassIdentifier: 
   ID: 
   Layer: 0
