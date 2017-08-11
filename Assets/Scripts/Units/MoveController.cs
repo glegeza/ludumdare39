@@ -82,6 +82,7 @@
                 return MoveResult.NotEnoughAP;
             }
 
+            AttachedUnit.Facing.FaceTile(target);
             _unit.AP.SpendPoints(cost);
             StartCoroutine(DoMovement(target));
             return MoveResult.ValidMove;
