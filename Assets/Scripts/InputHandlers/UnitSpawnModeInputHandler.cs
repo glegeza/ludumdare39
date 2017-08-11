@@ -22,6 +22,11 @@
 
         public override bool HandleTileClick(int button, Tile clickedTile)
         {
+            if (_selector == null)
+            {
+                _selector = GameObject.FindObjectOfType<SpawnDropdownPopulator>().GetComponent<Dropdown>();
+            }
+
             var id = _selector.options[_selector.value].text;
             if (button == 0)
             {

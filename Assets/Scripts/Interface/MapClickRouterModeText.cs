@@ -17,10 +17,10 @@
 
         private void Update()
         {
-            var mode = MapClickRouter.Instance.ActiveMode;
-            var modeName = mode == null ?
-                "None" : mode.Name;
-            _text.text = String.Format("Current Mode: {0}", modeName);
+            //var mode = MapClickRouter.Instance.ActiveMode;
+            //var modeName = mode == null ?
+            //    "None" : mode.Name;
+            //_text.text = String.Format("Current Mode: {0}", modeName);
         }
     }
 }

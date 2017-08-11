@@ -11,6 +11,7 @@
         {
             var unitObj = new GameObject(String.Format("{0}: {1}", unitData.ID, name));
             unitObj.layer = LayerMask.NameToLayer("Units");
+            unitObj.transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
             var renderer = unitObj.AddComponent<SpriteRenderer>();
             renderer.sprite = unitData.Sprite;
             renderer.sortingLayerName = "Units";

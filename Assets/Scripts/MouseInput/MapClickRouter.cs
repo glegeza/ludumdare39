@@ -3,31 +3,19 @@
     using InputHandlers;
     using DLS.LD39.Map;
     using UnityEngine;
-    using UnityEngine.EventSystems;
     using System.Collections.Generic;
 
     /// <summary>
     /// Responsible for calling the appropriate IMapClickInputHandler when the
     /// player clicks the mouse anywhere on the map. 
     /// </summary>
-    class MapClickRouter : MonoBehaviour
+    [CreateAssetMenu(menuName ="Input Handlers/Tile Picker")]
+    class MapClickRouter : BaseClickHandler<TileMap>
     {
-        private static MapClickRouter _instance;
-        
-        private TilePicker _picker;
-
         private Dictionary<string, IMapClickInputHandler> _inputHandlers =
             new Dictionary<string, IMapClickInputHandler>();
 
         private IMapClickInputHandler _activeHandler;
-        
-        public static MapClickRouter Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
 
         public IMapClickInputHandler ActiveMode
         {
@@ -35,11 +23,6 @@
             {
                 return _activeHandler;
             }
-        }
-
-        public void AddHandler(IMapClickInputHandler handler)
-        {
-            _inputHandlers.Add(handler.HandlerID, handler);
         }
 
         public void ToggleHandler(string id)
@@ -61,66 +44,51 @@
             }
         }
 
-        public void Initialize()
+        private void AddHandler(IMapClickInputHandler handler)
         {
-            _picker = new TilePicker();
+            _inputHandlers.Add(handler.HandlerID, handler);
+        }
 
+        private void OnEnable()
+        {
             AddHandler(new UnitSpawnModeInputHandler());
             AddHandler(new TileEditModeInputHandler());
             AddHandler(new UnitControlModeInputHandler());
             AddHandler(new PropEditModeInputHandler());
         }
 
-        private void Awake()
+        public override bool HandleClick(TileMap tileMap, int btn, Vector2 hitPoint)
         {
-            if (_instance != null && _instance != this)
+            var tile = GetTile(tileMap, hitPoint);
+            if (_activeHandler != null && tile != null)
             {
-                Destroy(this.gameObject);
+                _activeHandler.HandleTileClick(btn, tile);
+                return true;
             }
-            else
-            {
-                _instance = this;
-            }
+
+            return false;
         }
 
-        private void Update()
+        public override bool HandleMouseDown(TileMap tileMap, int btn, Vector2 hitPoint)
         {
-            if (_activeHandler == null || EventSystem.current.IsPointerOverGameObject())
+            var tile = GetTile(tileMap, hitPoint);
+            if (_activeHandler != null && tile != null)
             {
-                return;
+                _activeHandler.HandleButtonDown(btn, tile);
+                return true;
             }
 
-            var checkedForTarget = false;
-            Tile targetTile = null;
-            for (var btn = 0; btn < 3; btn++)
+            return false;
+        }
+
+        private Tile GetTile(TileMap tileMap, Vector2 worldCoord)
+        {
+            int x, y;
+            if (!tileMap.GetTileCoords(worldCoord, out x, out y))
             {
-                if (Input.GetMouseButtonDown(btn))
-                {
-                    if (targetTile == null && !checkedForTarget)
-                    {
-                        targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
-                        checkedForTarget = true;
-                    }
-
-                    if (targetTile != null)
-                    {
-                        _activeHandler.HandleTileClick(btn, targetTile);
-                    }
-                }
-                else if (Input.GetMouseButton(btn))
-                {
-                    if (targetTile == null && !checkedForTarget)
-                    {
-                        targetTile = _picker.GetTileAtScreenPosition(Input.mousePosition);
-                        checkedForTarget = true;
-                    }
-
-                    if (targetTile != null)
-                    {
-                        _activeHandler.HandleButtonDown(btn, targetTile);
-                    }
-                }
+                return null;
             }
+            return tileMap.GetTile(x, y);
         }
     }
 }

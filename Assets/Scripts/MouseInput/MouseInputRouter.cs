@@ -35,7 +35,7 @@
         {
             foreach (var handler in ClickHandlers)
             {
-                if (handler.CheckForComponent(obj, btn, hitPoint))
+                if (handler.GameObjectClicked(obj, btn, hitPoint))
                 {
                     break;
                 }
