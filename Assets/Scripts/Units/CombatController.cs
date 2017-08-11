@@ -109,6 +109,7 @@
                     CompletedAttack?.Invoke(this, EventArgs.Empty);
                 }
             };
+            HitPoints = unit.Stats.MaxHP;
         }
 
         private void OnDestroyed()
