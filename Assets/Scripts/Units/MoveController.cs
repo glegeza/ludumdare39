@@ -125,6 +125,7 @@
 
         private IEnumerator DoMovement(Tile target)
         {
+            _position.SetTile(target, false);
             AttachedUnit.AnimationController.StartWalkAnimation();
             var end = new Vector3(target.WorldCoords.x, target.WorldCoords.y, transform.position.z);
             StartedMovement?.Invoke(this, EventArgs.Empty);
@@ -140,7 +141,6 @@
                 yield return null;
             }
 
-            _position.SetTile(target, false);
             IsMoving = false;
             AttachedUnit.AnimationController.StartIdleAnimation();
 
