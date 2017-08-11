@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 2788162}
   - component: {fileID: 2788163}
   - component: {fileID: 2788164}
+  - component: {fileID: 2788152}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -134,6 +135,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2788152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2788151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5becc806140550649beb85aaa20bce68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TextPrefab: {fileID: 114144806837619208, guid: 65e65bb7e2b06c5419e10c70b1265343,
+    type: 2}
+  UICanvas: {fileID: 2091198363}
 --- !u!4 &2788153
 Transform:
   m_ObjectHideFlags: 0
@@ -269,6 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c969114455c59ef4c96eb439502af895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CombatTextPrefab: {fileID: 1487208571032160, guid: 65e65bb7e2b06c5419e10c70b1265343,
+    type: 2}
 --- !u!114 &2788164
 MonoBehaviour:
   m_ObjectHideFlags: 0
