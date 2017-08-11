@@ -80,7 +80,7 @@
             var dmg = Mathf.Max(amt - Armor, 0);
 
             HitPoints -= dmg;
-            if (HitPoints < 0)
+            if (HitPoints <= 0)
             {
                 OnDestroyed();
             }
