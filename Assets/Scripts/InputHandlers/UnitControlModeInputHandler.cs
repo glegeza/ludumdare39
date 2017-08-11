@@ -18,13 +18,19 @@
 
         public override bool HandleTileClick(int button, Tile clickedTile)
         {
-            var activeUnit = TurnOrderTracker.Instance.ActiveUnit;
-            if (activeUnit == null || activeUnit.Faction != Faction.Player)
+            var activeObject = ActiveSelectionTracker.Instance.SelectedObject;
+            if (activeObject == null)
             {
                 return false;
             }
 
-            if (!activeUnit.Ready)
+            var activeUnit = activeObject.GetComponent<GameUnit>();
+            if (activeUnit == null)
+            {
+                return false;
+            }
+
+            if (!activeUnit.Ready || activeUnit.Faction != Faction.Player)
             {
                 return false;
             }
