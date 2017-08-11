@@ -8,6 +8,8 @@
     public class CombatController : GameUnitComponent, ITargetable
     {
         private bool _dead = false;
+        private Tile _targetTile;
+        private ITargetable _targetUnit;
 
         public event EventHandler<EventArgs> StartedAttack;
 
@@ -46,36 +48,29 @@
             get; set;
         }
 
-        public AttackResult TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
+        public void TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
         {
             damage = null;
             if (EquippedWeapon == null || EquippedWeapon.Type != WeaponType.Melee)
             {
-                return AttackResult.InvalidAttackType;
+                return;
             }
 
             var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedWeapon, target);
             if (!AttachedUnit.AP.PointsAvailable(cost))
             {
-                return AttackResult.NotEnoughAP;
+                return;
             }
-            
-            var result = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedWeapon as MeleeWeapon, target, targetTile, out damage);
-            if (result == AttackResult.Hit || result == AttackResult.Missed)
-            {
-                Attacking = true;
-                StartedAttack?.Invoke(this, EventArgs.Empty);
-                AttachedUnit.AnimationController.StartMeleeAnimation();
-                // Only spend AP if the result is a hit or miss, because 
-                // otherwise something went wrong and no attack was made
-                AttachedUnit.AP.SpendPoints(cost);
-            }
-            
-            return result;
+
+            Attacking = true;
+            _targetTile = targetTile;
+            _targetUnit = target;
+            StartedAttack?.Invoke(this, EventArgs.Empty);
+            AttachedUnit.AP.SpendPoints(cost);
+            AttachedUnit.AnimationController.StartMeleeAnimation();
         }
 
-        public AttackResult TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)
+        public void TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)
         {
             throw new NotImplementedException();
         }
@@ -101,6 +96,8 @@
 
         protected override void OnInitialized(GameUnit unit)
         {
+            AttachedUnit.AnimationController.ReturnedToIdle += OnAnimationComplete;
+
             AttachedUnit.AnimationController.ReturnedToIdle += (o, e) =>
             {
                 if (Attacking)
@@ -110,6 +107,20 @@
                 }
             };
             HitPoints = unit.Stats.MaxHP;
+        }
+
+        private void OnAnimationComplete(object sender, EventArgs e)
+        {
+            if (!Attacking)
+            {
+                return;
+            }
+
+            DamageResult damage;
+            var result = CombatManager.Instance.MakeMeleeAttack(
+                AttachedUnit, EquippedWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
+            Attacking = false;
+            CompletedAttack?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnDestroyed()

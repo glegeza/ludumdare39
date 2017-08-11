@@ -62,10 +62,7 @@
         private void DoAttackAction(GameUnit activeUnit, GameUnit target, Tile clickedTile)
         {
             DamageResult damage;
-            Debug.Log("Attempting attack!");
-            var result = activeUnit.CombatInfo.TryMeleeAttack(clickedTile, target.CombatInfo, out damage);
-            Debug.LogFormat("Attack result: {0}", result);
-            Debug.Log(damage);
+            activeUnit.CombatInfo.TryMeleeAttack(clickedTile, target.CombatInfo, out damage);
         }
 
         private void DoMoveAction(GameUnit activeUnit, Tile clickedTile)
