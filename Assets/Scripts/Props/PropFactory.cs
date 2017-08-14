@@ -92,6 +92,11 @@
                     Debug.LogErrorFormat("Prop file {0} missing ID", prop.name);
                     hasErrors = true;
                 }
+                if (_propDict.ContainsKey(prop.ID))
+                {
+                    Debug.LogErrorFormat("Prop dictionary already contains prop with ID {0}", prop.ID);
+                    hasErrors = true;
+                }
                 if (prop.Sprite == null)
                 {
                     Debug.LogErrorFormat("Prop file {0} missing sprite", prop.name);
