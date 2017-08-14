@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a35531ad00f432942a8b5ef764452499, type: 3}
-  m_Name: New DLS.LD39.Props.PropData
+  m_Name: basic_wall_with_midsection
   m_EditorClassIdentifier: 
-  ID: 
-  Layer: 0
+  ID: midsectioned_wall_end_right
+  Layer: 1
   Passable: 0
   BlocksLineOfSight: 0
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300006, guid: b9c4418c5e49c0f4994e4d7736dcb829, type: 3}
