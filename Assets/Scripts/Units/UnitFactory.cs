@@ -13,6 +13,7 @@
             unitObj.layer = LayerMask.NameToLayer("Units");
             var renderer = unitObj.AddComponent<SpriteRenderer>();
             renderer.sprite = unitData.Sprite;
+            renderer.color = unitData.SpriteColor;
             renderer.sortingLayerName = "Units";
 
             unitObj.AddComponent<BoxCollider2D>().size = new Vector2(1.0f, 1.0f);
@@ -30,7 +31,7 @@
 
             if (unitData.DefaultWeapon != null)
             {
-                unitComp.CombatInfo.EquippedWeapon = unitData.DefaultWeapon.GetStats();
+                unitComp.CombatInfo.EquippedMeleeWeapon = unitData.DefaultWeapon.GetStats();
             }
 
             return unitComp;

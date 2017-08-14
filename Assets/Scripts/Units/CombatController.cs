@@ -43,7 +43,12 @@
             }
         }
 
-        public WeaponStats EquippedWeapon
+        public WeaponStats EquippedMeleeWeapon
+        {
+            get; set;
+        }
+
+        public WeaponStats EquippedRangedWeapon
         {
             get; set;
         }
@@ -51,12 +56,12 @@
         public void TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
         {
             damage = null;
-            if (EquippedWeapon == null || EquippedWeapon.Type != WeaponType.Melee)
+            if (EquippedMeleeWeapon == null || EquippedMeleeWeapon.Type != WeaponType.Melee)
             {
                 return;
             }
 
-            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedWeapon, target);
+            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedMeleeWeapon, target);
             if (!AttachedUnit.AP.PointsAvailable(cost))
             {
                 return;
@@ -119,7 +124,7 @@
 
             DamageResult damage;
             var result = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
+                AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
             Attacking = false;
             CompletedAttack?.Invoke(this, EventArgs.Empty);
         }

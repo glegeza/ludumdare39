@@ -10,6 +10,7 @@
     {
         public string ID;
         public Sprite Sprite;
+        public Color SpriteColor = Color.white;
         public RuntimeAnimatorController Controller;
         public Explosion DeathPrefab;
         public Faction Faction;
