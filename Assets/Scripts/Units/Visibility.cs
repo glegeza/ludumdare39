@@ -24,6 +24,24 @@
             }
         }
 
+        protected override void OnInitialized(GameUnit unit)
+        {
+            VisionRange = 100;
+            unit.MoveController.CompletedMovement += OnMoveCompleted;
+            unit.TurnBegan += OnTurnBegan;
+            UpdateVisibility();
+        }
+
+        private void OnTurnBegan(object sender, EventArgs e)
+        {
+            UpdateVisibility();
+        }
+
+        private void OnMoveCompleted(object sender, EventArgs e)
+        {
+            UpdateVisibility();
+        }
+
         public bool IsUnitVisible(GameUnit unit)
         {
             return _visibleUnits.Contains(unit);
@@ -36,6 +54,10 @@
             var activeUnits = ActiveUnits.Instance.Units;
             foreach (var unit in activeUnits)
             {
+                if (unit == AttachedUnit)
+                {
+                    continue;
+                }
                 var distance = Vector2.Distance(
                     unit.Position.CurrentTile.TileCoords, 
                     AttachedUnit.Position.CurrentTile.TileCoords);
@@ -44,6 +66,8 @@
                     CheckVisibilityAndAdd(unit);
                 }
             }
+
+            VisibilityUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         private void CheckVisibilityAndAdd(GameUnit unit)

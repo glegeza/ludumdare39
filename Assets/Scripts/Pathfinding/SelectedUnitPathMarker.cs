@@ -136,10 +136,10 @@
             {
                 if (!marker.activeSelf)
                 {
-                    marker.transform.SetParent(_markerPoolContainer.transform, false);
-                    marker.transform.position = Vector3.zero;
                     break;
                 }
+                marker.transform.SetParent(_markerPoolContainer.transform, false);
+                marker.transform.position = Vector3.zero;
                 marker.SetActive(false);
             }
         }
