@@ -3,7 +3,7 @@
     using UnityEngine;
     using DLS.LD39.Map;
 
-    public class ExplosionController : SingletonComponent<ExplosionController>
+    public class ExplosionSpawner : SingletonComponent<ExplosionSpawner>
     {
         public float RandomOffset = 0.3f;
 

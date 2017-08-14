@@ -8,7 +8,7 @@
     /// </summary>
     public class StateController : MonoBehaviour
     {
-        public float ActionDelay = 0.1f;
+        public float ActionDelay = 0.0f;
 
         /// <summary>
         /// The Game Unit this StateController is controlling.

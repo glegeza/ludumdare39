@@ -1,42 +1,20 @@
 ﻿namespace DLS.LD39
 {
     using UnityEngine;
-    using MouseInput;
     using DLS.Utility.Unity.Cameras;
 
     /// <summary>
     /// Responsible for setting up all of the other persistent game
     /// managers, controllers, etc.
     /// </summary>
-    class GameInitializer : MonoBehaviour
+    class GameInitializer : SingletonComponent<GameInitializer>
     {
-        private static GameInitializer _instance;
         private SimplePixelPerfectOrthoCamera _orthoCamera;
         private int _prevHeight = 0;
 
-        public static GameInitializer Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
-
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
-            _orthoCamera = FindObjectOfType<SimplePixelPerfectOrthoCamera>();
-        }
-
         private void Start()
         {
+            _orthoCamera = FindObjectOfType<SimplePixelPerfectOrthoCamera>();
             _prevHeight = Camera.main.pixelHeight;
             _orthoCamera.VerticalResolution = Camera.main.pixelHeight;
             _orthoCamera.UpdateParams();

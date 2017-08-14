@@ -68,7 +68,21 @@
         private void DoAttackAction(GameUnit activeUnit, GameUnit target, Tile clickedTile)
         {
             DamageResult damage;
-            activeUnit.CombatInfo.TryMeleeAttack(clickedTile, target.CombatInfo, out damage);
+            if (activeUnit.Position.CurrentTile.IsAdjacent(target.Position.CurrentTile))
+            {
+                activeUnit.CombatInfo.TryMeleeAttack(clickedTile, target.CombatInfo, out damage);
+            }
+            else
+            {
+                if (LOSChecker.Instance.LOSClear(activeUnit.Position.CurrentTile, target.Position.CurrentTile))
+                {
+                    Debug.Log("LOS Clear");
+                }
+                else
+                {
+                    Debug.Log("LOS Blocked");
+                }
+            }
         }
 
         private void DoMoveAction(GameUnit activeUnit, Tile clickedTile)
