@@ -55,7 +55,7 @@
             {
                 var collider = propObj.AddComponent<BoxCollider2D>();
                 collider.offset = new Vector2(0.0f, 0.0f);
-                collider.size = new Vector2(1.0f, 1.0f);
+                collider.size = new Vector2(0.95f, 0.95f);
                 propObj.AddComponent<LOSBlocker>();
             }
 

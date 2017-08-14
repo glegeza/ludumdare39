@@ -71,12 +71,11 @@
             var visibility = _trackedObject.Visibility;
 
             var idx = 0;
-            foreach (var unit in visibility.VisibleUnits)
+            foreach (var tile in visibility.VisibleTiles)
             {
                 var marker = _markerPool[idx++];
                 marker.SetActive(true);
-                marker.transform.SetParent(unit.transform, false);
-                marker.transform.localPosition = Vector3.zero;
+                marker.transform.position = tile.WorldCoords;
             }
         }
 

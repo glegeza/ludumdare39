@@ -1,13 +1,13 @@
 ﻿namespace DLS.LD39.Units
 {
+    using DLS.LD39.Map;
     using DLS.LD39.Combat;
     using System;
     using System.Collections.Generic;
-    using UnityEngine;
 
     public class Visibility : GameUnitComponent
     {
-        private HashSet<GameUnit> _visibleUnits = new HashSet<GameUnit>();
+        private HashSet<Tile> _visibleTiles = new HashSet<Tile>();
 
         public event EventHandler<EventArgs> VisibilityUpdated;
 
@@ -16,17 +16,17 @@
             get; private set;
         }
 
-        public IEnumerable<GameUnit> VisibleUnits
+        public IEnumerable<Tile> VisibleTiles
         {
             get
             {
-                return _visibleUnits;
+                return _visibleTiles;
             }
         }
 
         protected override void OnInitialized(GameUnit unit)
         {
-            VisionRange = 100;
+            VisionRange = 5;
             unit.MoveController.CompletedMovement += OnMoveCompleted;
             unit.TurnBegan += OnTurnBegan;
             UpdateVisibility();
@@ -44,41 +44,20 @@
 
         public bool IsUnitVisible(GameUnit unit)
         {
-            return _visibleUnits.Contains(unit);
+            return _visibleTiles.Contains(unit.Position.CurrentTile);
         }
 
         public void UpdateVisibility()
         {
-            _visibleUnits.Clear();
+            _visibleTiles.Clear();
 
-            var activeUnits = ActiveUnits.Instance.Units;
-            foreach (var unit in activeUnits)
+            foreach (var tile in LOSChecker.Instance.GetVisibleTiles(
+                AttachedUnit.Position.CurrentTile, VisionRange))
             {
-                if (unit == AttachedUnit)
-                {
-                    continue;
-                }
-                var distance = Vector2.Distance(
-                    unit.Position.CurrentTile.TileCoords, 
-                    AttachedUnit.Position.CurrentTile.TileCoords);
-                if (distance <= VisionRange)
-                {
-                    CheckVisibilityAndAdd(unit);
-                }
+                _visibleTiles.Add(tile);
             }
 
             VisibilityUpdated?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void CheckVisibilityAndAdd(GameUnit unit)
-        {
-            var isVisible = LOSChecker.Instance.LOSClear(
-                AttachedUnit.Position.CurrentTile,
-                unit.Position.CurrentTile);
-            if (isVisible)
-            {
-                _visibleUnits.Add(unit);
-            }
         }
     }
 }

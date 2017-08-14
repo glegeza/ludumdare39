@@ -2899,7 +2899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1d49c3d62e80b46a4b72ac1b94e6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MarkerPoolSize: 30
+  MarkerPoolSize: 100
   MarkerPrefab: {fileID: 1202306459544848, guid: f07998286cd1957428976f5a54202829,
     type: 2}
 --- !u!1 &987454357
