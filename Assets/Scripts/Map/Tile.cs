@@ -13,6 +13,7 @@
         private Dictionary<PropLayer, Prop> _props = new Dictionary<PropLayer, Prop>();
         private bool _isPassable;
 
+
         public Tile(int x, int y, TileMap map)
         {
             if (map == null)
@@ -26,6 +27,7 @@
 
             X = x;
             Y = y;
+            TileCoords = new Vector2(x, y);
             Map = map;
             LocalCoords = map.GetLocalCoords(x, y);
             Passable = true;
@@ -40,6 +42,11 @@
         {
             get;
             private set;
+        }
+
+        public Vector2 TileCoords
+        {
+            get; private set;
         }
 
         public Vector2 LocalCoords

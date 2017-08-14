@@ -42,6 +42,11 @@
             if (button == 1)
             {
                 var target = GetUnitTarget(activeUnit, clickedTile);
+                if (activeUnit.CurrentTarget != target)
+                {
+                    activeUnit.CurrentTarget = target;
+                    return false;
+                }
                 if (target != null)
                 {
                     DoAttackAction(activeUnit, target, clickedTile);

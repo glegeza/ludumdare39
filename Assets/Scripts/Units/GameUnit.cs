@@ -11,12 +11,15 @@
     {
         private bool _endOfTurnPending = false;
         private bool _inTurn = false;
+        private GameUnit _currentTarget;
 
         public event EventHandler<EventArgs> TurnBegan;
 
         public event EventHandler<EventArgs> TurnEnded;
 
         public event EventHandler<EventArgs> UnitDestroyed;
+
+        public event EventHandler<EventArgs> TargetChanged;
 
         public string UnitType
         {
@@ -26,6 +29,19 @@
         public string Name
         {
             get; private set;
+        }
+
+        public GameUnit CurrentTarget
+        {
+            get
+            {
+                return _currentTarget;
+            }
+            set
+            {
+                _currentTarget = value;
+                TargetChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public UnitData Data
@@ -103,6 +119,11 @@
             get; private set;
         }
 
+        public Visibility Visibility
+        {
+            get; private set;
+        }
+
         public void Initialize(UnitData data, Tile startPos, string name)
         {
             if (startPos == null)
@@ -118,6 +139,7 @@
             MoveController.Initialize(this);
             PathController.Initialize(this);
             AnimationController.Initialize(this);
+            Visibility.Initialize(this);
             Facing.Initialize(this);
             Faction = data.Faction;
             UnitType = data.ID;
@@ -168,6 +190,7 @@
             CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
             Facing = gameObject.AddComponent<UnitFacing>();
+            Visibility = gameObject.AddComponent<Visibility>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 
