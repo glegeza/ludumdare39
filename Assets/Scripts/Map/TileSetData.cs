@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using UnityEngine;
 
+    [CreateAssetMenu(menuName = "Game Data/Tile Set")]
     public class TileSetData : ScriptableObject
     {
         public string ID;
