@@ -51,6 +51,14 @@
                     break;
             }
 
+            if (data.BlocksLineOfSight)
+            {
+                var collider = propObj.AddComponent<BoxCollider2D>();
+                collider.offset = new Vector2(0.0f, 0.0f);
+                collider.size = new Vector2(1.0f, 1.0f);
+                propObj.AddComponent<LOSBlocker>();
+            }
+
 
             propObj.AddComponent<SortByY>();
             propObj.AddComponent<TilePosition>();
