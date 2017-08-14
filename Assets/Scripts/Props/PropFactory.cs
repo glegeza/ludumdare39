@@ -86,7 +86,26 @@
             var props = Resources.LoadAll<PropData>("Props");
             foreach (var prop in props)
             {
-                _propDict.Add(prop.ID, prop);
+                var hasErrors = false;
+                if (String.IsNullOrEmpty(prop.ID))
+                {
+                    Debug.LogErrorFormat("Prop file {0} missing ID", prop.name);
+                    hasErrors = true;
+                }
+                if (prop.Sprite == null)
+                {
+                    Debug.LogErrorFormat("Prop file {0} missing sprite", prop.name);
+                    hasErrors = true;
+                }
+
+                if (!hasErrors)
+                {
+                    _propDict.Add(prop.ID, prop);
+                }
+                else
+                {
+                    Debug.LogErrorFormat("Prop file {0} had errors and was not added to prop list.", prop.name);
+                }
             }
         }
     }
