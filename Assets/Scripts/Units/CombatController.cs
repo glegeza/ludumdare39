@@ -4,6 +4,7 @@
     using UnityEngine;
     using Combat;
     using DLS.LD39.Map;
+    using DLS.LD39.Graphics;
 
     public class CombatController : GameUnitComponent, ITargetable
     {
@@ -74,6 +75,7 @@
             StartedAttack?.Invoke(this, EventArgs.Empty);
             AttachedUnit.AP.SpendPoints(cost);
             AttachedUnit.AnimationController.StartMeleeAnimation();
+            BulletSpawner.Instance.SpawnBullet(AttachedUnit.Position.CurrentTile, (_targetUnit as CombatController).AttachedUnit);
         }
 
         public void TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)

@@ -5374,6 +5374,7 @@ GameObject:
   - component: {fileID: 1909051341}
   - component: {fileID: 1909051340}
   - component: {fileID: 1909051339}
+  - component: {fileID: 1909051342}
   m_Layer: 0
   m_Name: Factories
   m_TagString: Untagged
@@ -5428,6 +5429,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996254c8eddad6f4b9f554763b7e5ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1909051342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1909051337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14dbd0a1ea3f14648abab1725b13d8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 114351118871575882, guid: de4c805da4acb3347bae4fd1ad198434,
+    type: 2}
 --- !u!1 &1921610452
 GameObject:
   m_ObjectHideFlags: 0
