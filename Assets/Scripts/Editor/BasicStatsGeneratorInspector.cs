@@ -4,8 +4,8 @@
     using DLS.LD39.Units.Data;
     using UnityEngine;
 
-    [CustomEditor(typeof(StatsData))]
-    class StatsDataInspector : Editor
+    [CustomEditor(typeof(BasicStatGenerator))]
+    class BasicStatsGeneratorInspector : Editor
     {
         private void GetMinMaxInt(string label, int curMin, int curMax, out int min, out int max)
         {
@@ -22,13 +22,13 @@
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            max = Mathf.Clamp(max, 0, StatsData.MaxStatValue);
+            max = Mathf.Clamp(max, 0, BasicStatGenerator.MaxStatValue);
             min = Mathf.Clamp(min, 0, max);
         }
 
         public override void OnInspectorGUI()
         {
-            var statsData = (StatsData)target;
+            var statsData = (BasicStatGenerator)target;
 
             var dontExpand = GUILayout.ExpandWidth(false);
 

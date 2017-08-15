@@ -3,11 +3,13 @@ namespace DLS.LD39.Interface
 {
     using UnityEngine;
     using System;
+    using DLS.LD39.Units;
 
     [RequireComponent(typeof(SpriteRenderer))]
     public class ActiveUnitBox : MonoBehaviour
     {
         private SpriteRenderer _renderer;
+        private GameUnit _targetSelection;
         private bool _shouldDisplay;
 
         private void Start()
@@ -23,15 +25,15 @@ namespace DLS.LD39.Interface
 
             if (newSelection == null)
             {
+                _targetSelection = null;
                 _renderer.enabled = false;
-                transform.SetParent(null);
                 _shouldDisplay = false;
                 return;
             }
 
             _renderer.enabled = true;
             _shouldDisplay = true;
-            transform.SetParent(newSelection.transform, false);
+            _targetSelection = newSelection;
             transform.localPosition = Vector3.zero;
         }
 
@@ -48,6 +50,7 @@ namespace DLS.LD39.Interface
             }
             else
             {
+                transform.position = _targetSelection.transform.position;
                 _renderer.enabled = true;
             }
         }

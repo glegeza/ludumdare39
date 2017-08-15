@@ -1,6 +1,5 @@
 ﻿namespace DLS.LD39.Units
 {
-    using UnityEngine;
     using Data;
 
     public class PrimaryStats
@@ -11,13 +10,13 @@
         private int _baseSpeed;
         private int _baseMaxHP;
 
-        public PrimaryStats(StatsData data)
+        public PrimaryStats(StatGenerator data)
         {
-            _baseAim = Random.Range(data.BaseAimMin, data.BaseAimMax);
-            _baseEvasion = Random.Range(data.BaseEvasionMin, data.BaseEvasionMax);
-            _baseArmor = Random.Range(data.BaseArmorMin, data.BaseArmorMax);
-            _baseSpeed = Random.Range(data.BaseSpeedMin, data.BaseSpeedMax);
-            _baseMaxHP = Random.Range(data.BaseHPMin, data.BaseHPMax);
+            _baseAim = data.GetAim();
+            _baseEvasion = data.GetEvasion();
+            _baseArmor = data.GetArmor();
+            _baseSpeed = data.GetSpeed();
+            _baseMaxHP = data.GetMaxHP();
         }
 
         public int Aim

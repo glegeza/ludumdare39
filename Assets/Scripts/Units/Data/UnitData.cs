@@ -10,7 +10,7 @@
     {
         public string ID;
         public Faction Faction;
-        public StatsData StatsGenerator;
+        public StatGenerator StatsGenerator;
 
         [Header("Graphics")]
         public Sprite Sprite;

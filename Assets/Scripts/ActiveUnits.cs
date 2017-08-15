@@ -18,6 +18,14 @@
             }
         }
 
+        public void UpdateVisibility()
+        {
+            foreach (var unit in _activeUnits)
+            {
+                unit.Visibility.UpdateVisibility();
+            }
+        }
+
         public void AddActiveUnit(GameUnit unit)
         {
             unit.UnitDestroyed += OnUnitDestroyed;
@@ -43,7 +51,7 @@
 
             _activeUnits.Remove(unit);
             TurnOrderTracker.Instance.UnregisterUnit(unit);
-            Destroy(unit.gameObject);
+            Destroy(unit.gameObject); // wait at least one frame
         }
 
         private void OnUnitDestroyed(object sender, System.EventArgs e)
