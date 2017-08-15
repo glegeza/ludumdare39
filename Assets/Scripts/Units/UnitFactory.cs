@@ -16,7 +16,14 @@
             renderer.color = unitData.SpriteColor;
             renderer.sortingLayerName = "Units";
 
-            unitObj.AddComponent<BoxCollider2D>().size = new Vector2(1.0f, 1.0f);
+            var collider = unitObj.AddComponent<BoxCollider2D>();
+            Vector2 S = renderer.sprite.bounds.size;
+            collider.size = S;
+            //collider.center = new Vector2((S.x / 2), 0);
+
+
+            var rb = unitObj.AddComponent<Rigidbody2D>();
+            rb.isKinematic = true;
 
             Animator animator = null;
             if (unitData.Controller != null)

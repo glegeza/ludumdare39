@@ -54,7 +54,7 @@
             get; set;
         }
 
-        public void TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
+        public void TryMeleeAttack(Tile targetTile, ITargetable target, out AttackResult damage)
         {
             damage = null;
             if (EquippedMeleeWeapon == null || EquippedMeleeWeapon.Type != WeaponType.Melee)
@@ -75,10 +75,29 @@
             StartedAttack?.Invoke(this, EventArgs.Empty);
             AttachedUnit.AP.SpendPoints(cost);
             AttachedUnit.AnimationController.StartMeleeAnimation();
-            BulletSpawner.Instance.SpawnBullet(AttachedUnit.Position.CurrentTile, (_targetUnit as CombatController).AttachedUnit);
+            var bullet = BulletSpawner.Instance.SpawnBullet(AttachedUnit.Position.CurrentTile, (_targetUnit as CombatController).AttachedUnit);
+            bullet.HitTarget += OnBulletHit;
         }
 
-        public void TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)
+        private void OnBulletHit(object sender, EventArgs e)
+        {
+            if (!Attacking)
+            {
+                Debug.LogError("Registered bullet hit without an associated ongoing attack.");
+                return;
+            }
+
+            AttackResult damage;
+            var result = CombatManager.Instance.MakeMeleeAttack(
+                AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
+            Attacking = false;
+            CompletedAttack?.Invoke(this, EventArgs.Empty);
+
+            var bullet = sender as Bullet;
+            bullet.HitTarget -= OnBulletHit;
+        }
+
+        public void TryRangedAttack(Tile targetTile, ITargetable target, out AttackResult damage)
         {
             throw new NotImplementedException();
         }
@@ -110,8 +129,8 @@
             {
                 if (Attacking)
                 {
-                    Attacking = false;
-                    CompletedAttack?.Invoke(this, EventArgs.Empty);
+                    //Attacking = false;
+                    //CompletedAttack?.Invoke(this, EventArgs.Empty);
                 }
             };
             HitPoints = unit.Stats.MaxHP;
@@ -119,16 +138,16 @@
 
         private void OnAnimationComplete(object sender, EventArgs e)
         {
-            if (!Attacking)
-            {
-                return;
-            }
+            //if (!Attacking)
+            //{
+            //    return;
+            //}
 
-            DamageResult damage;
-            var result = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
-            Attacking = false;
-            CompletedAttack?.Invoke(this, EventArgs.Empty);
+            //DamageResult damage;
+            //var result = CombatManager.Instance.MakeMeleeAttack(
+            //    AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
+            //Attacking = false;
+            //CompletedAttack?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnDestroyed()

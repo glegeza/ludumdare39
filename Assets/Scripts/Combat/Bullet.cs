@@ -11,6 +11,12 @@
         public float Speed = 5.0f;
 
         private Vector3 _dirvec;
+        private bool _moving;
+
+        public GameUnit Origin
+        {
+            get; set;
+        }
 
         public GameUnit Target
         {
@@ -21,24 +27,33 @@
         {
             if (Target == null)
             {
+                Debug.LogError("Starting bullet with null target");
                 return;
             }
+            Debug.Log("Starting bullet");
             _dirvec = Target.Position.CurrentTile.WorldCoords - new Vector2(transform.position.x, transform.position.y);
+            _moving = true;
         }
 
         private void Update()
         {
-            transform.position += _dirvec * Time.deltaTime;
+            if (_moving)
+            {
+                transform.position += _dirvec * Speed * Time.deltaTime;
+            }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            var unit = collision.GetComponent<GameUnit>();
+            Debug.Log("Collision");
+            var unit = collision.collider.GetComponent<GameUnit>();
             if (unit == null || unit != Target)
             {
                 return;
             }
             HitTarget?.Invoke(this, EventArgs.Empty);
+            _moving = false;
+            Debug.Log("Destroying bullet");
             Destroy(gameObject);
         }
     }

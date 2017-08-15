@@ -72,7 +72,7 @@
 
         private void DoAttackAction(GameUnit activeUnit, GameUnit target, Tile clickedTile)
         {
-            DamageResult damage;
+            AttackResult damage;
             if (activeUnit.Position.CurrentTile.IsAdjacent(target.Position.CurrentTile))
             {
                 activeUnit.CombatInfo.TryMeleeAttack(clickedTile, target.CombatInfo, out damage);
