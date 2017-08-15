@@ -24,16 +24,24 @@
             if (obj != SelectedObject)
             {
                 SelectedObject = obj;
-                if (SelectionChanged != null)
-                {
-                    SelectionChanged(this, EventArgs.Empty);
-                }
+                SelectionChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
         public void SetSelection(Component comp)
         {
             SetSelection(comp.gameObject);
+        }
+
+        public void ClearSelection()
+        {
+            if (SelectedObject == null)
+            {
+                return;
+            }
+            SelectedObject = null;
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
+
         }
 
         private void Awake()
