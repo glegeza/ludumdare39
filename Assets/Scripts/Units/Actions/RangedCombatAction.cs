@@ -22,7 +22,7 @@
         {
             if (!WeaponIsValid())
             {
-                Debug.LogError("Attempting to make ranged attack with invalid or no weapon.");
+                Debug.Log("Attempting to make ranged attack with invalid or no weapon.");
                 return;
             }
 
@@ -30,7 +30,7 @@
                 AttachedUnit, EquippedWeapon, target);
             if (!APAvailable(attackCost))
             {
-                Debug.LogError("Not enough AP for ranged attack.");
+                Debug.Log("Not enough AP for ranged attack.");
                 return;
             }
 

@@ -18,7 +18,7 @@
         {
             if (!WeaponIsValid())
             {
-                Debug.LogError("Attempting to make melee attack with invalid or not weapon.");
+                Debug.Log("Attempting to make melee attack with invalid or not weapon.");
                 return;
             }
 
@@ -26,7 +26,7 @@
                 AttachedUnit, EquippedWeapon, target);
             if (!APAvailable(attackCost))
             {
-                Debug.LogError("Not enough AP for melee attack");
+                Debug.Log("Not enough AP for melee attack");
             }
 
             AttachedUnit.Facing.FaceTile(targetTile);
