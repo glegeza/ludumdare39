@@ -31,7 +31,7 @@
         {
             if (_inTurn)
             {
-                throw new System.Exception("BeginTurn called twice.");
+                throw new System.Exception("BeginTurn called twice in a row.");
             }
             _inTurn = true;
             OnTurnStarted();

@@ -224,9 +224,10 @@
         {
             _endOfTurnPending = false;
             _inTurn = false;
-            AP.EndTurn();
-            Move.EndTurn();
-            PathController.EndTurn();
+            foreach (var comp in _components)
+            {
+                comp.EndTurn();
+            }
 
             TurnEnded?.Invoke(this, EventArgs.Empty);
         }
