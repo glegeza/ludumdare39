@@ -14,7 +14,7 @@
         {
             get
             {
-                return AttachedUnit.Stats.Evasion;
+                return AttachedUnit.PrimaryStats.Evasion;
             }
         }
 
@@ -27,7 +27,7 @@
         {
             get
             {
-                return AttachedUnit.Stats.Armor;
+                return AttachedUnit.PrimaryStats.Armor;
             }
         }
 
@@ -46,13 +46,13 @@
         public int ApplyHeal(int amt)
         {
             HitPoints += amt;
-            HitPoints = Mathf.Clamp(HitPoints, 0, AttachedUnit.Stats.MaxHP);
+            HitPoints = Mathf.Clamp(HitPoints, 0, AttachedUnit.PrimaryStats.MaxHP);
             return HitPoints;
         }
 
         protected override void OnInitialized(GameUnit unit)
         {
-            HitPoints = unit.Stats.MaxHP;
+            HitPoints = unit.PrimaryStats.MaxHP;
         }
 
         private void OnDestroyed()

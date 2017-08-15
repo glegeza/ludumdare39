@@ -39,10 +39,10 @@
             Title.text = unit.Name;
             Initiative.text = String.Format("Initiative: {0}", unit.SecondaryStats.Initiative);
             AP.text = String.Format("AP: {0}/{1}", unit.AP.PointsRemaining, unit.SecondaryStats.ActionPointCap);
-            Speed.text = String.Format("Speed: {0}", unit.Stats.Speed);
-            Aim.text = String.Format("Aim: {0}", unit.Stats.Aim);
-            HP.text = String.Format("HP: {0}/{1}", unit.CombatInfo.HitPoints, unit.Stats.MaxHP);
-            Evasion.text = String.Format("Evasion: {0}", unit.Stats.Evasion);
+            Speed.text = String.Format("Speed: {0}", unit.PrimaryStats.Speed);
+            Aim.text = String.Format("Aim: {0}", unit.PrimaryStats.Aim);
+            HP.text = String.Format("HP: {0}/{1}", unit.CombatInfo.HitPoints, unit.PrimaryStats.MaxHP);
+            Evasion.text = String.Format("Evasion: {0}", unit.PrimaryStats.Evasion);
         }
 
         private void ClearUnit()

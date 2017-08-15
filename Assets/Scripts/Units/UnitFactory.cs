@@ -40,11 +40,11 @@
 
             if (unitData.DefaultMeleeWeapon != null)
             {
-                unitComp.MeleeCombat.EquippedWeapon = unitData.DefaultMeleeWeapon.GetStats() as MeleeWeapon;
+                unitComp.MeleeCombatAction.EquippedWeapon = unitData.DefaultMeleeWeapon.GetStats() as MeleeWeapon;
             }
             if (unitData.DefaultRangedWeapon != null)
             {
-                unitComp.RangedCombat.EquippedWeapon = unitData.DefaultRangedWeapon.GetStats() as RangedWeapon;
+                unitComp.RangedCombatAction.EquippedWeapon = unitData.DefaultRangedWeapon.GetStats() as RangedWeapon;
             }
 
             return unitComp;

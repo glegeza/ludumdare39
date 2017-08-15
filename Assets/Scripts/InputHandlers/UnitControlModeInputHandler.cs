@@ -75,11 +75,11 @@
             AttackResult damage;
             if (activeUnit.Position.CurrentTile.IsAdjacent(target.Position.CurrentTile))
             {
-                activeUnit.MeleeCombat.TryMeleeAttack(clickedTile, target.CombatInfo);
+                activeUnit.MeleeCombatAction.TryMeleeAttack(clickedTile, target.CombatInfo);
             }
             else
             {
-                activeUnit.RangedCombat.TryRangedAttack(clickedTile, target.CombatInfo);
+                activeUnit.RangedCombatAction.TryRangedAttack(clickedTile, target.CombatInfo);
             }
         }
 

@@ -14,7 +14,7 @@
 
         public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target)
         {
-            var baseChance = unit.Stats.Aim;
+            var baseChance = unit.PrimaryStats.Aim;
             var modifiedChance = baseChance + weapon.BaseToHit - target.Evasion;
 
             return Mathf.Clamp(modifiedChance, 0, 100);

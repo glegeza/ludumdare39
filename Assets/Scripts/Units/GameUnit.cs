@@ -8,12 +8,14 @@
     using System.Linq;
     using UnityEngine;
     using Data;
+    using System.Collections.Generic;
 
     public class GameUnit : MonoBehaviour
     {
         private bool _endOfTurnPending = false;
         private bool _inTurn = false;
         private GameUnit _currentTarget;
+        private List<GameUnitComponent> _components = new List<GameUnitComponent>();
 
         public event EventHandler<EventArgs> TurnBegan;
 
@@ -67,8 +69,8 @@
             {
                 return _inTurn &&
                     !Move.ActionInProgress &&
-                    !MeleeCombat.ActionInProgress &&
-                    !RangedCombat.ActionInProgress;
+                    !MeleeCombatAction.ActionInProgress &&
+                    !RangedCombatAction.ActionInProgress;
             }
         }
 
@@ -87,11 +89,6 @@
             get; private set;
         }
 
-        public MoveAction Move
-        {
-            get; private set;
-        }
-
         public UnitPathfinder PathController
         {
             get; private set;
@@ -102,17 +99,22 @@
             get; private set;
         }
 
-        public RangedCombatAction RangedCombat
+        public MoveAction Move
         {
             get; private set;
         }
 
-        public MeleeCombatAction MeleeCombat
+        public RangedCombatAction RangedCombatAction
         {
             get; private set;
         }
 
-        public PrimaryStats Stats
+        public MeleeCombatAction MeleeCombatAction
+        {
+            get; private set;
+        }
+
+        public PrimaryStats PrimaryStats
         {
             get; private set;
         }
@@ -122,7 +124,7 @@
             get; private set;
         }
 
-        public StateController Controller
+        public StateController AIController
         {
             get; private set;
         }
@@ -144,18 +146,15 @@
                 throw new ArgumentNullException("startPos");
             }
             Data = data;
-            Stats = new PrimaryStats(data.StatsGenerator);
-            SecondaryStats = new SecondaryStats(Stats);
-            AP.Initialize(this);
-            CombatInfo.Initialize(this);
+            PrimaryStats = new PrimaryStats(data.StatsGenerator);
+            SecondaryStats = new SecondaryStats(PrimaryStats);
+
             Position.SetTile(startPos);
-            Move.Initialize(this);
-            PathController.Initialize(this);
-            AnimationController.Initialize(this);
-            Visibility.Initialize(this);
-            Facing.Initialize(this);
-            RangedCombat.Initialize(this);
-            MeleeCombat.Initialize(this);
+            foreach (var comp in _components)
+            {
+                comp.Initialize(this);
+            }
+
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
@@ -163,26 +162,29 @@
 
         public void SetController(StateController controller)
         {
-            Controller = controller;
+            AIController = controller;
         }
 
         public void BeginTurn()
         {
             _inTurn = true;
-            AP.BeginTurn();
-            Move.BeginTurn();
-            PathController.BeginTurn();
-            if (Controller != null)
+
+            foreach (var comp in _components)
             {
-                Controller.BeginTurn();
+                comp.BeginTurn();
+            }
+            
+            if (AIController != null)
+            {
+                AIController.BeginTurn();
             }
         }
 
         public void EndTurn()
         {
-            if (Controller != null)
+            if (AIController != null)
             {
-                Controller.EndTurn();
+                AIController.EndTurn();
             }
             if (PathController.Path.Any())
             {
@@ -198,16 +200,9 @@
         private void Awake()
         {
             Alive = true;
-            Position = gameObject.AddComponent<TilePosition>();
-            AP = gameObject.AddComponent<ActionPoints>();
-            Move = gameObject.AddComponent<MoveAction>();
-            PathController = gameObject.AddComponent<UnitPathfinder>();
-            CombatInfo = gameObject.AddComponent<CombatController>();
-            AnimationController = gameObject.AddComponent<UnitAnimationController>();
-            Facing = gameObject.AddComponent<UnitFacing>();
-            Visibility = gameObject.AddComponent<Visibility>();
-            RangedCombat = gameObject.AddComponent<RangedCombatAction>();
-            MeleeCombat = gameObject.AddComponent<MeleeCombatAction>();
+
+            CreateComponents();
+            
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 
@@ -234,6 +229,26 @@
             PathController.EndTurn();
 
             TurnEnded?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CreateComponents()
+        {
+            Position = gameObject.AddComponent<TilePosition>();
+            AP = gameObject.AddComponent<ActionPoints>();
+            Move = gameObject.AddComponent<MoveAction>();
+            PathController = gameObject.AddComponent<UnitPathfinder>();
+            CombatInfo = gameObject.AddComponent<CombatController>();
+            AnimationController = gameObject.AddComponent<UnitAnimationController>();
+            Facing = gameObject.AddComponent<UnitFacing>();
+            Visibility = gameObject.AddComponent<Visibility>();
+            RangedCombatAction = gameObject.AddComponent<RangedCombatAction>();
+            MeleeCombatAction = gameObject.AddComponent<MeleeCombatAction>();
+
+            _components = new List<GameUnitComponent>()
+            {
+                AP, Move, PathController, CombatInfo, AnimationController,
+                Visibility, Facing, RangedCombatAction, MeleeCombatAction
+            };
         }
     }
 }
