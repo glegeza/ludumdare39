@@ -10,7 +10,7 @@
     /// Allows a game unit to move from tile to tile. This class is only used
     /// to move from one tile to an adjacent tile.
     /// </summary>
-    public class MoveController : GameUnitComponent
+    public class MoveAction : GameUnitComponent
     {
         private GameUnit _unit;
         private TilePosition _position;

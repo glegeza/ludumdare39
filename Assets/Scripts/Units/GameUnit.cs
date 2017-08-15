@@ -86,7 +86,7 @@
             get; private set;
         }
 
-        public MoveController MoveController
+        public MoveAction MoveController
         {
             get; private set;
         }
@@ -199,7 +199,7 @@
             Alive = true;
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
-            MoveController = gameObject.AddComponent<MoveController>();
+            MoveController = gameObject.AddComponent<MoveAction>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
