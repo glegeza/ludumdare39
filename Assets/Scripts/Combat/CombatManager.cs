@@ -56,13 +56,6 @@
         public void ApplyAttackResult(AttackResult result)
         {
             result.ApplyResults();
-            var textPosition = result.Target as MonoBehaviour;
-            if (textPosition == null)
-            {
-                return;
-            }
-            FloatingCombatTextController.Instance.CreateText(
-                result.GetCombatText(), textPosition.transform.position);
         }
 
         private AttackResult MakeAttack(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)
@@ -79,11 +72,6 @@
             var dmgAmt = UnityEngine.Random.Range(weapon.MinDamage, weapon.MaxDamage);
             var result = new AttackResult(unit, target, AttackResult.Outcome.Hit, chance, roll, dmgAmt);
             return result;
-        }
-
-        private void CreateCombatText(string text, Vector3 pos)
-        {
-            FloatingCombatTextController.Instance.CreateText(text, pos);
         }
 
         private void ApplyDamage(ITargetable target, AttackResult damage)

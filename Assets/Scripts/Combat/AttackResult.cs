@@ -2,6 +2,7 @@
 {
     using System;
     using DLS.LD39.Units;
+    using DLS.LD39.Interface;
 
     /// <summary>
     /// Stores information about an attack that was completed.
@@ -83,6 +84,11 @@
             if (Result == Outcome.Hit)
             {
                 Target.ApplyDamage(DamageDone);
+                FloatingCombatTextController.Instance.RegisterDamage(DamageDone, Target);
+            }
+            else if (Result == Outcome.Missed)
+            {
+                FloatingCombatTextController.Instance.RegisterMiss(Target);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Interface
 {
     using DLS.LD39.Combat;
+    using DLS.LD39.Units;
     using UnityEngine;
 
     public class FloatingCombatTextController : SingletonComponent<FloatingCombatTextController>
@@ -8,6 +9,11 @@
         public FloatingCombatText TextPrefab;
         public Canvas UICanvas;
         public float RandomRange = 0.2f;
+
+        public void RegisterNoAP(GameUnit unit)
+        {
+            CreateText("Not enough AP!", unit.transform.position);
+        }
 
         public void RegisterDamage(int amount, ITargetable target)
         {

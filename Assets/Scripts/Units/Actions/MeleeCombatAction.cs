@@ -27,8 +27,7 @@
                 AttachedUnit, EquippedWeapon, target);
             if (!APAvailable(attackCost))
             {
-                FloatingCombatTextController.Instance.CreateText(
-                    "No AP!", AttachedUnit.Position.CurrentTile.WorldCoords);
+                FloatingCombatTextController.Instance.RegisterNoAP(AttachedUnit);
                 Debug.Log("Not enough AP for melee attack");
             }
 
