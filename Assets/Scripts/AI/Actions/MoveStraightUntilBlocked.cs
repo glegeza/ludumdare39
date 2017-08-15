@@ -37,7 +37,7 @@
                 return false;
             }
 
-            var moveResult = controller.Unit.MoveController.TryMove(nextTile);
+            var moveResult = controller.Unit.Move.TryMove(nextTile);
             if (moveResult == MoveResult.Blocked)
             {
                 data.CurrentDirection = GetRandomDirection();

@@ -65,7 +65,7 @@
             get
             {
                 return _inTurn &&
-                    !MoveController.IsMoving &&
+                    !Move.ActionInProgress &&
                     !MeleeCombat.ActionInProgress &&
                     !RangedCombat.ActionInProgress;
             }
@@ -86,7 +86,7 @@
             get; private set;
         }
 
-        public MoveAction MoveController
+        public MoveAction Move
         {
             get; private set;
         }
@@ -148,7 +148,7 @@
             AP.Initialize(this);
             CombatInfo.Initialize(this);
             Position.SetTile(startPos);
-            MoveController.Initialize(this);
+            Move.Initialize(this);
             PathController.Initialize(this);
             AnimationController.Initialize(this);
             Visibility.Initialize(this);
@@ -169,7 +169,7 @@
         {
             _inTurn = true;
             AP.BeginTurn();
-            MoveController.BeginTurn();
+            Move.BeginTurn();
             PathController.BeginTurn();
             if (Controller != null)
             {
@@ -199,7 +199,7 @@
             Alive = true;
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
-            MoveController = gameObject.AddComponent<MoveAction>();
+            Move = gameObject.AddComponent<MoveAction>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
@@ -229,7 +229,7 @@
             _endOfTurnPending = false;
             _inTurn = false;
             AP.EndTurn();
-            MoveController.EndTurn();
+            Move.EndTurn();
             PathController.EndTurn();
 
             TurnEnded?.Invoke(this, EventArgs.Empty);

@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Units
 {
     using DLS.LD39.Map;
+    using DLS.LD39.Units.Actions;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -10,22 +11,12 @@
     /// Allows a game unit to move from tile to tile. This class is only used
     /// to move from one tile to an adjacent tile.
     /// </summary>
-    public class MoveAction : GameUnitComponent
+    public class MoveAction : UnitAction
     {
         private GameUnit _unit;
         private TilePosition _position;
         private float _inverseMoveTime;
         private float _moveTime;
-
-        /// <summary>
-        /// Raised when the unit begins moving from one tile to another.
-        /// </summary>
-        public event EventHandler<EventArgs> StartedMovement;
-
-        /// <summary>
-        /// Raised when the unit arrives at its destination tile.
-        /// </summary>
-        public event EventHandler<EventArgs> CompletedMovement;
 
         /// <summary>
         /// The number of seconds it takes a unit to move to an adjacent tile.
@@ -45,23 +36,13 @@
         }
 
         /// <summary>
-        /// True if the unit is currently in the process of moving between two
-        /// tiles. While a unit is moving, its position is still set to the
-        /// tile it was in when it began the move.
-        /// </summary>
-        public bool IsMoving
-        {
-            get; private set;
-        }
-
-        /// <summary>
         /// Attempt to move to an adjacent tile.
         /// </summary>
         /// <param name="target">The target tile to move to.</param>
         /// <returns>The result of the move.</returns>
         public MoveResult TryMove(Tile target)
         {
-            if (IsMoving)
+            if (ActionInProgress)
             {
                 return MoveResult.NotReady;
             }
@@ -83,8 +64,8 @@
             }
 
             AttachedUnit.Facing.FaceTile(target);
-            _unit.AP.SpendPoints(cost);
             StartCoroutine(DoMovement(target));
+            StartAction(EventArgs.Empty, cost);
             return MoveResult.ValidMove;
         }
 
@@ -120,7 +101,6 @@
             MoveAnimationTime = 1.0f;
             _unit = unit;
             _position = _unit.Position;
-
         }
 
         private IEnumerator DoMovement(Tile target)
@@ -128,8 +108,6 @@
             _position.SetTile(target, false);
             AttachedUnit.AnimationController.StartWalkAnimation();
             var end = new Vector3(target.WorldCoords.x, target.WorldCoords.y, transform.position.z);
-            StartedMovement?.Invoke(this, EventArgs.Empty);
-            IsMoving = true;
 
             float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
@@ -141,10 +119,8 @@
                 yield return null;
             }
 
-            IsMoving = false;
+            CompleteAction(EventArgs.Empty);
             AttachedUnit.AnimationController.StartIdleAnimation();
-
-            CompletedMovement?.Invoke(this, EventArgs.Empty);
         }
     }
 }
