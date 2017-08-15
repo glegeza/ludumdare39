@@ -7,6 +7,7 @@
     using System;
     using System.Linq;
     using UnityEngine;
+    using Data;
 
     public class GameUnit : MonoBehaviour
     {

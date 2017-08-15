@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Units
 {
     using UnityEngine;
+    using Data;
 
     public class PrimaryStats
     {

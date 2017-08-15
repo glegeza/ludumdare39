@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39.Editor
 {
     using UnityEditor;
-    using DLS.LD39.Units;
+    using DLS.LD39.Units.Data;
     using UnityEngine;
 
     [CustomEditor(typeof(StatsData))]

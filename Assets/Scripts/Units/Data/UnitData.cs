@@ -1,4 +1,4 @@
-﻿namespace DLS.LD39.Units
+﻿namespace DLS.LD39.Units.Data
 {
     using DLS.LD39.AI;
     using DLS.LD39.Combat.Data;

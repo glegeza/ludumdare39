@@ -5,6 +5,7 @@
     using DLS.LD39.Map;
     using System;
     using UnityEngine;
+    using Data;
 
     class UnitFactory
     {
