@@ -61,6 +61,12 @@
             {
                 return;
             }
+
+            if (ActiveSelectionTracker.Instance.SelectedObject == unit.gameObject)
+            {
+                ActiveSelectionTracker.Instance.ClearSelection();
+            }
+
             RemoveUnit(unit);
             if (unit.Data.DeathPrefab != null)
             {
