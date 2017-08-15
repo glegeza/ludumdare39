@@ -30,6 +30,8 @@
                 AttachedUnit, EquippedWeapon, target);
             if (!APAvailable(attackCost))
             {
+                FloatingCombatTextController.Instance.CreateText(
+                    "No AP!", AttachedUnit.Position.CurrentTile.WorldCoords);
                 Debug.Log("Not enough AP for ranged attack.");
                 return;
             }

@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Units.Actions
 {
     using DLS.LD39.Combat;
+    using DLS.LD39.Interface;
     using DLS.LD39.Map;
     using System;
     using UnityEngine;
@@ -26,6 +27,8 @@
                 AttachedUnit, EquippedWeapon, target);
             if (!APAvailable(attackCost))
             {
+                FloatingCombatTextController.Instance.CreateText(
+                    "No AP!", AttachedUnit.Position.CurrentTile.WorldCoords);
                 Debug.Log("Not enough AP for melee attack");
             }
 
