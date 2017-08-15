@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Interface
 {
+    using DLS.LD39.Combat;
     using DLS.LD39.Units;
     using System;
     using UnityEngine;
@@ -14,6 +15,7 @@
         public Text Aim;
         public Text HP;
         public Text Evasion;
+        public Text ChanceToHit;
 
         private void Update()
         {
@@ -43,6 +45,26 @@
             Aim.text = String.Format("Aim: {0}", unit.PrimaryStats.Aim);
             HP.text = String.Format("HP: {0}/{1}", unit.CombatInfo.HitPoints, unit.PrimaryStats.MaxHP);
             Evasion.text = String.Format("Evasion: {0}", unit.PrimaryStats.Evasion);
+
+            if (unit.Faction == Faction.Player && unit.CurrentTarget != null)
+            {
+                WeaponStats weapon = unit.RangedCombatAction.EquippedWeapon;
+                if (unit.CurrentTarget.Position.CurrentTile.IsAdjacent(unit.Position.CurrentTile))
+                {
+                    weapon = unit.MeleeCombatAction.EquippedWeapon;
+                }
+                if (weapon == null)
+                {
+                    ChanceToHit.text = "";
+                }
+                var hitChance = CombatManager.Instance.HitChance(unit, weapon, unit.CurrentTarget.CombatInfo);
+                ChanceToHit.text = String.Format("Chance To Hit: {0}%", hitChance);
+            }
+            else
+            {
+                ChanceToHit.text = "";
+            }
+
         }
 
         private void ClearUnit()
