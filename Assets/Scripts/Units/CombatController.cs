@@ -75,7 +75,7 @@
             StartedAttack?.Invoke(this, EventArgs.Empty);
             AttachedUnit.AP.SpendPoints(cost);
             AttachedUnit.AnimationController.StartMeleeAnimation();
-            var bullet = BulletSpawner.Instance.SpawnBullet(AttachedUnit.Position.CurrentTile, (_targetUnit as CombatController).AttachedUnit);
+            var bullet = BulletSpawner.Instance.SpawnBullet(transform, (_targetUnit as MonoBehaviour).transform);
             bullet.HitTarget += OnBulletHit;
         }
 
@@ -95,11 +95,6 @@
 
             var bullet = sender as Bullet;
             bullet.HitTarget -= OnBulletHit;
-        }
-
-        public void TryRangedAttack(Tile targetTile, ITargetable target, out AttackResult damage)
-        {
-            throw new NotImplementedException();
         }
 
         public int ApplyDamage(int amt)

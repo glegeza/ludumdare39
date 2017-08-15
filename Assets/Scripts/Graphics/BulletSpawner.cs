@@ -1,26 +1,22 @@
 ﻿namespace DLS.LD39.Graphics
 {
     using DLS.LD39.Combat;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using UnityEngine;
 
     public class BulletSpawner : SingletonComponent<BulletSpawner>
     {
         public Bullet BulletPrefab;
 
-        public Bullet SpawnBullet(Tile origin, GameUnit target)
+        public Bullet SpawnBullet(Transform origin, Transform target)
         {
-            if (target == null)
+            if (target == null || origin == null)
             {
-                UnityEngine.Debug.LogError("Buh?");
+                Debug.LogError("Attempting to spawn bullet with null origin or target");
+                return null;
             }
             var bullet = Instantiate(BulletPrefab);
-            bullet.transform.position = origin.WorldCoords;
+            bullet.transform.position = origin.position;
+            bullet.Origin = origin;
             bullet.Target = target;
             bullet.StartPath();
 

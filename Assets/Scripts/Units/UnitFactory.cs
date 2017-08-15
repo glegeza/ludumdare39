@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Units
 {
+    using DLS.LD39.Combat;
     using DLS.LD39.Graphics;
     using DLS.LD39.Map;
     using System;
@@ -26,19 +27,23 @@
             rb.isKinematic = true;
 
             Animator animator = null;
-            if (unitData.Controller != null)
+            if (unitData.AnimationController != null)
             {
                 animator = unitObj.AddComponent<Animator>();
-                animator.runtimeAnimatorController = unitData.Controller;
+                animator.runtimeAnimatorController = unitData.AnimationController;
             }
             unitObj.AddComponent<SortByY>();
 
             var unitComp = unitObj.AddComponent<GameUnit>();
             unitComp.Initialize(unitData, tile, name);
 
-            if (unitData.DefaultWeapon != null)
+            if (unitData.DefaultMeleeWeapon != null)
             {
-                unitComp.CombatInfo.EquippedMeleeWeapon = unitData.DefaultWeapon.GetStats();
+                unitComp.CombatInfo.EquippedMeleeWeapon = unitData.DefaultMeleeWeapon.GetStats();
+            }
+            if (unitData.DefaultRangedWeapon != null)
+            {
+                unitComp.RangedCombat.EquippedWeapon = unitData.DefaultRangedWeapon.GetStats() as RangedWeapon;
             }
 
             return unitComp;

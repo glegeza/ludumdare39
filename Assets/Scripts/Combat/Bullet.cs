@@ -13,12 +13,12 @@
         private Vector3 _dirvec;
         private bool _moving;
 
-        public GameUnit Origin
+        public Transform Origin
         {
             get; set;
         }
 
-        public GameUnit Target
+        public Transform Target
         {
             get; set;
         }
@@ -30,7 +30,12 @@
                 Debug.LogError("Starting bullet with null target");
                 return;
             }
-            _dirvec = Target.Position.CurrentTile.WorldCoords - new Vector2(transform.position.x, transform.position.y);
+            if (Origin == null)
+            {
+                Debug.LogError("Starting bullet with null origin");
+                return;
+            }
+            _dirvec = Target.position - Origin.position;
             _moving = true;
         }
 
@@ -44,7 +49,11 @@
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            var unit = collision.collider.GetComponent<GameUnit>();
+            if (!_moving)
+            {
+                return;
+            }
+            var unit = collision.collider.transform;
             if (unit == null || unit != Target)
             {
                 return;

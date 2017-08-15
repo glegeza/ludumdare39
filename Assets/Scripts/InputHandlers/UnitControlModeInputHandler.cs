@@ -79,14 +79,7 @@
             }
             else
             {
-                if (LOSChecker.Instance.LOSClear(activeUnit.Position.CurrentTile, target.Position.CurrentTile))
-                {
-                    Debug.Log("LOS Clear");
-                }
-                else
-                {
-                    Debug.Log("LOS Blocked");
-                }
+                activeUnit.RangedCombat.TryRangedAttack(clickedTile, target.CombatInfo);
             }
         }
 

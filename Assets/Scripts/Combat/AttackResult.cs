@@ -71,14 +71,19 @@
         
         public void ApplyResults()
         {
-            if (_resultApplied || Result != Outcome.Hit)
+            UnityEngine.Debug.Log("Applying results");
+            if (_resultApplied)
             {
                 UnityEngine.Debug.LogError("Attempting to apply attack results twice.");
                 return;
             }
 
             _resultApplied = true;
-            Target.ApplyDamage(DamageDone);
+
+            if (Result == Outcome.Hit)
+            {
+                Target.ApplyDamage(DamageDone);
+            }
         }
 
         public string GetCombatText()

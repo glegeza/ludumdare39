@@ -9,14 +9,20 @@
     public class UnitData : ScriptableObject
     {
         public string ID;
+        public Faction Faction;
+        public StatsData StatsGenerator;
+
+        [Header("Graphics")]
         public Sprite Sprite;
         public Color SpriteColor = Color.white;
-        public RuntimeAnimatorController Controller;
+        public RuntimeAnimatorController AnimationController;
         public Explosion DeathPrefab;
-        public Faction Faction;
-        public State DefaultState;
-        public WeaponData DefaultWeapon;
 
-        public StatsData Stats;
+        [Header("AI")]
+        public State DefaultState;
+
+        [Header("Combat")]
+        public WeaponData DefaultMeleeWeapon;
+        public WeaponData DefaultRangedWeapon;
     }
 }

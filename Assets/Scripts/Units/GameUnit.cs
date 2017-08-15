@@ -3,6 +3,7 @@
     using DLS.LD39.AI;
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
+    using DLS.LD39.Units.Actions;
     using System;
     using System.Linq;
     using UnityEngine;
@@ -65,7 +66,8 @@
             {
                 return _inTurn &&
                     !MoveController.IsMoving &&
-                    !CombatInfo.Attacking;
+                    !CombatInfo.Attacking &&
+                    !RangedCombat.ActionInProgress;
             }
         }
 
@@ -95,6 +97,11 @@
         }
 
         public CombatController CombatInfo
+        {
+            get; private set;
+        }
+
+        public RangedCombatAction RangedCombat
         {
             get; private set;
         }
@@ -131,7 +138,7 @@
                 throw new ArgumentNullException("startPos");
             }
             Data = data;
-            Stats = new PrimaryStats(data.Stats);
+            Stats = new PrimaryStats(data.StatsGenerator);
             SecondaryStats = new SecondaryStats(Stats);
             AP.Initialize(this);
             CombatInfo.Initialize(this);
@@ -141,6 +148,7 @@
             AnimationController.Initialize(this);
             Visibility.Initialize(this);
             Facing.Initialize(this);
+            RangedCombat.Initialize(this);
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
@@ -191,6 +199,7 @@
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
             Facing = gameObject.AddComponent<UnitFacing>();
             Visibility = gameObject.AddComponent<Visibility>();
+            RangedCombat = gameObject.AddComponent<RangedCombatAction>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 

@@ -54,6 +54,18 @@
             return MakeAttack(unit, weapon, target, targetPos);
         }
 
+        public void ApplyAttackResult(AttackResult result)
+        {
+            result.ApplyResults();
+            var textPosition = result.Target as MonoBehaviour;
+            if (textPosition == null)
+            {
+                return;
+            }
+            FloatingCombatTextController.Instance.CreateText(
+                result.GetCombatText(), textPosition.transform.position);
+        }
+
         private AttackResult MakeAttack(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)
         {
             var chance = HitChance(unit, weapon, target);
@@ -62,14 +74,11 @@
 
             if (!hit)
             {
-                CreateCombatText("Miss!", targetPos.WorldCoords);
                 return new AttackResult(unit, target, AttackResult.Outcome.Missed);
             }
 
             var dmgAmt = UnityEngine.Random.Range(weapon.MinDamage, weapon.MaxDamage);
             var result = new AttackResult(unit, target, AttackResult.Outcome.Hit, chance, roll, dmgAmt);
-            result.ApplyResults();
-            CreateCombatText(result.GetCombatText(), targetPos.WorldCoords);
             return result;
         }
 

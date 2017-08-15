@@ -76,7 +76,7 @@
                     Debug.LogErrorFormat("Unit dictionary already contains unit with ID {0}", unit.ID);
                     hasErrors = true;
                 }
-                if (unit.Sprite == null && unit.Controller == null)
+                if (unit.Sprite == null && unit.AnimationController == null)
                 {
                     Debug.LogErrorFormat("Unit {0} does not have a sprite or controller.", unit.ID);
                     hasErrors = true;
