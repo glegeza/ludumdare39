@@ -66,7 +66,7 @@
             {
                 return _inTurn &&
                     !MoveController.IsMoving &&
-                    !CombatInfo.Attacking &&
+                    !MeleeCombat.ActionInProgress &&
                     !RangedCombat.ActionInProgress;
             }
         }
@@ -102,6 +102,11 @@
         }
 
         public RangedCombatAction RangedCombat
+        {
+            get; private set;
+        }
+
+        public MeleeCombatAction MeleeCombat
         {
             get; private set;
         }
@@ -149,6 +154,7 @@
             Visibility.Initialize(this);
             Facing.Initialize(this);
             RangedCombat.Initialize(this);
+            MeleeCombat.Initialize(this);
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
@@ -200,6 +206,7 @@
             Facing = gameObject.AddComponent<UnitFacing>();
             Visibility = gameObject.AddComponent<Visibility>();
             RangedCombat = gameObject.AddComponent<RangedCombatAction>();
+            MeleeCombat = gameObject.AddComponent<MeleeCombatAction>();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 

@@ -3,25 +3,12 @@
     using System;
     using UnityEngine;
     using Combat;
-    using DLS.LD39.Map;
-    using DLS.LD39.Graphics;
 
     public class CombatController : GameUnitComponent, ITargetable
     {
         private bool _dead = false;
-        private Tile _targetTile;
-        private ITargetable _targetUnit;
-
-        public event EventHandler<EventArgs> StartedAttack;
-
-        public event EventHandler<EventArgs> CompletedAttack;
 
         public event EventHandler<EventArgs> Destroyed;
-
-        public bool Attacking
-        {
-            get; private set;
-        }
 
         public int Evasion
         {
@@ -42,59 +29,6 @@
             {
                 return AttachedUnit.Stats.Armor;
             }
-        }
-
-        public WeaponStats EquippedMeleeWeapon
-        {
-            get; set;
-        }
-
-        public WeaponStats EquippedRangedWeapon
-        {
-            get; set;
-        }
-
-        public void TryMeleeAttack(Tile targetTile, ITargetable target, out AttackResult damage)
-        {
-            damage = null;
-            if (EquippedMeleeWeapon == null || EquippedMeleeWeapon.Type != WeaponType.Melee)
-            {
-                return;
-            }
-
-            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedMeleeWeapon, target);
-            if (!AttachedUnit.AP.PointsAvailable(cost))
-            {
-                return;
-            }
-
-            Attacking = true;
-            AttachedUnit.Facing.FaceTile(targetTile);
-            _targetTile = targetTile;
-            _targetUnit = target;
-            StartedAttack?.Invoke(this, EventArgs.Empty);
-            AttachedUnit.AP.SpendPoints(cost);
-            AttachedUnit.AnimationController.StartMeleeAnimation();
-            var bullet = BulletSpawner.Instance.SpawnBullet(transform, (_targetUnit as MonoBehaviour).transform);
-            bullet.HitTarget += OnBulletHit;
-        }
-
-        private void OnBulletHit(object sender, EventArgs e)
-        {
-            if (!Attacking)
-            {
-                Debug.LogError("Registered bullet hit without an associated ongoing attack.");
-                return;
-            }
-
-            AttackResult damage;
-            var result = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
-            Attacking = false;
-            CompletedAttack?.Invoke(this, EventArgs.Empty);
-
-            var bullet = sender as Bullet;
-            bullet.HitTarget -= OnBulletHit;
         }
 
         public int ApplyDamage(int amt)
@@ -118,31 +52,7 @@
 
         protected override void OnInitialized(GameUnit unit)
         {
-            AttachedUnit.AnimationController.ReturnedToIdle += OnAnimationComplete;
-
-            AttachedUnit.AnimationController.ReturnedToIdle += (o, e) =>
-            {
-                if (Attacking)
-                {
-                    //Attacking = false;
-                    //CompletedAttack?.Invoke(this, EventArgs.Empty);
-                }
-            };
             HitPoints = unit.Stats.MaxHP;
-        }
-
-        private void OnAnimationComplete(object sender, EventArgs e)
-        {
-            //if (!Attacking)
-            //{
-            //    return;
-            //}
-
-            //DamageResult damage;
-            //var result = CombatManager.Instance.MakeMeleeAttack(
-            //    AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
-            //Attacking = false;
-            //CompletedAttack?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnDestroyed()

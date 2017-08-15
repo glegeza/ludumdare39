@@ -75,7 +75,7 @@
             AttackResult damage;
             if (activeUnit.Position.CurrentTile.IsAdjacent(target.Position.CurrentTile))
             {
-                activeUnit.CombatInfo.TryMeleeAttack(clickedTile, target.CombatInfo, out damage);
+                activeUnit.MeleeCombat.TryMeleeAttack(clickedTile, target.CombatInfo);
             }
             else
             {

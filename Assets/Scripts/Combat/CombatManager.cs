@@ -25,11 +25,10 @@
             return ATTACK_COST;
         }
 
-        public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeapon weapon, ITargetable target, Tile targetPos, out AttackResult damage)
+        public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeapon weapon, ITargetable target, Tile targetPos)
         {
             CheckArgumentsNotNull(unit, weapon, target, targetPos);
 
-            damage = null;
             if (!targetPos.IsAdjacent(unit.Position.CurrentTile))
             {
                 return new AttackResult(unit, target, AttackResult.Outcome.OutOfRange);
