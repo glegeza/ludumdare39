@@ -22,6 +22,15 @@ namespace DLS.LD39.Interface
         {
             var newSelection = ActiveSelectionTracker.Instance.SelectedObject;
 
+            if (_currentSelection != null && newSelection != _currentSelection)
+            {
+                var currentUnit = _currentSelection.GetComponent<GameUnit>();
+                if (currentUnit != null)
+                {
+                    currentUnit.UnitDestroyed -= OnUnitDestroyed;
+                }
+            }
+
             if (newSelection == null)
             {
                 _currentSelection = null;
