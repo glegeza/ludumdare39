@@ -8,6 +8,8 @@
     /// </summary>
     public class AttackResult
     {
+        private bool _resultApplied = false;
+
         public enum Outcome
         {
             Hit,
@@ -69,11 +71,13 @@
         
         public void ApplyResults()
         {
-            if (Result != Outcome.Hit)
+            if (_resultApplied || Result != Outcome.Hit)
             {
+                UnityEngine.Debug.LogError("Attempting to apply attack results twice.");
                 return;
             }
 
+            _resultApplied = true;
             Target.ApplyDamage(DamageDone);
         }
 
