@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
-    using DLS.LD39.Units;
+    using DLS.LD39.Units.Actions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,7 +21,6 @@
         private List<GameObject> _markerPool = new List<GameObject>();
         private GameObject _trackedObject = null;
         private UnitPathfinder _trackedPathfinder = null;
-        private MoveAction _trackedMover;
 
         public static SelectedUnitPathMarker Instance
         {

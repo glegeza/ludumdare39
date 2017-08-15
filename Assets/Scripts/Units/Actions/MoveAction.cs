@@ -1,4 +1,4 @@
-﻿namespace DLS.LD39.Units
+﻿namespace DLS.LD39.Units.Actions
 {
     using DLS.LD39.Map;
     using DLS.LD39.Units.Actions;
