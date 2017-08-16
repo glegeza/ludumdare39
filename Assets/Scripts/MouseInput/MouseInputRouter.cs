@@ -10,6 +10,10 @@
 
         private void Update()
         {
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
             var position = Input.mousePosition;
 
             for (var i = 0; i < 3; i++)

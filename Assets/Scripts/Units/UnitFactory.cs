@@ -9,9 +9,11 @@
 
     class UnitFactory
     {
+        public int UnitNumber = 0;
+
         public GameUnit GetUnit(string name, UnitData unitData, Tile tile)
         {
-            var unitObj = new GameObject(String.Format("{0}: {1}", unitData.ID, name));
+            var unitObj = new GameObject(String.Format("{0}:{1}", name, UnitNumber++));
             unitObj.layer = LayerMask.NameToLayer("Units");
             var renderer = unitObj.AddComponent<SpriteRenderer>();
             renderer.sprite = unitData.Sprite;
@@ -21,7 +23,6 @@
             var collider = unitObj.AddComponent<BoxCollider2D>();
             Vector2 S = renderer.sprite.bounds.size;
             collider.size = S;
-            //collider.center = new Vector2((S.x / 2), 0);
 
 
             var rb = unitObj.AddComponent<Rigidbody2D>();

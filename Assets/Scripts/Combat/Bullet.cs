@@ -35,20 +35,24 @@
                 Debug.LogError("Starting bullet with null origin");
                 return;
             }
-            _dirvec = Target.position - Origin.position;
+            Debug.LogFormat("Launching bullet from {0} with target {1}", Origin.name, Target.name);
+            _dirvec = (Target.position - Origin.position).normalized;
+            _dirvec.z = 0.0f;
             _moving = true;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (_moving)
             {
+                //var rb = GetComponent<Rigidbody2D>();
                 transform.position += _dirvec * Speed * Time.deltaTime;
             }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
+            Debug.LogFormat("Collided with {0}", collision.collider.name);
             if (!_moving)
             {
                 return;
