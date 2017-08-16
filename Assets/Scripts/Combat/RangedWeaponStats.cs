@@ -3,9 +3,9 @@
     using DLS.LD39.Map;
     using UnityEngine;
 
-    public class RangedWeapon : WeaponStats
+    public class RangedWeaponStats : WeaponStats
     {
-        public RangedWeapon(int minDmg, int maxDmg, int baseToHit, int range, WeaponSlot slot) 
+        public RangedWeaponStats(int minDmg, int maxDmg, int baseToHit, int range, WeaponSlot slot) 
             : base(minDmg, maxDmg, baseToHit, WeaponType.Ranged, slot)
         {
             Range = range;

@@ -34,13 +34,13 @@
             StartAction(EventArgs.Empty, attackCost);
         }
 
-        private MeleeWeapon CheckWeaponIsValidAndCast(WeaponStats weapon)
+        private MeleeWeaponStats CheckWeaponIsValidAndCast(WeaponStats weapon)
         {
             if (weapon == null || weapon.Type != WeaponType.Melee)
             {
                 return null;
             }
-            return weapon as MeleeWeapon;
+            return weapon as MeleeWeaponStats;
         }
 
         protected override void OnInitialized(GameUnit unit)

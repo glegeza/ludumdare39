@@ -1,6 +1,5 @@
 ﻿namespace DLS.LD39.Units
 {
-    using DLS.LD39.Combat;
     using DLS.LD39.Graphics;
     using DLS.LD39.Map;
     using System;

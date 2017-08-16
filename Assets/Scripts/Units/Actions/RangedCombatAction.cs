@@ -75,13 +75,13 @@
             _targetTransform = comp == null ? null : comp.transform;
         }
 
-        private RangedWeapon CheckWeaponIsValidAndCast(WeaponStats weapon)
+        private RangedWeaponStats CheckWeaponIsValidAndCast(WeaponStats weapon)
         {
             if (weapon == null || weapon.Type != WeaponType.Ranged)
             {
                 return null;
             }
-            return weapon as RangedWeapon;
+            return weapon as RangedWeaponStats;
         }
     }
 }

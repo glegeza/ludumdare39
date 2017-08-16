@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.Units.Data
 {
-    using DLS.LD39.AI;
-    using DLS.LD39.Combat.Data;
-    using DLS.LD39.Graphics;
+    using AI;
+    using Equipment.Data;
+    using Graphics;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game Data/Unit")]

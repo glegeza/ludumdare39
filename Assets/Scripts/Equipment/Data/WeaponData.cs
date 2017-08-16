@@ -1,7 +1,7 @@
-﻿namespace DLS.LD39.Combat.Data
+﻿namespace DLS.LD39.Equipment.Data
 {
-    using DLS.LD39.Equipment.Data;
     using UnityEngine;
+    using Combat;
 
     public abstract class WeaponData : EquipmentData
     {

@@ -1,5 +1,6 @@
-﻿namespace DLS.LD39.Combat.Data
+﻿namespace DLS.LD39.Equipment.Data
 {
+    using Combat;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Weapons/Ranged")]
@@ -9,7 +10,7 @@
 
         public override WeaponStats GetStats()
         {
-            return new RangedWeapon(MinDamage, MaxDamage, BaseToHitModifier, Range, Slot);
+            return new RangedWeaponStats(MinDamage, MaxDamage, BaseToHitModifier, Range, Slot);
         }
     }
 }

@@ -29,7 +29,7 @@
             return ATTACK_COST;
         }
 
-        public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeapon weapon, ITargetable target, Tile targetPos)
+        public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeaponStats weapon, ITargetable target, Tile targetPos)
         {
             CheckArgumentsNotNull(unit, weapon, target, targetPos);
 
@@ -41,7 +41,7 @@
             return MakeAttack(unit, weapon, target, targetPos);
         }
 
-        public AttackResult MakeRangedAttack(GameUnit unit, RangedWeapon weapon, ITargetable target, Tile targetPos)
+        public AttackResult MakeRangedAttack(GameUnit unit, RangedWeaponStats weapon, ITargetable target, Tile targetPos)
         {
             CheckArgumentsNotNull(unit, weapon, target, targetPos);
             
@@ -83,13 +83,13 @@
             target.ApplyDamage(damage.DamageDone);
         }
 
-        private bool TargetInRange(RangedWeapon weapon, Tile origin, Tile targetPos)
+        private bool TargetInRange(RangedWeaponStats weapon, Tile origin, Tile targetPos)
         {
             var distance = Vector2.Distance(origin.WorldCoords, targetPos.WorldCoords);
             return distance <= weapon.Range;
         }
 
-        private bool TargetInLOS(RangedWeapon weapon, Tile origin, Tile targetPos)
+        private bool TargetInLOS(RangedWeaponStats weapon, Tile origin, Tile targetPos)
         {
             return LOSChecker.Instance.LOSClear(origin, targetPos);
         }

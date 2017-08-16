@@ -1,13 +1,14 @@
-﻿namespace DLS.LD39.Combat.Data
+﻿namespace DLS.LD39.Equipment.Data
 {
     using UnityEngine;
+    using Combat;
 
     [CreateAssetMenu(menuName = "Weapons/Melee")]
     public class MeleeWeaponData : WeaponData
     {
         public override WeaponStats GetStats()
         {
-            return new MeleeWeapon(MinDamage, MaxDamage, BaseToHitModifier, Slot);
+            return new MeleeWeaponStats(MinDamage, MaxDamage, BaseToHitModifier, Slot);
         }
     }
 }

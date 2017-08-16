@@ -8,13 +8,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2ad7665f648b6148bf1afae6c098c36, type: 3}
-  m_Name: test_melee
+  m_Script: {fileID: 11500000, guid: a04d6e04633a06b42b350ec8a9e0aa1d, type: 3}
+  m_Name: test_primary_rangedweapon
   m_EditorClassIdentifier: 
-  ID: test_melee
-  Name: Test Primary Melee Weapon
-  Description: It's a test?
+  ID: test_primary_rangedweapon
+  Name: Test Primary Ranged Weapon
+  Description: Test!
   MinDamage: 4
   MaxDamage: 10
   BaseToHitModifier: 10
   Slot: 0
+  Range: 10

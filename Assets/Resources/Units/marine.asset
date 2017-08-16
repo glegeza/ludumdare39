@@ -20,6 +20,6 @@ MonoBehaviour:
     type: 2}
   DeathPrefab: {fileID: 0}
   DefaultState: {fileID: 0}
-  DefaultPrimaryWeapon: {fileID: 11400000, guid: 41b031d920f36544a89814b4d49c5bcd,
+  DefaultPrimaryWeapon: {fileID: 11400000, guid: 931b6f7f7e3aa5944b6bfaf36ad46fe9,
     type: 2}
   DefaultSecondaryWeapon: {fileID: 0}

@@ -2,9 +2,9 @@
 {
     using DLS.LD39.Map;
 
-    public class MeleeWeapon : WeaponStats
+    public class MeleeWeaponStats : WeaponStats
     {
-        public MeleeWeapon(int minDmg, int maxDmg, int baseToHit, WeaponSlot slot) 
+        public MeleeWeaponStats(int minDmg, int maxDmg, int baseToHit, WeaponSlot slot) 
             : base(minDmg, maxDmg, baseToHit, WeaponType.Melee, slot)
         { }
 
