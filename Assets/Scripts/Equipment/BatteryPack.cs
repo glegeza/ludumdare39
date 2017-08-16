@@ -1,15 +1,24 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using DLS.LD39.Equipment.Data;
 
     public class BatteryPack : Loot
     {
-        public BatteryPack(string name, string desc) : base(name, desc, LootType.BatteryPack)
+        public BatteryPack(BatteryPackData data) 
+            : base(data.Name, data.Description, LootType.BatteryPack)
         {
+            MaximumCapacity = data.Capacity;
+            PassiveRegen = data.PassiveRegenRate;
+        }
+
+        public int MaximumCapacity
+        {
+            get; private set;
+        }
+
+        public int PassiveRegen
+        {
+            get; private set;
         }
     }
 }

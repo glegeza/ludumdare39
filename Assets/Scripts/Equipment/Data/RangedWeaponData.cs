@@ -3,7 +3,7 @@
     using Combat;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "Weapons/Ranged")]
+    [CreateAssetMenu(menuName = "Equipment/Weapons/Ranged")]
     public class RangedWeaponData : WeaponData
     {
         public int Range;

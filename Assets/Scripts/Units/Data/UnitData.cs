@@ -21,8 +21,9 @@
         [Header("AI")]
         public State DefaultState;
 
-        [Header("Combat")]
+        [Header("Equipment")]
         public WeaponData DefaultPrimaryWeapon;
         public WeaponData DefaultSecondaryWeapon;
+        public BatteryPackData BatteryPack;
     }
 }

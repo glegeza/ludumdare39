@@ -14,6 +14,7 @@
         public Text Speed;
         public Text Aim;
         public Text HP;
+        public Text Energy;
         public Text Evasion;
         public Text ChanceToHit;
 
@@ -46,6 +47,16 @@
             HP.text = String.Format("HP: {0}/{1}", unit.CombatInfo.HitPoints, unit.PrimaryStats.MaxHP);
             Evasion.text = String.Format("Evasion: {0}", unit.PrimaryStats.Evasion);
 
+            var energy = unit.GetComponent<EnergyPoints>();
+            if (energy != null)
+            {
+                Energy.text = String.Format("Energy: {0}/{1}", energy.PointsRemaining, energy.EnergyCapacity);
+            }
+            else
+            {
+                Energy.text = "";
+            }
+
             if (unit.Faction == Faction.Player && unit.CurrentTarget != null)
             {
                 WeaponStats weapon = unit.Equipment.PrimaryWeapon.SlotItem.Stats;
@@ -76,6 +87,8 @@
             Aim.text = "";
             HP.text = "";
             Evasion.text = "";
+            Energy.text = "";
+            ChanceToHit.text = "";
         }
     }
 }

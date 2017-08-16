@@ -22,19 +22,32 @@
                 return;
             }
 
-            var attackCost = CombatManager.Instance.GetAttackCost(
+            var apCost = CombatManager.Instance.GetAttackAPCost(
                 AttachedUnit, rangedWeapon, target);
-            if (!APAvailable(attackCost))
+            var energyCost = CombatManager.Instance.GetAttackEnergyCost(
+                AttachedUnit, rangedWeapon, target);
+            if (!APAvailable(apCost))
             {
                 FloatingCombatTextController.Instance.RegisterNoAP(AttachedUnit);
                 Debug.Log("Not enough AP for ranged attack.");
                 return;
             }
+            if (!EnergyAvailable(energyCost))
+            {
+                FloatingCombatTextController.Instance.RegisterNoEnergy(AttachedUnit);
+                Debug.Log("Not enough AP for ranged attack.");
+                return;
+            }
 
             AttachedUnit.Facing.FaceTile(targetTile);
-            StartAction(EventArgs.Empty, attackCost);
+            StartAction(EventArgs.Empty, apCost, energyCost);
             _pendingResult = CombatManager.Instance.MakeRangedAttack(
                 AttachedUnit, rangedWeapon, target, targetTile);
+            SpawnBullet(target);
+        }
+
+        private void SpawnBullet(ITargetable target)
+        {
             GetTargetTransform(target);
 
             if (_targetTransform == null)

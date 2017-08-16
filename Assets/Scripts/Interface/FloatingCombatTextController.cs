@@ -15,6 +15,11 @@
             CreateText("Not enough AP!", unit.transform.position);
         }
 
+        public void RegisterNoEnergy(GameUnit unit)
+        {
+            CreateText("Not enough energy!", unit.transform.position);
+        }
+
         public void RegisterDamage(int amount, ITargetable target)
         {
             var transform = GetTransform(target);

@@ -74,7 +74,7 @@
 
         protected override void OnInitialized(GameUnit unit)
         {
-            AttachedUnit.Move.CompletedAction += OnUnitCompletedMovement;
+            AttachedUnit.MoveAction.CompletedAction += OnUnitCompletedMovement;
         }
 
         private void OnUnitCompletedMovement(object sender, EventArgs e)
@@ -94,7 +94,7 @@
 
         private void Update()
         {
-            if (!_moving || AttachedUnit.Move.ActionInProgress)
+            if (!_moving || AttachedUnit.MoveAction.ActionInProgress)
             {
                 return;
             }
@@ -110,7 +110,7 @@
         private void TakeNextStepOnPath()
         {
             var nextStep = _path.Peek();
-            var result = AttachedUnit.Move.TryMove(nextStep);
+            var result = AttachedUnit.MoveAction.TryMove(nextStep);
             if (result == MoveResult.Blocked)
             {
                 AttemptToRecalculatePath();

@@ -68,7 +68,7 @@
             get
             {
                 return _inTurn &&
-                    !Move.ActionInProgress &&
+                    !MoveAction.ActionInProgress &&
                     !MeleeCombatAction.ActionInProgress &&
                     !RangedCombatAction.ActionInProgress;
             }
@@ -104,7 +104,7 @@
             get; private set;
         }
 
-        public MoveAction Move
+        public MoveAction MoveAction
         {
             get; private set;
         }
@@ -240,7 +240,8 @@
         {
             Position = gameObject.AddComponent<TilePosition>();
             AP = gameObject.AddComponent<ActionPoints>();
-            Move = gameObject.AddComponent<MoveAction>();
+            var energy = gameObject.AddComponent<EnergyPoints>();
+            MoveAction = gameObject.AddComponent<MoveAction>();
             PathController = gameObject.AddComponent<UnitPathfinder>();
             CombatInfo = gameObject.AddComponent<CombatController>();
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
@@ -250,9 +251,10 @@
             MeleeCombatAction = gameObject.AddComponent<MeleeCombatAction>();
             Equipment = gameObject.AddComponent<UnitEquipment>();
 
+
             _components = new List<GameUnitComponent>()
             {
-                AP, Move, PathController, CombatInfo, AnimationController,
+                AP, energy, MoveAction, PathController, CombatInfo, AnimationController,
                 Visibility, Facing, RangedCombatAction, MeleeCombatAction, Equipment
             };
         }

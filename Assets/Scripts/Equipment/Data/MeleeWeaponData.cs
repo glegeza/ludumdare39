@@ -3,7 +3,7 @@
     using UnityEngine;
     using Combat;
 
-    [CreateAssetMenu(menuName = "Weapons/Melee")]
+    [CreateAssetMenu(menuName = "Equipment/Weapons/Melee")]
     public class MeleeWeaponData : WeaponData
     {
         public override WeaponStats GetStats()

@@ -22,9 +22,14 @@
             return Mathf.Clamp(modifiedChance, 0, 100);
         }
 
-        public int GetAttackCost(GameUnit unit, WeaponStats weapon, ITargetable target)
+        public int GetAttackAPCost(GameUnit unit, WeaponStats weapon, ITargetable target)
         {
             return weapon.APCost;
+        }
+
+        public int GetAttackEnergyCost(GameUnit unit, WeaponStats weapon, ITargetable target)
+        {
+            return weapon.EnergyCost;
         }
 
         public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeaponStats weapon, ITargetable target, Tile targetPos)

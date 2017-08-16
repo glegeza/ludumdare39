@@ -19,19 +19,28 @@
                 return;
             }
 
-            var attackCost = CombatManager.Instance.GetAttackCost(
+            var attackAPCost = CombatManager.Instance.GetAttackAPCost(
                 AttachedUnit, meleeWeapon, target);
-            if (!APAvailable(attackCost))
+            var attackEnergyCost = CombatManager.Instance.GetAttackEnergyCost(
+                AttachedUnit, meleeWeapon, target);
+            if (!APAvailable(attackAPCost))
             {
                 FloatingCombatTextController.Instance.RegisterNoAP(AttachedUnit);
                 Debug.Log("Not enough AP for melee attack");
+                return;
+            }
+            if (!EnergyAvailable(attackEnergyCost))
+            {
+                FloatingCombatTextController.Instance.RegisterNoEnergy(AttachedUnit);
+                Debug.Log("Not enough energy for melee attack");
+                return;
             }
 
             AttachedUnit.Facing.FaceTile(targetTile);
             AttachedUnit.AnimationController.StartMeleeAnimation();
             _pendingResult = CombatManager.Instance.MakeMeleeAttack(
                 AttachedUnit, meleeWeapon, target, targetTile);
-            StartAction(EventArgs.Empty, attackCost);
+            StartAction(EventArgs.Empty, attackAPCost, attackEnergyCost);
         }
 
         private MeleeWeaponStats CheckWeaponIsValidAndCast(WeaponStats weapon)
@@ -45,6 +54,7 @@
 
         protected override void OnInitialized(GameUnit unit)
         {
+            base.OnInitialized(unit);
             AttachedUnit.AnimationController.ReturnedToIdle += OnAnimationComplete;
         }
 

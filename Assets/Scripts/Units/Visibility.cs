@@ -27,7 +27,7 @@
         protected override void OnInitialized(GameUnit unit)
         {
             VisionRange = 5;
-            unit.Move.CompletedAction += OnMoveCompleted;
+            unit.MoveAction.CompletedAction += OnMoveCompleted;
             unit.TurnBegan += OnTurnBegan;
             UpdateVisibility();
         }

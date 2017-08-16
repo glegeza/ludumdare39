@@ -37,7 +37,6 @@
             unitObj.AddComponent<SortByY>();
 
             var unitComp = unitObj.AddComponent<GameUnit>();
-            unitComp.Initialize(unitData, tile, name);
 
             if (unitData.DefaultPrimaryWeapon != null)
             {
@@ -49,6 +48,12 @@
                 var secondaryWeapon = unitData.DefaultSecondaryWeapon.GetLoot() as SecondaryWeapon;
                 unitComp.Equipment.SecondaryWeapon.SetItem(secondaryWeapon);
             }
+            if (unitData.BatteryPack != null)
+            {
+                unitComp.Equipment.Battery.SetItem(unitData.BatteryPack.GetLoot());
+            }
+
+            unitComp.Initialize(unitData, tile, name);
 
             return unitComp;
         }
