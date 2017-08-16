@@ -94,6 +94,11 @@
             get; private set;
         }
 
+        public UnitEquipment Equipment
+        {
+            get; private set;
+        }
+
         public CombatController CombatInfo
         {
             get; private set;
@@ -202,7 +207,6 @@
             Alive = true;
 
             CreateComponents();
-            
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 
@@ -244,11 +248,12 @@
             Visibility = gameObject.AddComponent<Visibility>();
             RangedCombatAction = gameObject.AddComponent<RangedCombatAction>();
             MeleeCombatAction = gameObject.AddComponent<MeleeCombatAction>();
+            Equipment = gameObject.AddComponent<UnitEquipment>();
 
             _components = new List<GameUnitComponent>()
             {
                 AP, Move, PathController, CombatInfo, AnimationController,
-                Visibility, Facing, RangedCombatAction, MeleeCombatAction
+                Visibility, Facing, RangedCombatAction, MeleeCombatAction, Equipment
             };
         }
     }
