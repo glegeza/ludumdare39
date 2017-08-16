@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Name: test_ranged
   m_EditorClassIdentifier: 
   ID: test_ranged
+  Name: Test Primary Ranged Weapon
+  Description: Also a test!
   MinDamage: 4
   MaxDamage: 10
   BaseToHitModifier: 10
+  Slot: 0
   Range: 10

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Name: test_melee
   m_EditorClassIdentifier: 
   ID: test_melee
+  Name: Test Primary Melee Weapon
+  Description: It's a test?
   MinDamage: 4
   MaxDamage: 10
   BaseToHitModifier: 10
+  Slot: 0

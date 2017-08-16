@@ -5,7 +5,7 @@
 
     public class SecondaryWeapon : Weapon
     {
-        public SecondaryWeapon(string name, string desc, WeaponData data) : base(name, desc, LootType.SecondaryWeapon, data.GetStats())
+        public SecondaryWeapon(WeaponData data) : base(data.Name, data.Description, LootType.SecondaryWeapon, data.GetStats())
         {
             if (data.Slot != WeaponSlot.Secondary)
             {

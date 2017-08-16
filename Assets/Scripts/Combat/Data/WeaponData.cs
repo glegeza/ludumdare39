@@ -1,10 +1,11 @@
 ﻿namespace DLS.LD39.Combat.Data
 {
+    using DLS.LD39.Equipment.Data;
     using UnityEngine;
 
-    public abstract class WeaponData : ScriptableObject
+    public abstract class WeaponData : EquipmentData
     {
-        public string ID;
+        [Header("Weapon Stats")]
         public int MinDamage;
         public int MaxDamage;
         public int BaseToHitModifier;
