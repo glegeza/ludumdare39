@@ -10,7 +10,7 @@
 
         public override WeaponStats GetStats()
         {
-            return new RangedWeaponStats(MinDamage, MaxDamage, BaseToHitModifier, Range, Slot);
+            return new RangedWeaponStats(this);
         }
     }
 }

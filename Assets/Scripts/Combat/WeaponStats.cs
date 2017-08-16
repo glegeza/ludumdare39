@@ -1,15 +1,29 @@
-﻿using DLS.LD39.Map;
+﻿using DLS.LD39.Equipment.Data;
+using DLS.LD39.Map;
 
 namespace DLS.LD39.Combat
 {
     public abstract class WeaponStats
     {
-        protected WeaponStats(int minDmg, int maxDmg, int baseToHit, WeaponType type, WeaponSlot slot)
+        protected WeaponStats(WeaponData data, WeaponType type)
         {
-            MinDamage = minDmg;
-            MaxDamage = maxDmg;
-            BaseToHit = baseToHit;
+            APCost = data.APCost;
+            EnergyCost = data.EnergyCost;
+            MinDamage = data.MinDamage;
+            MaxDamage = data.MaxDamage;
+            BaseToHit = data.BaseToHitModifier;
             Type = type;
+            Slot = data.Slot;
+        }
+
+        public int APCost
+        {
+            get; private set;
+        }
+
+        public int EnergyCost
+        {
+            get; private set;
         }
 
         public int MinDamage

@@ -11,6 +11,10 @@
         public int BaseToHitModifier;
         public WeaponSlot Slot;
 
+        [Header("Costs")]
+        public int APCost;
+        public int EnergyCost;
+
         public abstract WeaponStats GetStats();
 
         public override Weapon GetLoot()
