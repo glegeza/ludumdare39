@@ -41,12 +41,12 @@
 
             if (unitData.DefaultPrimaryWeapon != null)
             {
-                var primaryWeapon = new PrimaryWeapon(unitData.DefaultPrimaryWeapon);
+                var primaryWeapon = unitData.DefaultPrimaryWeapon.GetLoot() as PrimaryWeapon;
                 unitComp.Equipment.PrimaryWeapon.SetItem(primaryWeapon);
             }
             if (unitData.DefaultSecondaryWeapon != null)
             {
-                var secondaryWeapon = new SecondaryWeapon(unitData.DefaultSecondaryWeapon);
+                var secondaryWeapon = unitData.DefaultSecondaryWeapon.GetLoot() as SecondaryWeapon;
                 unitComp.Equipment.SecondaryWeapon.SetItem(secondaryWeapon);
             }
 
