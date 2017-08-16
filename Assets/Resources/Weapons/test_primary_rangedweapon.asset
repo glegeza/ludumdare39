@@ -18,4 +18,6 @@ MonoBehaviour:
   MaxDamage: 10
   BaseToHitModifier: 10
   Slot: 0
+  APCost: 1
+  EnergyCost: 1
   Range: 10

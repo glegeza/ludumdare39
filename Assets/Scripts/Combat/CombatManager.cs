@@ -9,8 +9,6 @@
     {
         public GameObject CombatTextPrefab;
 
-        private const int ATTACK_COST = 4;
-
         public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetTile)
         {
             if (!weapon.TileIsLegalTarget(unit.Position.CurrentTile, targetTile))
@@ -26,7 +24,7 @@
 
         public int GetAttackCost(GameUnit unit, WeaponStats weapon, ITargetable target)
         {
-            return ATTACK_COST;
+            return weapon.APCost;
         }
 
         public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeaponStats weapon, ITargetable target, Tile targetPos)
