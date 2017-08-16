@@ -2,7 +2,7 @@
 {
     public abstract class Loot
     {
-        public Loot(string name, string desc, LootType type)
+        protected Loot(string name, string desc, LootType type)
         {
             Name = name;
             Description = desc;

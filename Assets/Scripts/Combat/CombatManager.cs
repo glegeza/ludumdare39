@@ -1,6 +1,5 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Interface;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using System;
@@ -12,8 +11,13 @@
 
         private const int ATTACK_COST = 4;
 
-        public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target)
+        public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetTile)
         {
+            if (!weapon.TileIsLegalTarget(unit.Position.CurrentTile, targetTile))
+            {
+                return 0;
+            }
+
             var baseChance = unit.PrimaryStats.Aim;
             var modifiedChance = baseChance + weapon.BaseToHit - target.Evasion;
 
@@ -60,7 +64,7 @@
 
         private AttackResult MakeAttack(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)
         {
-            var chance = HitChance(unit, weapon, target);
+            var chance = HitChance(unit, weapon, target, targetPos);
             var roll = UnityEngine.Random.Range(0, 100);
             var hit = roll <= chance;
 

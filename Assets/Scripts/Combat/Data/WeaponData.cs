@@ -8,6 +8,7 @@
         public int MinDamage;
         public int MaxDamage;
         public int BaseToHitModifier;
+        public WeaponSlot Slot;
 
         public abstract WeaponStats GetStats();
     }

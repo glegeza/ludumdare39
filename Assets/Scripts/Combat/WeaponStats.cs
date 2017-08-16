@@ -1,8 +1,10 @@
-﻿namespace DLS.LD39.Combat
+﻿using DLS.LD39.Map;
+
+namespace DLS.LD39.Combat
 {
     public abstract class WeaponStats
     {
-        protected WeaponStats(int minDmg, int maxDmg, int baseToHit, WeaponType type)
+        protected WeaponStats(int minDmg, int maxDmg, int baseToHit, WeaponType type, WeaponSlot slot)
         {
             MinDamage = minDmg;
             MaxDamage = maxDmg;
@@ -29,5 +31,12 @@
         {
             get; private set;
         }
+
+        public WeaponSlot Slot
+        {
+            get; private set;
+        }
+
+        public abstract bool TileIsLegalTarget(Tile attackerPos, Tile targetPos);
     }
 }

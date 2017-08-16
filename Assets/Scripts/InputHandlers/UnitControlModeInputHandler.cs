@@ -72,14 +72,19 @@
 
         private void DoAttackAction(GameUnit activeUnit, GameUnit target, Tile clickedTile)
         {
-            AttackResult damage;
-            if (activeUnit.Position.CurrentTile.IsAdjacent(target.Position.CurrentTile))
+            var weapon = activeUnit.Equipment.PrimaryWeapon.SlotItem;
+            if (weapon == null || !weapon.Stats.TileIsLegalTarget(activeUnit.Position.CurrentTile, clickedTile))
             {
-                activeUnit.MeleeCombatAction.TryMeleeAttack(clickedTile, target.CombatInfo);
+                return;
+            }
+
+            if (weapon.Stats.Type == WeaponType.Melee)
+            {
+                activeUnit.MeleeCombatAction.TryMeleeAttack(clickedTile, target.CombatInfo, weapon.Stats);
             }
             else
             {
-                activeUnit.RangedCombatAction.TryRangedAttack(clickedTile, target.CombatInfo);
+                activeUnit.RangedCombatAction.TryRangedAttack(clickedTile, target.CombatInfo, weapon.Stats);
             }
         }
 

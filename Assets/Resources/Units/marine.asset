@@ -20,6 +20,6 @@ MonoBehaviour:
     type: 2}
   DeathPrefab: {fileID: 0}
   DefaultState: {fileID: 0}
-  DefaultMeleeWeapon: {fileID: 11400000, guid: 41b031d920f36544a89814b4d49c5bcd, type: 2}
-  DefaultRangedWeapon: {fileID: 11400000, guid: 143b8eafe5029f54f8fa2d2f56bc85df,
+  DefaultPrimaryWeapon: {fileID: 11400000, guid: 41b031d920f36544a89814b4d49c5bcd,
     type: 2}
+  DefaultSecondaryWeapon: {fileID: 0}

@@ -10,21 +10,17 @@
     {
         private AttackResult _pendingResult;
 
-        public MeleeWeapon EquippedWeapon
+        public void TryMeleeAttack(Tile targetTile, ITargetable target, WeaponStats weapon)
         {
-            get; set;
-        }
-
-        public void TryMeleeAttack(Tile targetTile, ITargetable target)
-        {
-            if (!WeaponIsValid())
+            var meleeWeapon = CheckWeaponIsValidAndCast(weapon);
+            if (meleeWeapon == null)
             {
                 Debug.Log("Attempting to make melee attack with invalid or not weapon.");
                 return;
             }
 
             var attackCost = CombatManager.Instance.GetAttackCost(
-                AttachedUnit, EquippedWeapon, target);
+                AttachedUnit, meleeWeapon, target);
             if (!APAvailable(attackCost))
             {
                 FloatingCombatTextController.Instance.RegisterNoAP(AttachedUnit);
@@ -34,13 +30,17 @@
             AttachedUnit.Facing.FaceTile(targetTile);
             AttachedUnit.AnimationController.StartMeleeAnimation();
             _pendingResult = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedWeapon, target, targetTile);
+                AttachedUnit, meleeWeapon, target, targetTile);
             StartAction(EventArgs.Empty, attackCost);
         }
 
-        private bool WeaponIsValid()
+        private MeleeWeapon CheckWeaponIsValidAndCast(WeaponStats weapon)
         {
-            return EquippedWeapon != null && EquippedWeapon.Type == WeaponType.Melee;
+            if (weapon == null || weapon.Type != WeaponType.Melee)
+            {
+                return null;
+            }
+            return weapon as MeleeWeapon;
         }
 
         protected override void OnInitialized(GameUnit unit)

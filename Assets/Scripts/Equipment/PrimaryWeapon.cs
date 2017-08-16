@@ -1,15 +1,16 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using DLS.LD39.Combat;
+    using DLS.LD39.Combat.Data;
 
-    public class PrimaryWeapon : Loot
+    public class PrimaryWeapon : Weapon
     {
-        public PrimaryWeapon(string name, string desc) : base(name, desc, LootType.PrimaryWeapon)
+        public PrimaryWeapon(string name, string desc, WeaponData data) : base(name, desc, LootType.PrimaryWeapon, data.GetStats())
         {
+            if (data.Slot != WeaponSlot.Primary)
+            {
+                throw new System.Exception("Initializing PrimaryWeapon with SecondaryWeapon stats");
+            }
         }
     }
 }

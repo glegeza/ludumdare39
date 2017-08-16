@@ -13,21 +13,17 @@
         private AttackResult _pendingResult;
         private Transform _targetTransform;
 
-        public RangedWeapon EquippedWeapon
+        public void TryRangedAttack(Tile targetTile, ITargetable target, WeaponStats weapon)
         {
-            get; set;
-        }
-
-        public void TryRangedAttack(Tile targetTile, ITargetable target)
-        {
-            if (!WeaponIsValid())
+            var rangedWeapon = CheckWeaponIsValidAndCast(weapon);
+            if (rangedWeapon == null)
             {
                 Debug.Log("Attempting to make ranged attack with invalid or no weapon.");
                 return;
             }
 
             var attackCost = CombatManager.Instance.GetAttackCost(
-                AttachedUnit, EquippedWeapon, target);
+                AttachedUnit, rangedWeapon, target);
             if (!APAvailable(attackCost))
             {
                 FloatingCombatTextController.Instance.RegisterNoAP(AttachedUnit);
@@ -38,7 +34,7 @@
             AttachedUnit.Facing.FaceTile(targetTile);
             StartAction(EventArgs.Empty, attackCost);
             _pendingResult = CombatManager.Instance.MakeRangedAttack(
-                AttachedUnit, EquippedWeapon, target, targetTile);
+                AttachedUnit, rangedWeapon, target, targetTile);
             GetTargetTransform(target);
 
             if (_targetTransform == null)
@@ -79,9 +75,13 @@
             _targetTransform = comp == null ? null : comp.transform;
         }
 
-        private bool WeaponIsValid()
+        private RangedWeapon CheckWeaponIsValidAndCast(WeaponStats weapon)
         {
-            return EquippedWeapon != null && EquippedWeapon.Type != WeaponType.Melee;
+            if (weapon == null || weapon.Type != WeaponType.Ranged)
+            {
+                return null;
+            }
+            return weapon as RangedWeapon;
         }
     }
 }

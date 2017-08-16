@@ -48,16 +48,16 @@
 
             if (unit.Faction == Faction.Player && unit.CurrentTarget != null)
             {
-                WeaponStats weapon = unit.RangedCombatAction.EquippedWeapon;
-                if (unit.CurrentTarget.Position.CurrentTile.IsAdjacent(unit.Position.CurrentTile))
-                {
-                    weapon = unit.MeleeCombatAction.EquippedWeapon;
-                }
+                WeaponStats weapon = unit.Equipment.PrimaryWeapon.SlotItem.Stats;
                 if (weapon == null)
                 {
                     ChanceToHit.text = "";
                 }
-                var hitChance = CombatManager.Instance.HitChance(unit, weapon, unit.CurrentTarget.CombatInfo);
+                var hitChance = CombatManager.Instance.HitChance(
+                    unit, 
+                    weapon, 
+                    unit.CurrentTarget.CombatInfo, 
+                    unit.CurrentTarget.Position.CurrentTile);
                 ChanceToHit.text = String.Format("Chance To Hit: {0}%", hitChance);
             }
             else

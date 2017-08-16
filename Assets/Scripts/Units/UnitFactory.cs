@@ -6,6 +6,7 @@
     using System;
     using UnityEngine;
     using Data;
+    using DLS.LD39.Equipment;
 
     class UnitFactory
     {
@@ -39,13 +40,15 @@
             var unitComp = unitObj.AddComponent<GameUnit>();
             unitComp.Initialize(unitData, tile, name);
 
-            if (unitData.DefaultMeleeWeapon != null)
+            if (unitData.DefaultPrimaryWeapon != null)
             {
-                unitComp.MeleeCombatAction.EquippedWeapon = unitData.DefaultMeleeWeapon.GetStats() as MeleeWeapon;
+                var primaryWeapon = new PrimaryWeapon("Test Primary", "Test", unitData.DefaultPrimaryWeapon);
+                unitComp.Equipment.PrimaryWeapon.SetItem(primaryWeapon);
             }
-            if (unitData.DefaultRangedWeapon != null)
+            if (unitData.DefaultSecondaryWeapon != null)
             {
-                unitComp.RangedCombatAction.EquippedWeapon = unitData.DefaultRangedWeapon.GetStats() as RangedWeapon;
+                var secondaryWeapon = new SecondaryWeapon("Test Secondary", "test", unitData.DefaultSecondaryWeapon);
+                unitComp.Equipment.SecondaryWeapon.SetItem(secondaryWeapon);
             }
 
             return unitComp;

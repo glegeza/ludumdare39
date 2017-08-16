@@ -1,46 +1,41 @@
 ﻿namespace DLS.LD39.Units
 {
     using DLS.LD39.Equipment;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class UnitEquipment : GameUnitComponent
     {
-        public EquipmentSlot PrimaryWeapon
+        public EquipmentSlot<PrimaryWeapon> PrimaryWeapon
         {
             get; private set;
         }
 
-        public EquipmentSlot SecondaryWeapon
+        public EquipmentSlot<SecondaryWeapon> SecondaryWeapon
         {
             get; private set;
         }
 
-        public EquipmentSlot Shield
+        public EquipmentSlot<Shield> Shield
         {
             get; private set;
         }
 
-        public EquipmentSlot Battery
+        public EquipmentSlot<BatteryPack> Battery
         {
             get; private set;
         }
 
-        public EquipmentSlot Accessory
+        public EquipmentSlot<SuitAccessory> Accessory
         {
             get; private set;
         }
 
         private void Awake()
         {
-            PrimaryWeapon = new EquipmentSlot(LootType.PrimaryWeapon);
-            SecondaryWeapon = new EquipmentSlot(LootType.SecondaryWeapon);
-            Shield = new EquipmentSlot(LootType.Shield);
-            Battery = new EquipmentSlot(LootType.BatteryPack);
-            Accessory = new EquipmentSlot(LootType.SuitAccessory);
+            PrimaryWeapon = new EquipmentSlot<PrimaryWeapon>();
+            SecondaryWeapon = new EquipmentSlot<SecondaryWeapon>();
+            Shield = new EquipmentSlot<Shield>();
+            Battery = new EquipmentSlot<BatteryPack>();
+            Accessory = new EquipmentSlot<SuitAccessory>();
         }
     }
 }

@@ -7,7 +7,7 @@
     {
         public override WeaponStats GetStats()
         {
-            return new MeleeWeapon(MinDamage, MaxDamage, BaseToHitModifier);
+            return new MeleeWeapon(MinDamage, MaxDamage, BaseToHitModifier, Slot);
         }
     }
 }

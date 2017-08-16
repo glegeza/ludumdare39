@@ -22,7 +22,7 @@
         public State DefaultState;
 
         [Header("Combat")]
-        public WeaponData DefaultMeleeWeapon;
-        public WeaponData DefaultRangedWeapon;
+        public WeaponData DefaultPrimaryWeapon;
+        public WeaponData DefaultSecondaryWeapon;
     }
 }
