@@ -3192,6 +3192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6a8f4458fba4f4aacd2d80106b7e00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AttachedMap: {fileID: 731603496}
   MoveSpeed: 40
   KeyboardModifier: 0.5
   LowerLeftBounds: {x: -20, y: -10}
