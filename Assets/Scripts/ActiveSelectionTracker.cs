@@ -24,16 +24,24 @@
             if (obj != SelectedObject)
             {
                 SelectedObject = obj;
-                if (SelectionChanged != null)
-                {
-                    SelectionChanged(this, EventArgs.Empty);
-                }
+                RaiseEvent(SelectionChanged, this, EventArgs.Empty);
             }
         }
 
         public void SetSelection(Component comp)
         {
             SetSelection(comp.gameObject);
+        }
+
+        public void ClearSelection()
+        {
+            if (SelectedObject == null)
+            {
+                return;
+            }
+            SelectedObject = null;
+            RaiseEvent(SelectionChanged, this, EventArgs.Empty);
+
         }
 
         private void Awake()
@@ -45,6 +53,14 @@
             else
             {
                 _instance = this;
+            }
+        }
+
+        private void RaiseEvent(EventHandler<EventArgs> handler, object s, EventArgs e)
+        {
+            if (handler != null)
+            {
+                handler(s, e);
             }
         }
     }

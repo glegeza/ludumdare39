@@ -7,15 +7,16 @@
     using UnityEngine;
     using Priority_Queue;
 
-    class SimplePathfinder
+    public class SimplePathfinder
     {
-        public Queue<Tile> GetPath(Tile start, Tile target)
+        public Queue<Tile> GetPath(Tile start, Tile target, out int pathCost)
         {
+            pathCost = 0;
             if (start == null || target == null)
             {
                 throw new ArgumentException("start or target is null");
             }
-            if (start.Equals(target))
+            if (start.Equals(target) || !target.IsEnterable())
             {
                 return new Queue<Tile>();
             }
@@ -49,6 +50,10 @@
                         var priority = newCost + Heuristic(next, target);
                         frontier.Enqueue(next, priority);
                         cameFrom[next] = current;
+                        if (frontier.Count > 98)
+                        {
+                            Debug.LogError("Gettin' risky");
+                        }
                     }
                 }
             }
@@ -69,9 +74,13 @@
             var pathQueue = new Queue<Tile>();
             path.Reverse();
 
+            var curTile = start;
+
             foreach (var step in path)
             {
+                pathCost += curTile.GetMoveCost(step);
                 pathQueue.Enqueue(step);
+                curTile = step;
             }
 
             return pathQueue;

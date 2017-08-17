@@ -23,6 +23,7 @@
             var obj = BuildPropObject(id);
             tile.AddProp(obj);
             obj.Position.SetTile(tile);
+            ActiveUnits.Instance.UpdateVisibility();
 
             return obj;
         }

@@ -25,7 +25,6 @@ namespace DLS.LD39.Interface
             if (selection == null || selection == _currentSelection)
             {
                 _renderer.enabled = false;
-                transform.SetParent(null);
                 _shouldDisplay = false;
                 return;
             }
@@ -54,8 +53,7 @@ namespace DLS.LD39.Interface
             }
 
             _renderer.enabled = true;
-            transform.SetParent(_currentSelection.CurrentTarget.transform);
-            transform.localPosition = Vector3.zero;
+            transform.position = _currentSelection.CurrentTarget.transform.position;
         }
     }
 }

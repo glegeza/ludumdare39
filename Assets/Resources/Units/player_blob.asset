@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8382d83f7b0a3cd4aac133176bf026ee, type: 3}
+  m_Name: player_blob
+  m_EditorClassIdentifier: 
+  ID: test_player
+  Faction: 0
+  StatsGenerator: {fileID: 11400000, guid: ccbd576180b62464c81be4067a9ddde4, type: 2}
+  GraphicsData: {fileID: 11400000, guid: 338e9468a76b8be4bb41b3dc342ef57e, type: 2}
+  SpriteTint: {r: 1, g: 1, b: 1, a: 1}
+  DefaultState: {fileID: 0}
+  DefaultPrimaryWeapon: {fileID: 11400000, guid: 931b6f7f7e3aa5944b6bfaf36ad46fe9,
+    type: 2}
+  DefaultSecondaryWeapon: {fileID: 0}
+  BatteryPack: {fileID: 11400000, guid: 956bb72eadceec140a86a5a28463c96c, type: 2}

@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Interface
 {
+    using DLS.LD39.Combat;
     using DLS.LD39.Units;
     using System;
     using UnityEngine;
@@ -13,7 +14,9 @@
         public Text Speed;
         public Text Aim;
         public Text HP;
+        public Text Energy;
         public Text Evasion;
+        public Text ChanceToHit;
 
         private void Update()
         {
@@ -39,10 +42,40 @@
             Title.text = unit.Name;
             Initiative.text = String.Format("Initiative: {0}", unit.SecondaryStats.Initiative);
             AP.text = String.Format("AP: {0}/{1}", unit.AP.PointsRemaining, unit.SecondaryStats.ActionPointCap);
-            Speed.text = String.Format("Speed: {0}", unit.Stats.Speed);
-            Aim.text = String.Format("Aim: {0}", unit.Stats.Aim);
-            HP.text = String.Format("HP: {0}/{1}", unit.CombatInfo.HitPoints, unit.Stats.MaxHP);
-            Evasion.text = String.Format("Evasion: {0}", unit.Stats.Evasion);
+            Speed.text = String.Format("Speed: {0}", unit.PrimaryStats.Speed);
+            Aim.text = String.Format("Aim: {0}", unit.PrimaryStats.Aim);
+            HP.text = String.Format("HP: {0}/{1}", unit.CombatInfo.HitPoints, unit.PrimaryStats.MaxHP);
+            Evasion.text = String.Format("Evasion: {0}", unit.PrimaryStats.Evasion);
+
+            var energy = unit.GetComponent<EnergyPoints>();
+            if (energy != null)
+            {
+                Energy.text = String.Format("Energy: {0}/{1}", energy.PointsRemaining, energy.EnergyCapacity);
+            }
+            else
+            {
+                Energy.text = "";
+            }
+
+            if (unit.Faction == Faction.Player && unit.CurrentTarget != null)
+            {
+                WeaponStats weapon = unit.Equipment.PrimaryWeapon.SlotItem.Stats;
+                if (weapon == null)
+                {
+                    ChanceToHit.text = "";
+                }
+                var hitChance = CombatManager.Instance.HitChance(
+                    unit, 
+                    weapon, 
+                    unit.CurrentTarget.CombatInfo, 
+                    unit.CurrentTarget.Position.CurrentTile);
+                ChanceToHit.text = String.Format("Chance To Hit: {0}%", hitChance);
+            }
+            else
+            {
+                ChanceToHit.text = "";
+            }
+
         }
 
         private void ClearUnit()
@@ -54,6 +87,8 @@
             Aim.text = "";
             HP.text = "";
             Evasion.text = "";
+            Energy.text = "";
+            ChanceToHit.text = "";
         }
     }
 }

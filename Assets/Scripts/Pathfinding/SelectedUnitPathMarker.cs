@@ -1,6 +1,8 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
     using DLS.LD39.Units;
+    using DLS.LD39.Units.Actions;
+    using DLS.LD39.Units.Movement;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,12 +18,12 @@
 
         private static SelectedUnitPathMarker _instance;
 
+        private UnitMovementHelper _movementHelper = new UnitMovementHelper();
         private GameObject _markerPoolContainer;
         private GameObject _pathContainer;
         private List<GameObject> _markerPool = new List<GameObject>();
         private GameObject _trackedObject = null;
         private UnitPathfinder _trackedPathfinder = null;
-        private MoveController _trackedMover;
 
         public static SelectedUnitPathMarker Instance
         {
@@ -101,11 +103,11 @@
                 return;
             }
 
-            var mover = _trackedObject.GetComponent<MoveController>();
+            var unit = _trackedObject.GetComponent<GameUnit>();
             var max = MarkerPoolSize + 1;
-            if (mover != null)
+            if (unit != null)
             {
-                max = mover.GetMaxMovementThisTurn(_trackedPathfinder.Path);
+                max = _movementHelper.GetMaxMovementAlongPath(unit, _trackedPathfinder.Path);
             }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)

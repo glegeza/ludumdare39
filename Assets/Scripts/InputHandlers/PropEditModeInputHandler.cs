@@ -58,6 +58,7 @@
             {
                 clickedTile.RemoveProp(layer);
                 GameObject.Destroy(currentProp.gameObject);
+                ActiveUnits.Instance.UpdateVisibility();
             }
             
             return false;

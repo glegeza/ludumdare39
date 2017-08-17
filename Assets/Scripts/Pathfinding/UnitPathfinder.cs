@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using DLS.Utility;
 
     public class UnitPathfinder : GameUnitComponent
     {
@@ -54,7 +55,8 @@
             }
 
             _path.Clear();
-            _path = _pathFinder.GetPath(AttachedUnit.Position.CurrentTile, target);
+            int cost;
+            _path = _pathFinder.GetPath(AttachedUnit.Position.CurrentTile, target, out cost);
             _target = target;
             OnPathChanged();
 
@@ -74,7 +76,7 @@
 
         protected override void OnInitialized(GameUnit unit)
         {
-            AttachedUnit.MoveController.CompletedMovement += OnUnitCompletedMovement;
+            AttachedUnit.MoveAction.CompletedAction += OnUnitCompletedMovement;
         }
 
         private void OnUnitCompletedMovement(object sender, EventArgs e)
@@ -94,7 +96,7 @@
 
         private void Update()
         {
-            if (!_moving || AttachedUnit.MoveController.IsMoving)
+            if (!_moving || AttachedUnit.MoveAction.ActionInProgress)
             {
                 return;
             }
@@ -110,7 +112,7 @@
         private void TakeNextStepOnPath()
         {
             var nextStep = _path.Peek();
-            var result = AttachedUnit.MoveController.TryMove(nextStep);
+            var result = AttachedUnit.MoveAction.TryMove(nextStep);
             if (result == MoveResult.Blocked)
             {
                 AttemptToRecalculatePath();
@@ -137,7 +139,7 @@
         {
             Debug.Log("Move completed");
             _moving = false;
-            TurnMoveComplete?.Invoke(this, EventArgs.Empty);
+            TurnMoveComplete.SafeRaiseEvent(this);
         }
 
         private void ArrivedAtDestination()
@@ -146,7 +148,7 @@
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
-            UnitArrived?.Invoke(this, EventArgs.Empty);
+            UnitArrived.SafeRaiseEvent(this);
         }
 
         private void DestinationUnreachable()
@@ -155,12 +157,12 @@
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
-            UnitBlocked?.Invoke(this, EventArgs.Empty);
+            UnitBlocked.SafeRaiseEvent(this);
         }
 
         private void OnPathChanged()
         {
-            PathChanged?.Invoke(this, EventArgs.Empty);
+            RaiseEvent(PathChanged, this, EventArgs.Empty);
         }
 
         private void CheckPathState()
@@ -169,6 +171,14 @@
             {
                 ArrivedAtDestination();
                 MoveCompleted();
+            }
+        }
+
+        private void RaiseEvent(EventHandler<EventArgs> handler, object s, EventArgs e)
+        {
+            if (handler != null)
+            {
+                handler(s, e);
             }
         }
     }

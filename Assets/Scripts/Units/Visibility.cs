@@ -27,7 +27,7 @@
         protected override void OnInitialized(GameUnit unit)
         {
             VisionRange = 5;
-            unit.MoveController.CompletedMovement += OnMoveCompleted;
+            unit.MoveAction.CompletedAction += OnMoveCompleted;
             unit.TurnBegan += OnTurnBegan;
             UpdateVisibility();
         }
@@ -57,7 +57,15 @@
                 _visibleTiles.Add(tile);
             }
 
-            VisibilityUpdated?.Invoke(this, EventArgs.Empty);
+            RaiseEvent(VisibilityUpdated, this, EventArgs.Empty);
+        }
+
+        private void RaiseEvent(EventHandler<EventArgs> handler, object s, EventArgs e)
+        {
+            if (handler != null)
+            {
+                handler(s, e);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Units;
+    using Utility;
     using System;
     using UnityEngine;
 
@@ -11,8 +11,14 @@
         public float Speed = 5.0f;
 
         private Vector3 _dirvec;
+        private bool _moving;
 
-        public GameUnit Target
+        public Transform Origin
+        {
+            get; set;
+        }
+
+        public Transform Target
         {
             get; set;
         }
@@ -21,24 +27,43 @@
         {
             if (Target == null)
             {
+                Debug.LogError("Starting bullet with null target");
                 return;
             }
-            _dirvec = Target.Position.CurrentTile.WorldCoords - new Vector2(transform.position.x, transform.position.y);
+            if (Origin == null)
+            {
+                Debug.LogError("Starting bullet with null origin");
+                return;
+            }
+            Debug.LogFormat("Launching bullet from {0} with target {1}", Origin.name, Target.name);
+            _dirvec = (Target.position - Origin.position).normalized;
+            _dirvec.z = 0.0f;
+            _moving = true;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            transform.position += _dirvec * Time.deltaTime;
+            if (_moving)
+            {
+                //var rb = GetComponent<Rigidbody2D>();
+                transform.position += _dirvec * Speed * Time.deltaTime;
+            }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            var unit = collision.GetComponent<GameUnit>();
+            Debug.LogFormat("Collided with {0}", collision.collider.name);
+            if (!_moving)
+            {
+                return;
+            }
+            var unit = collision.collider.transform;
             if (unit == null || unit != Target)
             {
                 return;
             }
-            HitTarget?.Invoke(this, EventArgs.Empty);
+            HitTarget.SafeRaiseEvent(this);
+            _moving = false;
             Destroy(gameObject);
         }
     }

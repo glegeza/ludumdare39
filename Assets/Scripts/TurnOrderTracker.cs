@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39
 {
     using DLS.LD39.Units;
+    using Utility;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -24,17 +25,17 @@
             }
         }
 
+        public GameUnit ActiveUnit
+        {
+            get; private set;
+        }
+
         public IEnumerable<GameUnit> UnitsDone
         {
             get
             {
                 return _unitsDone;
             }
-        }
-
-        public GameUnit ActiveUnit
-        {
-            get; private set;
         }
 
         public IEnumerable<GameUnit> UnitsWaiting
@@ -47,6 +48,12 @@
 
         public void AdvanceTurn()
         {
+            //if (UnitActionCoordinator.Instance.ActionInProgress)
+            //{
+            //    Debug.LogError("Attempting to advance turn while action still in progress.");
+            //    return;
+            //}
+
             if (ActiveUnit == null)
             {
                 SetNextUnit();
@@ -154,7 +161,7 @@
             // starting
             ActiveUnit = _unitsWaiting.Dequeue();
             ActiveUnit.BeginTurn();
-            TurnAdvanced?.Invoke(this, EventArgs.Empty);
+            TurnAdvanced.SafeRaiseEvent(this);
         }
     }
 }

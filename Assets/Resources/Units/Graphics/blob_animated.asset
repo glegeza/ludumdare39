@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f85bc5571ed2aa4a8a5a669857f018d, type: 3}
+  m_Name: blob_animated
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 21300004, guid: 466019213fb137940a181e2aa9fecb63, type: 3}
+  AnimationController: {fileID: 22100000, guid: 85fc5ccc11c25a94eb7dd3ecb64ad2fa,
+    type: 2}
+  DeathAnimation: {fileID: 114538696964274848, guid: 5e457efb92b0e1340bd47f7f57139602,
+    type: 2}

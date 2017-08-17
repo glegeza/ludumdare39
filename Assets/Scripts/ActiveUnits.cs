@@ -18,6 +18,14 @@
             }
         }
 
+        public void UpdateVisibility()
+        {
+            foreach (var unit in _activeUnits)
+            {
+                unit.Visibility.UpdateVisibility();
+            }
+        }
+
         public void AddActiveUnit(GameUnit unit)
         {
             unit.UnitDestroyed += OnUnitDestroyed;
@@ -43,7 +51,7 @@
 
             _activeUnits.Remove(unit);
             TurnOrderTracker.Instance.UnregisterUnit(unit);
-            Destroy(unit.gameObject);
+            Destroy(unit.gameObject); // wait at least one frame
         }
 
         private void OnUnitDestroyed(object sender, System.EventArgs e)
@@ -53,10 +61,16 @@
             {
                 return;
             }
-            RemoveUnit(unit);
-            if (unit.Data.DeathPrefab != null)
+
+            if (ActiveSelectionTracker.Instance.SelectedObject == unit.gameObject)
             {
-                ExplosionSpawner.Instance.SpawnExplosion(unit.Data.DeathPrefab, unit.Position.CurrentTile);
+                ActiveSelectionTracker.Instance.ClearSelection();
+            }
+
+            RemoveUnit(unit);
+            if (unit.Data.GraphicsData.DeathAnimation != null)
+            {
+                ExplosionSpawner.Instance.SpawnExplosion(unit.Data.GraphicsData.DeathAnimation, unit.Position.CurrentTile);
             }
         }
     }

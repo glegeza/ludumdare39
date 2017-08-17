@@ -2,12 +2,13 @@
 {
     using DLS.LD39.Props;
     using DLS.Utility;
+    using Priority_Queue;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
 
-    public class Tile : IEquatable<Tile>
+    public class Tile : FastPriorityQueueNode, IEquatable<Tile>
     {
         private Dictionary<TileEdge, Tile> _adjacentTiles = new Dictionary<TileEdge, Tile>();
         private Dictionary<PropLayer, Prop> _props = new Dictionary<PropLayer, Prop>();

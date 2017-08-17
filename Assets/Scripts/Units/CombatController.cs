@@ -3,31 +3,19 @@
     using System;
     using UnityEngine;
     using Combat;
-    using DLS.LD39.Map;
-    using DLS.LD39.Graphics;
+    using Utility;
 
     public class CombatController : GameUnitComponent, ITargetable
     {
         private bool _dead = false;
-        private Tile _targetTile;
-        private ITargetable _targetUnit;
-
-        public event EventHandler<EventArgs> StartedAttack;
-
-        public event EventHandler<EventArgs> CompletedAttack;
 
         public event EventHandler<EventArgs> Destroyed;
-
-        public bool Attacking
-        {
-            get; private set;
-        }
 
         public int Evasion
         {
             get
             {
-                return AttachedUnit.Stats.Evasion;
+                return AttachedUnit.PrimaryStats.Evasion;
             }
         }
 
@@ -40,47 +28,8 @@
         {
             get
             {
-                return AttachedUnit.Stats.Armor;
+                return AttachedUnit.PrimaryStats.Armor;
             }
-        }
-
-        public WeaponStats EquippedMeleeWeapon
-        {
-            get; set;
-        }
-
-        public WeaponStats EquippedRangedWeapon
-        {
-            get; set;
-        }
-
-        public void TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
-        {
-            damage = null;
-            if (EquippedMeleeWeapon == null || EquippedMeleeWeapon.Type != WeaponType.Melee)
-            {
-                return;
-            }
-
-            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedMeleeWeapon, target);
-            if (!AttachedUnit.AP.PointsAvailable(cost))
-            {
-                return;
-            }
-
-            Attacking = true;
-            AttachedUnit.Facing.FaceTile(targetTile);
-            _targetTile = targetTile;
-            _targetUnit = target;
-            StartedAttack?.Invoke(this, EventArgs.Empty);
-            AttachedUnit.AP.SpendPoints(cost);
-            AttachedUnit.AnimationController.StartMeleeAnimation();
-            BulletSpawner.Instance.SpawnBullet(AttachedUnit.Position.CurrentTile, (_targetUnit as CombatController).AttachedUnit);
-        }
-
-        public void TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)
-        {
-            throw new NotImplementedException();
         }
 
         public int ApplyDamage(int amt)
@@ -98,37 +47,13 @@
         public int ApplyHeal(int amt)
         {
             HitPoints += amt;
-            HitPoints = Mathf.Clamp(HitPoints, 0, AttachedUnit.Stats.MaxHP);
+            HitPoints = Mathf.Clamp(HitPoints, 0, AttachedUnit.PrimaryStats.MaxHP);
             return HitPoints;
         }
 
         protected override void OnInitialized(GameUnit unit)
         {
-            AttachedUnit.AnimationController.ReturnedToIdle += OnAnimationComplete;
-
-            AttachedUnit.AnimationController.ReturnedToIdle += (o, e) =>
-            {
-                if (Attacking)
-                {
-                    Attacking = false;
-                    CompletedAttack?.Invoke(this, EventArgs.Empty);
-                }
-            };
-            HitPoints = unit.Stats.MaxHP;
-        }
-
-        private void OnAnimationComplete(object sender, EventArgs e)
-        {
-            if (!Attacking)
-            {
-                return;
-            }
-
-            DamageResult damage;
-            var result = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
-            Attacking = false;
-            CompletedAttack?.Invoke(this, EventArgs.Empty);
+            HitPoints = unit.PrimaryStats.MaxHP;
         }
 
         private void OnDestroyed()
@@ -138,7 +63,7 @@
                 return;
             }
             _dead = true;
-            Destroyed?.Invoke(this, EventArgs.Empty);
+            Destroyed.SafeRaiseEvent(this);
         }
     }
 }

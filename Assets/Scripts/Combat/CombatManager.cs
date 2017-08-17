@@ -1,6 +1,5 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Interface;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using System;
@@ -10,81 +9,92 @@
     {
         public GameObject CombatTextPrefab;
 
-        private const int ATTACK_COST = 4;
-
-        public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target)
+        public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetTile)
         {
-            var baseChance = unit.Stats.Aim;
+            if (!weapon.TileIsLegalTarget(unit.Position.CurrentTile, targetTile))
+            {
+                return 0;
+            }
+
+            var baseChance = unit.PrimaryStats.Aim;
             var modifiedChance = baseChance + weapon.BaseToHit - target.Evasion;
 
             return Mathf.Clamp(modifiedChance, 0, 100);
         }
 
-        public int GetAttackCost(GameUnit unit, WeaponStats weapon, ITargetable target)
+        public int GetAttackAPCost(GameUnit unit, WeaponStats weapon, ITargetable target)
         {
-            return ATTACK_COST;
+            return weapon.APCost;
         }
 
-        public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeapon weapon, ITargetable target, Tile targetPos, out DamageResult damage)
+        public int GetAttackEnergyCost(GameUnit unit, WeaponStats weapon, ITargetable target)
+        {
+            return weapon.EnergyCost;
+        }
+
+        public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeaponStats weapon, ITargetable target, Tile targetPos)
         {
             CheckArgumentsNotNull(unit, weapon, target, targetPos);
 
-            damage = null;
             if (!targetPos.IsAdjacent(unit.Position.CurrentTile))
             {
-                return AttackResult.OutOfRange;
+                return new AttackResult(unit, target, AttackResult.Outcome.OutOfRange);
             }
 
-            return MakeAttack(unit, weapon, target, targetPos, out damage);
+            return MakeAttack(unit, weapon, target, targetPos);
         }
 
-        public AttackResult MakeRangedAttack(GameUnit unit, RangedWeapon weapon, ITargetable target, Tile targetPos, out DamageResult damage)
+        public AttackResult MakeRangedAttack(GameUnit unit, RangedWeaponStats weapon, ITargetable target, Tile targetPos)
         {
             CheckArgumentsNotNull(unit, weapon, target, targetPos);
-
-            damage = null;
-            if (!TargetInRange(weapon, targetPos))
+            
+            if (!TargetInRange(weapon, unit.Position.CurrentTile, targetPos))
             {
-                return AttackResult.OutOfRange;
+                return new AttackResult(unit, target, AttackResult.Outcome.OutOfRange);
+            }
+            if (!TargetInLOS(weapon, unit.Position.CurrentTile, targetPos))
+            {
+                return new AttackResult(unit, target, AttackResult.Outcome.LOSBlocked);
             }
 
-            return MakeAttack(unit, weapon, target, targetPos, out damage);
+            return MakeAttack(unit, weapon, target, targetPos);
         }
 
-        private AttackResult MakeAttack(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos, out DamageResult damage)
+        public void ApplyAttackResult(AttackResult result)
         {
-            damage = null;
-            var chance = HitChance(unit, weapon, target);
+            result.ApplyResults();
+        }
+
+        private AttackResult MakeAttack(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)
+        {
+            var chance = HitChance(unit, weapon, target, targetPos);
             var roll = UnityEngine.Random.Range(0, 100);
             var hit = roll <= chance;
 
             if (!hit)
             {
-                CreateCombatText("Miss!", targetPos.WorldCoords);
-                return AttackResult.Missed;
+                return new AttackResult(unit, target, AttackResult.Outcome.Missed);
             }
 
             var dmgAmt = UnityEngine.Random.Range(weapon.MinDamage, weapon.MaxDamage);
-            damage = new DamageResult(unit, target, chance, roll, dmgAmt);
-            target.ApplyDamage(dmgAmt);
-            CreateCombatText(dmgAmt.ToString(), targetPos.WorldCoords);
-            return AttackResult.Hit;
+            var result = new AttackResult(unit, target, AttackResult.Outcome.Hit, chance, roll, dmgAmt);
+            return result;
         }
 
-        private void CreateCombatText(string text, Vector3 pos)
-        {
-            FloatingCombatTextController.Instance.CreateText(text, pos);
-        }
-
-        private void ApplyDamage(ITargetable target, DamageResult damage)
+        private void ApplyDamage(ITargetable target, AttackResult damage)
         {
             target.ApplyDamage(damage.DamageDone);
         }
 
-        private bool TargetInRange(RangedWeapon weapon, Tile targetPos)
+        private bool TargetInRange(RangedWeaponStats weapon, Tile origin, Tile targetPos)
         {
-            // TODO actually check range!
-            return true;
+            var distance = Vector2.Distance(origin.WorldCoords, targetPos.WorldCoords);
+            return distance <= weapon.Range;
+        }
+
+        private bool TargetInLOS(RangedWeaponStats weapon, Tile origin, Tile targetPos)
+        {
+            return LOSChecker.Instance.LOSClear(origin, targetPos);
         }
 
         private void CheckArgumentsNotNull(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)

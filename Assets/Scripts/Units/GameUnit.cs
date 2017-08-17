@@ -3,15 +3,20 @@
     using DLS.LD39.AI;
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
+    using DLS.LD39.Units.Actions;
     using System;
     using System.Linq;
     using UnityEngine;
+    using Utility;
+    using Data;
+    using System.Collections.Generic;
 
     public class GameUnit : MonoBehaviour
     {
         private bool _endOfTurnPending = false;
         private bool _inTurn = false;
         private GameUnit _currentTarget;
+        private List<GameUnitComponent> _components = new List<GameUnitComponent>();
 
         public event EventHandler<EventArgs> TurnBegan;
 
@@ -40,7 +45,7 @@
             set
             {
                 _currentTarget = value;
-                TargetChanged?.Invoke(this, EventArgs.Empty);
+                TargetChanged.SafeRaiseEvent(this);
             }
         }
 
@@ -64,8 +69,9 @@
             get
             {
                 return _inTurn &&
-                    !MoveController.IsMoving &&
-                    !CombatInfo.Attacking;
+                    !MoveAction.ActionInProgress &&
+                    !MeleeCombatAction.ActionInProgress &&
+                    !RangedCombatAction.ActionInProgress;
             }
         }
 
@@ -84,12 +90,12 @@
             get; private set;
         }
 
-        public MoveController MoveController
+        public UnitPathfinder PathController
         {
             get; private set;
         }
 
-        public UnitPathfinder PathController
+        public UnitEquipment Equipment
         {
             get; private set;
         }
@@ -99,7 +105,22 @@
             get; private set;
         }
 
-        public PrimaryStats Stats
+        public MoveAction MoveAction
+        {
+            get; private set;
+        }
+
+        public RangedCombatAction RangedCombatAction
+        {
+            get; private set;
+        }
+
+        public MeleeCombatAction MeleeCombatAction
+        {
+            get; private set;
+        }
+
+        public PrimaryStats PrimaryStats
         {
             get; private set;
         }
@@ -109,7 +130,7 @@
             get; private set;
         }
 
-        public StateController Controller
+        public StateController AIController
         {
             get; private set;
         }
@@ -131,16 +152,15 @@
                 throw new ArgumentNullException("startPos");
             }
             Data = data;
-            Stats = new PrimaryStats(data.Stats);
-            SecondaryStats = new SecondaryStats(Stats);
-            AP.Initialize(this);
-            CombatInfo.Initialize(this);
+            PrimaryStats = new PrimaryStats(data.StatsGenerator);
+            SecondaryStats = new SecondaryStats(PrimaryStats);
+
             Position.SetTile(startPos);
-            MoveController.Initialize(this);
-            PathController.Initialize(this);
-            AnimationController.Initialize(this);
-            Visibility.Initialize(this);
-            Facing.Initialize(this);
+            foreach (var comp in _components)
+            {
+                comp.Initialize(this);
+            }
+
             Faction = data.Faction;
             UnitType = data.ID;
             Name = name;
@@ -148,26 +168,31 @@
 
         public void SetController(StateController controller)
         {
-            Controller = controller;
+            AIController = controller;
         }
 
         public void BeginTurn()
         {
             _inTurn = true;
-            AP.BeginTurn();
-            MoveController.BeginTurn();
-            PathController.BeginTurn();
-            if (Controller != null)
+
+            foreach (var comp in _components)
             {
-                Controller.BeginTurn();
+                comp.BeginTurn();
             }
+            
+            if (AIController != null)
+            {
+                AIController.BeginTurn();
+            }
+
+            TurnBegan.SafeRaiseEvent(this);
         }
 
         public void EndTurn()
         {
-            if (Controller != null)
+            if (AIController != null)
             {
-                Controller.EndTurn();
+                AIController.EndTurn();
             }
             if (PathController.Path.Any())
             {
@@ -183,20 +208,14 @@
         private void Awake()
         {
             Alive = true;
-            Position = gameObject.AddComponent<TilePosition>();
-            AP = gameObject.AddComponent<ActionPoints>();
-            MoveController = gameObject.AddComponent<MoveController>();
-            PathController = gameObject.AddComponent<UnitPathfinder>();
-            CombatInfo = gameObject.AddComponent<CombatController>();
-            AnimationController = gameObject.AddComponent<UnitAnimationController>();
-            Facing = gameObject.AddComponent<UnitFacing>();
-            Visibility = gameObject.AddComponent<Visibility>();
+
+            CreateComponents();
 
             PathController.TurnMoveComplete += OnFinishedEndOfTurnMove;
             CombatInfo.Destroyed += (o, e) => 
             {
                 Alive = false;
-                UnitDestroyed?.Invoke(this, EventArgs.Empty);
+                UnitDestroyed.SafeRaiseEvent(this);
             };
         }
 
@@ -212,11 +231,35 @@
         {
             _endOfTurnPending = false;
             _inTurn = false;
-            AP.EndTurn();
-            MoveController.EndTurn();
-            PathController.EndTurn();
+            foreach (var comp in _components)
+            {
+                comp.EndTurn();
+            }
 
-            TurnEnded?.Invoke(this, EventArgs.Empty);
+            TurnEnded.SafeRaiseEvent(this);
+        }
+
+        private void CreateComponents()
+        {
+            Position = gameObject.AddComponent<TilePosition>();
+            AP = gameObject.AddComponent<ActionPoints>();
+            var energy = gameObject.AddComponent<EnergyPoints>();
+            MoveAction = gameObject.AddComponent<MoveAction>();
+            PathController = gameObject.AddComponent<UnitPathfinder>();
+            CombatInfo = gameObject.AddComponent<CombatController>();
+            AnimationController = gameObject.AddComponent<UnitAnimationController>();
+            Facing = gameObject.AddComponent<UnitFacing>();
+            Visibility = gameObject.AddComponent<Visibility>();
+            RangedCombatAction = gameObject.AddComponent<RangedCombatAction>();
+            MeleeCombatAction = gameObject.AddComponent<MeleeCombatAction>();
+            Equipment = gameObject.AddComponent<UnitEquipment>();
+
+
+            _components = new List<GameUnitComponent>()
+            {
+                AP, energy, MoveAction, PathController, CombatInfo, AnimationController,
+                Visibility, Facing, RangedCombatAction, MeleeCombatAction, Equipment
+            };
         }
     }
 }
