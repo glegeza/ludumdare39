@@ -39,6 +39,14 @@
             get; private set;
         }
 
+        public IEnumerable<Tile> Tiles
+        {
+            get
+            {
+                return _tiles;
+            }
+        }
+
         /// <summary>
         /// Joins two tile maps.
         /// </summary>
@@ -154,7 +162,7 @@
             _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 
-        private void Start()
+        private void Awake()
         {
             _tileSet = new TileSet(TileData);
             _filter = GetComponent<MeshFilter>();
