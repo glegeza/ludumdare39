@@ -1,10 +1,12 @@
 ﻿namespace DLS.LD39
 {
+    using DLS.LD39.Map;
     using UnityEngine;
 
     [RequireComponent(typeof(Camera))]
     class MapClickDragMover : MonoBehaviour
     {
+        public TileMap AttachedMap;
         public float MoveSpeed = 3.0f;
         [Range(0.0f, 10.0f)]
         public float KeyboardModifier = 0.5f;
@@ -16,6 +18,13 @@
         private void Start()
         {
             _camera = GetComponent<Camera>();
+            if (AttachedMap != null)
+            {
+                LowerLeftBounds = new Vector2(-(AttachedMap.Width / 2.0f),
+                    -(AttachedMap.Height / 2.0f));
+                UpperRightBounds = new Vector2(AttachedMap.Width / 2.0f,
+                    AttachedMap.Height / 2.0f);
+            }
         }
 
         private void Update()
