@@ -20,7 +20,7 @@
                 return new Queue<Tile>();
             }
 
-            var frontier = new SimplePriorityQueue<Tile>();
+            var frontier = new FastPriorityQueue<Tile>(100);
             var cameFrom = new Dictionary<Tile, Tile>();
             var cost = new Dictionary<Tile, int>();
             frontier.Enqueue(start, 0);
