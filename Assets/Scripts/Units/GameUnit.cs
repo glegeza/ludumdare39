@@ -183,6 +183,8 @@
             {
                 AIController.BeginTurn();
             }
+
+            TurnBegan?.Invoke(this, EventArgs.Empty);
         }
 
         public void EndTurn()

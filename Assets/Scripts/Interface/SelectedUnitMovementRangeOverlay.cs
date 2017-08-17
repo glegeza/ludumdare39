@@ -44,7 +44,8 @@
             var unit = newSelection.GetComponent<GameUnit>();
             if (unit == null && _trackedObject != null)
             {
-                _trackedObject.MoveAction.CompletedAction -= OnUnitMoved;
+                _trackedObject.TurnBegan -= OnChanged;
+                _trackedObject.MoveAction.CompletedAction -= OnChanged;
                 _trackedObject = null;
             }
             else if (_trackedObject == unit)
@@ -53,11 +54,12 @@
             }
 
             _trackedObject = unit;
-            _trackedObject.MoveAction.StartedAction += OnUnitMoved;
+            _trackedObject.TurnBegan += OnChanged;
+            _trackedObject.MoveAction.StartedAction += OnChanged;
             UpdateMarkers();
         }
 
-        private void OnUnitMoved(object sender, EventArgs e)
+        private void OnChanged(object sender, EventArgs e)
         {
             UpdateMarkers();
         }
