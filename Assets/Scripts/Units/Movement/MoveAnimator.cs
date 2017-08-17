@@ -1,4 +1,4 @@
-﻿namespace DLS.LD39
+﻿namespace DLS.LD39.Units.Movement
 {
     using DLS.LD39.Map;
     using DLS.LD39.Units;
