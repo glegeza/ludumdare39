@@ -27,11 +27,11 @@
             {
                 if (UnityEngine.Random.Range(0.0f, 1.0f) < EmptyChance)
                 {
-                    _map.SetTileAt(tile.X, tile.Y, "empty");
+                    _map.SetTileAt(tile.X, tile.Y, "default");
                 }
                 else
                 {
-                    _map.SetTileAt(tile.X, tile.Y, "default");
+                    _map.SetTileAt(tile.X, tile.Y, "empty");
                 }
             }
 
@@ -47,21 +47,21 @@
 
             foreach (var tile in _map.Tiles)
             {
-                var wallCount = 0;
+                var wallCount = tile.Type.ID == "default" ? 1 : 0;
                 foreach (var adj in tile.AdjacentTiles)
                 {
-                    if (adj.Type.ID == "empty")
+                    if (adj.Type.ID == "default")
                     {
                         wallCount += 1;
                     }
                 }
                 if (wallCount >= SimilarityRule)
                 {
-                    tiles[tile.Y * _map.Width + tile.X] = "empty";
+                    tiles[tile.Y * _map.Width + tile.X] = "default";
                 }
                 else
                 {
-                    tiles[tile.Y * _map.Width + tile.X] = "default";
+                    tiles[tile.Y * _map.Width + tile.X] = "empty";
                 }
             }
 
