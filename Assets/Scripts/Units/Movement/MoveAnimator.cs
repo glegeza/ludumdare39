@@ -6,6 +6,10 @@
     using System.Collections;
     using UnityEngine;
 
+    /// <summary>
+    /// Smoothly moves a GameObject from one tile to another, starting a walk
+    /// animation if the GameObject has an animation controller.
+    /// </summary>
     public class MoveAnimator : MonoBehaviour
     {
         private float _moveTime;
