@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Equipment
 {
     using System;
+    using Utility;
 
     public class EquipmentSlot<T> where T : Loot
     {
@@ -44,14 +45,14 @@
             _storedItem = item;
             if (prevItem == null)
             {
-                SlotFilled?.Invoke(this, EventArgs.Empty);
+                SlotFilled.SafeRaiseEvent(this);
             }
             else if (item == null)
             {
-                SlotEmptied?.Invoke(this, EventArgs.Empty);
+                SlotEmptied.SafeRaiseEvent(this);
             }
 
-            EquipmentChanged?.Invoke(this, EventArgs.Empty);
+            EquipmentChanged.SafeRaiseEvent(this);
         }
     }
 }

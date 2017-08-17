@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39
 {
     using DLS.LD39.Units;
+    using Utility;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -160,7 +161,7 @@
             // starting
             ActiveUnit = _unitsWaiting.Dequeue();
             ActiveUnit.BeginTurn();
-            TurnAdvanced?.Invoke(this, EventArgs.Empty);
+            TurnAdvanced.SafeRaiseEvent(this);
         }
     }
 }

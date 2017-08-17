@@ -24,7 +24,7 @@
             if (obj != SelectedObject)
             {
                 SelectedObject = obj;
-                SelectionChanged?.Invoke(this, EventArgs.Empty);
+                RaiseEvent(SelectionChanged, this, EventArgs.Empty);
             }
         }
 
@@ -40,7 +40,7 @@
                 return;
             }
             SelectedObject = null;
-            SelectionChanged?.Invoke(this, EventArgs.Empty);
+            RaiseEvent(SelectionChanged, this, EventArgs.Empty);
 
         }
 
@@ -53,6 +53,14 @@
             else
             {
                 _instance = this;
+            }
+        }
+
+        private void RaiseEvent(EventHandler<EventArgs> handler, object s, EventArgs e)
+        {
+            if (handler != null)
+            {
+                handler(s, e);
             }
         }
     }

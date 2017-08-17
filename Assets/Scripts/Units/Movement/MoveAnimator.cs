@@ -5,6 +5,7 @@
     using System;
     using System.Collections;
     using UnityEngine;
+    using Utility;
 
     /// <summary>
     /// Smoothly moves a GameObject from one tile to another, starting a walk
@@ -59,7 +60,7 @@
             }
 
             EndAnimation();
-            CompletedMovement?.Invoke(this, EventArgs.Empty);
+            CompletedMovement.SafeRaiseEvent(this);
             Destroy(this, 0.01f);
         }
 

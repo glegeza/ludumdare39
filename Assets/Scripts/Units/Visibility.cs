@@ -57,7 +57,15 @@
                 _visibleTiles.Add(tile);
             }
 
-            VisibilityUpdated?.Invoke(this, EventArgs.Empty);
+            RaiseEvent(VisibilityUpdated, this, EventArgs.Empty);
+        }
+
+        private void RaiseEvent(EventHandler<EventArgs> handler, object s, EventArgs e)
+        {
+            if (handler != null)
+            {
+                handler(s, e);
+            }
         }
     }
 }

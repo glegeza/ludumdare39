@@ -3,6 +3,7 @@
     using System;
     using UnityEngine;
     using Combat;
+    using Utility;
 
     public class CombatController : GameUnitComponent, ITargetable
     {
@@ -62,7 +63,7 @@
                 return;
             }
             _dead = true;
-            Destroyed?.Invoke(this, EventArgs.Empty);
+            Destroyed.SafeRaiseEvent(this);
         }
     }
 }

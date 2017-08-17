@@ -7,6 +7,7 @@
     using System;
     using System.Linq;
     using UnityEngine;
+    using Utility;
     using Data;
     using System.Collections.Generic;
 
@@ -44,7 +45,7 @@
             set
             {
                 _currentTarget = value;
-                TargetChanged?.Invoke(this, EventArgs.Empty);
+                TargetChanged.SafeRaiseEvent(this);
             }
         }
 
@@ -184,7 +185,7 @@
                 AIController.BeginTurn();
             }
 
-            TurnBegan?.Invoke(this, EventArgs.Empty);
+            TurnBegan.SafeRaiseEvent(this);
         }
 
         public void EndTurn()
@@ -214,7 +215,7 @@
             CombatInfo.Destroyed += (o, e) => 
             {
                 Alive = false;
-                UnitDestroyed?.Invoke(this, EventArgs.Empty);
+                UnitDestroyed.SafeRaiseEvent(this);
             };
         }
 
@@ -235,7 +236,7 @@
                 comp.EndTurn();
             }
 
-            TurnEnded?.Invoke(this, EventArgs.Empty);
+            TurnEnded.SafeRaiseEvent(this);
         }
 
         private void CreateComponents()

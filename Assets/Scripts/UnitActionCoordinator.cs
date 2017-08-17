@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
+    using Utility;
     using UnityEngine;
 
     public class UnitActionCoordinator : SingletonComponent<UnitActionCoordinator>
@@ -47,7 +47,7 @@
             }
 
             ActionInProgress = true;
-            UnitStartedAction?.Invoke(this, EventArgs.Empty);
+            UnitStartedAction.SafeRaiseEvent(this);
         }
 
         private void CompleteAction()
@@ -63,7 +63,7 @@
             }
 
             ActionInProgress = true;
-            UnitCompletedAction?.Invoke(this, EventArgs.Empty);
+            UnitCompletedAction.SafeRaiseEvent(this);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Units;
+    using Utility;
     using System;
     using UnityEngine;
 
@@ -62,7 +62,7 @@
             {
                 return;
             }
-            HitTarget?.Invoke(this, EventArgs.Empty);
+            HitTarget.SafeRaiseEvent(this);
             _moving = false;
             Destroy(gameObject);
         }

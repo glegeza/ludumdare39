@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Units.Actions
 {
     using System;
+    using Utility;
 
     public abstract class UnitAction : GameUnitComponent
     {
@@ -61,7 +62,7 @@
             SpendAP(ap);
             SpendEnergy(energy);
             ActionInProgress = true;
-            StartedAction?.Invoke(this, args);
+            StartedAction.SafeRaiseEvent(this, args);
         }
 
         protected void CompleteAction(EventArgs args)
@@ -72,7 +73,7 @@
                 return;
             }
             ActionInProgress = false;
-            CompletedAction?.Invoke(this, args);
+            CompletedAction.SafeRaiseEvent(this, args);
         }
 
         private void SpendAP(int cost)

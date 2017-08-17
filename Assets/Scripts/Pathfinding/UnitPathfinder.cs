@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
+    using DLS.Utility;
 
     public class UnitPathfinder : GameUnitComponent
     {
@@ -137,7 +138,7 @@
         {
             Debug.Log("Move completed");
             _moving = false;
-            TurnMoveComplete?.Invoke(this, EventArgs.Empty);
+            TurnMoveComplete.SafeRaiseEvent(this);
         }
 
         private void ArrivedAtDestination()
@@ -146,7 +147,7 @@
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
-            UnitArrived?.Invoke(this, EventArgs.Empty);
+            UnitArrived.SafeRaiseEvent(this);
         }
 
         private void DestinationUnreachable()
@@ -155,12 +156,12 @@
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
-            UnitBlocked?.Invoke(this, EventArgs.Empty);
+            UnitBlocked.SafeRaiseEvent(this);
         }
 
         private void OnPathChanged()
         {
-            PathChanged?.Invoke(this, EventArgs.Empty);
+            RaiseEvent(PathChanged, this, EventArgs.Empty);
         }
 
         private void CheckPathState()
@@ -169,6 +170,14 @@
             {
                 ArrivedAtDestination();
                 MoveCompleted();
+            }
+        }
+
+        private void RaiseEvent(EventHandler<EventArgs> handler, object s, EventArgs e)
+        {
+            if (handler != null)
+            {
+                handler(s, e);
             }
         }
     }

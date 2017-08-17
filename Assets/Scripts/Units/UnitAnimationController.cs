@@ -2,6 +2,7 @@
 {
     using System;
     using UnityEngine;
+    using DLS.Utility;
 
     public class UnitAnimationController : GameUnitComponent
     {
@@ -97,7 +98,7 @@
         {
             _transitioning = false;
             _animating = false;
-            ReturnedToIdle?.Invoke(this, EventArgs.Empty);
+            ReturnedToIdle.SafeRaiseEvent(this);
         }
 
         private void OnTransitionComplete()
