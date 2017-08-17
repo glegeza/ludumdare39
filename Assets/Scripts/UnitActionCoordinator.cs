@@ -20,7 +20,7 @@
 
         public bool TryMove()
         {
-
+            throw new NotImplementedException();
         }
 
         public bool TryRangedAttack()

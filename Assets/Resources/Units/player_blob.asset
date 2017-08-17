@@ -14,7 +14,7 @@ MonoBehaviour:
   ID: test_player
   Faction: 0
   StatsGenerator: {fileID: 11400000, guid: ccbd576180b62464c81be4067a9ddde4, type: 2}
-  GraphicsData: {fileID: 11400000, guid: 7c1d0eaba66990b469839d51aeac2e82, type: 2}
+  GraphicsData: {fileID: 11400000, guid: 338e9468a76b8be4bb41b3dc342ef57e, type: 2}
   SpriteTint: {r: 1, g: 1, b: 1, a: 1}
   DefaultState: {fileID: 0}
   DefaultPrimaryWeapon: {fileID: 11400000, guid: 931b6f7f7e3aa5944b6bfaf36ad46fe9,

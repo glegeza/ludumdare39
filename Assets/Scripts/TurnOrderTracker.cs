@@ -47,11 +47,11 @@
 
         public void AdvanceTurn()
         {
-            if (UnitActionCoordinator.Instance.ActionInProgress)
-            {
-                Debug.LogError("Attempting to advance turn while action still in progress.");
-                return;
-            }
+            //if (UnitActionCoordinator.Instance.ActionInProgress)
+            //{
+            //    Debug.LogError("Attempting to advance turn while action still in progress.");
+            //    return;
+            //}
 
             if (ActiveUnit == null)
             {

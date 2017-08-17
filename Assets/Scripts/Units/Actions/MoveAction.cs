@@ -2,9 +2,7 @@
 {
     using DLS.LD39.Map;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using UnityEngine;
 
     /// <summary>
     /// Allows a game unit to move from tile to tile. This class is only used
@@ -14,25 +12,6 @@
     {
         private GameUnit _unit;
         private TilePosition _position;
-        private float _inverseMoveTime;
-        private float _moveTime;
-
-        /// <summary>
-        /// The number of seconds it takes a unit to move to an adjacent tile.
-        /// </summary>
-        public float MoveAnimationTime
-        {
-            get
-            {
-                return _moveTime;
-            }
-            set
-            {
-                _moveTime = value;
-                _moveTime = Mathf.Max(0.0f, _moveTime);
-                _inverseMoveTime = 1.0f / _moveTime;
-            }
-        }
 
         /// <summary>
         /// Attempt to move to an adjacent tile.
@@ -63,7 +42,14 @@
             }
 
             AttachedUnit.Facing.FaceTile(target);
-            StartCoroutine(DoMovement(target));
+            _position.SetTile(target, false);
+            var moveController = gameObject.AddComponent<MoveAnimator>();
+            moveController.BeginMotion(target);
+            moveController.CompletedMovement += (o, e) =>
+            {
+                CompleteAction(EventArgs.Empty);
+            };
+
             StartAction(EventArgs.Empty, cost);
             return MoveResult.ValidMove;
         }
@@ -97,29 +83,8 @@
 
         protected override void OnInitialized(GameUnit unit)
         {
-            MoveAnimationTime = 1.0f;
             _unit = unit;
             _position = _unit.Position;
-        }
-
-        private IEnumerator DoMovement(Tile target)
-        {
-            _position.SetTile(target, false);
-            AttachedUnit.AnimationController.StartWalkAnimation();
-            var end = new Vector3(target.WorldCoords.x, target.WorldCoords.y, transform.position.z);
-
-            float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-
-            while (sqrRemainingDistance > float.Epsilon)
-            {
-                Vector3 newPostion = Vector3.MoveTowards(transform.position, end, _inverseMoveTime * Time.deltaTime);
-                transform.position = newPostion;
-                sqrRemainingDistance = (transform.position - end).sqrMagnitude;
-                yield return null;
-            }
-
-            CompleteAction(EventArgs.Empty);
-            AttachedUnit.AnimationController.StartIdleAnimation();
         }
     }
 }

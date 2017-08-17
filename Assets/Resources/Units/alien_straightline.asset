@@ -14,7 +14,7 @@ MonoBehaviour:
   ID: alien_straightline
   Faction: 1
   StatsGenerator: {fileID: 11400000, guid: 3da174f613b10c54f8c56dd65197f746, type: 2}
-  GraphicsData: {fileID: 11400000, guid: 7c1d0eaba66990b469839d51aeac2e82, type: 2}
+  GraphicsData: {fileID: 11400000, guid: 338e9468a76b8be4bb41b3dc342ef57e, type: 2}
   SpriteTint: {r: 1, g: 0.08823532, b: 0.08823532, a: 1}
   DefaultState: {fileID: 11400000, guid: 8970f0f4fcd6453489ea8582edeaadb6, type: 2}
   DefaultPrimaryWeapon: {fileID: 0}

@@ -8,9 +8,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 1f85bc5571ed2aa4a8a5a669857f018d, type: 3}
   m_Name: blob_animated
-  m_EditorClassIdentifier: Assembly-CSharp:DLS.LD39.Units.Data:UnitSprites
+  m_EditorClassIdentifier: 
   Sprite: {fileID: 21300004, guid: 466019213fb137940a181e2aa9fecb63, type: 3}
   AnimationController: {fileID: 22100000, guid: 85fc5ccc11c25a94eb7dd3ecb64ad2fa,
     type: 2}
