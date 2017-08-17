@@ -16,6 +16,7 @@
         private GameObject _markerPoolContainer;
         private List<GameObject> _markerPool = new List<GameObject>();
         private GameUnit _trackedObject = null;
+        private HashSet<Tile> _currenTileList = new HashSet<Tile>();
 
         private void Start()
         {
@@ -44,8 +45,9 @@
             var unit = newSelection.GetComponent<GameUnit>();
             if (unit == null && _trackedObject != null)
             {
-                _trackedObject.TurnBegan -= OnChanged;
-                _trackedObject.MoveAction.CompletedAction -= OnChanged;
+                _trackedObject.TurnBegan -= OnTurnStarted;
+                _trackedObject.MoveAction.StartedAction -= OnBeginMove;
+                _trackedObject.MoveAction.CompletedAction -= OnFinishedMove;
                 _trackedObject = null;
             }
             else if (_trackedObject == unit)
@@ -54,17 +56,38 @@
             }
 
             _trackedObject = unit;
-            _trackedObject.TurnBegan += OnChanged;
-            _trackedObject.MoveAction.StartedAction += OnChanged;
-            UpdateMarkers();
+            _trackedObject.TurnBegan += OnTurnStarted;
+            _trackedObject.MoveAction.StartedAction += OnBeginMove;
+            _trackedObject.MoveAction.CompletedAction += OnFinishedMove;
+
+            StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
+                _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
         }
 
-        private void OnChanged(object sender, EventArgs e)
+        private void OnTurnStarted(object sender, EventArgs e)
         {
-            UpdateMarkers();
+            if (_trackedObject == null)
+            {
+                ReturnMarkersToPool();
+                return;
+            }
+            
+
+            StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
+                _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
         }
 
-        private void UpdateMarkers()
+        private void OnBeginMove(object sender, EventArgs e)
+        {
+            BeginUpdate();
+        }
+
+        private void OnFinishedMove(object sender, EventArgs e)
+        {
+            UpdateTilesImmediate(_currenTileList);
+        }
+
+        private void BeginUpdate()
         {
             if (_trackedObject == null)
             {
@@ -72,12 +95,12 @@
                 return;
             }
 
-            StartCoroutine(_movementHelper.GetReachableTiles(_trackedObject.Position.CurrentTile,
-                _trackedObject.AP.PointsRemaining, SetNewMarkers));
+            StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
+                _trackedObject.AP.PointsRemaining, SetTiles));
             
         }
 
-        private void SetNewMarkers(HashSet<Tile> reachableTiles)
+        private void UpdateTilesImmediate(HashSet<Tile> reachableTiles)
         {
             ReturnMarkersToPool();
 
@@ -88,6 +111,11 @@
                 marker.SetActive(true);
                 marker.transform.position = tile.WorldCoords;
             }
+        }
+
+        private void SetTiles(HashSet<Tile> reachableTiles)
+        {
+            _currenTileList = reachableTiles;
         }
 
         private void ReturnMarkersToPool()

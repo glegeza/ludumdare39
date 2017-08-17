@@ -55,7 +55,8 @@
             }
 
             _path.Clear();
-            _path = _pathFinder.GetPath(AttachedUnit.Position.CurrentTile, target);
+            int cost;
+            _path = _pathFinder.GetPath(AttachedUnit.Position.CurrentTile, target, out cost);
             _target = target;
             OnPathChanged();
 

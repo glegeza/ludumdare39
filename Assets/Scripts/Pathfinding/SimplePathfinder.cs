@@ -9,8 +9,9 @@
 
     public class SimplePathfinder
     {
-        public Queue<Tile> GetPath(Tile start, Tile target)
+        public Queue<Tile> GetPath(Tile start, Tile target, out int pathCost)
         {
+            pathCost = 0;
             if (start == null || target == null)
             {
                 throw new ArgumentException("start or target is null");
@@ -20,7 +21,7 @@
                 return new Queue<Tile>();
             }
 
-            var frontier = new FastPriorityQueue<Tile>(100);
+            var frontier = new SimplePriorityQueue<Tile>();
             var cameFrom = new Dictionary<Tile, Tile>();
             var cost = new Dictionary<Tile, int>();
             frontier.Enqueue(start, 0);
@@ -49,6 +50,10 @@
                         var priority = newCost + Heuristic(next, target);
                         frontier.Enqueue(next, priority);
                         cameFrom[next] = current;
+                        if (frontier.Count > 98)
+                        {
+                            Debug.LogError("Gettin' risky");
+                        }
                     }
                 }
             }
@@ -69,9 +74,13 @@
             var pathQueue = new Queue<Tile>();
             path.Reverse();
 
+            var curTile = start;
+
             foreach (var step in path)
             {
+                pathCost += curTile.GetMoveCost(step);
                 pathQueue.Enqueue(step);
+                curTile = step;
             }
 
             return pathQueue;

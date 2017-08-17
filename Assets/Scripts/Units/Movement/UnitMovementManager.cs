@@ -5,6 +5,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Priority_Queue;
 
     public class UnitMovementHelper
     {
@@ -45,6 +46,49 @@
             return totalCost;
         }
 
+        public IEnumerator GetReachableTilesFast(Tile start, int maxAP, ReachableTileCallback cb)
+        {
+            UnityEngine.Debug.Log("Starting tile search");
+            var frontier = new FastPriorityQueue<Tile>(250);
+            var cost = new Dictionary<Tile, int>();
+            var valid = new HashSet<Tile>();
+
+            frontier.Enqueue(start, 0);
+            valid.Add(start);
+            cost.Add(start, 0);
+            var passes = 0;
+
+            while (frontier.Any())
+            {
+                var current = frontier.Dequeue();
+
+                foreach (var next in current.AdjacentTiles)
+                {
+                    if (!next.IsEnterable())
+                    {
+                        continue;
+                    }
+                    var newCost = cost[current] + current.GetMoveCost(next);
+                    if (!cost.ContainsKey(next) && newCost <= maxAP)
+                    {
+                        cost[next] = newCost;
+                        frontier.Enqueue(next, newCost);
+                        valid.Add(next);
+                    }
+                }
+
+                passes += 1;
+                if (passes > 50)
+                {
+                    passes = 0;
+                    yield return null;
+                }
+            }
+
+            UnityEngine.Debug.Log("Completed tile search");
+            cb(valid);
+        }
+
         public IEnumerator GetReachableTiles(Tile start, int maxAP, ReachableTileCallback cb)
         {
             var seen = new HashSet<Tile>();
@@ -62,12 +106,12 @@
             while (frontier.Any())
             {
                 var next = frontier.Dequeue();
-                var path = _pathFinder.GetPath(start, next);
+                int cost;
+                var path = _pathFinder.GetPath(start, next, out cost);
                 if (!path.Any())
                 {
                     continue; // no path, so don't check adjacent tiles either
                 }
-                var cost = CostOfPath(start, path);
                 if (cost <= maxAP)
                 {
                     reachable.Add(next);
