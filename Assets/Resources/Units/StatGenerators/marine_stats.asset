@@ -17,7 +17,7 @@ MonoBehaviour:
   BaseEvasionMax: 1
   BaseArmorMin: 0
   BaseArmorMax: 2
-  BaseSpeedMin: 15
+  BaseSpeedMin: 20
   BaseSpeedMax: 20
   BaseHPMin: 20
   BaseHPMax: 20

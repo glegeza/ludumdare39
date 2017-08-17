@@ -15,7 +15,7 @@
             {
                 throw new ArgumentException("start or target is null");
             }
-            if (start.Equals(target))
+            if (start.Equals(target) || !target.IsEnterable())
             {
                 return new Queue<Tile>();
             }

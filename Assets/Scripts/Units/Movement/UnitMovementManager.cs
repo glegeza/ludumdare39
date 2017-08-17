@@ -3,16 +3,19 @@
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
-    public static class UnitMovementHelper
+    public class UnitMovementHelper
     {
-        private static SimplePathfinder _pathFinder = new SimplePathfinder();
+        private SimplePathfinder _pathFinder = new SimplePathfinder();
 
-        public static int GetMaxMovementAlongPath(GameUnit unit, IEnumerable<Tile> path)
+        public delegate void ReachableTileCallback(HashSet<Tile> t);
+
+        public int GetMaxMovementAlongPath(GameUnit unit, IEnumerable<Tile> path)
         {
             var curMove = 0;
             var cost = 0;
@@ -32,7 +35,7 @@
             return curMove;
         }
 
-        public static int CostOfPath(Tile start, IEnumerable<Tile> path)
+        public int CostOfPath(Tile start, IEnumerable<Tile> path)
         {
             var curTile = start;
             var totalCost = 0;
@@ -43,6 +46,47 @@
             }
 
             return totalCost;
+        }
+
+        public IEnumerator GetReachableTiles(Tile start, int maxAP, ReachableTileCallback cb)
+        {
+            var seen = new HashSet<Tile>();
+            var reachable = new HashSet<Tile>();
+            var frontier = new Queue<Tile>();
+
+            seen.Add(start);
+            reachable.Add(start);
+            foreach (var adj in start.AdjacentTiles)
+            {
+                seen.Add(adj);
+                frontier.Enqueue(adj);
+            }
+
+            while (frontier.Any())
+            {
+                var next = frontier.Dequeue();
+                var path = _pathFinder.GetPath(start, next);
+                if (!path.Any())
+                {
+                    continue; // no path, so don't check adjacent tiles either
+                }
+                var cost = CostOfPath(start, path);
+                if (cost <= maxAP)
+                {
+                    reachable.Add(next);
+                    foreach (var adj in next.AdjacentTiles.Where(a => !seen.Contains(a)))
+                    {
+                        seen.Add(adj);
+                        if (cost + next.GetMoveCost(adj) <= maxAP)
+                        {
+                            frontier.Enqueue(adj);
+                        }
+                    }
+                }
+                yield return null;
+            }
+
+            cb(reachable);
         }
     }
 }

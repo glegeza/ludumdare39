@@ -18,6 +18,7 @@
 
         private static SelectedUnitPathMarker _instance;
 
+        private UnitMovementHelper _movementHelper = new UnitMovementHelper();
         private GameObject _markerPoolContainer;
         private GameObject _pathContainer;
         private List<GameObject> _markerPool = new List<GameObject>();
@@ -106,7 +107,7 @@
             var max = MarkerPoolSize + 1;
             if (unit != null)
             {
-                max = UnitMovementHelper.GetMaxMovementAlongPath(unit, _trackedPathfinder.Path);
+                max = _movementHelper.GetMaxMovementAlongPath(unit, _trackedPathfinder.Path);
             }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)

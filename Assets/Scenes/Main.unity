@@ -2912,6 +2912,7 @@ GameObject:
   - component: {fileID: 952857193}
   - component: {fileID: 952857192}
   - component: {fileID: 952857194}
+  - component: {fileID: 952857195}
   m_Layer: 0
   m_Name: Interface
   m_TagString: Untagged
@@ -2970,12 +2971,26 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 952857190}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa1d49c3d62e80b46a4b72ac1b94e6a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MarkerPoolSize: 100
+  MarkerPrefab: {fileID: 1202306459544848, guid: f07998286cd1957428976f5a54202829,
+    type: 2}
+--- !u!114 &952857195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 952857190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 348134283746a8c4589ebf81722f6bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarkerPoolSize: 200
   MarkerPrefab: {fileID: 1202306459544848, guid: f07998286cd1957428976f5a54202829,
     type: 2}
 --- !u!1 &987454357
