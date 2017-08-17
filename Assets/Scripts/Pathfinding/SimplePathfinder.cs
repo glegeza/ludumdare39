@@ -7,7 +7,7 @@
     using UnityEngine;
     using Priority_Queue;
 
-    class SimplePathfinder
+    public class SimplePathfinder
     {
         public Queue<Tile> GetPath(Tile start, Tile target)
         {

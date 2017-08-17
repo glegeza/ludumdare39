@@ -1,6 +1,8 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
+    using DLS.LD39.Units;
     using DLS.LD39.Units.Actions;
+    using DLS.LD39.Units.Movement;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -100,11 +102,11 @@
                 return;
             }
 
-            var mover = _trackedObject.GetComponent<MoveAction>();
+            var unit = _trackedObject.GetComponent<GameUnit>();
             var max = MarkerPoolSize + 1;
-            if (mover != null)
+            if (unit != null)
             {
-                max = mover.GetMaxMovementThisTurn(_trackedPathfinder.Path);
+                max = UnitMovementHelper.GetMaxMovementAlongPath(unit, _trackedPathfinder.Path);
             }
             var idx = 0;
             foreach (var step in _trackedPathfinder.Path)

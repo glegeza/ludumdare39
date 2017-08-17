@@ -3,7 +3,6 @@
     using DLS.LD39.Map;
     using System;
     using Units.Movement;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Allows a game unit to move from tile to tile. This class is only used
@@ -53,33 +52,6 @@
 
             StartAction(EventArgs.Empty, cost);
             return MoveResult.ValidMove;
-        }
-
-        /// <summary>
-        /// The maximum number of moves this unit can make this turn along
-        /// the given path.
-        /// </summary>
-        /// <param name="path">The path to follow.</param>
-        /// <returns>The number of spaces it can move before running out of AP.
-        /// May be 0.</returns>
-        public int GetMaxMovementThisTurn(IEnumerable<Tile> path)
-        {
-            var curMove = 0;
-            var cost = 0;
-
-            var lastPos = _position.CurrentTile;
-            foreach (var tile in path)
-            {
-                cost += lastPos.GetMoveCost(tile);
-                if (cost > _unit.AP.PointsRemaining)
-                {
-                    break;
-                }
-                lastPos = tile;
-                curMove++;
-            }
-            
-            return curMove;
         }
 
         protected override void OnInitialized(GameUnit unit)
