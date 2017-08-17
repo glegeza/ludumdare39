@@ -8,7 +8,15 @@
 
     class ActiveUnits : SingletonComponent<ActiveUnits>
     {
-        private List<GameUnit> _activeUnits = new List<GameUnit>();
+        private HashSet<GameUnit> _activeUnits = new HashSet<GameUnit>();
+
+        public IEnumerable<GameUnit> Units
+        {
+            get
+            {
+                return _activeUnits;
+            }
+        }
 
         public void AddActiveUnit(GameUnit unit)
         {

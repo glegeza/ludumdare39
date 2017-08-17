@@ -1,12 +1,10 @@
 fileFormatVersion: 2
-guid: 07af7f81cdc0f8c43a51c824632df018
-timeCreated: 1502738067
+guid: 9ac6ea3a079c55f44a7d846fdad5cf45
+timeCreated: 1502740290
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: crosshair_selection
-    21300002: crosshair_target
-    21300004: crosshair_eyeball
+    21300000: bullet_square_shit
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -33,7 +31,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
@@ -74,6 +72,14 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   - buildTarget: Windows Store Apps
     maxTextureSize: 2048
     textureFormat: -1
@@ -90,55 +96,19 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Android
-    maxTextureSize: 2048
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: crosshair_selection
+      name: bullet_square_shit
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 34
-        height: 34
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: crosshair_target
-      rect:
-        serializedVersion: 2
-        x: 36
+        x: 6
         y: 6
-        width: 24
-        height: 24
+        width: 4
+        height: 4
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: crosshair_eyeball
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 2
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

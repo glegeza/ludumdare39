@@ -55,7 +55,7 @@
             {
                 var collider = propObj.AddComponent<BoxCollider2D>();
                 collider.offset = new Vector2(0.0f, 0.0f);
-                collider.size = new Vector2(1.0f, 1.0f);
+                collider.size = new Vector2(0.95f, 0.95f);
                 propObj.AddComponent<LOSBlocker>();
             }
 
@@ -86,7 +86,31 @@
             var props = Resources.LoadAll<PropData>("Props");
             foreach (var prop in props)
             {
-                _propDict.Add(prop.ID, prop);
+                var hasErrors = false;
+                if (String.IsNullOrEmpty(prop.ID))
+                {
+                    Debug.LogErrorFormat("Prop file {0} missing ID", prop.name);
+                    hasErrors = true;
+                }
+                if (_propDict.ContainsKey(prop.ID))
+                {
+                    Debug.LogErrorFormat("Prop dictionary already contains prop with ID {0}", prop.ID);
+                    hasErrors = true;
+                }
+                if (prop.Sprite == null)
+                {
+                    Debug.LogErrorFormat("Prop file {0} missing sprite", prop.name);
+                    hasErrors = true;
+                }
+
+                if (!hasErrors)
+                {
+                    _propDict.Add(prop.ID, prop);
+                }
+                else
+                {
+                    Debug.LogErrorFormat("Prop file {0} had errors and was not added to prop list.", prop.name);
+                }
             }
         }
     }

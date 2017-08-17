@@ -4,6 +4,7 @@
     using UnityEngine;
     using Combat;
     using DLS.LD39.Map;
+    using DLS.LD39.Graphics;
 
     public class CombatController : GameUnitComponent, ITargetable
     {
@@ -43,7 +44,12 @@
             }
         }
 
-        public WeaponStats EquippedWeapon
+        public WeaponStats EquippedMeleeWeapon
+        {
+            get; set;
+        }
+
+        public WeaponStats EquippedRangedWeapon
         {
             get; set;
         }
@@ -51,12 +57,12 @@
         public void TryMeleeAttack(Tile targetTile, ITargetable target, out DamageResult damage)
         {
             damage = null;
-            if (EquippedWeapon == null || EquippedWeapon.Type != WeaponType.Melee)
+            if (EquippedMeleeWeapon == null || EquippedMeleeWeapon.Type != WeaponType.Melee)
             {
                 return;
             }
 
-            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedWeapon, target);
+            var cost = CombatManager.Instance.GetAttackCost(AttachedUnit, EquippedMeleeWeapon, target);
             if (!AttachedUnit.AP.PointsAvailable(cost))
             {
                 return;
@@ -69,6 +75,7 @@
             StartedAttack?.Invoke(this, EventArgs.Empty);
             AttachedUnit.AP.SpendPoints(cost);
             AttachedUnit.AnimationController.StartMeleeAnimation();
+            BulletSpawner.Instance.SpawnBullet(AttachedUnit.Position.CurrentTile, (_targetUnit as CombatController).AttachedUnit);
         }
 
         public void TryRangedAttack(Tile targetTile, ITargetable target, out DamageResult damage)
@@ -119,7 +126,7 @@
 
             DamageResult damage;
             var result = CombatManager.Instance.MakeMeleeAttack(
-                AttachedUnit, EquippedWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
+                AttachedUnit, EquippedMeleeWeapon as MeleeWeapon, _targetUnit, _targetTile, out damage);
             Attacking = false;
             CompletedAttack?.Invoke(this, EventArgs.Empty);
         }

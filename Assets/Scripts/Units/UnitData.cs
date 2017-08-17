@@ -5,10 +5,12 @@
     using DLS.LD39.Graphics;
     using UnityEngine;
 
+    [CreateAssetMenu(menuName = "Game Data/Unit")]
     public class UnitData : ScriptableObject
     {
         public string ID;
         public Sprite Sprite;
+        public Color SpriteColor = Color.white;
         public RuntimeAnimatorController Controller;
         public Explosion DeathPrefab;
         public Faction Faction;

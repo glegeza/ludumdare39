@@ -2,6 +2,7 @@
 {
     using UnityEngine;
 
+    [CreateAssetMenu(menuName = "Game Data/Unit Stat Generator")]
     public class StatsData : ScriptableObject
     {
         public static int MaxStatValue = 80;

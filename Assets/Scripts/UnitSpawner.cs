@@ -64,7 +64,32 @@
             var units = Resources.LoadAll<UnitData>("Units");
             foreach (var unit in units)
             {
-                _unitTypes.Add(unit.ID, unit);
+                var hasErrors = false;
+
+                if (String.IsNullOrEmpty(unit.ID))
+                {
+                    Debug.LogErrorFormat("Unit file {0} missing ID", unit.name);
+                    hasErrors = true;
+                }
+                if (_unitTypes.ContainsKey(unit.ID))
+                {
+                    Debug.LogErrorFormat("Unit dictionary already contains unit with ID {0}", unit.ID);
+                    hasErrors = true;
+                }
+                if (unit.Sprite == null && unit.Controller == null)
+                {
+                    Debug.LogErrorFormat("Unit {0} does not have a sprite or controller.", unit.ID);
+                    hasErrors = true;
+                }
+
+                if (!hasErrors)
+                {
+                    _unitTypes.Add(unit.ID, unit);
+                }
+                else
+                {
+                    Debug.LogErrorFormat("Unit file {0} has errors and was not added to unit list.", unit.name);
+                }
             }
         }
     }
