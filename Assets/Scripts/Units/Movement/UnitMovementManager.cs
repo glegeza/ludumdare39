@@ -48,7 +48,6 @@
 
         public IEnumerator GetReachableTilesFast(Tile start, int maxAP, ReachableTileCallback cb)
         {
-            UnityEngine.Debug.Log("Starting tile search");
             var frontier = new FastPriorityQueue<Tile>(250);
             var cost = new Dictionary<Tile, int>();
             var valid = new HashSet<Tile>();
@@ -84,8 +83,7 @@
                     yield return null;
                 }
             }
-
-            UnityEngine.Debug.Log("Completed tile search");
+            
             cb(valid);
         }
 
