@@ -68,9 +68,9 @@
             }
 
             RemoveUnit(unit);
-            if (unit.Data.DeathPrefab != null)
+            if (unit.Data.GraphicsData.DeathAnimation != null)
             {
-                ExplosionSpawner.Instance.SpawnExplosion(unit.Data.DeathPrefab, unit.Position.CurrentTile);
+                ExplosionSpawner.Instance.SpawnExplosion(unit.Data.GraphicsData.DeathAnimation, unit.Position.CurrentTile);
             }
         }
     }

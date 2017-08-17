@@ -14,11 +14,9 @@ MonoBehaviour:
   ID: alien_blob
   Faction: 1
   StatsGenerator: {fileID: 11400000, guid: 3da174f613b10c54f8c56dd65197f746, type: 2}
-  Sprite: {fileID: 21300004, guid: f80bed423853a7d408d10ab2778fe2e1, type: 3}
-  SpriteColor: {r: 1, g: 0.066176474, b: 0.066176474, a: 1}
-  AnimationController: {fileID: 0}
-  DeathPrefab: {fileID: 114538696964274848, guid: 5e457efb92b0e1340bd47f7f57139602,
-    type: 2}
+  GraphicsData: {fileID: 11400000, guid: 7c1d0eaba66990b469839d51aeac2e82, type: 2}
+  SpriteTint: {r: 1, g: 0.08823532, b: 0.08823532, a: 1}
   DefaultState: {fileID: 11400000, guid: 141d496b747de824cb5a6eaeaad6404c, type: 2}
-  DefaultMeleeWeapon: {fileID: 0}
-  DefaultRangedWeapon: {fileID: 0}
+  DefaultPrimaryWeapon: {fileID: 0}
+  DefaultSecondaryWeapon: {fileID: 0}
+  BatteryPack: {fileID: 0}

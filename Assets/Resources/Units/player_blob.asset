@@ -9,16 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8382d83f7b0a3cd4aac133176bf026ee, type: 3}
-  m_Name: marine
+  m_Name: player_blob
   m_EditorClassIdentifier: 
   ID: test_player
   Faction: 0
   StatsGenerator: {fileID: 11400000, guid: ccbd576180b62464c81be4067a9ddde4, type: 2}
-  Sprite: {fileID: 21300000, guid: 466019213fb137940a181e2aa9fecb63, type: 3}
-  SpriteColor: {r: 1, g: 1, b: 1, a: 1}
-  AnimationController: {fileID: 22100000, guid: 85fc5ccc11c25a94eb7dd3ecb64ad2fa,
-    type: 2}
-  DeathPrefab: {fileID: 0}
+  GraphicsData: {fileID: 11400000, guid: 7c1d0eaba66990b469839d51aeac2e82, type: 2}
+  SpriteTint: {r: 1, g: 1, b: 1, a: 1}
   DefaultState: {fileID: 0}
   DefaultPrimaryWeapon: {fileID: 11400000, guid: 931b6f7f7e3aa5944b6bfaf36ad46fe9,
     type: 2}

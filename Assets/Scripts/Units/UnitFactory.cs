@@ -16,8 +16,8 @@
             var unitObj = new GameObject(String.Format("{0}:{1}", name, UnitNumber++));
             unitObj.layer = LayerMask.NameToLayer("Units");
             var renderer = unitObj.AddComponent<SpriteRenderer>();
-            renderer.sprite = unitData.Sprite;
-            renderer.color = unitData.SpriteColor;
+            renderer.sprite = unitData.GraphicsData.Sprite;
+            renderer.color = unitData.SpriteTint;
             renderer.sortingLayerName = "Units";
 
             var collider = unitObj.AddComponent<BoxCollider2D>();
@@ -29,10 +29,10 @@
             rb.isKinematic = true;
 
             Animator animator = null;
-            if (unitData.AnimationController != null)
+            if (unitData.GraphicsData.AnimationController != null)
             {
                 animator = unitObj.AddComponent<Animator>();
-                animator.runtimeAnimatorController = unitData.AnimationController;
+                animator.runtimeAnimatorController = unitData.GraphicsData.AnimationController;
             }
             unitObj.AddComponent<SortByY>();
 
