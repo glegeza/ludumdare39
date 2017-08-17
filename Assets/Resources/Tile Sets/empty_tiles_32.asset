@@ -41,3 +41,6 @@ MonoBehaviour:
   - ID: default
     Passable: 1
     BlocksLOS: 0
+  - ID: empty
+    Passable: 0
+    BlocksLOS: 1
