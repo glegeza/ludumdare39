@@ -24,17 +24,17 @@
             }
         }
 
+        public GameUnit ActiveUnit
+        {
+            get; private set;
+        }
+
         public IEnumerable<GameUnit> UnitsDone
         {
             get
             {
                 return _unitsDone;
             }
-        }
-
-        public GameUnit ActiveUnit
-        {
-            get; private set;
         }
 
         public IEnumerable<GameUnit> UnitsWaiting
@@ -47,6 +47,12 @@
 
         public void AdvanceTurn()
         {
+            if (UnitActionCoordinator.Instance.ActionInProgress)
+            {
+                Debug.LogError("Attempting to advance turn while action still in progress.");
+                return;
+            }
+
             if (ActiveUnit == null)
             {
                 SetNextUnit();
