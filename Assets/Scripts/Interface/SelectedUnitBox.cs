@@ -40,6 +40,11 @@ namespace DLS.LD39.Interface
 
             _currentSelection = newSelection;
             _renderer.enabled = true;
+            var target = FindObjectOfType<CameraTargeter>();
+            if (target != null)
+            {
+                target.TargetUnit(_currentSelection);
+            }
             transform.localPosition = Vector3.zero;
             var unit = newSelection.GetComponent<GameUnit>();
             if (unit != null)
