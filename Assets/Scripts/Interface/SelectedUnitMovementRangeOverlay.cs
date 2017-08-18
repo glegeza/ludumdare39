@@ -71,7 +71,6 @@
                 ReturnMarkersToPool();
                 return;
             }
-            
 
             StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));

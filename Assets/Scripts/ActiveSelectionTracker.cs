@@ -25,6 +25,8 @@
             {
                 SelectedObject = obj;
                 RaiseEvent(SelectionChanged, this, EventArgs.Empty);
+                var targeter = FindObjectOfType<CameraTargeter>();
+                targeter.TargetUnit(obj);
             }
         }
 

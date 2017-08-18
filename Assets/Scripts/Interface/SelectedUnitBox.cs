@@ -11,7 +11,7 @@ namespace DLS.LD39.Interface
         private GameObject _currentSelection;
         private SpriteRenderer _renderer;
 
-        private void Start()
+        private void Awake()
         {
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.enabled = false;

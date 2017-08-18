@@ -164,6 +164,7 @@
             TurnAdvanced.SafeRaiseEvent(this);
             if (ActiveUnit.Faction == Faction.Player)
             {
+                Debug.Log("Should set selection here");
                 ActiveSelectionTracker.Instance.SetSelection(ActiveUnit);
             }
         }
