@@ -1,10 +1,7 @@
 ﻿namespace DLS.LD39.Generation
 {
+    using DLS.LD39.Map;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using UnityEngine;
     using Utility;
 
     public class Room : MapElement, IEquatable<Room>
@@ -17,6 +14,17 @@
         public IntRect MapRect
         {
             get; private set;
+        }
+
+        public void SetTiles(TileMap map)
+        {
+            for (var x = 0; x < MapRect.Width; x++)
+            {
+                for (var y = 0; y < MapRect.Height; y++)
+                {
+                    map.SetTileAt(x + MapRect.X, y + MapRect.Y, "default");
+                }
+            }
         }
 
         public bool Equals(Room other)

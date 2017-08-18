@@ -3,6 +3,7 @@
     using Utility;
     using System.Collections.Generic;
     using System.Linq;
+    using DLS.LD39.Map;
 
     public class SingleWidthCorridor : MapElement
     {
@@ -26,6 +27,14 @@
             get
             {
                 return _tiles;
+            }
+        }
+
+        public void SetTiles(TileMap map)
+        {
+            foreach (var tile in _tiles)
+            {
+                map.SetTileAt(tile.X, tile.Y, "default");
             }
         }
 

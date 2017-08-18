@@ -158,8 +158,11 @@
         {
             var tile = _tileSet.GetTileByID(tileType);
             var tileObj = GetTile(x, y);
-            tileObj.SetType(tile.Type);
-            _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
+            if (tileObj != null)
+            {
+                tileObj.SetType(tile.Type);
+                _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
+            }
         }
 
         private void Awake()
