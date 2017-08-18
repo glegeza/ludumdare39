@@ -56,6 +56,16 @@
                 corridor.AddNode(rooms[i + 1].MapRect.Center);
                 corridor.SetTiles(_map);
             }
+
+            var startRoom = rooms[2];
+            var tile1 = _map.GetTile(startRoom.MapRect.Center);
+            var tile2 = _map.GetTile(startRoom.MapRect.Center + new IntVector2(1, 0));
+            var tile3 = _map.GetTile(startRoom.MapRect.Center + new IntVector2(-1, 0));
+            var tile4 = _map.GetTile(startRoom.MapRect.Center + new IntVector2(0, 1));
+            UnitSpawner.Instance.SpawnUnit("test_player", tile1);
+            UnitSpawner.Instance.SpawnUnit("test_player", tile2);
+            UnitSpawner.Instance.SpawnUnit("test_player", tile3);
+            UnitSpawner.Instance.SpawnUnit("test_player", tile4);
         }
     }
 }
