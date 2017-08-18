@@ -54,6 +54,11 @@
             //    return;
             //}
 
+            if (ActiveUnit != null && !ActiveUnit.Ready)
+            {
+                return;
+            }
+
             if (ActiveUnit == null)
             {
                 SetNextUnit();
