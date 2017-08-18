@@ -39,6 +39,7 @@
             if (battery == null)
             {
                 PointsRemaining = 0;
+                return;
             }
             PointsRemaining += battery.PassiveRegen;
             PointsRemaining = Mathf.Min(PointsRemaining, EnergyCapacity);
