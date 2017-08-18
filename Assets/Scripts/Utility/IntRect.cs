@@ -50,6 +50,22 @@
             }
         }
 
+        public int Width
+        {
+            get
+            {
+                return _w;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return _h;
+            }
+        }
+
         public IntVector2 Center
         {
             get
