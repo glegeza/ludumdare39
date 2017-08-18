@@ -162,6 +162,10 @@
             ActiveUnit = _unitsWaiting.Dequeue();
             ActiveUnit.BeginTurn();
             TurnAdvanced.SafeRaiseEvent(this);
+            if (ActiveUnit.Faction == Faction.Player)
+            {
+                ActiveSelectionTracker.Instance.SetSelection(ActiveUnit);
+            }
         }
     }
 }
