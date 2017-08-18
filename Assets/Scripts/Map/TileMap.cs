@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Map
 {
+    using DLS.Utility;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -123,6 +124,11 @@
         public bool TileCoordsValid(int x, int y)
         {
             return x >= 0 && y >= 0 && x < Width && y < Height;
+        }
+
+        public Tile GetTile(IntVector2 pos)
+        {
+            return GetTile(pos.X, pos.Y);
         }
 
         public Tile GetTile(int x, int y)
