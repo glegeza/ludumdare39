@@ -17,6 +17,8 @@
         private float _timeSinceLastMove = 0.0f;
         private bool _moving = false;
 
+        public event EventHandler<EventArgs> StartPathMovement;
+
         public event EventHandler<EventArgs> TurnMoveComplete;
 
         public event EventHandler<EventArgs> UnitArrived;
@@ -70,6 +72,8 @@
                 MoveCompleted();
                 return;
             }
+
+            StartPathMovement.SafeRaiseEvent(this);
 
             _moving = true;
         }
@@ -137,14 +141,12 @@
 
         private void MoveCompleted()
         {
-            Debug.Log("Move completed");
             _moving = false;
             TurnMoveComplete.SafeRaiseEvent(this);
         }
 
         private void ArrivedAtDestination()
         {
-            Debug.Log("Arrived!");
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;
@@ -153,7 +155,6 @@
 
         private void DestinationUnreachable()
         {
-            Debug.Log("Destination unreachable!");
             _path.Clear();
             _timeSinceLastMove = 0.0f;
             _target = null;

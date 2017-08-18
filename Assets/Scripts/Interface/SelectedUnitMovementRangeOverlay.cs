@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Interface
 {
+    using Pathfinding;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using DLS.LD39.Units.Movement;
@@ -12,6 +13,7 @@
         public int MarkerPoolSize = 100;
         public GameObject MarkerPrefab;
 
+        private bool _isPathing = false;
         private UnitMovementHelper _movementHelper = new UnitMovementHelper();
         private GameObject _markerPoolContainer;
         private List<GameObject> _markerPool = new List<GameObject>();
@@ -43,8 +45,16 @@
             }
 
             var unit = newSelection.GetComponent<GameUnit>();
+            _isPathing = false;
             if (unit == null && _trackedObject != null)
             {
+                var oldPathController = _trackedObject.GetComponent<UnitPathfinder>();
+                if (oldPathController != null)
+                {
+                    oldPathController.StartPathMovement -= OnPathStarted;
+                    oldPathController.TurnMoveComplete -= OnPathFinished;
+                }
+
                 _trackedObject.TurnBegan -= OnTurnStarted;
                 _trackedObject.MoveAction.StartedAction -= OnBeginMove;
                 _trackedObject.MoveAction.CompletedAction -= OnFinishedMove;
@@ -56,6 +66,12 @@
             }
 
             _trackedObject = unit;
+            var pathController = _trackedObject.GetComponent<UnitPathfinder>();
+            if (pathController != null)
+            {
+                pathController.StartPathMovement += OnPathStarted;
+                pathController.TurnMoveComplete += OnPathFinished;
+            }
             _trackedObject.TurnBegan += OnTurnStarted;
             _trackedObject.MoveAction.StartedAction += OnBeginMove;
             _trackedObject.MoveAction.CompletedAction += OnFinishedMove;
@@ -64,8 +80,27 @@
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
         }
 
+        private void OnPathFinished(object sender, EventArgs e)
+        {
+            Debug.Log("Path finished.");
+            _isPathing = false;
+            StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
+                _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
+        }
+
+        private void OnPathStarted(object sender, EventArgs e)
+        {
+            Debug.Log("Returning markers to pool");
+            _isPathing = true;
+            ReturnMarkersToPool();
+        }
+
         private void OnTurnStarted(object sender, EventArgs e)
         {
+            if (_isPathing)
+            {
+                return;
+            }
             if (_trackedObject == null)
             {
                 ReturnMarkersToPool();
@@ -78,11 +113,20 @@
 
         private void OnBeginMove(object sender, EventArgs e)
         {
+            if (_isPathing)
+            {
+                return;
+            }
             BeginUpdate();
         }
 
         private void OnFinishedMove(object sender, EventArgs e)
         {
+            if (_isPathing)
+            {
+                return;
+            }
+
             UpdateTilesImmediate(_currenTileList);
         }
 
@@ -101,6 +145,7 @@
 
         private void UpdateTilesImmediate(HashSet<Tile> reachableTiles)
         {
+            Debug.Log("Updating tiles now");
             ReturnMarkersToPool();
 
             var idx = 0;
