@@ -5,7 +5,6 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Priority_Queue;
 
     public class UnitMovementHelper
     {
@@ -48,12 +47,22 @@
 
         public IEnumerator GetReachableTilesFast(Tile start, int maxAP, ReachableTileCallback cb)
         {
-            var frontier = new FastPriorityQueue<Tile>(250);
+            if (start == null)
+            {
+                UnityEngine.Debug.LogError("start null");
+                yield break;
+            }
+            if (cb == null)
+            {
+                UnityEngine.Debug.LogError("cb null");
+                yield break;
+            }
+
+            var frontier = new Queue<Tile>();
             var cost = new Dictionary<Tile, int>();
             var valid = new HashSet<Tile>();
 
-            frontier.Enqueue(start, 0);
-            valid.Add(start);
+            frontier.Enqueue(start);
             cost.Add(start, 0);
             var passes = 0;
 
@@ -71,7 +80,7 @@
                     if (!cost.ContainsKey(next) && newCost <= maxAP)
                     {
                         cost[next] = newCost;
-                        frontier.Enqueue(next, newCost);
+                        frontier.Enqueue(next);
                         valid.Add(next);
                     }
                 }
