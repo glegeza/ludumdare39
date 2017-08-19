@@ -114,27 +114,6 @@
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
         }
 
-        private void OnBeginMove(object sender, EventArgs e)
-        {
-            Debug.Log("OnBeginMove");
-            if (_isPathing)
-            {
-                return;
-            }
-            BeginUpdate();
-        }
-
-        private void OnFinishedMove(object sender, EventArgs e)
-        {
-            Debug.Log("OnFinishedMove");
-            if (_isPathing)
-            {
-                return;
-            }
-
-            UpdateTilesImmediate(_currenTileList);
-        }
-
         private void BeginUpdate()
         {
             if (_trackedObject == null)
@@ -150,7 +129,6 @@
 
         private void UpdateTilesImmediate(HashSet<Tile> reachableTiles)
         {
-            Debug.LogFormat("Reachable Tiles: {0}", reachableTiles.Count);
             ReturnMarkersToPool();
 
             var idx = 0;
