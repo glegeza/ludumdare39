@@ -20,6 +20,14 @@
             get; private set;
         }
 
+        public override IEnumerable<IntVector2> Tiles
+        {
+            get
+            {
+                return _tiles;
+            }
+        }
+
         public void SetTiles(TileMap map, string tileID="default")
         {
             foreach (var tile in _tiles)

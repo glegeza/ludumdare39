@@ -23,7 +23,7 @@
             return true;
         }
 
-        public IEnumerable<IntVector2> Tiles
+        public override IEnumerable<IntVector2> Tiles
         {
             get
             {

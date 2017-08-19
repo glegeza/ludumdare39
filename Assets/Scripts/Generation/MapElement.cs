@@ -16,6 +16,11 @@
             }
         }
 
+        public abstract IEnumerable<IntVector2> Tiles
+        {
+            get;
+        }
+
         /// <summary>
         /// Adds a new connection to this element's connection list.
         /// </summary>
