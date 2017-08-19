@@ -25,7 +25,17 @@
             PointsRemaining -= amount;
         }
 
-        protected override void OnTurnStarted()
+        protected override void OnInitialized(GameUnit unit)
+        {
+            RegenPoints();
+        }
+
+        protected override void OnTurnEnded()
+        {
+            RegenPoints();
+        }
+
+        private void RegenPoints()
         {
             PointsRemaining += AttachedUnit.SecondaryStats.ActionPointRegen;
             PointsRemaining = Mathf.Min(
