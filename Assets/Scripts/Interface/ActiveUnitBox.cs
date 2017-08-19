@@ -44,15 +44,8 @@ namespace DLS.LD39.Interface
                 return;
             }
 
-            if (TurnOrderTracker.Instance.ActiveUnit.gameObject == ActiveSelectionTracker.Instance.SelectedObject)
-            {
-                _renderer.enabled = false;
-            }
-            else
-            {
-                transform.position = _targetSelection.transform.position;
-                _renderer.enabled = true;
-            }
+            transform.position = _targetSelection.transform.position;
+            _renderer.enabled = true;
         }
     }
 }
