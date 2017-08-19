@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Generation
 {
+    using DLS.LD39.Map;
     using DLS.Utility;
     using System.Collections.Generic;
 
@@ -31,6 +32,18 @@
 
             _mapConnections.Add(connection);
             other._mapConnections.Add(connection);
+        }
+
+        public abstract bool TileInElement(int x, int y);
+
+        public bool TileInElement(IntVector2 tilePos)
+        {
+            return TileInElement(tilePos.X, tilePos.Y);
+        }
+
+        public bool TileInElement(Tile tile)
+        {
+            return TileInElement(tile.X, tile.Y);
         }
     }
 }

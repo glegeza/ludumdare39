@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using DLS.LD39.Map;
+    using System;
 
     public class SingleWidthCorridor : MapElement
     {
@@ -78,6 +79,11 @@
                     _tiles.Add(last);
                 }
             }
+        }
+
+        public override bool TileInElement(int x, int y)
+        {
+            return _tiles.Contains(new IntVector2(x, y));
         }
     }
 }

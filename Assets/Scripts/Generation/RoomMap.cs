@@ -41,7 +41,7 @@
 
                 var newRoom = new Room(x, y, w, h);
                 if (_map.GetTile(newRoom.MapRect.Center.X, newRoom.MapRect.Center.Y) == null ||
-                    rooms.Any(r => r.Overlaps(newRoom)))
+                    rooms.Any(r => r.Overlaps(newRoom, 1)))
                 {
                     continue;
                 }
