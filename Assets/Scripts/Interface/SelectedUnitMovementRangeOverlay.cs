@@ -84,7 +84,6 @@
 
         private void OnPathFinished(object sender, EventArgs e)
         {
-            Debug.Log("OnPathFinished.");
             _isPathing = false;
             StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
@@ -92,14 +91,12 @@
 
         private void OnPathStarted(object sender, EventArgs e)
         {
-            Debug.Log("OnPathStarted");
             _isPathing = true;
             ReturnMarkersToPool();
         }
 
         private void OnTurnStarted(object sender, EventArgs e)
         {
-            Debug.Log("OnTurnStarted");
             if (_isPathing)
             {
                 return;
