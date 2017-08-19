@@ -1,12 +1,13 @@
 fileFormatVersion: 2
 guid: 07af7f81cdc0f8c43a51c824632df018
-timeCreated: 1502738067
+timeCreated: 1503181554
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: crosshair_selection
     21300002: crosshair_target
     21300004: crosshair_eyeball
+    21300006: crosshair_small
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -139,6 +140,20 @@ TextureImporter:
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: crosshair_small
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 4
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
