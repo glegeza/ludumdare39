@@ -40,7 +40,7 @@
                 var h = UnityEngine.Random.Range(RoomMinHeight, RoomMaxHeight);
 
                 var newRoom = new Room(x, y, w, h);
-                if (_map.GetTile(newRoom.MapRect.Center.X, newRoom.MapRect.Center.Y) == null ||
+                if (!RoomIsEntirelyContainedWithinMap(_map, newRoom) ||
                     rooms.Any(r => r.Overlaps(newRoom, 1)))
                 {
                     continue;
@@ -66,6 +66,14 @@
             UnitSpawner.Instance.SpawnUnit("test_player", tile2);
             UnitSpawner.Instance.SpawnUnit("test_player", tile3);
             UnitSpawner.Instance.SpawnUnit("test_player", tile4);
+        }
+
+        private bool RoomIsEntirelyContainedWithinMap(TileMap map, Room room)
+        {
+            var upLeft = room.MapRect.TopLeft;
+            var botRight = room.MapRect.BottomRight;
+
+            return map.GetTile(upLeft) != null && map.GetTile(botRight) != null;
         }
     }
 }
