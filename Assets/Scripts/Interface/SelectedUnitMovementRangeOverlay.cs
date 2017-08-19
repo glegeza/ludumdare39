@@ -34,9 +34,10 @@
             }
 
             ActiveSelectionTracker.Instance.SelectionChanged += OnSelectionChanged;
+            UpdateSelection();
         }
 
-        private void OnSelectionChanged(object sender, EventArgs e)
+        private void UpdateSelection()
         {
             var newSelection = ActiveSelectionTracker.Instance.SelectedObject;
             if (newSelection == null)
@@ -56,8 +57,6 @@
                 }
 
                 _trackedObject.TurnBegan -= OnTurnStarted;
-                _trackedObject.MoveAction.StartedAction -= OnBeginMove;
-                _trackedObject.MoveAction.CompletedAction -= OnFinishedMove;
                 _trackedObject = null;
             }
             else if (_trackedObject == unit)
@@ -73,16 +72,19 @@
                 pathController.TurnMoveComplete += OnPathFinished;
             }
             _trackedObject.TurnBegan += OnTurnStarted;
-            _trackedObject.MoveAction.StartedAction += OnBeginMove;
-            _trackedObject.MoveAction.CompletedAction += OnFinishedMove;
 
             StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
         }
 
+        private void OnSelectionChanged(object sender, EventArgs e)
+        {
+            UpdateSelection();
+        }
+
         private void OnPathFinished(object sender, EventArgs e)
         {
-            Debug.Log("Path finished.");
+            Debug.Log("OnPathFinished.");
             _isPathing = false;
             StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
@@ -90,13 +92,14 @@
 
         private void OnPathStarted(object sender, EventArgs e)
         {
-            Debug.Log("Returning markers to pool");
+            Debug.Log("OnPathStarted");
             _isPathing = true;
             ReturnMarkersToPool();
         }
 
         private void OnTurnStarted(object sender, EventArgs e)
         {
+            Debug.Log("OnTurnStarted");
             if (_isPathing)
             {
                 return;
@@ -113,6 +116,7 @@
 
         private void OnBeginMove(object sender, EventArgs e)
         {
+            Debug.Log("OnBeginMove");
             if (_isPathing)
             {
                 return;
@@ -122,6 +126,7 @@
 
         private void OnFinishedMove(object sender, EventArgs e)
         {
+            Debug.Log("OnFinishedMove");
             if (_isPathing)
             {
                 return;
@@ -145,7 +150,7 @@
 
         private void UpdateTilesImmediate(HashSet<Tile> reachableTiles)
         {
-            Debug.Log("Updating tiles now");
+            Debug.LogFormat("Reachable Tiles: {0}", reachableTiles.Count);
             ReturnMarkersToPool();
 
             var idx = 0;
