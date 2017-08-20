@@ -11,7 +11,9 @@
     [RequireComponent(typeof(TileMap))]
     public class RoomMap : MonoBehaviour
     {
-        public int MaxTries = 10;
+        [Header("Map Layout")]
+        public int TargetRooms = 10;
+        public int MaxFailures = 100;
 
         [Header("Room Dimensions")]
         public int RoomMaxWidth = 10;
@@ -28,21 +30,20 @@
 
         private void Start()
         {
-            var tries = 0;
+            var failures = 0;
             var rooms = new List<Room>();
-            while (tries < MaxTries)
+            while (rooms.Count < TargetRooms && failures < MaxFailures)
             {
-                tries++;
-
-                var x = UnityEngine.Random.Range(0, _map.Width);
-                var y = UnityEngine.Random.Range(0, _map.Height);
                 var w = UnityEngine.Random.Range(RoomMinWidth, RoomMaxWidth);
                 var h = UnityEngine.Random.Range(RoomMinHeight, RoomMaxHeight);
+                var x = UnityEngine.Random.Range(0, _map.Width - w);
+                var y = UnityEngine.Random.Range(0, _map.Height - h);
 
                 var newRoom = new Room(x, y, w, h);
                 if (!RoomIsEntirelyContainedWithinMap(_map, newRoom) ||
                     rooms.Any(r => r.Overlaps(newRoom, 1)))
                 {
+                    failures++;
                     continue;
                 }
                 rooms.Add(newRoom);
