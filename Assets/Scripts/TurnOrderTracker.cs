@@ -17,6 +17,11 @@
 
         public event EventHandler<EventArgs> TurnAdvanced;
 
+        public GameUnit PreviousUnit
+        {
+            get; private set;
+        }
+
         public GameUnit ActiveUnit
         {
             get; private set;
@@ -123,6 +128,7 @@
             if (ActiveUnit != null)
             {
                 _unitsDone.Add(ActiveUnit);
+                PreviousUnit = ActiveUnit;
                 ActiveUnit = null;
             }
 
