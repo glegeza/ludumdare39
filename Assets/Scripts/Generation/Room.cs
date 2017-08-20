@@ -15,6 +15,22 @@
             UpdateTiles();
         }
 
+        public int Width
+        {
+            get
+            {
+                return MapRect.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return MapRect.Height;
+            }
+        }
+
         public IntRect MapRect
         {
             get; private set;
