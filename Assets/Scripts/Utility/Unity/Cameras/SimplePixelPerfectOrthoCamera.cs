@@ -20,7 +20,7 @@
 
         private void Start()
         {
-            var camera = GetComponent<Camera>();
+            _camera = GetComponent<Camera>();
             UpdateCamera();
         }
 

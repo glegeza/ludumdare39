@@ -29,7 +29,6 @@
 
             var numTilesX = Data.TileTexture.width / Data.TileWidthPixels;
             var numTilesY = Data.TileTexture.height / Data.TileHeightPixels;
-            var totalTiles = numTilesX * numTilesY;
 
             var curIdx = 0;
             for (var y = 0; y < numTilesY; y++)

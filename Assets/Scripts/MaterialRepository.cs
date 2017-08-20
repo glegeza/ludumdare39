@@ -22,10 +22,12 @@
             }
         }
 
+        #pragma warning disable 0649
         public Material BaseCubeMaterial;
         public Material SelectedCubeMaterial;
         public Material PathMarkerMaterial;
         public Material FuturePathMarkerMaterial;
+        #pragma warning restore 0649
         
         private void Awake()
         {

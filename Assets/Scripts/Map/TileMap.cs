@@ -133,12 +133,11 @@
 
         public Tile GetTile(int x, int y)
         {
-            var idx = y * Width + x;
             if (!TileCoordsValid(x, y))
             {
                 return null;
             }
-            return _tiles[y * Width + x];
+            return _tiles[GetTileIdx(x, y)];
         }
 
         public Tile GetTileAtWorldCoords(Vector2 worldCoords)
@@ -154,15 +153,16 @@
 
         public void SetTileAt(int x, int y, int tileType)
         {
-            var tile = _tileSet.GetIndexedTile(tileType);
-            var tileObj = GetTile(x, y);
-            tileObj.SetType(tile.Type);
-            _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
+            SetTileAt(x, y, _tileSet.GetIndexedTile(tileType));
         }
 
         public void SetTileAt(int x, int y, string tileType)
         {
-            var tile = _tileSet.GetTileByID(tileType);
+            SetTileAt(x, y, _tileSet.GetTileByID(tileType));
+        }
+
+        private void SetTileAt(int x, int y, IndexedTile tile)
+        {
             var tileObj = GetTile(x, y);
             if (tileObj != null)
             {
@@ -230,6 +230,11 @@
         {
             _mesh = new TileMapMesh(TileSize, Width, Height);
             _filter.sharedMesh = _mesh.Mesh;
+        }
+
+        private int GetTileIdx(int x, int y)
+        {
+            return y * Width + x;
         }
     }
 }

@@ -8,7 +8,9 @@
     [RequireComponent(typeof(Text))]
     class MapClickRouterModeText : MonoBehaviour
     {
-        public MapClickRouter _router;
+        #pragma warning disable 0649
+        public MapClickRouter Router = null;
+        #pragma warning restore 0649
         private Text _text;
 
         private void Start()
@@ -18,7 +20,7 @@
 
         private void Update()
         {
-            var mode = _router.ActiveMode;
+            var mode = Router.ActiveMode;
             var modeName = mode == null ?
                 "None" : mode.Name;
             _text.text = String.Format("Current Mode: {0}", modeName);

@@ -8,7 +8,7 @@
     class MoveStraightUntilBlocked : AIAction
     {
         [Range(0, 100)]
-        public int MoveChance;
+        public int MoveChance = 50;
 
         public override bool Act(StateController controller)
         {

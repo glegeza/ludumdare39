@@ -32,6 +32,7 @@
             _botRight = new IntVector2(_x2, _y1);
             _topRight = new IntVector2(_x2, _y2);
             _topLeft = new IntVector2(_x1, _y2);
+            _center = new IntVector2(_x1 + Mathf.FloorToInt(_w / 2), _y1 + Mathf.FloorToInt(_h / 2));
         }
 
         public int X
@@ -70,7 +71,7 @@
         {
             get
             {
-                return new IntVector2(_x1 + Mathf.FloorToInt(_w / 2), _y1 + Mathf.FloorToInt(_h / 2));
+                return _center;
             }
         }
 

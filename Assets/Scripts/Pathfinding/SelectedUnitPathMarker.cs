@@ -11,10 +11,12 @@
     class SelectedUnitPathMarker : MonoBehaviour
     {
         public int MarkerPoolSize = 100;
+        #pragma warning disable 0649
         public GameObject MarkerPrefab;
         public Sprite TurnPath;
         public Sprite FuturePath;
         public Sprite TargetPath;
+        #pragma warning restore 0649
 
         private static SelectedUnitPathMarker _instance;
 

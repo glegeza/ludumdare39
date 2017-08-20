@@ -6,7 +6,9 @@
     [RequireComponent(typeof(Camera))]
     class MapClickDragMover : MonoBehaviour
     {
+        #pragma warning disable 0649
         public TileMap AttachedMap;
+        #pragma warning restore 0649
         public float MoveSpeed = 3.0f;
         [Range(0.0f, 10.0f)]
         public float KeyboardModifier = 0.5f;
