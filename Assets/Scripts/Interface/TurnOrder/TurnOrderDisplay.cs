@@ -85,7 +85,7 @@
             if (unit != null)
             {
                 renderer.gameObject.SetActive(true);
-                renderer.sprite = unit.Data.GraphicsData.Sprite;
+                renderer.sprite = unit.Data.GraphicsData.IconSprite;
                 renderer.color = unit.Data.SpriteTint;
             }
             else

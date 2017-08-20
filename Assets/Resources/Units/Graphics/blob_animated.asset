@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: blob_animated
   m_EditorClassIdentifier: 
   Sprite: {fileID: 21300004, guid: 466019213fb137940a181e2aa9fecb63, type: 3}
-  IconSprite: {fileID: 21300004, guid: 466019213fb137940a181e2aa9fecb63, type: 3}
+  IconSprite: {fileID: 21300012, guid: 466019213fb137940a181e2aa9fecb63, type: 3}
   AnimationController: {fileID: 22100000, guid: 85fc5ccc11c25a94eb7dd3ecb64ad2fa,
     type: 2}
   DeathAnimation: {fileID: 114538696964274848, guid: 5e457efb92b0e1340bd47f7f57139602,
