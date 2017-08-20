@@ -66,6 +66,10 @@
         protected override void OnInitialized(GameUnit unit)
         {
             _animationController = GetComponent<Animator>();
+            if (_animationController != null)
+            {
+                _animationController.Play("Idle", 0, UnityEngine.Random.Range(0f, 1f));
+            }
         }
 
         private void SetTrigger(string trigger)
