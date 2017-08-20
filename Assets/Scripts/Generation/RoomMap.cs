@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Generation
 {
     using DLS.LD39.Map;
+    using DLS.LD39.Units.Data;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,6 +22,11 @@
         public int RoomMaxHeight = 10;
         public int RoomMinHeight = 4;
 
+        [Header("Spawning")]
+        public UnitData EnemyType;
+        public int MinUnitsPerRoom = 0;
+        public int MaxUnitsPerRoom = 2;
+
         private TileMap _map;
 
         private void Awake()
@@ -31,6 +37,9 @@
             RoomMaxHeight = Mathf.Max(1, RoomMaxHeight);
             RoomMinWidth = Mathf.Clamp(RoomMinWidth, 1, RoomMaxWidth);
             RoomMinHeight = Mathf.Clamp(RoomMinHeight, 1, RoomMaxHeight);
+
+            MaxUnitsPerRoom = Mathf.Max(0, MaxUnitsPerRoom);
+            MinUnitsPerRoom = Mathf.Clamp(MinUnitsPerRoom, 0, MaxUnitsPerRoom);
         }
 
         private void Start()
@@ -58,6 +67,7 @@
                 }
                 rooms.Add(newRoom);
                 newRoom.SetTiles(_map);
+                SpawnBadGuys(_map, newRoom);
             }
 
             for (var i = 0; i < rooms.Count - 1; i++)
@@ -76,6 +86,33 @@
             UnitSpawner.Instance.SpawnUnit("test_player", tile2);
             UnitSpawner.Instance.SpawnUnit("test_player", tile3);
             UnitSpawner.Instance.SpawnUnit("test_player", tile4);
+        }
+
+        private void SpawnBadGuys(TileMap map, Room room)
+        {
+            if (EnemyType == null)
+            {
+                return;
+            }
+
+            var placed = 0;
+            var remainingTiles = new List<IntVector2>(room.Tiles);
+            var tileCount = remainingTiles.Count;
+            var unitsToPlace = UnityEngine.Random.Range(MinUnitsPerRoom, MaxUnitsPerRoom + 1);
+            while (placed < unitsToPlace && tileCount > 0)
+            {
+                var tileIdx = UnityEngine.Random.Range(0, tileCount);
+                var tile = map.GetTile(remainingTiles[tileIdx]);
+                UnitSpawner.Instance.SpawnUnit(EnemyType.ID, tile);
+                tileCount -= 1;
+                if (tileCount > 0)
+                {
+                    var tmp = remainingTiles[tileCount];
+                    remainingTiles[tileCount] = remainingTiles[tileIdx];
+                    remainingTiles[tileIdx] = tmp;
+                }
+                placed++;
+            }
         }
 
         private bool RoomIsEntirelyContainedWithinMap(TileMap map, Room room)
