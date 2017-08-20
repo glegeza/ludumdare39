@@ -3,6 +3,7 @@
     using DLS.LD39.Map;
     using System;
     using System.Collections.Generic;
+    using UnityEngine;
     using Utility;
 
     public class Room : MapElement, IEquatable<Room>
@@ -42,6 +43,11 @@
             {
                 return _tiles;
             }
+        }
+
+        public IntVector2 TranslateLocalTileCoords(int x, int y)
+        {
+            return new IntVector2(x + MapRect.X, y + MapRect.Y);
         }
 
         public void SetTiles(TileMap map, string tileID="default")
