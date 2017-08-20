@@ -8,24 +8,14 @@
     using Priority_Queue;
     using UnityEngine;
 
-    class TurnOrderTracker : MonoBehaviour
+    class TurnOrderTracker : SingletonComponent<TurnOrderTracker>
     {
-        private static TurnOrderTracker _instance;
-
         private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
         private List<GameUnit> _unitsDone = new List<GameUnit>();
 
         public event EventHandler<EventArgs> TurnOrderUpdated;
 
         public event EventHandler<EventArgs> TurnAdvanced;
-
-        public static TurnOrderTracker Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
 
         public GameUnit ActiveUnit
         {
@@ -50,12 +40,6 @@
 
         public void AdvanceTurn()
         {
-            //if (UnitActionCoordinator.Instance.ActionInProgress)
-            //{
-            //    Debug.LogError("Attempting to advance turn while action still in progress.");
-            //    return;
-            //}
-
             if (ActiveUnit != null && !ActiveUnit.Ready)
             {
                 return;
@@ -101,6 +85,7 @@
             {
                 _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
+            TurnOrderUpdated.SafeRaiseEvent(this);
         }
 
         public void UnregisterUnit(GameUnit unit)
@@ -118,18 +103,7 @@
             {
                 _unitsWaiting.Remove(unit);
             }
-        }
-
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
+            TurnOrderUpdated.SafeRaiseEvent(this);
         }
 
         private void OnUnitTurnEnded(object sender, EventArgs e)
@@ -173,6 +147,7 @@
             {
                 ActiveSelectionTracker.Instance.SetSelection(ActiveUnit);
             }
+            TurnOrderUpdated.SafeRaiseEvent(this);
         }
     }
 }
