@@ -2629,7 +2629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68e279dfaf372847a3e72b1fe39a773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxTries: 20
+  TargetRooms: 5
+  MaxFailures: 100
   RoomMaxWidth: 10
   RoomMinWidth: 4
   RoomMaxHeight: 10

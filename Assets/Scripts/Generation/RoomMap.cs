@@ -26,12 +26,22 @@
         private void Awake()
         {
             _map = GetComponent<TileMap>();
+
+            RoomMaxWidth = Mathf.Max(1, RoomMaxWidth);
+            RoomMaxHeight = Mathf.Max(1, RoomMaxHeight);
+            RoomMinWidth = Mathf.Clamp(RoomMinWidth, 1, RoomMaxWidth);
+            RoomMinHeight = Mathf.Clamp(RoomMinHeight, 1, RoomMaxHeight);
         }
 
         private void Start()
         {
             var failures = 0;
             var rooms = new List<Room>();
+
+            var entryRoom = new Room(1, 1, 5, 5);
+            entryRoom.SetTiles(_map);
+            rooms.Add(entryRoom);
+
             while (rooms.Count < TargetRooms && failures < MaxFailures)
             {
                 var w = UnityEngine.Random.Range(RoomMinWidth, RoomMaxWidth);
@@ -58,11 +68,10 @@
                 corridor.SetTiles(_map);
             }
 
-            var startRoom = rooms[2];
-            var tile1 = _map.GetTile(startRoom.MapRect.Center);
-            var tile2 = _map.GetTile(startRoom.MapRect.Center + new IntVector2(1, 0));
-            var tile3 = _map.GetTile(startRoom.MapRect.Center + new IntVector2(-1, 0));
-            var tile4 = _map.GetTile(startRoom.MapRect.Center + new IntVector2(0, 1));
+            var tile1 = _map.GetTile(entryRoom.TranslateLocalTileCoords(2, 1));
+            var tile2 = _map.GetTile(entryRoom.TranslateLocalTileCoords(2, 2));
+            var tile3 = _map.GetTile(entryRoom.TranslateLocalTileCoords(2, 3));
+            var tile4 = _map.GetTile(entryRoom.TranslateLocalTileCoords(3, 2));
             UnitSpawner.Instance.SpawnUnit("test_player", tile1);
             UnitSpawner.Instance.SpawnUnit("test_player", tile2);
             UnitSpawner.Instance.SpawnUnit("test_player", tile3);
