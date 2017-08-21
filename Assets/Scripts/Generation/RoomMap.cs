@@ -44,11 +44,23 @@
 
         private void Start()
         {
-            var failures = 0;
-            var rooms = new List<Room>();
+            var entryRoom = BuildEntryRoom();
+            var rooms = BuildRooms(entryRoom);
+            BuildCorridors(rooms);
+            SpawnPlayerUnits(_map, entryRoom);
+        }
 
+        private Room BuildEntryRoom()
+        {
             var entryRoom = new Room(1, 1, 5, 5);
             entryRoom.SetTiles(_map);
+            return entryRoom;
+        }
+
+        private List<Room> BuildRooms(Room entryRoom)
+        {
+            var failures = 0;
+            var rooms = new List<Room>();
             rooms.Add(entryRoom);
 
             while (rooms.Count < TargetRooms && failures < MaxFailures)
@@ -60,7 +72,7 @@
 
                 var newRoom = new Room(x, y, w, h);
                 if (!RoomIsEntirelyContainedWithinMap(_map, newRoom) ||
-                    rooms.Any(r => r.Overlaps(newRoom, 1)))
+                    rooms.Any(r => newRoom.Overlaps(r, 1)))
                 {
                     failures++;
                     continue;
@@ -70,6 +82,11 @@
                 SpawnBadGuys(_map, newRoom);
             }
 
+            return rooms;
+        }
+
+        private void BuildCorridors(List<Room> rooms)
+        {
             for (var i = 0; i < rooms.Count - 1; i++)
             {
                 var corridor = new SingleWidthCorridor();
@@ -77,11 +94,14 @@
                 corridor.AddNode(rooms[i + 1].MapRect.Center);
                 corridor.SetTiles(_map);
             }
+        }
 
-            var tile1 = _map.GetTile(entryRoom.TranslateLocalTileCoords(2, 1));
-            var tile2 = _map.GetTile(entryRoom.TranslateLocalTileCoords(2, 2));
-            var tile3 = _map.GetTile(entryRoom.TranslateLocalTileCoords(2, 3));
-            var tile4 = _map.GetTile(entryRoom.TranslateLocalTileCoords(3, 2));
+        private void SpawnPlayerUnits(TileMap map, Room entryRoom)
+        {
+            var tile1 = map.GetTile(entryRoom.TranslateLocalTileCoords(2, 1));
+            var tile2 = map.GetTile(entryRoom.TranslateLocalTileCoords(2, 2));
+            var tile3 = map.GetTile(entryRoom.TranslateLocalTileCoords(2, 3));
+            var tile4 = map.GetTile(entryRoom.TranslateLocalTileCoords(3, 2));
             UnitSpawner.Instance.SpawnUnit("test_player", tile1);
             UnitSpawner.Instance.SpawnUnit("test_player", tile2);
             UnitSpawner.Instance.SpawnUnit("test_player", tile3);
