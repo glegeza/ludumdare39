@@ -96,6 +96,11 @@
             }
         }
 
+        public static int GetDistance(Tile a, Tile b)
+        {
+            return Mathf.CeilToInt(Vector2.Distance(a.TileCoords, b.TileCoords));
+        }
+
         public Prop PropOnLayer(PropLayer layer)
         {
             Prop propOnLayer;
