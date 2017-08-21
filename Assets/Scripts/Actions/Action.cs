@@ -8,6 +8,8 @@
     using System.Text;
     using UnityEngine;
 
+    public delegate bool ActionCompletedDelegate();
+
     public abstract class Action : ScriptableObject
     {
         public string ID;
