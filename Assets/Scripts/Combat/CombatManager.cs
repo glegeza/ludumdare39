@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Combat
 {
+    using DLS.LD39.Equipment;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using System;
@@ -30,6 +31,19 @@
         public int GetAttackEnergyCost(GameUnit unit, WeaponStats weapon, ITargetable target)
         {
             return weapon.EnergyCost;
+        }
+
+        public AttackResult MakeAttack(GameUnit unit, Weapon weapon, ITargetable target, Tile targetPos)
+        {
+            switch (weapon.Stats.Type)
+            {
+                case WeaponType.Melee:
+                    return MakeMeleeAttack(unit, weapon.Stats as MeleeWeaponStats, target, targetPos);
+                case WeaponType.Ranged:
+                    return MakeRangedAttack(unit, weapon.Stats as RangedWeaponStats, target, targetPos);
+            }
+
+            throw new ArgumentException("Weapon type is unknown (not melee or ranged)");
         }
 
         public AttackResult MakeMeleeAttack(GameUnit unit, MeleeWeaponStats weapon, ITargetable target, Tile targetPos)

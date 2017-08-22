@@ -4,6 +4,8 @@
     using UnityEngine;
     using DLS.Utility;
 
+    public delegate void AnimationCallback();
+
     public class UnitAnimationController : GameUnitComponent
     {
         public const string IdleTag = "idle";
@@ -18,14 +20,16 @@
         private bool _animating = false;
         private bool _transitioning = false;
         private string _targetAnimation;
+        private AnimationCallback _actionCallback;
 
         public event EventHandler<EventArgs> ReturnedToIdle;
 
-        public void StartWalkAnimation()
+        public void StartWalkAnimation(AnimationCallback onAnimComplete=null)
         {
             SetTrigger(WalkingTrigger);
             _transitioning = true;
             _targetAnimation = WalkTag;
+            _actionCallback = onAnimComplete;
             if (_animationController == null)
             {
                 OnAnimationComplete();
@@ -48,19 +52,21 @@
             _animating = false;
         }
 
-        public void StartMeleeAnimation()
+        public void StartMeleeAnimation(AnimationCallback onAnimComplete = null)
         {
             SetTrigger(MeleeTrigger);
             _targetAnimation = MeleeTag;
             _transitioning = true;
+            _actionCallback = onAnimComplete;
             if (_animationController == null)
             {
                 OnAnimationComplete();
             }
         }
 
-        public void StartRangedAnimation()
+        public void StartRangedAnimation(AnimationCallback onAnimComplete = null)
         {
+            _actionCallback = onAnimComplete;
         }
 
         protected override void OnInitialized(GameUnit unit)
@@ -84,9 +90,28 @@
         {
             if (_animationController == null)
             {
-                return;
+                HandleStatic();
             }
+            else
+            {
+                HandleAnimated();
+            }
+        }
 
+        private void HandleStatic()
+        {
+            if (_animating)
+            {
+                OnAnimationComplete();
+            }
+            else if (_transitioning)
+            {
+                OnTransitionComplete();
+            }
+        }
+
+        private void HandleAnimated()
+        {
             if (_animating && _animationController.GetCurrentAnimatorStateInfo(0).IsTag(IdleTag))
             {
                 OnAnimationComplete();
@@ -102,6 +127,11 @@
         {
             _transitioning = false;
             _animating = false;
+            if (_actionCallback != null)
+            {
+                _actionCallback();
+                _actionCallback = null;
+            }
             ReturnedToIdle.SafeRaiseEvent(this);
         }
 
