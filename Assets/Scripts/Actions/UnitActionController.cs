@@ -3,12 +3,15 @@
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using System;
+    using DLS.Utility;
     using System.Collections.Generic;
     using UnityEngine;
 
     public class UnitActionController : GameUnitComponent
     {
         private Dictionary<string, Action> _actions = new Dictionary<string, Action>();
+
+        public event EventHandler<EventArgs> ActionsUpdated;
 
         public IEnumerable<Action> Actions
         {
@@ -21,6 +24,21 @@
         public bool Ready
         {
             get; private set;
+        }
+
+        public void UpdateActions()
+        {
+            _actions.Clear();
+            var equipment = AttachedUnit.Equipment.EquippedItems;
+            foreach (var item in equipment)
+            {
+                foreach (var action in item.Actions)
+                {
+                    AddAction(action);
+                }
+            }
+
+            ActionsUpdated.SafeRaiseEvent(this);
         }
 
         public void AddAction(Action action)
@@ -44,6 +62,11 @@
             }
 
             return false;
+        }
+
+        protected override void OnInitialized(GameUnit unit)
+        {
+            UpdateActions();
         }
 
         private void DoAction(Action action, GameObject target, Tile tile)

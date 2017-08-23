@@ -38,32 +38,23 @@
             unitObj.AddComponent<SortByY>();
 
             var unitComp = unitObj.AddComponent<GameUnit>();
-            unitComp.Initialize(unitData, tile, name);
-            var actionController = unitComp.GetComponent<UnitActionController>();
 
             if (unitData.DefaultPrimaryWeapon != null)
             {
                 var primaryWeapon = unitData.DefaultPrimaryWeapon.GetLoot() as PrimaryWeapon;
                 unitComp.Equipment.PrimaryWeapon.SetItem(primaryWeapon);
-                foreach (var action in primaryWeapon.Stats.Actions)
-                {
-                    actionController.AddAction(action);
-                }
             }
             if (unitData.DefaultSecondaryWeapon != null)
             {
                 var secondaryWeapon = unitData.DefaultSecondaryWeapon.GetLoot() as SecondaryWeapon;
                 unitComp.Equipment.SecondaryWeapon.SetItem(secondaryWeapon);
-                foreach (var action in secondaryWeapon.Stats.Actions)
-                {
-                    actionController.AddAction(action);
-                }
             }
             if (unitData.BatteryPack != null)
             {
                 unitComp.Equipment.Battery.SetItem(unitData.BatteryPack.GetLoot());
             }
 
+            unitComp.Initialize(unitData, tile, name);
 
 
             return unitComp;
