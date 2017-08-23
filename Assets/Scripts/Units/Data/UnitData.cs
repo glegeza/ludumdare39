@@ -15,10 +15,6 @@
         [Header("Graphics")]
         public UnitSprites GraphicsData;
         public Color SpriteTint = Color.white;
-        //public Sprite Sprite;
-        //public Color SpriteColor = Color.white;
-        //public RuntimeAnimatorController AnimationController;
-        //public Explosion DeathPrefab;
 
         [Header("AI")]
         public State DefaultState;
