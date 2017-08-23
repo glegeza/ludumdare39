@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: test_primary_rangedweapon
   m_EditorClassIdentifier: 
   ID: test_primary_rangedweapon
-  Name: Shooty
+  Name: Primary Shooty
   Description: Test!
   Actions:
   - {fileID: 11400000, guid: bde5bbb38fda78940a980e5bfc2468eb, type: 2}

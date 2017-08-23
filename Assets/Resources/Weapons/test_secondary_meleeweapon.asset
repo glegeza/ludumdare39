@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Name: test_secondary_meleeweapon
   m_EditorClassIdentifier: 
   ID: test_primary_meleeweapon
-  Name: Stabby
+  Name: Secondary Stabby
   Description: Test!
+  Actions:
+  - {fileID: 11400000, guid: a5cc6caa7ac37974d993af8bce25c871, type: 2}
   MinDamage: 4
   MaxDamage: 10
   BaseToHitModifier: 10
@@ -21,5 +23,3 @@ MonoBehaviour:
   APCost: 1
   EnergyCost: 1
   Icon: {fileID: 0}
-  Actions:
-  - {fileID: 11400000, guid: a5cc6caa7ac37974d993af8bce25c871, type: 2}
