@@ -6,6 +6,7 @@
     [CreateAssetMenu(menuName = "Equipment/Weapons/Ranged")]
     public class RangedWeaponData : WeaponData
     {
+        [Header("Ranged Stats")]
         public int Range;
 
         public override WeaponStats GetStats()
