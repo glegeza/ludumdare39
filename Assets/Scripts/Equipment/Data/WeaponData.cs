@@ -20,9 +20,6 @@
         [Header("Display")]
         public Sprite Icon;
 
-        [Header("Actions")]
-        public List<Action> Actions = new List<Action>();
-
         public abstract WeaponStats GetStats();
 
         public override Weapon GetLoot()

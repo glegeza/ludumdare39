@@ -28,6 +28,7 @@
 
         public void UpdateActions()
         {
+            Ready = true;
             _actions.Clear();
             var equipment = AttachedUnit.Equipment.EquippedItems;
             foreach (var item in equipment)
@@ -48,6 +49,11 @@
 
         public bool TryAction(string id, GameObject target, Tile tile)
         {
+            if (!Ready)
+            {
+                return false;
+            }
+
             if (!_actions.ContainsKey(id))
             {
                 throw new ArgumentException(String.Format("Invalid action type {0}", id));
@@ -76,6 +82,13 @@
 
             Ready = false;
 
+            AttachedUnit.AP.SpendPoints(apCost);
+            var ep = AttachedUnit.GetComponent<EnergyPoints>();
+            if (ep != null)
+            {
+                ep.SpendPoints(energyCost);
+            }
+
             action.AttemptAction(AttachedUnit, target, tile, () => { Ready = true; } );
         }
 
@@ -84,9 +97,11 @@
             var apCost = action.GetAPCost(AttachedUnit);
             var energyCost = action.GetEnergyCost(AttachedUnit);
 
-            return action.ActionIsValid(AttachedUnit, target, tile) &&
-                UnitHasEnoughEnergy(action.GetEnergyCost(AttachedUnit)) &&
-                UnitHasEnoughAP(action.GetAPCost(AttachedUnit));
+            var valid = action.ActionIsValid(AttachedUnit, target, tile);
+            var enoughEnergy = UnitHasEnoughEnergy(action.GetEnergyCost(AttachedUnit));
+            var enoughAP = UnitHasEnoughAP(action.GetAPCost(AttachedUnit));
+
+            return valid && enoughEnergy && enoughAP;
         }
 
         private bool UnitHasEnoughEnergy(int energy)

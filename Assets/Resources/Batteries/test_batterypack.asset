@@ -14,5 +14,7 @@ MonoBehaviour:
   ID: test_batterypack
   Name: Test Battery Pack
   Description: POOP
+  Actions:
+  - {fileID: 11400000, guid: 58668419156ff3d498e704472cedc08a, type: 2}
   Capacity: 20
   PassiveRegenRate: 5

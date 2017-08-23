@@ -2,13 +2,11 @@
 {
     using DLS.LD39.Combat;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
     using UnityEngine;
     using DLS.LD39.Equipment;
+    using DLS.LD39.Graphics;
 
     [CreateAssetMenu(menuName = "Game Data/Actions/Attack With Equipped Weapon")]
     public class AttackWithEquippedWeapon : Action
@@ -33,14 +31,18 @@
         {
             if (!UnitIsValid(actor))
             {
+                Debug.LogError("Unit not valid");
                 return false;
             }
 
-            var targetable = target.GetComponent<ITargetable>();
+            var targetable = GetTargetableComponent(target);
             if (targetable == null)
             {
+                Debug.LogError("No targetable component");
                 return false;
             }
+
+            Debug.Log("Checking weapon...");
 
             return WeaponIsValid(GetWeapon(actor), actor, targetable, targetTile);
         }
@@ -97,9 +99,15 @@
 
         public override string GetName(GameUnit unit)
         {
-            return Slot == WeaponSlot.Primary
-                ? "Primary Attack"
-                : "Secondary Attack";
+            var weapon = GetWeapon(unit);
+            return weapon.Name;
+        }
+
+        private ITargetable GetTargetableComponent(GameObject target)
+        {
+            return target == null
+                ? null
+                : target.GetComponent<ITargetable>();
         }
 
         private void StartAttack(Weapon weapon, GameUnit actor, 
@@ -110,25 +118,50 @@
 
             // Get the attack results
             var attackResults = CombatManager.Instance.MakeAttack(actor, weapon, target, targetTile);
-
-            // Create the function to call when the attack is completed
-            AnimationCallback cb = () =>
-            {
-                CombatManager.Instance.ApplyAttackResult(attackResults);
-                onCompleted();
-            };
-
-            // Start Animation
-            var animator = actor.AnimationController;
+            
             switch (weapon.Stats.Type)
             {
                 case WeaponType.Melee:
-                    animator.StartMeleeAnimation(cb);
+                    StartMeleeAttack(weapon, actor, target, targetTile, onCompleted, attackResults);
                     break;
                 case WeaponType.Ranged:
-                    animator.StartRangedAnimation(cb);
+                    StartRangedAttack(weapon, actor, target, targetTile, onCompleted, attackResults);
                     break;
             }
+        }
+
+        private void StartMeleeAttack(Weapon weapon, GameUnit actor, ITargetable target, 
+            Tile targetTile, ActionCompletedDelegate onCompleted, AttackResult result)
+        {
+            AnimationCallback cb = () =>
+            {
+                CombatManager.Instance.ApplyAttackResult(result);
+                onCompleted();
+            };
+            var animator = actor.AnimationController;
+            animator.StartMeleeAnimation(cb);
+        }
+
+        private void StartRangedAttack(Weapon weapon, GameUnit actor, ITargetable target,
+            Tile targetTile, ActionCompletedDelegate onCompleted, AttackResult result)
+        {
+            AnimationCallback cb = () =>
+            {
+                var targetTransform = GetTargetTransform(target);
+                var bullet = BulletSpawner.Instance.SpawnBullet(actor.transform,
+                    targetTransform, () => {
+                        CombatManager.Instance.ApplyAttackResult(result);
+                        onCompleted();
+                    });
+            };
+            var animator = actor.AnimationController;
+            animator.StartMeleeAnimation(cb);
+        }
+
+        private Transform GetTargetTransform(ITargetable target)
+        {
+            var comp = target as MonoBehaviour;
+            return comp == null ? null : comp.transform;
         }
 
         private bool UnitIsValid(GameUnit unit)

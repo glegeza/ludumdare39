@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: test_secondary_rangedweapon
   m_EditorClassIdentifier: 
   ID: test_secondary_rangedweapon
-  Name: Test Secondary Ranged Weapon
+  Name: Shooty
   Description: Test!
   MinDamage: 4
   MaxDamage: 10

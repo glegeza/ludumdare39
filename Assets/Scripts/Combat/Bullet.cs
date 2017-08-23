@@ -4,12 +4,14 @@
     using System;
     using UnityEngine;
 
+    public delegate void BulletHitCallback();
+
     [RequireComponent(typeof(BoxCollider2D))]
     public class Bullet : MonoBehaviour
     {
-        public event EventHandler<EventArgs> HitTarget;
         public float Speed = 5.0f;
 
+        private BulletHitCallback _cb;
         private Vector3 _dirvec;
         private bool _moving;
 
@@ -23,7 +25,7 @@
             get; set;
         }
 
-        public void StartPath()
+        public void StartPath(BulletHitCallback cb)
         {
             if (Target == null)
             {
@@ -39,13 +41,13 @@
             _dirvec = (Target.position - Origin.position).normalized;
             _dirvec.z = 0.0f;
             _moving = true;
+            _cb = cb;
         }
 
         private void FixedUpdate()
         {
             if (_moving)
             {
-                //var rb = GetComponent<Rigidbody2D>();
                 transform.position += _dirvec * Speed * Time.deltaTime;
             }
         }
@@ -62,7 +64,11 @@
             {
                 return;
             }
-            HitTarget.SafeRaiseEvent(this);
+            if (_cb != null)
+            {
+                _cb();
+                _cb = null;
+            }
             _moving = false;
             Destroy(gameObject);
         }

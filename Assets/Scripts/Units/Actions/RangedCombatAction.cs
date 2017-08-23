@@ -57,11 +57,10 @@
             }
 
             var bullet = BulletSpawner.Instance.SpawnBullet(
-                transform, _targetTransform);
-            bullet.HitTarget += OnBulletHit;
+                transform, _targetTransform, OnBulletHit);
         }
 
-        private void OnBulletHit(object sender, EventArgs e)
+        private void OnBulletHit()
         {
             if (_pendingResult == null)
             {
@@ -69,7 +68,6 @@
                 return;
             }
             
-            (sender as Bullet).HitTarget -= OnBulletHit;
             CombatManager.Instance.ApplyAttackResult(_pendingResult);
             _targetTransform = null;
             _pendingResult = null;

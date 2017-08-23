@@ -33,6 +33,18 @@
             PointsRemaining -= amount;
         }
 
+        public void AddPoints(int amount)
+        {
+            var battery = AttachedUnit.Equipment.Battery.SlotItem;
+            if (battery == null)
+            {
+                PointsRemaining = 0;
+                return;
+            }
+            PointsRemaining += amount;
+            PointsRemaining = Mathf.Min(PointsRemaining, EnergyCapacity);
+        }
+
         protected override void OnTurnStarted()
         {
             var battery = AttachedUnit.Equipment.Battery.SlotItem;

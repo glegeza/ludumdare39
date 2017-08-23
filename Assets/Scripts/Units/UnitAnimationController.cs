@@ -66,7 +66,14 @@
 
         public void StartRangedAnimation(AnimationCallback onAnimComplete = null)
         {
+            SetTrigger(MeleeTrigger);
+            _targetAnimation = MeleeTag;
+            _transitioning = true;
             _actionCallback = onAnimComplete;
+            if (_animationController == null)
+            {
+                OnAnimationComplete();
+            }
         }
 
         protected override void OnInitialized(GameUnit unit)

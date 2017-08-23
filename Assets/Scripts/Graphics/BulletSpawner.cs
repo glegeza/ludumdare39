@@ -7,7 +7,7 @@
     {
         public Bullet BulletPrefab;
 
-        public Bullet SpawnBullet(Transform origin, Transform target)
+        public Bullet SpawnBullet(Transform origin, Transform target, BulletHitCallback onHit)
         {
             if (target == null || origin == null)
             {
@@ -18,7 +18,7 @@
             bullet.transform.position = origin.position;
             bullet.Origin = origin;
             bullet.Target = target;
-            bullet.StartPath();
+            bullet.StartPath(onHit);
 
             return bullet;
         }

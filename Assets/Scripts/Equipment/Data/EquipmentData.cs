@@ -1,6 +1,8 @@
 ﻿namespace DLS.LD39.Equipment.Data
 {
     using UnityEngine;
+    using System.Collections.Generic;
+    using DLS.LD39.Actions;
 
     public abstract class EquipmentData<T> : ScriptableObject where T : Loot
     {
@@ -8,6 +10,9 @@
         public string ID;
         public string Name;
         public string Description;
+
+        [Header("Actions")]
+        public List<Action> Actions = new List<Action>();
 
         public abstract T GetLoot();
     }
