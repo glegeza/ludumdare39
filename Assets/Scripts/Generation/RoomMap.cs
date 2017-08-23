@@ -53,7 +53,7 @@
         private Room BuildEntryRoom()
         {
             var entryRoom = new Room(1, 1, 5, 5);
-            entryRoom.SetTiles(_map);
+            entryRoom.SetTiles(_map, "yellow");
             return entryRoom;
         }
 
