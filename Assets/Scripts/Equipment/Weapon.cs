@@ -7,7 +7,7 @@
     public abstract class Weapon : Loot
     {
         protected Weapon(string name, string desc, LootType type, WeaponStats weapon) 
-            : base(name, desc, type)
+            : base(name, desc, type, weapon.Actions)
         {
             if (! (type == LootType.PrimaryWeapon || type == LootType.SecondaryWeapon))
             {
