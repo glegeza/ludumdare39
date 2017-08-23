@@ -10,6 +10,7 @@
     using UnityEngine;
     using DLS.LD39.Equipment;
 
+    [CreateAssetMenu(menuName = "Game Data/Actions/Attack With Equipped Weapon")]
     public class AttackWithEquippedWeapon : Action
     {
         public WeaponSlot Slot;
@@ -20,6 +21,12 @@
             {
                 return ActionSelectMode.Enemy;
             }
+        }
+
+        public override Sprite GetSprite(GameUnit unit)
+        {
+            var weapon = GetWeapon(unit);
+            return weapon.Stats.SpriteIcon;
         }
 
         public override bool ActionIsValid(GameUnit actor, GameObject target, Tile targetTile)

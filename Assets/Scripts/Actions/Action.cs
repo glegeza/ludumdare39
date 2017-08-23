@@ -4,17 +4,18 @@
     using DLS.LD39.Units;
     using UnityEngine;
 
-    public delegate bool ActionCompletedDelegate();
+    public delegate void ActionCompletedDelegate();
 
     public abstract class Action : ScriptableObject
     {
         public string ID;
-        public Sprite IconSprite;
 
         public abstract ActionSelectMode Mode
         {
             get;
         }
+
+        public abstract Sprite GetSprite(GameUnit unit);
 
         public abstract string GetName(GameUnit unit);
 

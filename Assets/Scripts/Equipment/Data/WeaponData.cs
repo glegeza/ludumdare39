@@ -2,6 +2,8 @@
 {
     using UnityEngine;
     using Combat;
+    using DLS.LD39.Actions;
+    using System.Collections.Generic;
 
     public abstract class WeaponData : EquipmentData<Weapon>
     {
@@ -17,6 +19,9 @@
 
         [Header("Display")]
         public Sprite Icon;
+
+        [Header("Actions")]
+        public List<Action> Actions = new List<Action>();
 
         public abstract WeaponStats GetStats();
 

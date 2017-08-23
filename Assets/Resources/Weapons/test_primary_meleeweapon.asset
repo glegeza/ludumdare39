@@ -20,3 +20,6 @@ MonoBehaviour:
   Slot: 0
   APCost: 1
   EnergyCost: 1
+  Icon: {fileID: 0}
+  Actions:
+  - {fileID: 11400000, guid: bde5bbb38fda78940a980e5bfc2468eb, type: 2}

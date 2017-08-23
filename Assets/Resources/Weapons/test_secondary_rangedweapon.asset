@@ -21,4 +21,6 @@ MonoBehaviour:
   APCost: 1
   EnergyCost: 1
   Icon: {fileID: 0}
+  Actions:
+  - {fileID: 11400000, guid: a5cc6caa7ac37974d993af8bce25c871, type: 2}
   Range: 10

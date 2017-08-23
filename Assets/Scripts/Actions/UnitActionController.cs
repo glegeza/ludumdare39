@@ -4,8 +4,6 @@
     using DLS.LD39.Units;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
 
     public class UnitActionController : GameUnitComponent
@@ -25,12 +23,12 @@
             get; private set;
         }
 
-        private void AddAction(Action action)
+        public void AddAction(Action action)
         {
             _actions.Add(action.ID, action);
         }
 
-        private bool TryAction(string id, GameObject target, Tile tile)
+        public bool TryAction(string id, GameObject target, Tile tile)
         {
             if (!_actions.ContainsKey(id))
             {
@@ -53,7 +51,9 @@
             var apCost = action.GetAPCost(AttachedUnit);
             var energyCost = action.GetEnergyCost(AttachedUnit);
 
+            Ready = false;
 
+            action.AttemptAction(AttachedUnit, target, tile, () => { Ready = true; } );
         }
 
         private bool ActionIsValid(Action action, GameObject target, Tile tile)

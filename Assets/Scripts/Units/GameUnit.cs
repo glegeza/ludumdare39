@@ -10,6 +10,7 @@
     using Utility;
     using Data;
     using System.Collections.Generic;
+    using DLS.LD39.Actions;
 
     public class GameUnit : MonoBehaviour
     {
@@ -253,12 +254,13 @@
             RangedCombatAction = gameObject.AddComponent<RangedCombatAction>();
             MeleeCombatAction = gameObject.AddComponent<MeleeCombatAction>();
             Equipment = gameObject.AddComponent<UnitEquipment>();
+            var actionController = gameObject.AddComponent<UnitActionController>();
 
 
             _components = new List<GameUnitComponent>()
             {
                 AP, energy, MoveAction, PathController, CombatInfo, AnimationController,
-                Visibility, Facing, RangedCombatAction, MeleeCombatAction, Equipment
+                Visibility, Facing, RangedCombatAction, MeleeCombatAction, Equipment, actionController
             };
         }
     }

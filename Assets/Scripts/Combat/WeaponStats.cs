@@ -1,5 +1,7 @@
-﻿using DLS.LD39.Equipment.Data;
+﻿using DLS.LD39.Actions;
+using DLS.LD39.Equipment.Data;
 using DLS.LD39.Map;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DLS.LD39.Combat
@@ -16,6 +18,7 @@ namespace DLS.LD39.Combat
             Type = type;
             Slot = data.Slot;
             SpriteIcon = data.Icon;
+            Actions = new List<Action>(data.Actions);
         }
 
         public int APCost
@@ -54,6 +57,11 @@ namespace DLS.LD39.Combat
         }
 
         public Sprite SpriteIcon
+        {
+            get; private set;
+        }
+
+        public List<Action> Actions
         {
             get; private set;
         }
