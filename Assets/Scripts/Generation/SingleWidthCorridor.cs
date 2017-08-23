@@ -34,7 +34,11 @@
         {
             foreach (var tile in _tiles)
             {
-                map.SetTileAt(tile.X, tile.Y, "default");
+                var existingTile = map.GetTile(tile);
+                if (existingTile.Type.ID == "empty")
+                {
+                    map.SetTileAt(tile.X, tile.Y, "default");
+                }
             }
         }
 
