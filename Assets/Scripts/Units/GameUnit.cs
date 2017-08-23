@@ -71,8 +71,7 @@
             {
                 return _inTurn &&
                     !MoveAction.ActionInProgress &&
-                    !MeleeCombatAction.ActionInProgress &&
-                    !RangedCombatAction.ActionInProgress;
+                    ActionController.Ready;
             }
         }
 
@@ -111,16 +110,6 @@
             get; private set;
         }
 
-        public RangedCombatAction RangedCombatAction
-        {
-            get; private set;
-        }
-
-        public MeleeCombatAction MeleeCombatAction
-        {
-            get; private set;
-        }
-
         public PrimaryStats PrimaryStats
         {
             get; private set;
@@ -132,6 +121,11 @@
         }
 
         public StateController AIController
+        {
+            get; private set;
+        }
+
+        public UnitActionController ActionController
         {
             get; private set;
         }
@@ -251,16 +245,13 @@
             AnimationController = gameObject.AddComponent<UnitAnimationController>();
             Facing = gameObject.AddComponent<UnitFacing>();
             Visibility = gameObject.AddComponent<Visibility>();
-            RangedCombatAction = gameObject.AddComponent<RangedCombatAction>();
-            MeleeCombatAction = gameObject.AddComponent<MeleeCombatAction>();
             Equipment = gameObject.AddComponent<UnitEquipment>();
-            var actionController = gameObject.AddComponent<UnitActionController>();
-
+            ActionController = gameObject.AddComponent<UnitActionController>();
 
             _components = new List<GameUnitComponent>()
             {
                 AP, energy, MoveAction, PathController, CombatInfo, AnimationController,
-                Visibility, Facing, RangedCombatAction, MeleeCombatAction, Equipment, actionController
+                Visibility, Facing, Equipment, ActionController
             };
         }
     }

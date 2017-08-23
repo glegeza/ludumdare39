@@ -1,6 +1,5 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Combat;
     using DLS.LD39.Map;
     using DLS.LD39.Pathfinding;
     using DLS.LD39.Units;
@@ -47,10 +46,6 @@
                     activeUnit.CurrentTarget = target;
                     return false;
                 }
-                if (target != null)
-                {
-                    DoAttackAction(activeUnit, target, clickedTile);
-                }
             }
 
             return false;
@@ -68,24 +63,6 @@
                 return null;
             }
             return target;
-        }
-
-        private void DoAttackAction(GameUnit activeUnit, GameUnit target, Tile clickedTile)
-        {
-            var weapon = activeUnit.Equipment.PrimaryWeapon.SlotItem;
-            if (weapon == null || !weapon.Stats.TileIsLegalTarget(activeUnit.Position.CurrentTile, clickedTile))
-            {
-                return;
-            }
-
-            if (weapon.Stats.Type == WeaponType.Melee)
-            {
-                activeUnit.MeleeCombatAction.TryMeleeAttack(clickedTile, target.CombatInfo, weapon.Stats);
-            }
-            else
-            {
-                activeUnit.RangedCombatAction.TryRangedAttack(clickedTile, target.CombatInfo, weapon.Stats);
-            }
         }
 
         private void DoMoveAction(GameUnit activeUnit, Tile clickedTile)

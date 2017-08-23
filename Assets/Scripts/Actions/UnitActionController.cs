@@ -75,6 +75,16 @@
             UpdateActions();
         }
 
+        protected override void OnTurnStarted()
+        {
+            Ready = true;
+        }
+
+        protected override void OnTurnEnded()
+        {
+            Ready = false;
+        }
+
         private void DoAction(Action action, GameObject target, Tile tile)
         {
             var apCost = action.GetAPCost(AttachedUnit);

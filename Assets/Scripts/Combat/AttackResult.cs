@@ -72,7 +72,6 @@
         
         public void ApplyResults()
         {
-            UnityEngine.Debug.Log("Applying results");
             if (_resultApplied)
             {
                 UnityEngine.Debug.LogError("Attempting to apply attack results twice.");
