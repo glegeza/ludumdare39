@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Units
 {
     using DLS.LD39.Equipment;
+    using System.Collections.Generic;
 
     public class UnitEquipment : GameUnitComponent
     {
@@ -29,6 +30,20 @@
             get; private set;
         }
 
+        public IEnumerable<Loot> EquippedItems
+        {
+            get
+            {
+                var equipment = new List<Loot>();
+                AddIfNotNull(PrimaryWeapon.SlotItem, equipment);
+                AddIfNotNull(SecondaryWeapon.SlotItem, equipment);
+                AddIfNotNull(Shield.SlotItem, equipment);
+                AddIfNotNull(Battery.SlotItem, equipment);
+                AddIfNotNull(Accessory.SlotItem, equipment);
+                return equipment;
+            }
+        }
+
         private void Awake()
         {
             PrimaryWeapon = new EquipmentSlot<PrimaryWeapon>();
@@ -36,6 +51,14 @@
             Shield = new EquipmentSlot<Shield>();
             Battery = new EquipmentSlot<BatteryPack>();
             Accessory = new EquipmentSlot<SuitAccessory>();
+        }
+
+        private void AddIfNotNull(Loot loot, List<Loot> list)
+        {
+            if (loot != null)
+            {
+                list.Add(loot);
+            }
         }
     }
 }
