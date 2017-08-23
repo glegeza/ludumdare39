@@ -1,5 +1,6 @@
 ﻿using DLS.LD39.Equipment.Data;
 using DLS.LD39.Map;
+using UnityEngine;
 
 namespace DLS.LD39.Combat
 {
@@ -14,6 +15,7 @@ namespace DLS.LD39.Combat
             BaseToHit = data.BaseToHitModifier;
             Type = type;
             Slot = data.Slot;
+            SpriteIcon = data.Icon;
         }
 
         public int APCost
@@ -47,6 +49,11 @@ namespace DLS.LD39.Combat
         }
 
         public WeaponSlot Slot
+        {
+            get; private set;
+        }
+
+        public Sprite SpriteIcon
         {
             get; private set;
         }

@@ -15,6 +15,9 @@
         public int APCost;
         public int EnergyCost;
 
+        [Header("Display")]
+        public Sprite Icon;
+
         public abstract WeaponStats GetStats();
 
         public override Weapon GetLoot()
