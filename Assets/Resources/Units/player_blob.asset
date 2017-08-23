@@ -19,5 +19,6 @@ MonoBehaviour:
   DefaultState: {fileID: 0}
   DefaultPrimaryWeapon: {fileID: 11400000, guid: 931b6f7f7e3aa5944b6bfaf36ad46fe9,
     type: 2}
-  DefaultSecondaryWeapon: {fileID: 0}
+  DefaultSecondaryWeapon: {fileID: 11400000, guid: fc5cb8410b431654eb55d53c42b315d8,
+    type: 2}
   BatteryPack: {fileID: 11400000, guid: 956bb72eadceec140a86a5a28463c96c, type: 2}
