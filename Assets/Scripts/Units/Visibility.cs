@@ -4,6 +4,7 @@
     using DLS.LD39.Combat;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Visibility : GameUnitComponent
     {
@@ -21,6 +22,14 @@
             get
             {
                 return _visibleTiles;
+            }
+        }
+
+        public IEnumerable<GameUnit> VisibleUnits
+        {
+            get
+            {
+                return _visibleTiles.Select(t => t.Unit).Where(u => u != null);
             }
         }
 

@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Text;
 
-    public class MoveDirectionData : StateData
+    public class MoveDirectionData : IStateData
     {
         public TileEdge CurrentDirection;
     }

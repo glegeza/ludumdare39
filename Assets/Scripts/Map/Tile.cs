@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Map
 {
     using DLS.LD39.Props;
+    using DLS.LD39.Units;
     using DLS.Utility;
     using Priority_Queue;
     using System;
@@ -13,7 +14,7 @@
         private Dictionary<TileEdge, Tile> _adjacentTiles = new Dictionary<TileEdge, Tile>();
         private Dictionary<PropLayer, Prop> _props = new Dictionary<PropLayer, Prop>();
         private bool _isPassable;
-
+        private GameUnit _unit;
 
         public Tile(int x, int y, TileMap map)
         {
@@ -68,7 +69,9 @@
         {
             get
             {
-                return _isPassable && _props.Values.All(p => p.Data.Passable);
+                return _isPassable 
+                    && _props.Values.All(p => p.Data.Passable) 
+                    && _unit == null;
             }
             set
             {
@@ -94,6 +97,24 @@
             {
                 return _adjacentTiles.Values;
             }
+        }
+
+        public GameUnit Unit
+        {
+            get
+            {
+                return _unit;
+            }
+        }
+
+        public void SetUnit(GameUnit unit)
+        {
+            if (!Passable && unit != null)
+            {
+                Debug.LogErrorFormat("Trying to add unit to impassable tile {0}", this);
+                return;
+            }
+            _unit = unit;
         }
 
         public static int GetDistance(Tile a, Tile b)

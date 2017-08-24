@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0740afd3b2329648a00394facad6ab2, type: 3}
+  m_Name: FollowPlayer
+  m_EditorClassIdentifier: 
+  Name: FollowPlayer
+  TurnInitializer: {fileID: 11400000, guid: 4ab82dcdae60df2468807b5c8086e3ad, type: 2}
+  Initializer: {fileID: 11400000, guid: 17ba7ad6015ae744eb90f1c30f3f7dda, type: 2}
+  Finalizer: {fileID: 0}
+  Actions:
+  - {fileID: 11400000, guid: a10a2f66de9e7474cbc4e97f6dd0af04, type: 2}
+  ActionTransitions:
+  - Decision: {fileID: 11400000, guid: 080cca129e455d84682a81d1bdaa4cd6, type: 2}
+    TrueState: {fileID: 11400000, guid: 9ebbff5ec50c682408f68d357018e687, type: 2}
+    FalseState: {fileID: 0}
+  - Decision: {fileID: 11400000, guid: 4d6d196b687cbd3458238ffea5df97fb, type: 2}
+    TrueState: {fileID: 11400000, guid: 7a4ab9636b9db0b46a3b3fb70e0bf207, type: 2}
+    FalseState: {fileID: 0}
+  TurnStartTransitions:
+  - Decision: {fileID: 11400000, guid: f28fb8a9dd1400b419504a2eed791569, type: 2}
+    TrueState: {fileID: 11400000, guid: 7a4ab9636b9db0b46a3b3fb70e0bf207, type: 2}
+    FalseState: {fileID: 0}
+  TurnEndTransitions: []

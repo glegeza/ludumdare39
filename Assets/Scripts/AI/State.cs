@@ -19,6 +19,9 @@
         [Tooltip("State name displayed for debugging.")]
         public string Name;
 
+        [Tooltip("Handles any special work that should be done at the start of a turn.")]
+        public StateTurnInitializer TurnInitializer;
+
         [Tooltip("Handles special initialization for this state. Can be null.")]
         public StateInitializer Initializer;
 
@@ -53,6 +56,10 @@
         /// </summary>
         public void BeginTurn(StateController controller)
         {
+            if (TurnInitializer != null)
+            {
+                TurnInitializer.OnTurnStart(controller);
+            }
             CheckTransitions(controller, TurnStartTransitions);
         }
 
@@ -65,7 +72,14 @@
         public bool DoNextAction(StateController controller, int action)
         {
             // UGLY DoActions returns true if ANY action was successful. If it returns false, then all of the actions have failed and it's time to end the turn.
-            return Actions[action].Act(controller);
+            var actionReturn = Actions[action].Act(controller);
+
+            if (action == Actions.Count - 1)
+            {
+                CheckTransitions(controller, ActionTransitions);
+            }
+
+            return actionReturn;
         }
 
         /// <summary>
@@ -91,14 +105,19 @@
         {
             foreach (var transition in transitions)
             {
-                var decisionIsTrue = transition.Decision;
+                Debug.LogFormat("Checking transition {0}", transition.Decision.name);
+                var decisionIsTrue = transition.Decision.Decide(controller);
                 if (decisionIsTrue && transition.TrueState != null)
                 {
+                    Debug.Log("Decision true");
                     controller.TransitionToState(transition.TrueState);
+                    return;
                 }
                 else if (!decisionIsTrue && transition.FalseState != null)
                 {
+                    Debug.Log("Decision false");
                     controller.TransitionToState(transition.FalseState);
+                    return;
                 }
             }
         }

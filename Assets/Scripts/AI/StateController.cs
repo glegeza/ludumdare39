@@ -21,7 +21,7 @@
         /// <summary>
         /// Special data that the current state needs to keep track of. 
         /// </summary>
-        public StateData Data
+        public IStateData Data
         {
             get; set;
         }

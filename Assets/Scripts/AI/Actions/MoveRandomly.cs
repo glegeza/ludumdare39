@@ -3,7 +3,7 @@
     using System.Linq;
     using UnityEngine;
 
-    [CreateAssetMenu(menuName = "AI/Actions/MoveRandomly")]
+    [CreateAssetMenu(menuName = "AI/Actions/Move Randomly")]
     class MoveRandomly : AIAction
     {
         [Range(0, 100)]
