@@ -77,40 +77,13 @@
 
         public void TransitionToState(State nextState)
         {
-            if (Unit == null)
-            {
-                Debug.LogError("Transitioning on StateController with null Unit");
-                return;
-            }
-            if (nextState == null)
-            {
-                Debug.LogError("Attempting to transition to null state");
-                return;
-            }
-            if (nextState == _currentState)
+            if (!CanTransitionToNewState(nextState))
             {
                 return;
-            }
-            if (_currentState != null)
-            {
-                Debug.LogFormat("Ending state {0}", _currentState.Name);
-                _currentState.EndState(this);
             }
 
-            _currentState = nextState;
-            Debug.LogFormat("Starting state {0} - {1}", _currentState.Name, _controllerActive);
-            nextState.BeginState(this);
-            ActionCyclesThisTurn = 0;
-            if (_controllerActive)
-            {
-                // if the controller is already active then we transitioned
-                // during a turn, so do turn initialization stuff now
-                nextState.BeginTurn(this);
-            }
-            _currentAction = 0;
-            _checkForTurnEndNextCycle = false;
-            TurnsActive = 0;
-            ActionsActive = 0;
+            EndCurrentStateIfAny();
+            BeginNewState(nextState);
         }
 
         public void BeginTurn()
@@ -139,12 +112,7 @@
 
         private void Update()
         {
-            if (Unit == null || !_controllerActive || _currentState == null)
-            {
-                return;
-            }
-
-            if (!Unit.Ready)
+            if (!ShouldUpdate())
             {
                 return;
             }
@@ -152,25 +120,85 @@
             _elapsedActionTime += Time.deltaTime;
             if (_elapsedActionTime > ActionDelay)
             {
-                _elapsedActionTime = 0.0f;
-                if (ShouldEndturn())
-                {
-                    TurnOrderTracker.Instance.AdvanceTurn();
-                    return;
-                }
-
-                if (!_currentState.DoNextAction(this, _currentAction))
-                {
-                    ActionsFailedThisCycle += 1;
-                }
-                _currentAction = (_currentAction + 1) % _currentState.Actions.Count;
-                if (_currentAction == 0)
-                {
-                    ActionCyclesThisTurn += 1;
-                    _checkForTurnEndNextCycle = true;
-                }
-                ActionsActive++;
+                RunNextAction();
             }
+        }
+
+        private void BeginNewState(State nextState)
+        {
+            _currentState = nextState;
+            Debug.LogFormat("Starting state {0} - {1}", _currentState.Name, _controllerActive);
+            nextState.BeginState(this);
+            ActionCyclesThisTurn = 0;
+            if (_controllerActive)
+            {
+                // if the controller is already active then we transitioned
+                // during a turn, so do turn initialization stuff now
+                nextState.BeginTurn(this);
+            }
+            _currentAction = 0;
+            _checkForTurnEndNextCycle = false;
+            TurnsActive = 0;
+            ActionsActive = 0;
+        }
+
+        private void EndCurrentStateIfAny()
+        {
+            if (_currentState != null)
+            {
+                Debug.LogFormat("Ending state {0}", _currentState.Name);
+                _currentState.EndState(this);
+            }
+        }
+
+        private bool CanTransitionToNewState(State nextState)
+        {
+            if (Unit == null)
+            {
+                Debug.LogError("Transitioning on StateController with null Unit");
+                return false;
+            }
+            if (nextState == null)
+            {
+                Debug.LogError("Attempting to transition to null state");
+                return false;
+            }
+            if (nextState == _currentState)
+            {
+                Debug.LogError("Attempting to transition to same state");
+                return false;
+            }
+            return true;
+        }
+
+        private void RunNextAction()
+        {
+            _elapsedActionTime = 0.0f;
+            if (ShouldEndturn())
+            {
+                TurnOrderTracker.Instance.AdvanceTurn();
+                return;
+            }
+
+            if (!_currentState.DoNextAction(this, _currentAction))
+            {
+                ActionsFailedThisCycle += 1;
+            }
+
+            _currentAction = (_currentAction + 1) % _currentState.Actions.Count;
+            if (_currentAction == 0)
+            {
+                ActionCyclesThisTurn += 1;
+                _checkForTurnEndNextCycle = true;
+            }
+
+            ActionsActive++;
+        }
+
+        private bool ShouldUpdate()
+        {
+            return Unit != null && _controllerActive && _currentState != null &&
+                Unit.Ready;
         }
 
         private bool ShouldEndturn()
