@@ -2938,13 +2938,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68e279dfaf372847a3e72b1fe39a773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetRooms: 2
+  TargetRooms: 15
   MaxFailures: 100
   RoomMaxWidth: 10
   RoomMinWidth: 4
   RoomMaxHeight: 10
   RoomMinHeight: 4
-  EnemyType: {fileID: 11400000, guid: f9c4b65988f758749a2e9bc60c4b73ac, type: 2}
+  EnemyType: {fileID: 11400000, guid: d8b96c531a1afec498d545653fd8006a, type: 2}
   MinUnitsPerRoom: 1
   MaxUnitsPerRoom: 1
 --- !u!1 &882796462
