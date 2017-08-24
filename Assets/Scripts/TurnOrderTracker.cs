@@ -50,11 +50,18 @@
                 return;
             }
 
+            var currentUnitName = ActiveUnit == null
+                ? "No Unit"
+                : ActiveUnit.Name;
+
+
             if (ActiveUnit == null)
             {
                 SetNextUnit();
                 return;
             }
+
+            Debug.LogFormat("{0} is ending turn", currentUnitName);
             ActiveUnit.EndTurn();
         }
 
@@ -118,7 +125,6 @@
             {
                 throw new InvalidOperationException("OnUnitTurnEnded subscribed to non-GameUnit event");
             }
-            Debug.LogFormat("Turn ended for unit {0}", unit.name);
             SetNextUnit();
         }
 
@@ -147,6 +153,7 @@
             // Finally, get the next unit to act, notify it that its turn is
             // starting
             ActiveUnit = _unitsWaiting.Dequeue();
+            Debug.LogFormat("{0} is now the active unit.", ActiveUnit.Name);
             ActiveUnit.BeginTurn();
             TurnAdvanced.SafeRaiseEvent(this);
             if (ActiveUnit.Faction == Faction.Player)

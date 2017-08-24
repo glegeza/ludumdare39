@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: DrunkWalkBehavior
   m_EditorClassIdentifier: 
   Name: Drunk Walk
+  TurnInitializer: {fileID: 0}
   Initializer: {fileID: 0}
   Finalizer: {fileID: 0}
   Actions:
@@ -20,3 +21,5 @@ MonoBehaviour:
   ActionTransitions: []
   TurnStartTransitions: []
   TurnEndTransitions: []
+  TurnEndDecisions:
+  - {fileID: 11400000, guid: 27078c3a426826e4390a1e7e7800cf21, type: 2}

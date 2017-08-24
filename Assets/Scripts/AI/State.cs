@@ -39,6 +39,9 @@
 
         [Tooltip("Questions the AI asks itself at the end of a turn to determine if it should transition to a new state.")]
         public List<Transition> TurnEndTransitions = new List<Transition>();
+
+        [Tooltip("Used to determine if the AI should end its turn.")]
+        public List<TurnEndDecision> TurnEndDecisions = new List<TurnEndDecision>();
         
         /// <summary>
         /// Called when a game unit transitions to this state.
@@ -62,6 +65,7 @@
                 Debug.LogFormat("Preparing state {0} for new turn with turn initializer {1}", name, TurnInitializer.name);
                 TurnInitializer.OnTurnStart(controller);
             }
+            Debug.Log("Checking turn start transitions");
             CheckTransitions(controller, TurnStartTransitions);
         }
 
@@ -73,9 +77,37 @@
         /// actions.</returns>
         public bool DoNextAction(StateController controller, int action)
         {
+            Debug.LogFormat("State {0} running action {1}:{2}", name, action, Actions[action].name);
             var actionReturn = Actions[action].Act(controller);    
             CheckTransitions(controller, ActionTransitions);
             return actionReturn;
+        }
+
+        /// <summary>
+        /// Called to determine if this state is ready to end its turn.
+        /// </summary>
+        /// <returns>True if the controller should end the current turn.</returns>
+        public bool ShouldEndTurn(StateController controller)
+        {
+            // If there's no turn end decision, always end the turn to prevent
+            // infinite turns
+            if (TurnEndDecisions.Count == 0)
+            {
+                Debug.LogFormat("State {0} ending because it has no turn end decisions.", name);
+                return true;
+            }
+
+            foreach (var turnEnder in TurnEndDecisions)
+            {
+                Debug.LogFormat("Checking turn end decision {0}", turnEnder.name);
+                if (turnEnder.ShouldEndTurn(controller))
+                {
+                    Debug.LogFormat("Turn end decision true.");
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

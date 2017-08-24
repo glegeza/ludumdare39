@@ -23,3 +23,5 @@ MonoBehaviour:
     TrueState: {fileID: 11400000, guid: c326a0ce796a9fc4c912f9d7df2b69b6, type: 2}
     FalseState: {fileID: 0}
   TurnEndTransitions: []
+  TurnEndDecisions:
+  - {fileID: 11400000, guid: f789fb1b990dad046a7a539a12c3b1df, type: 2}

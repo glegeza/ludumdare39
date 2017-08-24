@@ -75,9 +75,6 @@
                 }
                 SetRenderer(_waitingUnitObjects[i], waiting[i]);
             }
-            
-
-            Debug.Log("Turn order updated");
         }
 
         private void SetRenderer(Image renderer, GameUnit unit)
