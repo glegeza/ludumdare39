@@ -47,6 +47,7 @@
         {
             if (Initializer != null)
             {
+                Debug.LogFormat("Initializing state {0} with initializer {1}", name, Initializer.name);
                 Initializer.OnStateEnter(controller);
             }
         }
@@ -58,6 +59,7 @@
         {
             if (TurnInitializer != null)
             {
+                Debug.LogFormat("Preparing state {0} for new turn with turn initializer {1}", name, TurnInitializer.name);
                 TurnInitializer.OnTurnStart(controller);
             }
             CheckTransitions(controller, TurnStartTransitions);
@@ -91,6 +93,7 @@
         {
             if (Finalizer != null)
             {
+                Debug.LogFormat("Finalizing state {0} with finalizer {1}", name, Finalizer.name);
                 Finalizer.OnStateExit(controller);
             }
         }
@@ -103,13 +106,13 @@
                 var decisionIsTrue = transition.Decision.Decide(controller);
                 if (decisionIsTrue && transition.TrueState != null)
                 {
-                    Debug.Log("Decision true");
+                    Debug.Log("Transition decision true");
                     controller.TransitionToState(transition.TrueState);
                     return;
                 }
                 else if (!decisionIsTrue && transition.FalseState != null)
                 {
-                    Debug.Log("Decision false");
+                    Debug.Log("Transition decision false");
                     controller.TransitionToState(transition.FalseState);
                     return;
                 }

@@ -14,8 +14,6 @@
 
         public override void OnStateEnter(StateController controller)
         {
-            Debug.Log("in OnStateEnter");
-
             var validUnits = controller.Unit.Visibility.VisibleUnits
                 .Where(u => u.Faction == TargetFaction)
                 .OrderBy(u => Tile.GetDistance(

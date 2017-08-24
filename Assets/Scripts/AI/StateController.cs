@@ -83,15 +83,21 @@
             _currentState = nextState;
             Debug.LogFormat("Starting state {0}", _currentState.Name);
             nextState.BeginState(this);
+            if (_controllerActive)
+            {
+                // if the controller is already active then we transitioned
+                // during a turn, so do turn initialization stuff now
+                nextState.BeginTurn(this);
+            }
             TurnsActive = 0;
             ActionsActive = 0;
         }
 
         public void BeginTurn()
         {
-            if (Unit == null || _currentState != null)
+            if (Unit != null && _currentState != null)
             {
-                Debug.Log("AI beginning turn");
+                Debug.LogFormat("Unit {0} beginning turn for state {1}", Unit.Name, _currentState.name);
                 _currentState.BeginTurn(this);
                 _controllerActive = true;
                 _currentAction = 0;
@@ -100,9 +106,9 @@
 
         public void EndTurn()
         {
-            if (Unit == null || _currentState != null)
+            if (Unit != null && _currentState != null)
             {
-                Debug.Log("AI ending turn");
+                Debug.LogFormat("Unit {0} ending turn for state {1}", Unit.Name, _currentState.name);
                 _currentState.EndTurn(this);
                 TurnsActive++;
                 _controllerActive = false;
