@@ -32,6 +32,11 @@
             get; private set;
         }
 
+        public IEnumerable<Room> Rooms
+        {
+            get; private set;
+        }
+
         private void Awake()
         {
             _map = GetComponent<TileMap>();
