@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0740afd3b2329648a00394facad6ab2, type: 3}
-  m_Name: FollowPlayer
+  m_Name: FollowAndMeleeAttack
   m_EditorClassIdentifier: 
   Name: FollowPlayer
   TurnInitializer: {fileID: 11400000, guid: 4ab82dcdae60df2468807b5c8086e3ad, type: 2}

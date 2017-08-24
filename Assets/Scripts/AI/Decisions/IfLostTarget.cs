@@ -10,7 +10,7 @@
         public override bool Decide(StateController controller)
         {
             var targetData = controller.Data as TrackedTargetData;
-            if (targetData == null)
+            if (targetData == null || targetData.CurrentTarget.gameObject == null)
             {
                 return true;
             }

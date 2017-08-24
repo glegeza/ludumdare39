@@ -13,6 +13,11 @@
             if (trackedData == null)
             {
                 Debug.LogError("IfTargetIsAdjacent missing TrackedTargetData");
+                return false;
+            }
+            if (trackedData.CurrentTarget == null)
+            {
+                return false;
             }
 
             return controller.Unit.Position.CurrentTile.IsAdjacent(

@@ -71,14 +71,8 @@
         /// actions.</returns>
         public bool DoNextAction(StateController controller, int action)
         {
-            // UGLY DoActions returns true if ANY action was successful. If it returns false, then all of the actions have failed and it's time to end the turn.
-            var actionReturn = Actions[action].Act(controller);
-
-            if (action == Actions.Count - 1)
-            {
-                CheckTransitions(controller, ActionTransitions);
-            }
-
+            var actionReturn = Actions[action].Act(controller);    
+            CheckTransitions(controller, ActionTransitions);
             return actionReturn;
         }
 

@@ -210,6 +210,7 @@
             CombatInfo.Destroyed += (o, e) => 
             {
                 Alive = false;
+                Position.CurrentTile.SetUnit(null);
                 UnitDestroyed.SafeRaiseEvent(this);
             };
         }

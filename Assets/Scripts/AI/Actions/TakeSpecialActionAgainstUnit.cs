@@ -19,6 +19,10 @@
                 Debug.LogError("TakeSpecialActionAgainstUnit missing TrackedTargetData");
                 return false;
             }
+            if (trackedUnit.CurrentTarget == null)
+            {
+                return false;
+            }
 
             return controller.Unit.ActionController.TryAction(Action.ID, trackedUnit.CurrentTarget.gameObject,
                 trackedUnit.CurrentTarget.Position.CurrentTile);
