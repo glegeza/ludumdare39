@@ -2,10 +2,8 @@
 {
     using DLS.LD39.Map;
     using DLS.LD39.Units.Data;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using UnityEngine;
     using Utility;
 
@@ -29,6 +27,11 @@
 
         private TileMap _map;
 
+        public Room ExitRoom
+        {
+            get; private set;
+        }
+
         private void Awake()
         {
             _map = GetComponent<TileMap>();
@@ -45,9 +48,18 @@
         private void Start()
         {
             var entryRoom = BuildEntryRoom();
-            var rooms = BuildRooms(entryRoom);
+            var exitRoom = BuildExitRoom();
+            var rooms = BuildRooms(entryRoom, exitRoom);
             BuildCorridors(rooms);
             SpawnPlayerUnits(_map, entryRoom);
+        }
+
+        private Room BuildExitRoom()
+        {
+            var exitRoom = new Room(10, 1, 4, 4);
+            exitRoom.SetTiles(_map, "yellow");
+            ExitRoom = exitRoom;
+            return exitRoom;
         }
 
         private Room BuildEntryRoom()
@@ -57,18 +69,19 @@
             return entryRoom;
         }
 
-        private List<Room> BuildRooms(Room entryRoom)
+        private List<Room> BuildRooms(Room entryRoom, Room exitRoom)
         {
             var failures = 0;
             var rooms = new List<Room>();
             rooms.Add(entryRoom);
+            rooms.Add(exitRoom);
 
             while (rooms.Count < TargetRooms && failures < MaxFailures)
             {
-                var w = UnityEngine.Random.Range(RoomMinWidth, RoomMaxWidth);
-                var h = UnityEngine.Random.Range(RoomMinHeight, RoomMaxHeight);
-                var x = UnityEngine.Random.Range(0, _map.Width - w);
-                var y = UnityEngine.Random.Range(0, _map.Height - h);
+                var w = Random.Range(RoomMinWidth, RoomMaxWidth);
+                var h = Random.Range(RoomMinHeight, RoomMaxHeight);
+                var x = Random.Range(0, _map.Width - w);
+                var y = Random.Range(0, _map.Height - h);
 
                 var newRoom = new Room(x, y, w, h);
                 if (!RoomIsEntirelyContainedWithinMap(_map, newRoom) ||

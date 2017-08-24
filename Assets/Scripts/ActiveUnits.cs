@@ -3,12 +3,18 @@
     using DLS.LD39.Graphics;
     using DLS.LD39.Map;
     using DLS.LD39.Units;
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
+    using Utility;
 
     class ActiveUnits : SingletonComponent<ActiveUnits>
     {
         private HashSet<GameUnit> _activeUnits = new HashSet<GameUnit>();
+
+        public event EventHandler<ActiveUnitsChangedEventArgs> UnitAdded;
+
+        public event EventHandler<ActiveUnitsChangedEventArgs> UnitRemoved;
 
         public IEnumerable<GameUnit> Units
         {
@@ -31,6 +37,7 @@
             unit.UnitDestroyed += OnUnitDestroyed;
             TurnOrderTracker.Instance.RegisterUnit(unit);
             _activeUnits.Add(unit);
+            UnitAdded.SafeRaiseEvent(this, new ActiveUnitsChangedEventArgs(unit));
         }
 
         public GameUnit GetUnitAtTile(Tile tile)
@@ -51,6 +58,7 @@
 
             _activeUnits.Remove(unit);
             TurnOrderTracker.Instance.UnregisterUnit(unit);
+            UnitRemoved.SafeRaiseEvent(this, new ActiveUnitsChangedEventArgs(unit));
             Destroy(unit.gameObject); // wait at least one frame
         }
 

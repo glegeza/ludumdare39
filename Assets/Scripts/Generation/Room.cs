@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Generation
 {
     using DLS.LD39.Map;
+    using DLS.LD39.Units;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
@@ -48,6 +49,21 @@
         public IntVector2 TranslateLocalTileCoords(int x, int y)
         {
             return new IntVector2(x + MapRect.X, y + MapRect.Y);
+        }
+
+        public bool UnitInRoom(GameUnit unit)
+        {
+            var map = unit.Position.CurrentTile.Map;
+            var unitPos = unit.Position.CurrentTile;
+            foreach (var tile in _tiles)
+            {
+                var roomTile = map.GetTile(tile);
+                if (unitPos.Equals(roomTile))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void SetTiles(TileMap map, string tileID="default")
