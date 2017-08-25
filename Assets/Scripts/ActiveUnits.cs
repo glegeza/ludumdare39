@@ -16,6 +16,8 @@
 
         public event EventHandler<ActiveUnitsChangedEventArgs> UnitRemoved;
 
+        public event EventHandler<ActiveUnitsChangedEventArgs> UnitDestroyed;
+
         public IEnumerable<GameUnit> Units
         {
             get
@@ -75,6 +77,7 @@
                 ActiveSelectionTracker.Instance.ClearSelection();
             }
 
+            UnitDestroyed.SafeRaiseEvent(this, new ActiveUnitsChangedEventArgs(unit));
             RemoveUnit(unit);
             if (unit.Data.GraphicsData.DeathAnimation != null)
             {

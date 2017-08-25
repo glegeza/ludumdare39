@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39.Actions
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using UnityEngine;
 
     public delegate void ActionCompletedDelegate();
@@ -27,6 +27,6 @@
 
         public abstract bool ActionIsValid(GameUnit actor, GameObject target, Tile targetTile);
 
-        public abstract bool AttemptAction(GameUnit actor, GameObject target, Tile targetTile, ActionCompletedDelegate actionCB);
+        public abstract bool AttemptAction(GameUnit actor, GameObject target, Tile targetTile, ActionCompletedDelegate onActionCompletedDelegate);
     }
 }

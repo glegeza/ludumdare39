@@ -25,7 +25,7 @@
                 actor.GetComponent<EnergyPoints>() != null;
         }
 
-        public override bool AttemptAction(GameUnit actor, GameObject target, Tile targetTile, ActionCompletedDelegate actionCB)
+        public override bool AttemptAction(GameUnit actor, GameObject target, Tile targetTile, ActionCompletedDelegate onActionCompletedDelegate)
         {
             if (!ActionIsValid(actor, target, targetTile))
             {
@@ -36,7 +36,7 @@
 
             energyPoints.AddPoints(EnergyRecharge);
 
-            actor.StartCoroutine(WaitOneFrame(actionCB));
+            actor.StartCoroutine(WaitOneFrame(onActionCompletedDelegate));
 
             return true;
         }

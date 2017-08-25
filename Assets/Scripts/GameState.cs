@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39
 {
-    using DLS.LD39.Generation;
-    using DLS.LD39.Units;
+    using Generation;
+    using Units;
     using System.Collections.Generic;
     using UnityEngine;
 
@@ -10,10 +10,23 @@
         private List<GameUnit> _playerUnits = new List<GameUnit>();
         private RoomMap _map;
 
+        public IEnumerable<GameUnit> PlayerUnits
+        {
+            get { return _playerUnits; }
+        }
+
         public bool GameActive
         {
             get; private set;
         }
+
+        public void GameOver()
+        {
+            YouLose();
+        }
+
+        public void EndLevel()
+        { }
 
         protected override void Awake()
         {
@@ -50,11 +63,6 @@
                 Debug.Log("Removed player unit");
                 _playerUnits.Remove(e.Unit);
             }
-
-            if (_playerUnits.Count == 0)
-            {
-                GameOver();
-            }
         }
 
         private void OnUnitAdded(object sender, ActiveUnitsChangedEventArgs e)
@@ -71,7 +79,7 @@
             Debug.Log("YOU TOTALLY WIN OR SOMETHING");
         }
 
-        private void GameOver()
+        private void YouLose()
         {
             Debug.Log("GAME OVER MAN");
             GameActive = false;

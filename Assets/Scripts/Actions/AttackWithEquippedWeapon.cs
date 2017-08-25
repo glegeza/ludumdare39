@@ -47,7 +47,7 @@
             return WeaponIsValid(GetWeapon(actor), actor, targetable, targetTile);
         }
 
-        public override bool AttemptAction(GameUnit actor, GameObject target, Tile targetTile, ActionCompletedDelegate onCompleted)
+        public override bool AttemptAction(GameUnit actor, GameObject target, Tile targetTile, ActionCompletedDelegate onActionCompletedDelegate)
         {
             if (!ActionIsValid(actor, target, targetTile))
             {
@@ -56,7 +56,7 @@
             }
 
             var targetableComp = target.GetComponent<ITargetable>();
-            StartAttack(GetWeapon(actor), actor, targetableComp, targetTile, onCompleted);
+            StartAttack(GetWeapon(actor), actor, targetableComp, targetTile, onActionCompletedDelegate);
 
             return true;
         }

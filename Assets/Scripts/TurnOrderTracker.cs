@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39
 {
-    using DLS.LD39.Units;
+    using Units;
     using Utility;
     using System;
     using System.Collections.Generic;
@@ -12,6 +12,10 @@
     {
         private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
         private List<GameUnit> _unitsDone = new List<GameUnit>();
+
+        public event EventHandler<EventArgs> RoundCompleted;
+
+        public event EventHandler<EventArgs> UnitEndedTurn;
 
         public event EventHandler<EventArgs> TurnOrderUpdated;
 
@@ -78,6 +82,7 @@
                 _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
             _unitsDone.Clear();
+            RoundCompleted.SafeRaiseEvent(this);
         }
 
         public void RegisterUnit(GameUnit unit)
@@ -133,6 +138,7 @@
             // Move the currently active unit (if any) to the done list
             if (ActiveUnit != null)
             {
+                UnitEndedTurn.SafeRaiseEvent(this);
                 _unitsDone.Add(ActiveUnit);
                 PreviousUnit = ActiveUnit;
                 ActiveUnit = null;
