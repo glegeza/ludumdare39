@@ -21,6 +21,8 @@
 
         public event EventHandler<EventArgs> TurnAdvanced;
 
+        public int RoundsCompleted { get; private set; }
+
         public GameUnit PreviousUnit
         {
             get; private set;
@@ -82,6 +84,7 @@
                 _unitsWaiting.Enqueue(unit, unit.SecondaryStats.Initiative);
             }
             _unitsDone.Clear();
+            RoundsCompleted += 1;
             RoundCompleted.SafeRaiseEvent(this);
         }
 
