@@ -15,6 +15,11 @@
             get { return _playerUnits; }
         }
 
+        public RoomMap CurrentMap
+        {
+            get { return _map; }
+        }
+
         public bool GameActive
         {
             get; private set;
@@ -26,7 +31,9 @@
         }
 
         public void EndLevel()
-        { }
+        {
+            YouWin();
+        }
 
         protected override void Awake()
         {
@@ -35,25 +42,6 @@
             _map = FindObjectOfType<RoomMap>();
             ActiveUnits.Instance.UnitAdded += OnUnitAdded;
             ActiveUnits.Instance.UnitRemoved += OnUnitRemoved;
-            TurnOrderTracker.Instance.TurnAdvanced += OnTurnAdvanced;
-        }
-
-        private void OnTurnAdvanced(object sender, System.EventArgs e)
-        {
-            if (_playerUnits.Count == 0)
-            {
-                return;
-            }
-
-            foreach (var unit in _playerUnits)
-            {
-                if (!_map.ExitRoom.UnitInRoom(unit))
-                {
-                    return;
-                }
-            }
-
-            YouWin();
         }
 
         private void OnUnitRemoved(object sender, ActiveUnitsChangedEventArgs e)
@@ -77,6 +65,7 @@
         private void YouWin()
         {
             Debug.Log("YOU TOTALLY WIN OR SOMETHING");
+            GameActive = false;
         }
 
         private void YouLose()
