@@ -2295,7 +2295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultConditions:
-  - {fileID: 11400000, guid: 9ecf88e0702252a479ee7871cb64b9cd, type: 2}
+  - {fileID: 11400000, guid: ab576c95fb17f544d883f8cce30b5c60, type: 2}
 --- !u!1 &630990345
 GameObject:
   m_ObjectHideFlags: 0
