@@ -1,11 +1,13 @@
 ﻿namespace DLS.LD39.Generation
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units.Data;
+    using System;
+    using Map;
+    using Units.Data;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
     using Utility;
+    using Random = UnityEngine.Random;
 
     [RequireComponent(typeof(TileMap))]
     public class RoomMap : MonoBehaviour
@@ -26,6 +28,8 @@
         public int MaxUnitsPerRoom = 2;
 
         private TileMap _map;
+        private Dictionary<string, Room> _rooms 
+            = new Dictionary<string, Room>();
 
         public Room ExitRoom
         {
@@ -34,7 +38,14 @@
 
         public IEnumerable<Room> Rooms
         {
-            get; private set;
+            get { return _rooms.Values; }
+        }
+
+        public Room GetRoom(string id)
+        {
+            Room room;
+            _rooms.TryGetValue(id, out room);
+            return room;
         }
 
         private void Awake()
@@ -54,57 +65,64 @@
         {
             var entryRoom = BuildEntryRoom();
             var exitRoom = BuildExitRoom();
-            var rooms = BuildRooms(entryRoom, exitRoom);
-            BuildCorridors(rooms);
+            BuildRooms();
+            BuildCorridors();
             SpawnPlayerUnits(_map, entryRoom);
+        }
+
+        private void AddRoom(Room newRoom, string tileType="default")
+        {
+            if (_rooms.ContainsKey(newRoom.ID))
+            {
+                Debug.LogErrorFormat("Adding duplicate room {0}", newRoom.ID);
+            }
+            newRoom.SetTiles(_map, tileType);
+            _rooms.Add(newRoom.ID, newRoom);
         }
 
         private Room BuildExitRoom()
         {
-            var exitRoom = new Room(10, 1, 4, 4);
-            exitRoom.SetTiles(_map, "yellow");
+            var exitRoom = new Room(10, 1, 4, 4, "exit");
+            AddRoom(exitRoom, "yellow");
             ExitRoom = exitRoom;
             return exitRoom;
         }
 
         private Room BuildEntryRoom()
         {
-            var entryRoom = new Room(1, 1, 5, 5);
-            entryRoom.SetTiles(_map, "yellow");
+            var entryRoom = new Room(1, 1, 5, 5, "entry");
+            AddRoom(entryRoom, "yellow");
             return entryRoom;
         }
 
-        private List<Room> BuildRooms(Room entryRoom, Room exitRoom)
+        private void BuildRooms()
         {
             var failures = 0;
-            var rooms = new List<Room>();
-            rooms.Add(entryRoom);
-            rooms.Add(exitRoom);
 
-            while (rooms.Count < TargetRooms && failures < MaxFailures)
+            var roomsBuilt = 0;
+            while (roomsBuilt < TargetRooms && failures < MaxFailures)
             {
                 var w = Random.Range(RoomMinWidth, RoomMaxWidth);
                 var h = Random.Range(RoomMinHeight, RoomMaxHeight);
                 var x = Random.Range(0, _map.Width - w);
                 var y = Random.Range(0, _map.Height - h);
 
-                var newRoom = new Room(x, y, w, h);
+                var newRoom = new Room(x, y, w, h, String.Format("Room {0}", roomsBuilt));
                 if (!RoomIsEntirelyContainedWithinMap(_map, newRoom) ||
-                    rooms.Any(r => newRoom.Overlaps(r, 1)))
+                    _rooms.Values.Any(r => newRoom.Overlaps(r, 1)))
                 {
                     failures++;
                     continue;
                 }
-                rooms.Add(newRoom);
-                newRoom.SetTiles(_map);
+                roomsBuilt += 1;
+                AddRoom(newRoom);
                 SpawnBadGuys(_map, newRoom);
             }
-
-            return rooms;
         }
 
-        private void BuildCorridors(List<Room> rooms)
+        private void BuildCorridors()
         {
+            var rooms = _rooms.Values.ToList();
             for (var i = 0; i < rooms.Count - 1; i++)
             {
                 var corridor = new SingleWidthCorridor();
@@ -136,10 +154,10 @@
             var placed = 0;
             var remainingTiles = new List<IntVector2>(room.Tiles);
             var tileCount = remainingTiles.Count;
-            var unitsToPlace = UnityEngine.Random.Range(MinUnitsPerRoom, MaxUnitsPerRoom + 1);
+            var unitsToPlace = Random.Range(MinUnitsPerRoom, MaxUnitsPerRoom + 1);
             while (placed < unitsToPlace && tileCount > 0)
             {
-                var tileIdx = UnityEngine.Random.Range(0, tileCount);
+                var tileIdx = Random.Range(0, tileCount);
                 var tile = map.GetTile(remainingTiles[tileIdx]);
                 UnitSpawner.Instance.SpawnUnit(EnemyType.ID, tile);
                 tileCount -= 1;

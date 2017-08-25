@@ -1,21 +1,23 @@
 ﻿namespace DLS.LD39.Generation
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using System;
     using System.Collections.Generic;
-    using UnityEngine;
     using Utility;
 
     public class Room : MapElement, IEquatable<Room>
     {
         private HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
 
-        public Room(int x, int y, int width, int height)
+        public Room(int x, int y, int width, int height, string id)
         {
             MapRect = new IntRect(x, y, width, height);
+            ID = id;
             UpdateTiles();
         }
+
+        public string ID { get; private set; }
 
         public int Width
         {
