@@ -3,19 +3,32 @@ namespace DLS.LD39.Interface
 {
     using UnityEngine;
     using System;
-    using DLS.LD39.Units;
+    using JetBrains.Annotations;
+    using Units;
 
     [RequireComponent(typeof(SpriteRenderer))]
+    [UsedImplicitly]
     public class SelectedUnitBox : MonoBehaviour
     {
         private GameObject _currentSelection;
         private SpriteRenderer _renderer;
 
+        [UsedImplicitly]
         private void Awake()
         {
             _renderer = GetComponent<SpriteRenderer>();
             _renderer.enabled = false;
             ActiveSelectionTracker.Instance.SelectionChanged += OnSelectionChanged;
+        }
+
+        [UsedImplicitly]
+        private void Update()
+        {
+            if (_currentSelection != null)
+            {
+                transform.position = _currentSelection.transform.position;
+            }
+            
         }
 
         private void OnSelectionChanged(object sender, EventArgs e)
@@ -57,15 +70,6 @@ namespace DLS.LD39.Interface
         {
             _currentSelection = null;
             _renderer.enabled = false;
-        }
-
-        private void Update()
-        {
-            if (_currentSelection != null)
-            {
-                transform.position = _currentSelection.transform.position;
-            }
-            
         }
     }
 }

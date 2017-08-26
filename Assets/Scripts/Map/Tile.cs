@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.Map
 {
-    using DLS.LD39.Props;
-    using DLS.LD39.Units;
-    using DLS.Utility;
+    using Props;
+    using Units;
+    using Utility;
     using Priority_Queue;
     using System;
     using System.Collections.Generic;

@@ -1,18 +1,19 @@
 ﻿namespace DLS.LD39.MouseInput
 {
     using InputHandlers;
-    using DLS.LD39.Map;
+    using Map;
     using UnityEngine;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Responsible for calling the appropriate IMapClickInputHandler when the
     /// player clicks the mouse anywhere on the map. 
     /// </summary>
     [CreateAssetMenu(menuName ="Input Handlers/Tile Picker")]
-    class MapClickRouter : BaseClickHandler<TileMap>
+    public class MapClickRouter : BaseClickHandler<TileMap>
     {
-        private Dictionary<string, IMapClickInputHandler> _inputHandlers =
+        private readonly Dictionary<string, IMapClickInputHandler> _inputHandlers =
             new Dictionary<string, IMapClickInputHandler>();
 
         private IMapClickInputHandler _activeHandler;
@@ -45,21 +46,6 @@
             }
         }
 
-        private void AddHandler(IMapClickInputHandler handler)
-        {
-            _inputHandlers.Add(handler.HandlerID, handler);
-        }
-
-        private void OnEnable()
-        {
-            AddHandler(new UnitSpawnModeInputHandler());
-            AddHandler(new TileEditModeInputHandler());
-            AddHandler(new UnitControlModeInputHandler());
-            AddHandler(new PropEditModeInputHandler());
-            _defaultHandler = _inputHandlers["control"];
-            _activeHandler = _defaultHandler;
-        }
-
         public override bool HandleClick(TileMap tileMap, int btn, Vector2 hitPoint)
         {
             var tile = GetTile(tileMap, hitPoint);
@@ -82,6 +68,22 @@
             }
 
             return false;
+        }
+
+        [UsedImplicitly]
+        private void OnEnable()
+        {
+            AddHandler(new UnitSpawnModeInputHandler());
+            AddHandler(new TileEditModeInputHandler());
+            AddHandler(new UnitControlModeInputHandler());
+            AddHandler(new PropEditModeInputHandler());
+            _defaultHandler = _inputHandlers["control"];
+            _activeHandler = _defaultHandler;
+        }
+
+        private void AddHandler(IMapClickInputHandler handler)
+        {
+            _inputHandlers.Add(handler.HandlerID, handler);
         }
 
         private Tile GetTile(TileMap tileMap, Vector2 worldCoord)

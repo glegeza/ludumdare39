@@ -1,5 +1,7 @@
-﻿namespace DLS.Utility.Unity.Cameras
+﻿// ReSharper disable CheckNamespace
+namespace DLS.Utility.Unity.Cameras
 {
+    using JetBrains.Annotations;
     using UnityEngine;
 
     [RequireComponent(typeof(Camera))]
@@ -18,12 +20,14 @@
             UpdateCamera();
         }
 
+        [UsedImplicitly]
         private void Start()
         {
             _camera = GetComponent<Camera>();
             UpdateCamera();
         }
 
+        [UsedImplicitly]
         private void OnValidate()
         {
             if (VerticalResolution <= 0 || TargetPPU <= 0 || TargetScale <= 0.0f)

@@ -1,33 +1,20 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Interface;
-    using DLS.LD39.Map;
+    using Interface;
+    using Map;
     using UnityEngine;
     using UnityEngine.UI;
 
-    class TileEditModeInputHandler : MapClickInputHandler
+    public class TileEditModeInputHandler : MapClickInputHandler
     {
-        private const int PassableIdx = 7;
-        private const int ImpassableIdx = 4;
-
-        private enum Mode
-        {
-            DoNothing,
-            Passable,
-            Impassable
-        }
-        
         private Dropdown _selector;
 
         private Dropdown Selector
         {
             get
             {
-                if (_selector == null)
-                {
-                    _selector = GameObject.FindObjectOfType<TileDropdownPopulator>().GetComponent<Dropdown>();
-                }
-                return _selector;
+                return _selector ?? (_selector = Object.FindObjectOfType<TileDropdownPopulator>()
+                           .GetComponent<Dropdown>());
             }
         }
 

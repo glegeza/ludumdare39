@@ -7,10 +7,6 @@
     {
         private T _storedItem;
 
-        public EquipmentSlot()
-        {
-        }
-
         /// <summary>
         /// Raised when one piece of equipment is replaced by another.
         /// </summary>

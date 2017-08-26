@@ -3,12 +3,12 @@
     using Utility;
     using System.Collections.Generic;
     using System.Linq;
-    using DLS.LD39.Map;
+    using Map;
 
     public class SingleWidthCorridor : MapElement
     {
-        public List<IntVector2> _nodes = new List<IntVector2>();
-        public HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
+        private readonly List<IntVector2> _nodes = new List<IntVector2>();
+        private readonly HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
 
         public bool AddNode(IntVector2 node)
         {

@@ -1,16 +1,16 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Equipment;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Equipment;
+    using Map;
+    using Units;
     using System;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     public class CombatManager : SingletonComponent<CombatManager>
     {
-        public GameObject CombatTextPrefab;
-
-        public int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetTile)
+        public static int HitChance(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetTile)
         {
             if (!weapon.TileIsLegalTarget(unit.Position.CurrentTile, targetTile))
             {
@@ -21,16 +21,6 @@
             var modifiedChance = baseChance + weapon.BaseToHit - target.Evasion;
 
             return Mathf.Clamp(modifiedChance, 0, 100);
-        }
-
-        public int GetAttackAPCost(GameUnit unit, WeaponStats weapon, ITargetable target)
-        {
-            return weapon.APCost;
-        }
-
-        public int GetAttackEnergyCost(GameUnit unit, WeaponStats weapon, ITargetable target)
-        {
-            return weapon.EnergyCost;
         }
 
         public AttackResult MakeAttack(GameUnit unit, Weapon weapon, ITargetable target, Tile targetPos)
@@ -95,23 +85,20 @@
             return result;
         }
 
-        private void ApplyDamage(ITargetable target, AttackResult damage)
-        {
-            target.ApplyDamage(damage.DamageDone);
-        }
-
         private bool TargetInRange(RangedWeaponStats weapon, Tile origin, Tile targetPos)
         {
             var distance = Vector2.Distance(origin.WorldCoords, targetPos.WorldCoords);
             return distance <= weapon.Range;
         }
-
+        
         private bool TargetInLOS(RangedWeaponStats weapon, Tile origin, Tile targetPos)
         {
-            return LOSChecker.Instance.LOSClear(origin, targetPos);
+            return weapon != null && LOSChecker.Instance.LOSClear(origin, targetPos);
         }
-
-        private void CheckArgumentsNotNull(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)
+        
+        // ReSharper disable UnusedParameter.Local
+        private static void CheckArgumentsNotNull(GameUnit unit, WeaponStats weapon, ITargetable target, Tile targetPos)
+        // ReSharper restore UnusedParameter.Local
         {
             if (unit == null)
             {

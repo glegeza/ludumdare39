@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using DLS.LD39.Actions;
+    using Actions;
     using System.Collections.Generic;
 
     public abstract class Loot
@@ -10,6 +10,7 @@
             Name = name;
             Description = desc;
             Actions = new List<Action>(actions);
+            Type = type;
         }
 
         public string Name

@@ -13,7 +13,7 @@
         private List<Vector2> _uvs = new List<Vector2>();
         private List<int> _tris = new List<int>();
 
-        private bool _isDirty = false;
+        private bool _isDirty;
 
         /// <summary>
         /// Generates a plane composed of quad tiles.

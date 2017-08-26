@@ -1,7 +1,8 @@
 ﻿namespace DLS.LD39.Units
 {
-    using DLS.LD39.Equipment;
+    using Equipment;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     public class UnitEquipment : GameUnitComponent
     {
@@ -44,6 +45,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             PrimaryWeapon = new EquipmentSlot<PrimaryWeapon>();

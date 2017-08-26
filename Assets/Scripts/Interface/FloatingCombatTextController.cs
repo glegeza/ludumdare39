@@ -1,20 +1,22 @@
 ﻿namespace DLS.LD39.Interface
 {
-    using DLS.LD39.Combat;
-    using DLS.LD39.Units;
+    using Combat;
+    using JetBrains.Annotations;
+    using Units;
     using UnityEngine;
 
+    [UsedImplicitly]
     public class FloatingCombatTextController : SingletonComponent<FloatingCombatTextController>
     {
         public FloatingCombatText TextPrefab;
         public Canvas UICanvas;
         public float RandomRange = 0.2f;
-
+        
         public void RegisterNoAP(GameUnit unit)
         {
             CreateText("Not enough AP!", unit.transform.position);
         }
-
+        
         public void RegisterNoEnergy(GameUnit unit)
         {
             CreateText("Not enough energy!", unit.transform.position);
@@ -22,22 +24,22 @@
 
         public void RegisterDamage(int amount, ITargetable target)
         {
-            var transform = GetTransform(target);
-            if (transform == null)
+            var targetTransform = GetTransform(target);
+            if (targetTransform == null)
             {
                 return;
             }
-            CreateText(amount.ToString(), transform.position);
+            CreateText(amount.ToString(), targetTransform.position);
         }
 
         public void RegisterMiss(ITargetable target)
         {
-            var transform = GetTransform(target);
-            if (transform == null)
+            var targetTransform = GetTransform(target);
+            if (targetTransform == null)
             {
                 return;
             }
-            CreateText("Miss!", transform.position);
+            CreateText("Miss!", targetTransform.position);
         }
 
         public void CreateText(string text, Vector3 location)

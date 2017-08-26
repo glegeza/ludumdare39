@@ -1,8 +1,9 @@
-﻿namespace DLS.Utility.Unity.ProceduralMeshes
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility.Unity.ProceduralMeshes
 {
     using UnityEngine;
-    using Utility.Unity.Cameras;
-    using Utility.Unity.ProceduralMeshes;
+    using Cameras;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Generates a quad and ensures that it always fills the viewport of
@@ -10,12 +11,14 @@
     /// </summary>
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
+    [UsedImplicitly]
     public class FixedFullscreenQuad : MonoBehaviour
     {
         public Camera TargetCamera;
         public bool MaintainProportions;
         public float WidthHeightRatio;
 
+        [UsedImplicitly]
         private void Start()
         {
             if (TargetCamera == null)
@@ -27,6 +30,7 @@
             filter.mesh = QuadBuilder.GetQuad("Fullscreen Procedural Quad");
         }
 
+        [UsedImplicitly]
         private void Update()
         {
             if (MaintainProportions)

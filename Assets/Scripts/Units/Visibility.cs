@@ -1,14 +1,14 @@
 ﻿namespace DLS.LD39.Units
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Combat;
+    using Map;
+    using Combat;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public class Visibility : GameUnitComponent
     {
-        private HashSet<Tile> _visibleTiles = new HashSet<Tile>();
+        private readonly HashSet<Tile> _visibleTiles = new HashSet<Tile>();
 
         public event EventHandler<EventArgs> VisibilityUpdated;
 

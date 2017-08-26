@@ -1,10 +1,10 @@
 ﻿namespace DLS.LD39.Interface.TurnOrder
 {
-    using DLS.LD39.Units;
+    using Units;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using JetBrains.Annotations;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -19,6 +19,7 @@
         private TurnOrderTracker _tracker;
         private List<Image> _waitingUnitObjects = new List<Image>();
 
+        [UsedImplicitly]
         private void Awake()
         {
             _tracker = TurnOrderTracker.Instance;
@@ -52,6 +53,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void Start()
         {
             _tracker.TurnOrderUpdated += OnTurnOrderChanged;
@@ -66,10 +68,9 @@
             SetRenderer(PrevUnit, prevUnit);
             SetRenderer(ActiveUnit, curUnit);
 
-            var idx = 0;
             for (var i = 0; i < _waitingUnitObjects.Count; i++)
             {
-                if (i >= waiting.Count())
+                if (i >= waiting.Count)
                 {
                     break;
                 }
@@ -77,17 +78,17 @@
             }
         }
 
-        private void SetRenderer(Image renderer, GameUnit unit)
+        private void SetRenderer(Image imgRenderer, GameUnit unit)
         {
             if (unit != null)
             {
-                renderer.gameObject.SetActive(true);
-                renderer.sprite = unit.Data.GraphicsData.IconSprite;
-                renderer.color = unit.Data.SpriteTint;
+                imgRenderer.gameObject.SetActive(true);
+                imgRenderer.sprite = unit.Data.GraphicsData.IconSprite;
+                imgRenderer.color = unit.Data.SpriteTint;
             }
             else
             {
-                renderer.gameObject.SetActive(false);
+                imgRenderer.gameObject.SetActive(false);
             }
         }
 

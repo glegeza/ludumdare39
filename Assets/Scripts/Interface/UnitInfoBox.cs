@@ -1,11 +1,13 @@
 ﻿namespace DLS.LD39.Interface
 {
-    using DLS.LD39.Combat;
-    using DLS.LD39.Units;
+    using Combat;
+    using Units;
     using System;
+    using JetBrains.Annotations;
     using UnityEngine;
     using UnityEngine.UI;
 
+    [UsedImplicitly]
     public class UnitInfoBox : MonoBehaviour
     {
         public Text Title;
@@ -18,6 +20,7 @@
         public Text Evasion;
         public Text ChanceToHit;
 
+        [UsedImplicitly]
         private void Update()
         {
             var selectedObject = ActiveSelectionTracker.Instance.SelectedObject;
@@ -39,7 +42,7 @@
 
         private void UpdateUnit(GameUnit unit)
         {
-            Title.text = unit.Name;
+            Title.text = unit.UnitName;
             Initiative.text = String.Format("Initiative: {0}", unit.SecondaryStats.Initiative);
             AP.text = String.Format("AP: {0}/{1}", unit.AP.PointsRemaining, unit.SecondaryStats.ActionPointCap);
             Speed.text = String.Format("Speed: {0}", unit.PrimaryStats.Speed);
@@ -64,7 +67,7 @@
                 {
                     ChanceToHit.text = "";
                 }
-                var hitChance = CombatManager.Instance.HitChance(
+                var hitChance = CombatManager.HitChance(
                     unit, 
                     weapon, 
                     unit.CurrentTarget.CombatInfo, 

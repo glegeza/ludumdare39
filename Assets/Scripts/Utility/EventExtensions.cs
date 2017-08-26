@@ -1,8 +1,9 @@
-﻿namespace DLS.Utility
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility
 {
     using System;
 
-    static public class EventExtensions
+    public static class EventExtensions
     {
         public static void SafeRaiseEvent(this EventHandler<EventArgs> @event, object sender)
         {

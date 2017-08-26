@@ -1,12 +1,14 @@
 ﻿namespace DLS.LD39.Interface.Actions
 {
+    using JetBrains.Annotations;
     using UnityEngine;
     using UnityEngine.UI;
-    using DLS.LD39.Actions;
-    using DLS.LD39.Units;
-    using DLS.LD39.Map;
+    using LD39.Actions;
+    using Units;
+    using Map;
 
     [RequireComponent(typeof(Button))]
+    [UsedImplicitly]
     public class UnitActionButton : MonoBehaviour
     {
         private Button _button;
@@ -16,6 +18,7 @@
         private GameUnit _unit;
         private UnitActionController _controller;
 
+        [UsedImplicitly]
         private void Awake()
         {
             _button = GetComponent<Button>();

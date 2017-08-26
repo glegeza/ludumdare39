@@ -1,4 +1,5 @@
-﻿namespace DLS.Utility.Unity.ProceduralMeshes
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility.Unity.ProceduralMeshes
 {
     using UnityEngine;
 

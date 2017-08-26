@@ -1,10 +1,11 @@
 ﻿namespace DLS.LD39
 {
-    using DLS.LD39.Map;
+    using JetBrains.Annotations;
+    using Map;
     using UnityEngine;
 
     [RequireComponent(typeof(Camera))]
-    class MapClickDragMover : MonoBehaviour
+    public class MapClickDragMover : MonoBehaviour
     {
         #pragma warning disable 0649
         public TileMap AttachedMap;
@@ -15,20 +16,18 @@
         public Vector2 LowerLeftBounds = new Vector2(-40.0f, -40.0f);
         public Vector2 UpperRightBounds = new Vector2(40.0f, 40.0f);
 
-        private Camera _camera;
-
+        [UsedImplicitly]
         private void Start()
         {
-            _camera = GetComponent<Camera>();
-            if (AttachedMap != null)
-            {
-                LowerLeftBounds = new Vector2(-(AttachedMap.Width / 2.0f),
-                    -(AttachedMap.Height / 2.0f));
-                UpperRightBounds = new Vector2(AttachedMap.Width / 2.0f,
-                    AttachedMap.Height / 2.0f);
-            }
+            if (AttachedMap == null) return;
+            
+            LowerLeftBounds = new Vector2(-(AttachedMap.Width / 2.0f),
+                -(AttachedMap.Height / 2.0f));
+            UpperRightBounds = new Vector2(AttachedMap.Width / 2.0f,
+                AttachedMap.Height / 2.0f);
         }
 
+        [UsedImplicitly]
         private void Update()
         {
             var x = 0.0f;

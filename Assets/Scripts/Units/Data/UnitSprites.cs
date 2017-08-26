@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Units.Data
 {
-    using DLS.LD39.Graphics;
+    using Graphics;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game Data/Units/Unit Sprites")]

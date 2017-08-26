@@ -1,7 +1,8 @@
-﻿namespace DLS.LD39.AI.Actions
+﻿// ReSharper disable UnusedMember.Global
+namespace DLS.LD39.AI.Actions
 {
-    using DLS.LD39.AI.Data;
-    using DLS.LD39.Pathfinding;
+    using Data;
+    using Pathfinding;
     using System.Linq;
     using UnityEngine;
 
@@ -31,13 +32,12 @@
             {
                 return true;
             }
-            else if (moveResult == MoveResult.Blocked)
-            {
-                var cost = 0;
-                data.CurrentPath = _pathfinder.GetPath(
-                    controller.Unit.Position.CurrentTile,
-                    data.MoveTarget, out cost);
-            }
+            if (moveResult != MoveResult.Blocked) return false;
+
+            int cost;
+            data.CurrentPath = _pathfinder.GetPath(
+                controller.Unit.Position.CurrentTile,
+                data.MoveTarget, out cost);
 
             return false;
         }

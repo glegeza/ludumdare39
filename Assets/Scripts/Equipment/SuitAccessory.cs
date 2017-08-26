@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using DLS.LD39.Actions;
+    using Actions;
     using System.Collections.Generic;
 
     public class SuitAccessory : Loot

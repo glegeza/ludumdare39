@@ -1,11 +1,11 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Pathfinding;
-    using DLS.LD39.Units;
+    using Map;
+    using Pathfinding;
+    using Units;
     using UnityEngine;
 
-    class UnitControlModeInputHandler : MapClickInputHandler
+    public class UnitControlModeInputHandler : MapClickInputHandler
     {
         public UnitControlModeInputHandler() : base("control", "Normal")
         { }
@@ -40,7 +40,7 @@
             }
             if (button == 1)
             {
-                var target = GetUnitTarget(activeUnit, clickedTile);
+                var target = GetUnitTarget(clickedTile);
                 if (activeUnit.CurrentTarget != target)
                 {
                     activeUnit.CurrentTarget = target;
@@ -51,18 +51,14 @@
             return false;
         }
 
-        private GameUnit GetUnitTarget(GameUnit activeUnit, Tile clickedTile)
+        private GameUnit GetUnitTarget(Tile clickedTile)
         {
             var target = ActiveUnits.Instance.GetUnitAtTile(clickedTile);
             if (target == null)
             {
                 return null;
             }
-            if (target.Faction != Faction.Aliens)
-            {
-                return null;
-            }
-            return target;
+            return target.Faction != Faction.Aliens ? null : target;
         }
 
         private void DoMoveAction(GameUnit activeUnit, Tile clickedTile)
@@ -74,7 +70,7 @@
                 return;
             }
 
-            if (clickedTile == pathfinder.Target)
+            if (Equals(clickedTile, pathfinder.Target))
             {
                 pathfinder.StartMove();
             }

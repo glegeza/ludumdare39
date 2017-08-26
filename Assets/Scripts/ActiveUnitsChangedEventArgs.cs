@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39
 {
-    using DLS.LD39.Units;
+    using Units;
     using System;
 
     public class ActiveUnitsChangedEventArgs : EventArgs

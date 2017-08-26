@@ -1,25 +1,26 @@
 ﻿namespace DLS.LD39.Interface
 {
-    using DLS.LD39.Units;
+    using Units;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using JetBrains.Annotations;
     using UnityEngine;
     using UnityEngine.UI;
 
     [RequireComponent(typeof(Text))]
-    class UnitAPCounter : MonoBehaviour
+    [UsedImplicitly]
+    public class UnitAPCounter : MonoBehaviour
     {
         private Text _text;
         private GameObject _currentObject;
         private GameUnit _currentUnit;
 
+        [UsedImplicitly]
         private void Awake()
         {
             _text = GetComponent<Text>();
         }
 
+        [UsedImplicitly]
         private void Update()
         {
             var currentSelection = ActiveSelectionTracker.Instance.SelectedObject;

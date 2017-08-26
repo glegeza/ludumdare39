@@ -2,7 +2,7 @@
 {
     using UnityEngine;
     using System.Collections.Generic;
-    using DLS.LD39.Actions;
+    using Actions;
 
     public abstract class EquipmentData<T> : ScriptableObject where T : Loot
     {

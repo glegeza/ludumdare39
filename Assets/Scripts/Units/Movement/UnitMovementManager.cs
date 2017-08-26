@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39.Units.Movement
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Pathfinding;
+    using Map;
+    using Pathfinding;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;

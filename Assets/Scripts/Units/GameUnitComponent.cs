@@ -4,7 +4,7 @@
 
     public abstract class GameUnitComponent : MonoBehaviour
     {
-        private bool _inTurn = false;
+        private bool _inTurn;
 
         public GameUnit AttachedUnit
         {

@@ -1,16 +1,13 @@
 ﻿namespace DLS.LD39
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     // UGLY this is super lazy and ugly, but IDGAF
     /// <summary>
     /// Stores references to useful materials.
     /// </summary>
-    class MaterialRepository : MonoBehaviour
+    public class MaterialRepository : MonoBehaviour
     {
         private static MaterialRepository _instance;
 
@@ -29,6 +26,7 @@
         public Material FuturePathMarkerMaterial;
         #pragma warning restore 0649
         
+        [UsedImplicitly]
         private void Awake()
         {
             if (_instance != null && _instance != this)

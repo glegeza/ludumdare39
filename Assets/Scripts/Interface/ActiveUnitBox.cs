@@ -1,9 +1,9 @@
-﻿
-namespace DLS.LD39.Interface
+﻿namespace DLS.LD39.Interface
 {
     using UnityEngine;
     using System;
-    using DLS.LD39.Units;
+    using JetBrains.Annotations;
+    using Units;
 
     [RequireComponent(typeof(SpriteRenderer))]
     public class ActiveUnitBox : MonoBehaviour
@@ -11,13 +11,6 @@ namespace DLS.LD39.Interface
         private SpriteRenderer _renderer;
         private GameUnit _targetSelection;
         private bool _shouldDisplay;
-
-        private void Start()
-        {
-            _renderer = GetComponent<SpriteRenderer>();
-            _renderer.enabled = false;
-            TurnOrderTracker.Instance.TurnAdvanced += OnTurnAdvanced;
-        }
 
         private void OnTurnAdvanced(object sender, EventArgs e)
         {
@@ -37,6 +30,15 @@ namespace DLS.LD39.Interface
             transform.localPosition = Vector3.zero;
         }
 
+        [UsedImplicitly]
+        private void Start()
+        {
+            _renderer = GetComponent<SpriteRenderer>();
+            _renderer.enabled = false;
+            TurnOrderTracker.Instance.TurnAdvanced += OnTurnAdvanced;
+        }
+
+        [UsedImplicitly]
         private void Update()
         {
             if (!_shouldDisplay)

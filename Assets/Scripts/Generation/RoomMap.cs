@@ -1,14 +1,17 @@
-﻿namespace DLS.LD39.Generation
+﻿// ReSharper disable RedundantDefaultMemberInitializer
+namespace DLS.LD39.Generation
 {
     using System;
     using Map;
     using Units.Data;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using UnityEngine;
     using Utility;
     using Random = UnityEngine.Random;
 
+    [UsedImplicitly]
     [RequireComponent(typeof(TileMap))]
     public class RoomMap : MonoBehaviour
     {
@@ -48,6 +51,7 @@
             return room;
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             _map = GetComponent<TileMap>();
@@ -61,13 +65,14 @@
             MinUnitsPerRoom = Mathf.Clamp(MinUnitsPerRoom, 0, MaxUnitsPerRoom);
         }
 
+        [UsedImplicitly]
         private void Start()
         {
-            var entryRoom = BuildEntryRoom();
-            var exitRoom = BuildExitRoom();
+            BuildEntryRoom();
+            BuildExitRoom();
             BuildRooms();
             BuildCorridors();
-            SpawnPlayerUnits(_map, entryRoom);
+            SpawnPlayerUnits();
         }
 
         private void AddRoom(Room newRoom, string tileType="default")
@@ -80,19 +85,17 @@
             _rooms.Add(newRoom.ID, newRoom);
         }
 
-        private Room BuildExitRoom()
+        private void BuildExitRoom()
         {
             var exitRoom = new Room(10, 1, 4, 4, "exit");
             AddRoom(exitRoom, "yellow");
             ExitRoom = exitRoom;
-            return exitRoom;
         }
 
-        private Room BuildEntryRoom()
+        private void BuildEntryRoom()
         {
             var entryRoom = new Room(1, 1, 5, 5, "entry");
             AddRoom(entryRoom, "yellow");
-            return entryRoom;
         }
 
         private void BuildRooms()
@@ -132,12 +135,12 @@
             }
         }
 
-        private void SpawnPlayerUnits(TileMap map, Room entryRoom)
+        private void SpawnPlayerUnits()
         {
-            var tile1 = map.GetTile(entryRoom.TranslateLocalTileCoords(2, 1));
-            var tile2 = map.GetTile(entryRoom.TranslateLocalTileCoords(2, 2));
-            var tile3 = map.GetTile(entryRoom.TranslateLocalTileCoords(2, 3));
-            var tile4 = map.GetTile(entryRoom.TranslateLocalTileCoords(3, 2));
+            var tile1 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(2, 1));
+            var tile2 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(2, 2));
+            var tile3 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(2, 3));
+            var tile4 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(3, 2));
             UnitSpawner.Instance.SpawnUnit("test_player", tile1);
             UnitSpawner.Instance.SpawnUnit("test_player", tile2);
             UnitSpawner.Instance.SpawnUnit("test_player", tile3);

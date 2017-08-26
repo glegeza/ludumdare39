@@ -7,7 +7,7 @@
 
     public class CombatController : GameUnitComponent, ITargetable
     {
-        private bool _dead = false;
+        private bool _dead;
 
         public event EventHandler<EventArgs> Destroyed;
 

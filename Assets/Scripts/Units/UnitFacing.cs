@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Units
 {
-    using DLS.LD39.Map;
+    using Map;
     using UnityEngine;
 
     public class UnitFacing : GameUnitComponent
@@ -21,11 +21,6 @@
             {
                 SetRight();
             }
-        }
-
-        protected override void OnInitialized(GameUnit unit)
-        {
-            base.OnInitialized(unit);
         }
 
         private void SetLeft()

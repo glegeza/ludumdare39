@@ -1,9 +1,11 @@
 ﻿namespace DLS.LD39
 {
     using System;
+    using JetBrains.Annotations;
     using UnityEngine;
 
-    class ActiveSelectionTracker : MonoBehaviour
+    [UsedImplicitly]
+    public class ActiveSelectionTracker : MonoBehaviour
     {
         private static ActiveSelectionTracker _instance;
 
@@ -19,15 +21,12 @@
             get; private set;
         }
 
-        public void SetSelection(GameObject obj)
+        private void SetSelection(GameObject obj)
         {
-            if (obj != SelectedObject)
-            {
-                SelectedObject = obj;
-                RaiseEvent(SelectionChanged, this, EventArgs.Empty);
-                //var targeter = FindObjectOfType<CameraTargeter>();
-                //targeter.TargetUnit(obj);
-            }
+            if (obj == SelectedObject) return;
+
+            SelectedObject = obj;
+            RaiseEvent(SelectionChanged, this, EventArgs.Empty);
         }
 
         public void SetSelection(Component comp)
@@ -46,6 +45,7 @@
 
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             if (_instance != null && _instance != this)

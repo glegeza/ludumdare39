@@ -1,12 +1,12 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using Utility;
-    using System;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     public delegate void BulletHitCallback();
 
     [RequireComponent(typeof(BoxCollider2D))]
+    [UsedImplicitly]
     public class Bullet : MonoBehaviour
     {
         public float Speed = 5.0f;
@@ -44,6 +44,7 @@
             _cb = cb;
         }
 
+        [UsedImplicitly]
         private void FixedUpdate()
         {
             if (_moving)
@@ -52,6 +53,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void OnCollisionEnter2D(Collision2D collision)
         {
             Debug.LogFormat("Collided with {0}", collision.collider.name);

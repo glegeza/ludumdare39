@@ -1,10 +1,12 @@
 ﻿namespace DLS.LD39.Interface
 {
-    using DLS.LD39.Units;
+    using Units;
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     public class SelectedUnitVisibilityMarker : SingletonComponent<SelectedUnitVisibilityMarker>
     {
         public int MarkerPoolSize = 30;
@@ -12,8 +14,15 @@
 
         private GameObject _markerPoolContainer;
         private List<GameObject> _markerPool = new List<GameObject>();
-        private GameUnit _trackedObject = null;
-
+        private GameUnit _trackedObject;
+        
+        private static GameUnit GetTrackedUnit()
+        {
+            var newSelection = ActiveSelectionTracker.Instance.SelectedObject;
+            return newSelection == null ? null : newSelection.GetComponent<GameUnit>();
+        }
+        
+        [UsedImplicitly]
         private void Start()
         {
             _markerPoolContainer = new GameObject("Visibility Marker Pool");
@@ -32,31 +41,36 @@
 
         private void OnSelectionChanged(object sender, EventArgs e)
         {
-            var newSelection = ActiveSelectionTracker.Instance.SelectedObject;
-            if (newSelection == null)
-            {
-                return;
-            }
-
-            var unit = newSelection.GetComponent<GameUnit>();
+            var unit = GetTrackedUnit();
             if (unit == null && _trackedObject != null)
             {
-                _trackedObject.Visibility.VisibilityUpdated -= OnVisibilityUpdated;
-                _trackedObject = null;
+                ClearOldTrackedObject();
             }
             else if (_trackedObject == unit)
             {
                 return;
             }
 
-            _trackedObject = unit;
-            _trackedObject.Visibility.VisibilityUpdated += OnVisibilityUpdated;
+            SetNewTrackedObject(unit);
             UpdateMarkers();
         }
 
         private void OnVisibilityUpdated(object sender, EventArgs e)
         {
             UpdateMarkers();
+        }
+
+        private void ClearOldTrackedObject()
+        {
+            _trackedObject.Visibility.VisibilityUpdated -= OnVisibilityUpdated;
+            _trackedObject = null;
+        }
+
+        private void SetNewTrackedObject(GameUnit unit)
+        {
+            _trackedObject = unit;
+            if (_trackedObject == null) return;
+            _trackedObject.Visibility.VisibilityUpdated += OnVisibilityUpdated;
         }
 
         private void UpdateMarkers()

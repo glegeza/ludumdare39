@@ -1,15 +1,15 @@
 ﻿namespace DLS.LD39.Actions
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using System;
-    using DLS.Utility;
+    using Utility;
     using System.Collections.Generic;
     using UnityEngine;
 
     public class UnitActionController : GameUnitComponent
     {
-        private Dictionary<string, Action> _actions = new Dictionary<string, Action>();
+        private readonly Dictionary<string, Action> _actions = new Dictionary<string, Action>();
 
         public event EventHandler<EventArgs> ActionsUpdated;
 
@@ -104,9 +104,6 @@
 
         private bool ActionIsValid(Action action, GameObject target, Tile tile)
         {
-            var apCost = action.GetAPCost(AttachedUnit);
-            var energyCost = action.GetEnergyCost(AttachedUnit);
-
             var valid = action.ActionIsValid(AttachedUnit, target, tile);
             var enoughEnergy = UnitHasEnoughEnergy(action.GetEnergyCost(AttachedUnit));
             var enoughAP = UnitHasEnoughAP(action.GetAPCost(AttachedUnit));

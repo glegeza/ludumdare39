@@ -1,21 +1,22 @@
 ﻿namespace DLS.LD39.Units
 {
-    using DLS.LD39.AI;
-    using DLS.LD39.Map;
-    using DLS.LD39.Pathfinding;
-    using DLS.LD39.Units.Actions;
+    using AI;
+    using Map;
+    using Pathfinding;
+    using Actions;
     using System;
     using System.Linq;
     using UnityEngine;
     using Utility;
     using Data;
     using System.Collections.Generic;
-    using DLS.LD39.Actions;
+    using JetBrains.Annotations;
+    using LD39.Actions;
 
     public class GameUnit : MonoBehaviour
     {
-        private bool _endOfTurnPending = false;
-        private bool _inTurn = false;
+        private bool _endOfTurnPending;
+        private bool _inTurn;
         private GameUnit _currentTarget;
         private List<GameUnitComponent> _components = new List<GameUnitComponent>();
 
@@ -32,7 +33,7 @@
             get; private set;
         }
 
-        public string Name
+        public string UnitName
         {
             get; private set;
         }
@@ -140,7 +141,7 @@
             get; private set;
         }
 
-        public void Initialize(UnitData data, Tile startPos, string name)
+        public void Initialize(UnitData data, Tile startPos, string unitName)
         {
             if (startPos == null)
             {
@@ -158,7 +159,7 @@
 
             Faction = data.Faction;
             UnitType = data.ID;
-            Name = name;
+            UnitName = unitName;
         }
 
         public void SetController(StateController controller)
@@ -200,6 +201,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             Alive = true;

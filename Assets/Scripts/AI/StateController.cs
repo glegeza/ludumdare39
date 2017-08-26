@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.AI
 {
-    using DLS.LD39.Units;
+    using JetBrains.Annotations;
+    using Units;
     using UnityEngine;
 
     /// <summary>
@@ -8,7 +9,11 @@
     /// </summary>
     public class StateController : MonoBehaviour
     {
-        public float ActionDelay = 0.0f;
+        private int _currentAction;
+        private bool _controllerActive;
+        private bool _checkForTurnEndNextCycle;
+        private float _elapsedActionTime;
+        private State _currentState;
 
         /// <summary>
         /// The Game Unit this StateController is controlling.
@@ -60,11 +65,7 @@
             get; private set;
         }
 
-        private int _currentAction = 0;
-        private bool _controllerActive = false;
-        private bool _checkForTurnEndNextCycle = false;
-        private float _elapsedActionTime = 0.0f;
-        private State _currentState;
+        public float ActionDelay { get; set; }
 
         public void Initialize(GameUnit unit)
         {
@@ -90,7 +91,7 @@
         {
             if (Unit != null && _currentState != null)
             {
-                Debug.LogFormat("Unit {0} beginning turn for state {1}", Unit.Name, _currentState.name);
+                Debug.LogFormat("Unit {0} beginning turn for state {1}", Unit.UnitName, _currentState.name);
                 ActionCyclesThisTurn = 0;
                 _controllerActive = true;
                 _currentState.BeginTurn(this);
@@ -103,13 +104,20 @@
         {
             if (Unit != null && _currentState != null)
             {
-                Debug.LogFormat("Unit {0} ending turn for state {1}", Unit.Name, _currentState.name);
+                Debug.LogFormat("Unit {0} ending turn for state {1}", Unit.UnitName, _currentState.name);
                 _currentState.EndTurn(this);
                 TurnsActive++;
                 _controllerActive = false;
             }
         }
 
+        [UsedImplicitly]
+        private void Awake()
+        {
+            ActionDelay = 0.0f;
+        }
+
+        [UsedImplicitly]
         private void Update()
         {
             if (!ShouldUpdate())

@@ -1,15 +1,18 @@
 ﻿namespace DLS.LD39.Interface
 {
-    using DLS.LD39.Map;
+    using Map;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine;
     using UnityEngine.UI;
 
     [RequireComponent(typeof(Dropdown))]
-    class TileDropdownPopulator : MonoBehaviour
+    [UsedImplicitly]
+    public class TileDropdownPopulator : MonoBehaviour
     {
         private Dropdown _dropdown;
 
+        [UsedImplicitly]
         private void Start()
         {
             _dropdown = GetComponent<Dropdown>();

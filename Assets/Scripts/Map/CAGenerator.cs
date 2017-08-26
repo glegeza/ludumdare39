@@ -1,12 +1,10 @@
 ﻿namespace DLS.LD39.Map
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     [RequireComponent(typeof(TileMap))]
+    [UsedImplicitly]
     public class CAGenerator : MonoBehaviour
     {
         [Range(0.0f, 1.0f)]
@@ -16,23 +14,21 @@
 
         private TileMap _map;
 
+        [UsedImplicitly]
         private void Awake()
         {
             _map = GetComponent<TileMap>();
         }
 
+        [UsedImplicitly]
         private void Start()
         {
             foreach (var tile in _map.Tiles)
             {
-                if (UnityEngine.Random.Range(0.0f, 1.0f) < EmptyChance)
-                {
-                    _map.SetTileAt(tile.X, tile.Y, "default");
-                }
-                else
-                {
-                    _map.SetTileAt(tile.X, tile.Y, "empty");
-                }
+                _map.SetTileAt(
+                    tile.X, 
+                    tile.Y, 
+                    Random.Range(0.0f, 1.0f) < EmptyChance ? "default" : "empty");
             }
 
             for (var i = 0; i < Iterations; i++)

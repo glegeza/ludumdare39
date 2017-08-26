@@ -1,4 +1,5 @@
-﻿namespace DLS.Utility
+﻿// ReSharper disable CheckNamespace
+namespace DLS.Utility
 {
     using UnityEngine;
     using System;
@@ -6,7 +7,8 @@
     [Serializable]
     public class IntVector2 : IEquatable<IntVector2>
     {
-        private int _x, _y;
+        private readonly int _x;
+        private readonly int _y;
 
         public IntVector2(int x, int y)
         {

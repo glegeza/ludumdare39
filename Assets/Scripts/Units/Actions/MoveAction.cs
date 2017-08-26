@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.Units.Actions
 {
-    using DLS.LD39.Map;
+    using Map;
     using System;
-    using Units.Movement;
+    using Movement;
 
     /// <summary>
     /// Allows a game unit to move from tile to tile. This class is only used

@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using DLS.LD39.Combat;
+    using Combat;
     using Data;
 
     public class PrimaryWeapon : Weapon

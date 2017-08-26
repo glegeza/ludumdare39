@@ -1,4 +1,6 @@
-﻿namespace DLS.LD39.Map
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace DLS.LD39.Map
 {
     using UnityEngine;
 
@@ -6,6 +8,7 @@
     {
         public IndexedTile(int idx, Vector2 bottomLeft, float width, float height, TileType type)
         {
+            Index = idx;
             BottomLeft = bottomLeft;
             Width = width;
             Height = height;
@@ -16,7 +19,7 @@
         {
             get; private set;
         }
-
+        
         public int Index
         {
             get; private set;

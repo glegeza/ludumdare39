@@ -1,7 +1,6 @@
 ﻿namespace DLS.LD39.Combat
 {
     using System;
-    using UnityEngine;
 
     public interface ITargetable
     {

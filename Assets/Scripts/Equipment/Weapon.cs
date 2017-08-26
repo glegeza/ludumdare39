@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using DLS.LD39.Combat;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Combat;
+    using Map;
+    using Units;
 
     public abstract class Weapon : Loot
     {
@@ -42,12 +42,12 @@
 
             return false;
         }
-
+        
         private bool MeleeTargetValid(GameUnit attacker, ITargetable defender, Tile targetTile)
         {
-            return attacker.Position.CurrentTile.IsAdjacent(targetTile);
+            return defender != null && attacker.Position.CurrentTile.IsAdjacent(targetTile);
         }
-
+        
         private bool RangedTargetValid(GameUnit attacker, ITargetable defender, Tile targetTile)
         {
             var rangedStats = Stats as RangedWeaponStats;
@@ -57,7 +57,7 @@
             }
 
             var distance = Tile.GetDistance(attacker.Position.CurrentTile, targetTile);
-            return distance <= rangedStats.Range;
+            return defender != null && distance <= rangedStats.Range;
         }
     }
 }

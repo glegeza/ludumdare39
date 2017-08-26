@@ -1,16 +1,17 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Map;
-    using System;
+    using Map;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     public class LOSChecker : SingletonComponent<LOSChecker>
     {
         public bool LOSClear(Tile a, Tile b)
         {
-            if (a == b)
+            if (Equals(a, b))
             {
                 Debug.LogError("Tiles are the same");
                 return true;

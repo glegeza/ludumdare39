@@ -1,7 +1,8 @@
 ﻿namespace DLS.LD39.Map
 {
-    using DLS.Utility;
+    using Utility;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     [RequireComponent(typeof(MeshFilter))]
@@ -9,7 +10,7 @@
     [RequireComponent(typeof(MeshRenderer))]
     public class TileMap : MonoBehaviour
     {
-        static private Dictionary<TileEdge, Vector2> _edgeMap = new Dictionary<TileEdge, Vector2>()
+        private static readonly Dictionary<TileEdge, Vector2> EdgeMap = new Dictionary<TileEdge, Vector2>()
         {
             { TileEdge.Down, new Vector2(0, -1) },
             { TileEdge.Left, new Vector2(-1, 0) },
@@ -30,10 +31,8 @@
         private TileSet _tileSet;
         private MeshFilter _filter;
         private BoxCollider2D _collider;
-        private MeshRenderer _renderer;
         private TileMapMesh _mesh;
-        private List<Tile> _tiles = new List<Tile>();
-        private List<TileMap> _adjacentMaps = new List<TileMap>();
+        private readonly List<Tile> _tiles = new List<Tile>();
 
         public Vector2 WorldSpaceSize
         {
@@ -46,23 +45,6 @@
             {
                 return _tiles;
             }
-        }
-
-        /// <summary>
-        /// Joins two tile maps.
-        /// </summary>
-        /// <param name="map1">The first map to join</param>
-        /// <param name="map1Tile"></param>
-        /// <param name="tile1Edge"></param>
-        /// <param name="map2"></param>
-        /// <param name="map2Tile"></param>
-        /// <param name="tile2Edge"></param>
-        public static void JoinMaps(TileMap map1, Tile map1Tile, TileEdge tile1Edge, TileMap map2, Tile map2Tile, TileEdge tile2Edge)
-        {
-            map1._adjacentMaps.Add(map2);
-            map2._adjacentMaps.Add(map1);
-            map1Tile.AddAdjacentTile(map2Tile, tile1Edge);
-            map2Tile.AddAdjacentTile(map1Tile, tile2Edge);
         }
 
         /// <summary>
@@ -106,7 +88,6 @@
         /// tile map.</returns>
         public bool GetTileCoords(Vector2 worldCoords, out int x, out int y)
         {
-            x = y = -1;
             var localCoords = transform.InverseTransformPoint(worldCoords);
 
             // Translate so we're starting from the upper left corner
@@ -161,22 +142,12 @@
             SetTileAt(x, y, _tileSet.GetTileByID(tileType));
         }
 
-        private void SetTileAt(int x, int y, IndexedTile tile)
-        {
-            var tileObj = GetTile(x, y);
-            if (tileObj != null)
-            {
-                tileObj.SetType(tile.Type);
-                _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
-            }
-        }
-
+        [UsedImplicitly]
         private void Awake()
         {
             _tileSet = new TileSet(TileData);
             _filter = GetComponent<MeshFilter>();
             _collider = GetComponent<BoxCollider2D>();
-            _renderer = GetComponent<MeshRenderer>();
 
             GetMesh();
             WorldSpaceSize = new Vector2(Width * TileSize.x,
@@ -185,6 +156,22 @@
             
             BuildTiles();
             BuildAdjacenyData();
+        }
+
+        [UsedImplicitly]
+        private void Update()
+        {
+            _mesh.UpdateMesh();
+        }
+
+        private void SetTileAt(int x, int y, IndexedTile tile)
+        {
+            var tileObj = GetTile(x, y);
+            if (tileObj != null)
+            {
+                tileObj.SetType(tile.Type);
+                _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
+            }
         }
 
         private void BuildTiles()
@@ -206,7 +193,7 @@
                 for (var x = 0; x < Width; x++)
                 {
                     var tile = GetTile(x, y);
-                    foreach (var edge in _edgeMap)
+                    foreach (var edge in EdgeMap)
                     {
                         var adjX = x + (int)edge.Value.x;
                         var adjY = y + (int)edge.Value.y;
@@ -219,11 +206,6 @@
 
                 }
             }
-        }
-
-        private void Update()
-        {
-            _mesh.UpdateMesh();
         }
 
         private void GetMesh()

@@ -1,4 +1,5 @@
-﻿namespace DLS.Utility.Unity.ProceduralMeshes
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility.Unity.ProceduralMeshes
 {
     using System;
     using UnityEngine;
@@ -38,7 +39,7 @@
         {
             if (innerRadius >= outerRadius)
             {
-                throw new ArgumentException(String.Format("Inner radius {0} must be smaller than outer radius {0}.", innerRadius, outerRadius));
+                throw new ArgumentException(String.Format("Inner radius {0} must be smaller than outer radius {1}.", innerRadius, outerRadius));
             }
             if (segments < 3)
             {

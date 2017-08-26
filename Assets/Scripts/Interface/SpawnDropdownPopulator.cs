@@ -1,14 +1,17 @@
 ﻿namespace DLS.LD39.Interface
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine;
     using UnityEngine.UI;
 
     [RequireComponent(typeof(Dropdown))]
-    class SpawnDropdownPopulator : MonoBehaviour
+    [UsedImplicitly]
+    public class SpawnDropdownPopulator : MonoBehaviour
     {
         private Dropdown _dropdown;
 
+        [UsedImplicitly]
         private void Start()
         {
             _dropdown = GetComponent<Dropdown>();

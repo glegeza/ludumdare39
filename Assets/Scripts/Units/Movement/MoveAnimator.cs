@@ -1,9 +1,10 @@
 ﻿namespace DLS.LD39.Units.Movement
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using System;
     using System.Collections;
+    using JetBrains.Annotations;
     using UnityEngine;
     using Utility;
 
@@ -11,6 +12,7 @@
     /// Smoothly moves a GameObject from one tile to another, starting a walk
     /// animation if the GameObject has an animation controller.
     /// </summary>
+    [UsedImplicitly]
     public class MoveAnimator : MonoBehaviour
     {
         private float _moveTime;
@@ -33,6 +35,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             MoveAnimationTime = 1.0f;

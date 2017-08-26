@@ -8,7 +8,7 @@
     using Priority_Queue;
     using UnityEngine;
 
-    class TurnOrderTracker : SingletonComponent<TurnOrderTracker>
+    public class TurnOrderTracker : SingletonComponent<TurnOrderTracker>
     {
         private SimplePriorityQueue<GameUnit> _unitsWaiting = new SimplePriorityQueue<GameUnit>();
         private List<GameUnit> _unitsDone = new List<GameUnit>();
@@ -58,7 +58,7 @@
 
             var currentUnitName = ActiveUnit == null
                 ? "No Unit"
-                : ActiveUnit.Name;
+                : ActiveUnit.UnitName;
 
 
             if (ActiveUnit == null)
@@ -162,7 +162,7 @@
             // Finally, get the next unit to act, notify it that its turn is
             // starting
             ActiveUnit = _unitsWaiting.Dequeue();
-            Debug.LogFormat("{0} is now the active unit.", ActiveUnit.Name);
+            Debug.LogFormat("{0} is now the active unit.", ActiveUnit.UnitName);
             ActiveUnit.BeginTurn();
             TurnAdvanced.SafeRaiseEvent(this);
             if (ActiveUnit.Faction == Faction.Player)

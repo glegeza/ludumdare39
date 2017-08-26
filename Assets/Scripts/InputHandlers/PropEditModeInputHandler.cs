@@ -1,12 +1,12 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Interface;
-    using DLS.LD39.Map;
-    using DLS.LD39.Props;
+    using Interface;
+    using Map;
+    using Props;
     using UnityEngine;
     using UnityEngine.UI;
 
-    class PropEditModeInputHandler : MapClickInputHandler
+    public class PropEditModeInputHandler : MapClickInputHandler
     {
         private enum Mode
         {
@@ -22,11 +22,8 @@
         {
             get
             {
-                if (_selector == null)
-                {
-                    _selector = GameObject.FindObjectOfType<PropDropdownPopulator>().GetComponent<Dropdown>();
-                }
-                return _selector;
+                return _selector ?? (_selector = Object.FindObjectOfType<PropDropdownPopulator>()
+                           .GetComponent<Dropdown>());
             }
         }
 
@@ -57,7 +54,7 @@
             else if (_currentMode == Mode.RemoveProp && currentProp != null)
             {
                 clickedTile.RemoveProp(layer);
-                GameObject.Destroy(currentProp.gameObject);
+                Object.Destroy(currentProp.gameObject);
                 ActiveUnits.Instance.UpdateVisibility();
             }
             

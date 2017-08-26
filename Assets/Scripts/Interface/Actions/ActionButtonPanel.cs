@@ -1,21 +1,25 @@
 ﻿namespace DLS.LD39.Interface.Actions
 {
-    using DLS.LD39.Actions;
-    using DLS.LD39.Units;
+    using LD39.Actions;
+    using Units;
     using System;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     public class ActionButtonPanel : MonoBehaviour
     {
         public UnitActionButton ButtonPrefab;
 
         private TurnOrderTracker _tracker;
 
+        [UsedImplicitly]
         private void Awake()
         {
             _tracker = TurnOrderTracker.Instance;
         }
 
+        [UsedImplicitly]
         private void Start()
         {
             _tracker.TurnAdvanced += OnTurnAdvanced;
@@ -23,7 +27,7 @@
 
         private void OnTurnAdvanced(object sender, EventArgs e)
         {
-            if (_tracker.ActiveUnit != null || _tracker.ActiveUnit.Faction == Faction.Player)
+            if (_tracker.ActiveUnit != null && _tracker.ActiveUnit.Faction == Faction.Player)
             {
                 UpdatePanel(_tracker.ActiveUnit);
                 return;

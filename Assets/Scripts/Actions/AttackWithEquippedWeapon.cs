@@ -1,17 +1,20 @@
-﻿namespace DLS.LD39.Actions
+﻿// ReSharper disable MemberCanBePrivate.Global
+namespace DLS.LD39.Actions
 {
-    using DLS.LD39.Combat;
+    using Combat;
     using System;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using UnityEngine;
-    using DLS.LD39.Equipment;
-    using DLS.LD39.Graphics;
+    using Equipment;
+    using Graphics;
+    using JetBrains.Annotations;
 
     [CreateAssetMenu(menuName = "Game Data/Actions/Attack With Equipped Weapon")]
+    [UsedImplicitly]
     public class AttackWithEquippedWeapon : Action
     {
-        public WeaponSlot Slot;
+        public WeaponSlot Slot = WeaponSlot.Primary;
 
         public override ActionSelectMode Mode
         {
@@ -122,16 +125,16 @@
             switch (weapon.Stats.Type)
             {
                 case WeaponType.Melee:
-                    StartMeleeAttack(weapon, actor, target, targetTile, onCompleted, attackResults);
+                    StartMeleeAttack(actor, onCompleted, attackResults);
                     break;
                 case WeaponType.Ranged:
-                    StartRangedAttack(weapon, actor, target, targetTile, onCompleted, attackResults);
+                    StartRangedAttack(actor, target, onCompleted, attackResults);
                     break;
             }
         }
 
-        private void StartMeleeAttack(Weapon weapon, GameUnit actor, ITargetable target, 
-            Tile targetTile, ActionCompletedDelegate onCompleted, AttackResult result)
+        private void StartMeleeAttack(GameUnit actor, 
+            ActionCompletedDelegate onCompleted, AttackResult result)
         {
             AnimationCallback cb = () =>
             {
@@ -142,13 +145,13 @@
             animator.StartMeleeAnimation(cb);
         }
 
-        private void StartRangedAttack(Weapon weapon, GameUnit actor, ITargetable target,
-            Tile targetTile, ActionCompletedDelegate onCompleted, AttackResult result)
+        private void StartRangedAttack(GameUnit actor, ITargetable target, 
+            ActionCompletedDelegate onCompleted, AttackResult result)
         {
             AnimationCallback cb = () =>
             {
                 var targetTransform = GetTargetTransform(target);
-                var bullet = BulletSpawner.Instance.SpawnBullet(actor.transform,
+                BulletSpawner.Instance.SpawnBullet(actor.transform,
                     targetTransform, () => {
                         CombatManager.Instance.ApplyAttackResult(result);
                         onCompleted();

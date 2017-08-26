@@ -1,17 +1,20 @@
 ﻿namespace DLS.LD39
 {
+    using JetBrains.Annotations;
     using UnityEngine;
-    using DLS.Utility.Unity.Cameras;
+    using Utility.Unity.Cameras;
 
     /// <summary>
     /// Responsible for setting up all of the other persistent game
     /// managers, controllers, etc.
     /// </summary>
+    [UsedImplicitly]
     class GameInitializer : SingletonComponent<GameInitializer>
     {
         private SimplePixelPerfectOrthoCamera _orthoCamera;
-        private int _prevHeight = 0;
+        private int _prevHeight;
 
+        [UsedImplicitly]
         private void Start()
         {
             _orthoCamera = FindObjectOfType<SimplePixelPerfectOrthoCamera>();
@@ -20,6 +23,7 @@
             _orthoCamera.UpdateParams();
         }
 
+        [UsedImplicitly]
         private void Update()
         {
             if (Camera.main.pixelHeight != _prevHeight)

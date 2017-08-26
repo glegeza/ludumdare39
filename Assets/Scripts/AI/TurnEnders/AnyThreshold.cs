@@ -1,6 +1,9 @@
-﻿namespace DLS.LD39.AI.TurnEnders
+﻿// ReSharper disable UnassignedField.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace DLS.LD39.AI.TurnEnders
 {
-    using DLS.LD39.Units;
+    using JetBrains.Annotations;
+    using Units;
     using UnityEngine;
 
     /// <summary>
@@ -8,6 +11,7 @@
     /// state, falls below the minimum AP, OR falls below the minimum energy.
     /// </summary>
     [CreateAssetMenu(menuName = "AI/Turn End Decisions/Any Threshold")]
+    [UsedImplicitly]
     public class AnyThreshold : TurnEndDecision
     {
         public int MaximumActions;

@@ -1,20 +1,20 @@
 ﻿namespace DLS.LD39.Map
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
 
-    class TileSet
+    public class TileSet
     {
         private List<IndexedTile> _tiles = new List<IndexedTile>();
         private Dictionary<string, IndexedTile> _tileDict = new Dictionary<string, IndexedTile>();
-        private float _tileUVWidth;
-        private float _tileUVHeight;
 
         public TileSet(TileSetData data)
         {
             if (data == null)
             {
                 Debug.LogError("null tile data!");
+                throw new ArgumentNullException("data");
             }
             Data = data;
             ID = Data.ID;
@@ -24,8 +24,8 @@
                 mainTexture = Data.TileTexture
             };
 
-            _tileUVWidth = (float)Data.TileWidthPixels / Data.TileTexture.width;
-            _tileUVHeight = (float)Data.TileHeightPixels / Data.TileTexture.height;
+            var tileUVWidth = (float)Data.TileWidthPixels / Data.TileTexture.width;
+            var tileUVHeight = (float)Data.TileHeightPixels / Data.TileTexture.height;
 
             var numTilesX = Data.TileTexture.width / Data.TileWidthPixels;
             var numTilesY = Data.TileTexture.height / Data.TileHeightPixels;
@@ -36,12 +36,12 @@
                 for (var x = 0; x < numTilesX; x++)
                 {
                     var botLeft = new Vector2(
-                        x * _tileUVWidth,
-                        y * _tileUVHeight);
+                        x * tileUVWidth,
+                        y * tileUVHeight);
                     if (curIdx < Data.TileTypes.Count)
                     {
                         var nextTile = new IndexedTile(curIdx, botLeft,
-                            _tileUVWidth, _tileUVHeight, Data.TileTypes[curIdx]);
+                            tileUVWidth, tileUVHeight, Data.TileTypes[curIdx]);
                         _tileDict.Add(Data.TileTypes[curIdx].ID.ToLower(), nextTile);
                         _tiles.Add(nextTile);
                     }

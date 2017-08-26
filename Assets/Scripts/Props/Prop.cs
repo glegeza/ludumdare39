@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Props
 {
-    using DLS.LD39.Map;
+    using Map;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     [RequireComponent(typeof(TilePosition))]
@@ -21,6 +22,7 @@
             Data = data;
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             Position = GetComponent<TilePosition>();

@@ -1,10 +1,6 @@
 ﻿namespace DLS.LD39
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using UnityEngine;
+    using JetBrains.Annotations;
 
     public class PlayerUnitController : SingletonComponent<PlayerUnitController>
     {
@@ -29,6 +25,7 @@
             _turnTracker.AdvanceTurn();
         }
 
+        [UsedImplicitly]
         private void Start()
         {
             _turnTracker = TurnOrderTracker.Instance;

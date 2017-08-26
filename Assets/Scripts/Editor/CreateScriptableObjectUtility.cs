@@ -1,13 +1,13 @@
-﻿namespace DLS.LD39.Editor
+﻿// ReSharper disable once CheckNamespace
+// ReSharper disable AssignNullToNotNullAttribute
+namespace DLS.LD39.Editor
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnityEngine;
     using System.IO;
+    using JetBrains.Annotations;
     using UnityEditor;
 
+    [UsedImplicitly]
     public static class ScriptableObjectUtility
     {
         /// <summary>
@@ -15,9 +15,9 @@
         /// </summary>
         public static void CreateAsset<T>() where T : ScriptableObject
         {
-            T asset = ScriptableObject.CreateInstance<T>();
+            var asset = ScriptableObject.CreateInstance<T>();
 
-            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
             if (path == "")
             {
                 path = "Assets";
@@ -27,7 +27,7 @@
                 path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
             }
 
-            string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(T).ToString() + ".asset");
+            var assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(T) + ".asset");
 
             AssetDatabase.CreateAsset(asset, assetPathAndName);
 

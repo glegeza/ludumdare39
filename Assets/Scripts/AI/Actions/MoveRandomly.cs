@@ -4,7 +4,7 @@
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "AI/Actions/Move Randomly")]
-    class MoveRandomly : AIAction
+    public class MoveRandomly : AIAction
     {
         [Range(0, 100)]
         public int MoveChance = 50;

@@ -1,8 +1,10 @@
 ﻿namespace DLS.LD39.Graphics
 {
+    using JetBrains.Annotations;
     using UnityEngine;
-    using DLS.LD39.Map;
+    using Map;
 
+    [UsedImplicitly]
     public class ExplosionSpawner : SingletonComponent<ExplosionSpawner>
     {
         public float RandomOffset = 0.3f;
@@ -13,7 +15,7 @@
             pos += new Vector2(Random.Range(-RandomOffset, RandomOffset),
                 Random.Range(-RandomOffset, RandomOffset));
             var explosion = Instantiate(prefab);
-            explosion.transform.position = tile.WorldCoords;
+            explosion.transform.position = pos;
         }
     }
 }

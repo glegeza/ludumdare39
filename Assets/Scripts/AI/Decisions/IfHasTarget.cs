@@ -1,13 +1,18 @@
-﻿namespace DLS.LD39.AI.Decisions
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable ConvertToConstant.Global
+namespace DLS.LD39.AI.Decisions
 {
-    using DLS.LD39.Units;
+    using Units;
     using System.Linq;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     [CreateAssetMenu(menuName = "AI/Decisions/If Has Target")]
     public class IfHasTarget : Decision
     {
-        public Faction TargetFaction;
+        public Faction TargetFaction = Faction.Aliens;
 
         public override bool Decide(StateController controller)
         {

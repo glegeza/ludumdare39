@@ -1,17 +1,23 @@
-﻿namespace DLS.Utility
+﻿// ReSharper disable CheckNamespace
+namespace DLS.Utility
 {
     using System;
     using UnityEngine;
 
     public class IntRect : IEquatable<IntRect>
     {
-        private int _x1, _y1, _x2, _y2, _w, _h;
+        private readonly int _x1;
+        private readonly int _y1;
+        private readonly int _x2;
+        private readonly int _y2;
+        private readonly int _w;
+        private readonly int _h;
 
-        private IntVector2 _center;
-        private IntVector2 _botLeft;
-        private IntVector2 _topRight;
-        private IntVector2 _topLeft;
-        private IntVector2 _botRight;
+        private readonly IntVector2 _center;
+        private readonly IntVector2 _botLeft;
+        private readonly IntVector2 _topRight;
+        private readonly IntVector2 _topLeft;
+        private readonly IntVector2 _botRight;
 
         public IntRect(IntVector2 botLeft, int w, int h)
             : this(botLeft.X, botLeft.Y, w, h)
@@ -32,7 +38,7 @@
             _botRight = new IntVector2(_x2, _y1);
             _topRight = new IntVector2(_x2, _y2);
             _topLeft = new IntVector2(_x1, _y2);
-            _center = new IntVector2(_x1 + Mathf.FloorToInt(_w / 2), _y1 + Mathf.FloorToInt(_h / 2));
+            _center = new IntVector2(_x1 + Mathf.FloorToInt(_w / 2.0f), _y1 + Mathf.FloorToInt(_h / 2.0f));
         }
 
         public int X
@@ -115,7 +121,7 @@
             }
             return Equals(obj as IntRect);
         }
-
+        
         public override int GetHashCode()
         {
             return SimpleHashBuilder.GetHash(_x1, _y1, _w, _h);

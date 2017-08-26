@@ -1,24 +1,21 @@
-﻿namespace DLS.Utility
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility
 {
+    using System.Linq;
+
     /// <summary>
     /// Builds simple hash codes based on Josh Bloch's Effective Java algo.
     /// </summary>
     public static class SimpleHashBuilder
     {
-        public const int Seed = 7;
-        public const int Multiplier = 17;
+        private const int Seed = 7;
+        private const int Multiplier = 17;
 
         public static int GetHash(params object[] fields)
         {
             unchecked
             {
-                int hash = Seed;
-                foreach (var field in fields)
-                {
-                    hash = hash * Multiplier + field.GetHashCode();
-                }
-
-                return hash;
+                return fields.Aggregate(Seed, (current, field) => current * Multiplier + field.GetHashCode());
             }
         }
     }

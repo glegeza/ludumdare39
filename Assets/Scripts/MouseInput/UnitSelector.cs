@@ -1,9 +1,11 @@
 ﻿namespace DLS.LD39.MouseInput
 {
-    using DLS.LD39.Units;
+    using JetBrains.Annotations;
+    using Units;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Input Handlers/Unit Selector")]
+    [UsedImplicitly]
     public class UnitSelector : BaseClickHandler<GameUnit>
     {
         public override bool HandleClick(GameUnit comp, int btn, Vector2 hitPoint)

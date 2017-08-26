@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Graphics
 {
-    using DLS.LD39.Combat;
+    using Combat;
     using UnityEngine;
 
     public class BulletSpawner : SingletonComponent<BulletSpawner>

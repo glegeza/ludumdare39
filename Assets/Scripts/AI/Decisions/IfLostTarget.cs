@@ -1,9 +1,11 @@
 ﻿namespace DLS.LD39.AI.Decisions
 {
     using System.Linq;
-    using LD39.AI.Data;
+    using Data;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     [CreateAssetMenu(menuName = "AI/Decisions/If Lost Target")]
     public class IfLostTarget : Decision
     {

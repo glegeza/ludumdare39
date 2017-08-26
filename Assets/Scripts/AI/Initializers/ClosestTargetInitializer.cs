@@ -1,16 +1,21 @@
 ﻿namespace DLS.LD39.AI.Initializers
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
-    using DLS.LD39.AI.Data;
+    using Map;
+    using Units;
+    using Data;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     [CreateAssetMenu(menuName = "AI/State Initializers/Closest Target")]
     public class ClosestTargetInitializer : StateInitializer
     {
-        public Faction TargetFaction;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Global
+        // ReSharper disable once ConvertToConstant.Global
+        // ReSharper disable once MemberCanBePrivate.Global
+        public Faction TargetFaction = Faction.Aliens;
 
         public override void OnStateEnter(StateController controller)
         {

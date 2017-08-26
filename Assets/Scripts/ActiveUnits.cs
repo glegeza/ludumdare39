@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39
 {
-    using DLS.LD39.Graphics;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Graphics;
+    using Map;
+    using Units;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
@@ -64,7 +64,7 @@
             Destroy(unit.gameObject); // wait at least one frame
         }
 
-        private void OnUnitDestroyed(object sender, System.EventArgs e)
+        private void OnUnitDestroyed(object sender, EventArgs e)
         {
             var unit = sender as GameUnit;
             if (unit == null)

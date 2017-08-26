@@ -1,13 +1,16 @@
 ﻿namespace DLS.LD39.MouseInput
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     public class MouseInputRouter : MonoBehaviour
     {
         public List<ComponentClickHandler> ClickHandlers = new List<ComponentClickHandler>();
         public LayerMask ClickLayer;
 
+        [UsedImplicitly]
         private void Update()
         {
             if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())

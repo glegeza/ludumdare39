@@ -1,8 +1,9 @@
 ﻿namespace DLS.LD39.Units
 {
     using System;
+    using JetBrains.Annotations;
     using UnityEngine;
-    using DLS.Utility;
+    using Utility;
 
     public delegate void AnimationCallback();
 
@@ -17,8 +18,8 @@
         public const string MeleeTrigger = "attackMelee";
 
         private Animator _animationController;
-        private bool _animating = false;
-        private bool _transitioning = false;
+        private bool _animating;
+        private bool _transitioning;
         private string _targetAnimation;
         private AnimationCallback _actionCallback;
 
@@ -85,14 +86,7 @@
             }
         }
 
-        private void SetTrigger(string trigger)
-        {
-            if (_animationController != null)
-            {
-                _animationController.SetTrigger(trigger);
-            }
-        }
-
+        [UsedImplicitly]
         private void Update()
         {
             if (_animationController == null)
@@ -102,6 +96,14 @@
             else
             {
                 HandleAnimated();
+            }
+        }
+
+        private void SetTrigger(string trigger)
+        {
+            if (_animationController != null)
+            {
+                _animationController.SetTrigger(trigger);
             }
         }
 

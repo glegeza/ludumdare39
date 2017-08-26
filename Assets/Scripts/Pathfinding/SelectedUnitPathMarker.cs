@@ -1,14 +1,14 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
-    using DLS.LD39.Units;
-    using DLS.LD39.Units.Actions;
-    using DLS.LD39.Units.Movement;
+    using Units;
+    using Units.Movement;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using UnityEngine;
 
-    class SelectedUnitPathMarker : MonoBehaviour
+    public class SelectedUnitPathMarker : MonoBehaviour
     {
         public int MarkerPoolSize = 100;
         #pragma warning disable 0649
@@ -20,12 +20,12 @@
 
         private static SelectedUnitPathMarker _instance;
 
-        private UnitMovementHelper _movementHelper = new UnitMovementHelper();
+        private readonly UnitMovementHelper _movementHelper = new UnitMovementHelper();
         private GameObject _markerPoolContainer;
         private GameObject _pathContainer;
-        private List<GameObject> _markerPool = new List<GameObject>();
-        private GameObject _trackedObject = null;
-        private UnitPathfinder _trackedPathfinder = null;
+        private readonly List<GameObject> _markerPool = new List<GameObject>();
+        private GameObject _trackedObject;
+        private UnitPathfinder _trackedPathfinder;
 
         public static SelectedUnitPathMarker Instance
         {
@@ -35,6 +35,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void Awake()
         {
             if (_instance != null && _instance != this)
@@ -47,6 +48,7 @@
             }
         }
 
+        [UsedImplicitly]
         private void Start()
         {
             _markerPoolContainer = new GameObject("Marker Pool");
@@ -117,18 +119,18 @@
                 var currentMarker = _markerPool[idx];
                 currentMarker.SetActive(true);
                 currentMarker.transform.position = step.WorldCoords;
-                var renderer = currentMarker.GetComponent<SpriteRenderer>();
+                var spriteRenderer = currentMarker.GetComponent<SpriteRenderer>();
                 if (idx == _trackedPathfinder.Path.Count())
                 {
-                    renderer.sprite = TargetPath;
+                    spriteRenderer.sprite = TargetPath;
                 }
                 else if (idx >= max)
                 {
-                    renderer.sprite = FuturePath;
+                    spriteRenderer.sprite = FuturePath;
                 }
                 else
                 {
-                    renderer.sprite = TurnPath;
+                    spriteRenderer.sprite = TurnPath;
                 }
                 idx++;
             }

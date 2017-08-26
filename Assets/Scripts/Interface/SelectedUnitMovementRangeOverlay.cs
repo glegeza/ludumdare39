@@ -1,11 +1,12 @@
 ﻿namespace DLS.LD39.Interface
 {
     using Pathfinding;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
-    using DLS.LD39.Units.Movement;
+    using Map;
+    using Units;
+    using Units.Movement;
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     public class SelectedUnitMovementRangeOverlay : SingletonComponent<SelectedUnitMovementRangeOverlay>
@@ -13,13 +14,19 @@
         public int MarkerPoolSize = 100;
         public GameObject MarkerPrefab;
 
-        private bool _isPathing = false;
-        private UnitMovementHelper _movementHelper = new UnitMovementHelper();
+        private readonly List<GameObject> _markerPool = new List<GameObject>();
+        private readonly UnitMovementHelper _movementHelper = new UnitMovementHelper();
+        private bool _isPathing;
         private GameObject _markerPoolContainer;
-        private List<GameObject> _markerPool = new List<GameObject>();
-        private GameUnit _trackedObject = null;
-        private HashSet<Tile> _currenTileList = new HashSet<Tile>();
+        private GameUnit _trackedObject;
 
+        private static GameUnit GetSelectedUnit()
+        {
+            var newSelection = ActiveSelectionTracker.Instance.SelectedObject;
+            return newSelection == null ? null : newSelection.GetComponent<GameUnit>();
+        }
+
+        [UsedImplicitly]
         private void Start()
         {
             _markerPoolContainer = new GameObject("Movement Range Overlay Pool");
@@ -39,42 +46,45 @@
 
         private void UpdateSelection()
         {
-            var newSelection = ActiveSelectionTracker.Instance.SelectedObject;
-            if (newSelection == null)
-            {
-                return;
-            }
-
-            var unit = newSelection.GetComponent<GameUnit>();
             _isPathing = false;
+            var unit = GetSelectedUnit();
             if (unit == null && _trackedObject != null)
             {
-                var oldPathController = _trackedObject.GetComponent<UnitPathfinder>();
-                if (oldPathController != null)
-                {
-                    oldPathController.StartPathMovement -= OnPathStarted;
-                    oldPathController.TurnMoveComplete -= OnPathFinished;
-                }
-
-                _trackedObject.TurnBegan -= OnTurnStarted;
-                _trackedObject = null;
+                ClearOldTrackedObject();
             }
             else if (_trackedObject == unit)
             {
                 return;
             }
-
-            _trackedObject = unit;
-            var pathController = _trackedObject.GetComponent<UnitPathfinder>();
-            if (pathController != null)
+            
+            SetNewTrackedObject(unit);
+            if (_trackedObject != null)
             {
-                pathController.StartPathMovement += OnPathStarted;
-                pathController.TurnMoveComplete += OnPathFinished;
+                StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
+                    _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
             }
-            _trackedObject.TurnBegan += OnTurnStarted;
+        }
 
-            StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
-                _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
+        private void ClearOldTrackedObject()
+        {
+            _trackedObject.TurnBegan -= OnTurnStarted;
+            var oldPathController = _trackedObject.GetComponent<UnitPathfinder>();
+            _trackedObject = null;
+
+            if (oldPathController == null) return;
+            oldPathController.StartPathMovement -= OnPathStarted;
+            oldPathController.TurnMoveComplete -= OnPathFinished;
+        }
+
+        private void SetNewTrackedObject(GameUnit unit)
+        {
+            _trackedObject = unit;
+            _trackedObject.TurnBegan += OnTurnStarted;
+            var pathController = _trackedObject.GetComponent<UnitPathfinder>();
+
+            if (pathController == null) return;
+            pathController.StartPathMovement += OnPathStarted;
+            pathController.TurnMoveComplete += OnPathFinished;
         }
 
         private void OnSelectionChanged(object sender, EventArgs e)
@@ -111,19 +121,6 @@
                 _trackedObject.AP.PointsRemaining, UpdateTilesImmediate));
         }
 
-        private void BeginUpdate()
-        {
-            if (_trackedObject == null)
-            {
-                ReturnMarkersToPool();
-                return;
-            }
-
-            StartCoroutine(_movementHelper.GetReachableTilesFast(_trackedObject.Position.CurrentTile,
-                _trackedObject.AP.PointsRemaining, SetTiles));
-            
-        }
-
         private void UpdateTilesImmediate(HashSet<Tile> reachableTiles)
         {
             ReturnMarkersToPool();
@@ -135,11 +132,6 @@
                 marker.SetActive(true);
                 marker.transform.position = tile.WorldCoords;
             }
-        }
-
-        private void SetTiles(HashSet<Tile> reachableTiles)
-        {
-            _currenTileList = reachableTiles;
         }
 
         private void ReturnMarkersToPool()

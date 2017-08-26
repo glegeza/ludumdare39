@@ -1,6 +1,7 @@
+// ReSharper disable once CheckNamespace
 namespace DLS.Utility.Unity.ProceduralMeshes
 {
-    using Utility.Unity.Cameras;
+    using Cameras;
     using UnityEngine;
 
     public static class QuadBuilder
@@ -110,6 +111,7 @@ namespace DLS.Utility.Unity.ProceduralMeshes
         /// <param name="width">Width of the quad</param>
         /// <param name="objName">Name of the new GameObject</param>
         /// <param name="quadMaterial">Material to use to render the quad</param>
+        /// <param name="parent">Object to parent the new quad to</param>
         public static GameObject GetQuadObject(float x, float y, float width, float height, string objName = "ProcQuad", Material quadMaterial = null, Transform parent = null)
         {
             var gameObject = new GameObject(objName);
@@ -133,6 +135,7 @@ namespace DLS.Utility.Unity.ProceduralMeshes
         /// </summary>
         /// <param name="objName"></param>
         /// <param name="quadMaterial"></param>
+        /// <param name="parent">Object to parent the new quad to</param>
         /// <returns></returns>
         public static GameObject GetQuadObject(string objName = "ProcQuad", Material quadMaterial = null, Transform parent = null)
         {

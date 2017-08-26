@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.AI.Data
 {
-    using DLS.LD39.Map;
+    using Map;
     using System.Collections.Generic;
 
     public interface IMovePathData : IStateData

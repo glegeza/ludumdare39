@@ -1,11 +1,11 @@
 ﻿namespace DLS.LD39.AI.Actions
 {
-    using DLS.LD39.Map;
+    using Map;
     using System;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "AI/Actions/MoveStraightUntilBlocked")]
-    class MoveStraightUntilBlocked : AIAction
+    public class MoveStraightUntilBlocked : AIAction
     {
         [Range(0, 100)]
         public int MoveChance = 50;

@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39.AI.Data
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using System.Collections.Generic;
 
     public class TrackedTargetData : IMovePathData

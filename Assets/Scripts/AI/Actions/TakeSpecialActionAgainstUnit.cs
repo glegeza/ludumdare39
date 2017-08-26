@@ -1,11 +1,11 @@
 ﻿namespace DLS.LD39.AI.Actions
 {
-    using System;
-    using DLS.LD39.Actions;
-    using DLS.LD39.AI.Data;
+    using Data;
+    using JetBrains.Annotations;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "AI/Actions/Take Special Action Against Unit")]
+    [UsedImplicitly]
     public class TakeSpecialActionAgainstUnit : AIAction
     {
         public LD39.Actions.Action Action;

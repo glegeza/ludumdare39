@@ -1,11 +1,14 @@
-﻿namespace DLS.LD39.Editor
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.LD39.Editor
 {
+    using JetBrains.Annotations;
     using UnityEditor;
-    using DLS.LD39.Units.Data;
+    using Units.Data;
     using UnityEngine;
 
     [CustomEditor(typeof(BasicStatGenerator))]
-    class BasicStatsGeneratorInspector : Editor
+    [UsedImplicitly]
+    public class BasicStatsGeneratorInspector : Editor
     {
         private void GetMinMaxInt(string label, int curMin, int curMax, out int min, out int max)
         {
@@ -30,7 +33,7 @@
         {
             var statsData = (BasicStatGenerator)target;
 
-            var dontExpand = GUILayout.ExpandWidth(false);
+            GUILayout.ExpandWidth(false);
 
             int outMin, outMax;
             GetMinMaxInt("Aim", statsData.BaseAimMin, statsData.BaseAimMax, out outMin, out outMax);

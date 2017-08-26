@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
-    using DLS.LD39.Map;
+    using Map;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -66,7 +66,7 @@
 
             var path = new List<Tile>();
             var nextInPath = target;
-            while (nextInPath != start)
+            while (!Equals(nextInPath, start))
             {
                 path.Add(nextInPath);
                 nextInPath = cameFrom[nextInPath];

@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Equipment
 {
-    using DLS.LD39.Equipment.Data;
+    using Data;
 
     public class BatteryPack : Loot
     {

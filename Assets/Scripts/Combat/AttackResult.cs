@@ -1,15 +1,15 @@
 ﻿namespace DLS.LD39.Combat
 {
     using System;
-    using DLS.LD39.Units;
-    using DLS.LD39.Interface;
+    using Units;
+    using Interface;
 
     /// <summary>
     /// Stores information about an attack that was completed.
     /// </summary>
     public class AttackResult
     {
-        private bool _resultApplied = false;
+        private bool _resultApplied;
 
         public enum Outcome
         {

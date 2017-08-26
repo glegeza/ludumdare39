@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39.Combat
 {
-    using DLS.LD39.Equipment.Data;
-    using DLS.LD39.Map;
+    using Equipment.Data;
+    using Map;
 
     public class MeleeWeaponStats : WeaponStats
     {

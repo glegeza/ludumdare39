@@ -1,15 +1,18 @@
 ﻿namespace DLS.LD39.Interface
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
     using UnityEngine.UI;
     using UnityEngine;
-    using DLS.LD39.Props;
+    using Props;
 
     [RequireComponent(typeof(Dropdown))]
+    [UsedImplicitly]
     public class PropDropdownPopulator : MonoBehaviour
     {
         private Dropdown _dropdown;
 
+        [UsedImplicitly]
         private void Start()
         {
             _dropdown = GetComponent<Dropdown>();

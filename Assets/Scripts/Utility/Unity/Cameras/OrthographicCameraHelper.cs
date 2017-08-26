@@ -1,4 +1,6 @@
-﻿namespace DLS.Utility.Unity.Cameras
+﻿// ReSharper disable CheckNamespace
+// ReSharper disable UnusedMember.Global
+namespace DLS.Utility.Unity.Cameras
 {
     using System;
     using UnityEngine;
@@ -10,12 +12,12 @@
         /// vertical resolution, pixels per unit, and desired scaling factor
         /// </summary>
         /// <param name="verticalSize">Vertical screen size in pixels</param>
-        /// <param name="PPU">Pixels per unit setting for art</param>
+        /// <param name="ppu">Pixels per unit setting for art</param>
         /// <param name="scale">Desired art scaling</param>
         /// <returns>Orthographic camera size</returns>
-        public static float GetOrthoSize(int verticalSize, int PPU, float scale)
+        public static float GetOrthoSize(int verticalSize, int ppu, float scale)
         {
-            return (verticalSize / (scale * PPU)) * 0.5f;
+            return (verticalSize / (scale * ppu)) * 0.5f;
         }
 
         /// <summary>

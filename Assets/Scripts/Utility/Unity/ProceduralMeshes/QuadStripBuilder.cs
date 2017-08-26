@@ -1,4 +1,5 @@
-﻿namespace DLS.Utility.Unity.ProceduralMeshes
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility.Unity.ProceduralMeshes
 {
     using System;
     using UnityEngine;
@@ -27,6 +28,7 @@
         /// <param name="height">The height of the strip in world units</param>
         /// <param name="botLeftUV">Bottom left texture UV coord</param>
         /// <param name="topRightUV">Top right texture UV coord</param>
+        /// <param name="uvRotation">Rotates UV coordinates by the given value</param>
         /// <returns>The completed quad strip mesh</returns>
         public static Mesh GetQuadStripMesh(int segments, float length, float height, Vector2 botLeftUV, Vector2 topRightUV, float uvRotation)
         {
@@ -38,7 +40,6 @@
             var topLeftUV = new Vector2(botLeftUV.x, topRightUV.y);
 
             var texWidth = Mathf.Abs(topLeftUV.x - botRightUV.x);
-            var texHeight = Mathf.Abs(topLeftUV.y - botRightUV.y);
 
             var offset = new Vector2(texWidth, 0.0f);
             var tiling = new Vector3(1.0f, 1.0f, 1.0f);

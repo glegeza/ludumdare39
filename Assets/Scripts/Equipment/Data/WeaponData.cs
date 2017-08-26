@@ -2,23 +2,21 @@
 {
     using UnityEngine;
     using Combat;
-    using DLS.LD39.Actions;
-    using System.Collections.Generic;
 
     public abstract class WeaponData : EquipmentData<Weapon>
     {
         [Header("Weapon Stats")]
-        public int MinDamage;
-        public int MaxDamage;
-        public int BaseToHitModifier;
-        public WeaponSlot Slot;
+        public int MinDamage = 0;
+        public int MaxDamage = 0;
+        public int BaseToHitModifier = 0;
+        public WeaponSlot Slot = WeaponSlot.Primary;
 
         [Header("Costs")]
-        public int APCost;
-        public int EnergyCost;
+        public int APCost = 0;
+        public int EnergyCost = 0;
 
         [Header("Display")]
-        public Sprite Icon;
+        public Sprite Icon = null;
 
         public abstract WeaponStats GetStats();
 

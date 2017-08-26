@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.Actions
 {
     using System.Collections;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using UnityEngine;
 
     [CreateAssetMenu(menuName = "Game Data/Actions/Fast Recharge")]

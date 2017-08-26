@@ -1,21 +1,23 @@
 ﻿namespace DLS.LD39.Pathfinding
 {
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using Map;
+    using Units;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
     using UnityEngine;
-    using DLS.Utility;
+    using Utility;
 
+    [UsedImplicitly]
     public class UnitPathfinder : GameUnitComponent
     {
         private Tile _target;
 
         private Queue<Tile> _path = new Queue<Tile>();
-        private SimplePathfinder _pathFinder = new SimplePathfinder();
-        private float _timeSinceLastMove = 0.0f;
-        private bool _moving = false;
+        private readonly SimplePathfinder _pathFinder = new SimplePathfinder();
+        private float _timeSinceLastMove;
+        private bool _moving;
 
         public event EventHandler<EventArgs> StartPathMovement;
 
@@ -98,6 +100,7 @@
             OnPathChanged();
         }
 
+        [UsedImplicitly]
         private void Update()
         {
             if (!_moving || AttachedUnit.MoveAction.ActionInProgress)

@@ -1,17 +1,17 @@
 ﻿namespace DLS.LD39
 {
-    using DLS.LD39.AI;
-    using DLS.LD39.Map;
-    using DLS.LD39.Units;
+    using AI;
+    using Map;
+    using Units;
     using Units.Data;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
 
-    class UnitSpawner : SingletonComponent<UnitSpawner>
+    public class UnitSpawner : SingletonComponent<UnitSpawner>
     {
-        private UnitFactory _unitFactory = new UnitFactory();
-        private Dictionary<string, UnitData> _unitTypes = new Dictionary<string, UnitData>();
+        private readonly UnitFactory _unitFactory = new UnitFactory();
+        private readonly Dictionary<string, UnitData> _unitTypes = new Dictionary<string, UnitData>();
 
         public IEnumerable<string> UnitTypeIDs
         {
@@ -36,8 +36,8 @@
             }
 
             var unitData = _unitTypes[id];
-            var name = String.Format("{0} : {1}", "Unit", id);
-            var unit = _unitFactory.GetUnit(name, unitData, tilePos);
+            var unitName = String.Format("{0} : {1}", "Unit", id);
+            var unit = _unitFactory.GetUnit(unitName, unitData, tilePos);
 
             if (unitData.Faction != Faction.Player)
             {

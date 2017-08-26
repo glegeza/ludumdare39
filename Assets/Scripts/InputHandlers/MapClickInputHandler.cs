@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Map;
+    using Map;
 
-    abstract class MapClickInputHandler : IMapClickInputHandler
+    public abstract class MapClickInputHandler : IMapClickInputHandler
     {
         protected MapClickInputHandler(string id, string name)
         {

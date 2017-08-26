@@ -1,7 +1,7 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Interface;
-    using DLS.LD39.Map;
+    using Interface;
+    using Map;
     using UnityEngine;
     using UnityEngine.UI;
 
@@ -18,7 +18,7 @@
             {
                 if (_selector == null)
                 {
-                    _selector = GameObject.FindObjectOfType<SpawnDropdownPopulator>().GetComponent<Dropdown>();
+                    _selector = Object.FindObjectOfType<SpawnDropdownPopulator>().GetComponent<Dropdown>();
                 }
                 return _selector;
             }

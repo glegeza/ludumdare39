@@ -1,6 +1,6 @@
 ﻿namespace DLS.LD39.Map
 {
-    using DLS.LD39.Units;
+    using Units;
     using UnityEngine;
 
     public class TilePosition : MonoBehaviour

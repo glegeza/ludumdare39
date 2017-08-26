@@ -1,8 +1,10 @@
 ﻿namespace DLS.LD39.AI.Decisions
 {
-    using DLS.LD39.AI.Data;
+    using Data;
+    using JetBrains.Annotations;
     using UnityEngine;
 
+    [UsedImplicitly]
     [CreateAssetMenu(menuName = "AI/Decisions/If Target Is Adjacent")]
     public class IfTargetIsAdjacent : Decision
     {

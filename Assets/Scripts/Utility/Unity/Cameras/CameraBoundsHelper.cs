@@ -1,4 +1,5 @@
-﻿namespace DLS.Utility.Unity.Cameras
+﻿// ReSharper disable once CheckNamespace
+namespace DLS.Utility.Unity.Cameras
 {
     using UnityEngine;
 

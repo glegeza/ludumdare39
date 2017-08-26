@@ -1,8 +1,8 @@
 ﻿namespace DLS.LD39.InputHandlers
 {
-    using DLS.LD39.Map;
+    using Map;
 
-    interface IMapClickInputHandler
+    public interface IMapClickInputHandler
     {
         string HandlerID { get; }
 

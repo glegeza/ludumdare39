@@ -1,16 +1,15 @@
 ﻿namespace DLS.LD39.Units
 {
-    using DLS.LD39.Graphics;
-    using DLS.LD39.Map;
+    using Graphics;
+    using Map;
     using System;
     using UnityEngine;
     using Data;
-    using DLS.LD39.Equipment;
-    using DLS.LD39.Actions;
+    using Equipment;
 
-    class UnitFactory
+    public class UnitFactory
     {
-        public int UnitNumber = 0;
+        public int UnitNumber;
 
         public GameUnit GetUnit(string name, UnitData unitData, Tile tile)
         {
@@ -22,17 +21,15 @@
             renderer.sortingLayerName = "Units";
 
             var collider = unitObj.AddComponent<BoxCollider2D>();
-            Vector2 S = renderer.sprite.bounds.size;
-            collider.size = S;
+            collider.size = renderer.sprite.bounds.size;
 
 
             var rb = unitObj.AddComponent<Rigidbody2D>();
             rb.isKinematic = true;
 
-            Animator animator = null;
             if (unitData.GraphicsData.AnimationController != null)
             {
-                animator = unitObj.AddComponent<Animator>();
+                var animator = unitObj.AddComponent<Animator>();
                 animator.runtimeAnimatorController = unitData.GraphicsData.AnimationController;
             }
             unitObj.AddComponent<SortByY>();
