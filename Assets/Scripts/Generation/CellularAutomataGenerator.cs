@@ -1,11 +1,12 @@
-﻿namespace DLS.LD39.Map
+﻿namespace DLS.LD39.Generation
 {
     using JetBrains.Annotations;
+    using Map;
     using UnityEngine;
 
     [RequireComponent(typeof(TileMap))]
     [UsedImplicitly]
-    public class CAGenerator : MonoBehaviour
+    public class CellularAutomataGenerator : MonoBehaviour
     {
         [Range(0.0f, 1.0f)]
         public float EmptyChance = 0.5f;
