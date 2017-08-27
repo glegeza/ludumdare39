@@ -9,9 +9,9 @@
     /// </summary>
     public class TileMapMesh
     {
-        private List<Vector3> _verts = new List<Vector3>();
-        private List<Vector2> _uvs = new List<Vector2>();
-        private List<int> _tris = new List<int>();
+        private readonly List<Vector3> _verts = new List<Vector3>();
+        private readonly List<Vector2> _uvs = new List<Vector2>();
+        private readonly List<int> _tris = new List<int>();
 
         private bool _isDirty;
 
@@ -109,11 +109,10 @@
 
         public void UpdateMesh()
         {
-            if (_isDirty)
-            {
-                Mesh.SetUVs(0, _uvs);
-                _isDirty = false;
-            }
+            if (!_isDirty) return;
+
+            Mesh.SetUVs(0, _uvs);
+            _isDirty = false;
         }
 
         public void SetTileUV(Vector2 uvBotLeft, float uvWidth, float uvHeight, int x, int y)
