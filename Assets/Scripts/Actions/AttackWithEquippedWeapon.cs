@@ -1,5 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-namespace DLS.LD39.Actions
+﻿namespace DLS.LD39.Actions
 {
     using Combat;
     using System;
