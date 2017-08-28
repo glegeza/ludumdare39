@@ -10,6 +10,9 @@
         private readonly List<IntVector2> _nodes = new List<IntVector2>();
         private readonly HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
 
+        public SingleWidthCorridor() : base("corridor")
+        { }
+
         public bool AddNode(IntVector2 node)
         {
             if (node == null || _nodes.Contains(node))

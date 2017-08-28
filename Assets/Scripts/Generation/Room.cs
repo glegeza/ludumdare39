@@ -10,14 +10,11 @@
     {
         private HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
 
-        public Room(int x, int y, int width, int height, string id)
+        public Room(int x, int y, int width, int height, string id) : base(id)
         {
             MapRect = new IntRect(x, y, width, height);
-            ID = id;
             UpdateTiles();
         }
-
-        public string ID { get; private set; }
 
         public int Width
         {

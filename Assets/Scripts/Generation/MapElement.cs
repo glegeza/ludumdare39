@@ -6,6 +6,13 @@
 
     public abstract class MapElement
     {
+        protected MapElement(string id)
+        {
+            ID = id;
+        }
+
+        public string ID { get; private set; }
+
         public abstract IEnumerable<IntVector2> Tiles
         {
             get;
