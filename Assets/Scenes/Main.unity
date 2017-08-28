@@ -2213,8 +2213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c969114455c59ef4c96eb439502af895, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CombatTextPrefab: {fileID: 1487208571032160, guid: 65e65bb7e2b06c5419e10c70b1265343,
-    type: 2}
 --- !u!114 &607091064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2978,6 +2976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68e279dfaf372847a3e72b1fe39a773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Settings: {fileID: 11400000, guid: bd0c2ab2e19045d4da4c6afe4d5d6a70, type: 2}
   TargetRooms: 15
   MaxFailures: 100
   RoomMaxWidth: 10

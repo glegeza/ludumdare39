@@ -6,6 +6,7 @@ namespace DLS.LD39.Generation
     using Units.Data;
     using System.Collections.Generic;
     using System.Linq;
+    using Data;
     using JetBrains.Annotations;
     using UnityEngine;
     using Utility;
@@ -15,6 +16,8 @@ namespace DLS.LD39.Generation
     [RequireComponent(typeof(TileMap))]
     public class RoomMap : MonoBehaviour
     {
+        public RoomMapGenerationSettings Settings;
+
         [Header("Map Layout")]
         public int TargetRooms = 10;
         public int MaxFailures = 100;
@@ -68,11 +71,20 @@ namespace DLS.LD39.Generation
         [UsedImplicitly]
         private void Start()
         {
-            BuildEntryRoom();
-            BuildExitRoom();
+            GenerateTileMap();
+            BuildStaticRooms();
             BuildRooms();
             BuildCorridors();
             SpawnPlayerUnits();
+        }
+
+        private void GenerateTileMap()
+        {
+            var width = Random.Range(Settings.MinWidth, Settings.MaxWidth);
+            var height = Random.Range(Settings.MinHeight, Settings.MaxHeight);
+            _map.Width = width;
+            _map.Height = height;
+            _map.RebuildMap();
         }
 
         private void AddRoom(Room newRoom, string tileType="default")
@@ -85,17 +97,39 @@ namespace DLS.LD39.Generation
             _rooms.Add(newRoom.ID, newRoom);
         }
 
-        private void BuildExitRoom()
+        private void BuildStaticRooms()
         {
-            var exitRoom = new Room(10, 1, 4, 4, "exit");
-            AddRoom(exitRoom, "yellow");
-            ExitRoom = exitRoom;
+            foreach (var room in Settings.StaticRooms)
+            {
+                var position = GetStaticRoomPosition(room);
+                var newRoom = room.Type.GetRoomAtPosition(_map, position, room.ID);
+                AddRoom(newRoom, room.Type.BaseTileType);
+            }
         }
 
-        private void BuildEntryRoom()
+        private IntVector2 GetStaticRoomPosition(StaticRoom room)
         {
-            var entryRoom = new Room(1, 1, 5, 5, "entry");
-            AddRoom(entryRoom, "yellow");
+            int x;
+            if (room.RoomPos.x < 0)
+            {
+                x = _map.Width + (int)room.RoomPos.x;
+            }
+            else
+            {
+                x = (int) room.RoomPos.x;
+            }
+
+            int y;
+            if (room.RoomPos.y < 0)
+            {
+                y = _map.Width + (int) room.RoomPos.y;
+            }
+            else
+            {
+                y = (int) room.RoomPos.y;
+            }
+
+            return new IntVector2(x, y);
         }
 
         private void BuildRooms()
@@ -111,8 +145,7 @@ namespace DLS.LD39.Generation
                 var y = Random.Range(0, _map.Height - h);
 
                 var newRoom = new Room(x, y, w, h, String.Format("Room {0}", roomsBuilt));
-                if (!RoomIsEntirelyContainedWithinMap(_map, newRoom) ||
-                    _rooms.Values.Any(r => newRoom.Overlaps(r, 1)))
+                if (!CanPlaceRoom(newRoom))
                 {
                     failures++;
                     continue;
@@ -121,6 +154,17 @@ namespace DLS.LD39.Generation
                 AddRoom(newRoom);
                 SpawnBadGuys(_map, newRoom);
             }
+        }
+
+        private Room GetRandomRoom()
+        {
+            var roll = Random.Range(0.0f, 1.0f);
+        }
+
+        private bool CanPlaceRoom(Room candidateRoom)
+        {
+            return RoomIsEntirelyContainedWithinMap(_map, candidateRoom) && !_rooms.Values.Any(
+                       r => candidateRoom.Overlaps(r, 1));
         }
 
         private void BuildCorridors()

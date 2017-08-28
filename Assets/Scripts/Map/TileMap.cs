@@ -142,6 +142,19 @@
             SetTileAt(x, y, _tileSet.GetTileByID(tileType));
         }
 
+        public void RebuildMap()
+        {
+            CleanupOldMesh();
+            GetMesh();
+            _tiles.Clear();
+            WorldSpaceSize = new Vector2(Width * TileSize.x,
+                Height * TileSize.y);
+            _collider.size = WorldSpaceSize;
+
+            BuildTiles();
+            BuildAdjacenyData();
+        }
+
         [UsedImplicitly]
         private void Awake()
         {
@@ -149,13 +162,7 @@
             _filter = GetComponent<MeshFilter>();
             _collider = GetComponent<BoxCollider2D>();
 
-            GetMesh();
-            WorldSpaceSize = new Vector2(Width * TileSize.x,
-                Height * TileSize.y);
-            _collider.size = WorldSpaceSize;
-            
-            BuildTiles();
-            BuildAdjacenyData();
+            RebuildMap();
         }
 
         [UsedImplicitly]
@@ -212,6 +219,15 @@
         {
             _mesh = new TileMapMesh(TileSize, Width, Height);
             _filter.sharedMesh = _mesh.Mesh;
+        }
+
+        private void CleanupOldMesh()
+        {
+            if (_mesh != null)
+            {
+                Destroy(_mesh.Mesh);
+            }
+            _mesh = null;
         }
 
         private int GetTileIdx(int x, int y)
