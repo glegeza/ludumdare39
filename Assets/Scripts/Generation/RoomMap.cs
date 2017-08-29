@@ -45,7 +45,7 @@ namespace DLS.LD39.Generation
             GenerateTileMap();
             BuildStaticRooms();
             BuildRooms();
-            //BuildCorridors();
+            BuildCorridors();
             SpawnPlayerUnits();
         }
 
