@@ -16,9 +16,11 @@
 
         public override bool IsConditionMet()
         {
-            return GameState.Instance.PlayerUnits.Any() &&
+            var exitRoom = GameState.Instance.CurrentMap.GetRoom("exit");
+            return exitRoom != null &&
+                   GameState.Instance.PlayerUnits.Any() &&
                    GameState.Instance.CurrentMap != null &&
-                   GameState.Instance.PlayerUnits.All(u => GameState.Instance.CurrentMap.ExitRoom.UnitInRoom(u));
+                   GameState.Instance.PlayerUnits.All(u => exitRoom.UnitInRoom(u));
         }
     }
 }

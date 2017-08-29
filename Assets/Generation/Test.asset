@@ -15,6 +15,8 @@ MonoBehaviour:
   MaxWidth: 40
   MinHeight: 40
   MaxHeight: 40
+  TargetRooms: 15
+  MaximumFailures: 100
   ProbabilityList:
   - RoomType: {fileID: 11400000, guid: 4f6259d5225bfe043af94f3cff470624, type: 2}
     Probability: 25

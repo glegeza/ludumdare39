@@ -14,7 +14,13 @@
         public int MinHeight;
         public int MaxHeight;
 
-        [Header("Room Generation Parameters")]
+        [Header("Room Placement Parameters")]
+        [Tooltip("The maximum number of rooms to generate for the map.")]
+        public int TargetRooms;
+        [Tooltip("The number of room placement failures to allow before giving up.")]
+        public int MaximumFailures;
+
+        [Header("Room Types")]
         [Tooltip("Rooms that will be randomly selected and placed.")]
         public List<RoomProbability> ProbabilityList;
         [Tooltip("Rooms that will always be generated at fixed locations.")]

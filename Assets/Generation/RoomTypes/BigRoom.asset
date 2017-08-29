@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: big
   BaseTileType: default
-  MinWidth: 6
-  MaxWidth: 8
-  MinHeight: 6
-  MaxHeight: 8
+  MinWidth: 10
+  MaxWidth: 12
+  MinHeight: 10
+  MaxHeight: 12

@@ -18,29 +18,14 @@ namespace DLS.LD39.Generation
     {
         public RoomMapGenerationSettings Settings;
 
-        [Header("Map Layout")]
-        public int TargetRooms = 10;
-        public int MaxFailures = 100;
-
-        [Header("Room Dimensions")]
-        public int RoomMaxWidth = 10;
-        public int RoomMinWidth = 4;
-        public int RoomMaxHeight = 10;
-        public int RoomMinHeight = 4;
-
         [Header("Spawning")]
         public UnitData EnemyType;
         public int MinUnitsPerRoom = 0;
         public int MaxUnitsPerRoom = 2;
 
         private TileMap _map;
-        private Dictionary<string, Room> _rooms 
+        private readonly Dictionary<string, Room> _rooms 
             = new Dictionary<string, Room>();
-
-        public Room ExitRoom
-        {
-            get; private set;
-        }
 
         public IEnumerable<Room> Rooms
         {
@@ -58,11 +43,6 @@ namespace DLS.LD39.Generation
         private void Awake()
         {
             _map = GetComponent<TileMap>();
-
-            RoomMaxWidth = Mathf.Max(1, RoomMaxWidth);
-            RoomMaxHeight = Mathf.Max(1, RoomMaxHeight);
-            RoomMinWidth = Mathf.Clamp(RoomMinWidth, 1, RoomMaxWidth);
-            RoomMinHeight = Mathf.Clamp(RoomMinHeight, 1, RoomMaxHeight);
 
             MaxUnitsPerRoom = Mathf.Max(0, MaxUnitsPerRoom);
             MinUnitsPerRoom = Mathf.Clamp(MinUnitsPerRoom, 0, MaxUnitsPerRoom);
@@ -135,16 +115,11 @@ namespace DLS.LD39.Generation
         private void BuildRooms()
         {
             var failures = 0;
-
+            var roomTable = new RoomRollTable(Settings.ProbabilityList);
             var roomsBuilt = 0;
-            while (roomsBuilt < TargetRooms && failures < MaxFailures)
+            while (roomsBuilt < Settings.TargetRooms && failures < Settings.MaximumFailures)
             {
-                var w = Random.Range(RoomMinWidth, RoomMaxWidth);
-                var h = Random.Range(RoomMinHeight, RoomMaxHeight);
-                var x = Random.Range(0, _map.Width - w);
-                var y = Random.Range(0, _map.Height - h);
-
-                var newRoom = new Room(x, y, w, h, String.Format("Room {0}", roomsBuilt));
+                var newRoom = GetRandomRoom(roomTable, roomsBuilt);
                 if (!CanPlaceRoom(newRoom))
                 {
                     failures++;
@@ -156,9 +131,11 @@ namespace DLS.LD39.Generation
             }
         }
 
-        private Room GetRandomRoom()
+        private Room GetRandomRoom(RoomRollTable rollTable, int roomIdx)
         {
-            var roll = Random.Range(0.0f, 1.0f);
+            var roomType = rollTable.GetRandomRoomType();
+            return roomType.GetRoomRandomPosition(_map, 
+                String.Format("{0} {1}", roomType.ID, roomIdx));
         }
 
         private bool CanPlaceRoom(Room candidateRoom)
