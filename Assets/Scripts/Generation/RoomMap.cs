@@ -3,7 +3,6 @@ namespace DLS.LD39.Generation
 {
     using System;
     using Map;
-    using Units.Data;
     using System.Collections.Generic;
     using System.Linq;
     using Data;
@@ -17,11 +16,6 @@ namespace DLS.LD39.Generation
     public class RoomMap : MonoBehaviour
     {
         public RoomMapGenerationSettings Settings;
-
-        [Header("Spawning")]
-        public UnitData EnemyType;
-        public int MinUnitsPerRoom = 0;
-        public int MaxUnitsPerRoom = 2;
 
         private TileMap _map;
         private readonly Dictionary<string, Room> _rooms 
@@ -43,9 +37,6 @@ namespace DLS.LD39.Generation
         private void Awake()
         {
             _map = GetComponent<TileMap>();
-
-            MaxUnitsPerRoom = Mathf.Max(0, MaxUnitsPerRoom);
-            MinUnitsPerRoom = Mathf.Clamp(MinUnitsPerRoom, 0, MaxUnitsPerRoom);
         }
 
         [UsedImplicitly]
@@ -54,7 +45,7 @@ namespace DLS.LD39.Generation
             GenerateTileMap();
             BuildStaticRooms();
             BuildRooms();
-            BuildCorridors();
+            //BuildCorridors();
             SpawnPlayerUnits();
         }
 
@@ -115,7 +106,7 @@ namespace DLS.LD39.Generation
         private void BuildRooms()
         {
             var failures = 0;
-            var roomTable = new RoomRollTable(Settings.ProbabilityList);
+            var roomTable = Settings.GetRoomRollTable();
             var roomsBuilt = 0;
             while (roomsBuilt < Settings.TargetRooms && failures < Settings.MaximumFailures)
             {
@@ -133,7 +124,7 @@ namespace DLS.LD39.Generation
 
         private Room GetRandomRoom(RoomRollTable rollTable, int roomIdx)
         {
-            var roomType = rollTable.GetRandomRoomType();
+            var roomType = rollTable.GetRandomEntry();
             return roomType.GetRoomRandomPosition(_map, 
                 String.Format("{0} {1}", roomType.ID, roomIdx));
         }
@@ -170,20 +161,19 @@ namespace DLS.LD39.Generation
 
         private void SpawnBadGuys(TileMap map, Room room)
         {
-            if (EnemyType == null)
-            {
-                return;
-            }
-
+            var enemyTable = room.Template.DefaultSpawnTable.GetRollTable();
             var placed = 0;
             var remainingTiles = new List<IntVector2>(room.Tiles);
             var tileCount = remainingTiles.Count;
-            var unitsToPlace = Random.Range(MinUnitsPerRoom, MaxUnitsPerRoom + 1);
+            var unitsToPlace = Random.Range(
+                room.Template.DefaultSpawnTable.MinimumUnits, 
+                room.Template.DefaultSpawnTable.MaximumUnits + 1);
             while (placed < unitsToPlace && tileCount > 0)
             {
+                var enemyType = enemyTable.GetRandomEntry().ID;
                 var tileIdx = Random.Range(0, tileCount);
                 var tile = map.GetTile(remainingTiles[tileIdx]);
-                UnitSpawner.Instance.SpawnUnit(EnemyType.ID, tile);
+                UnitSpawner.Instance.SpawnUnit(enemyType, tile);
                 tileCount -= 1;
                 if (tileCount > 0)
                 {

@@ -21,7 +21,7 @@
             var h = (int) RoomSize.y;
             var x = Random.Range(0, map.Width - w);
             var y = Random.Range(0, map.Height - h);
-            return new Room(x, y, w, h, id);
+            return new Room(x, y, w, h, id, this);
         }
 
         public override Room GetRoomAtPosition(TileMap map, IntVector2 position, string id="")
@@ -29,7 +29,7 @@
             id = String.IsNullOrEmpty(id) ? ID : id;
             var x = position.X;
             var y = position.Y;
-            return new Room(x, y, (int)RoomSize.x, (int)RoomSize.y, id);
+            return new Room(x, y, (int)RoomSize.x, (int)RoomSize.y, id, this);
         }
     }
 }

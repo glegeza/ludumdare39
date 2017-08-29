@@ -17,11 +17,11 @@ MonoBehaviour:
   MaxHeight: 40
   TargetRooms: 15
   MaximumFailures: 100
-  ProbabilityList:
-  - RoomType: {fileID: 11400000, guid: 4f6259d5225bfe043af94f3cff470624, type: 2}
-    Probability: 25
-  - RoomType: {fileID: 11400000, guid: 2270f2c6e35f8784a99a931d1fe528b1, type: 2}
-    Probability: 75
+  RoomGenerationTable:
+  - Probability: 25
+    Item: {fileID: 11400000, guid: 4f6259d5225bfe043af94f3cff470624, type: 2}
+  - Probability: 75
+    Item: {fileID: 11400000, guid: 2270f2c6e35f8784a99a931d1fe528b1, type: 2}
   StaticRooms:
   - ID: entry
     RoomPos: {x: 0, y: 0}

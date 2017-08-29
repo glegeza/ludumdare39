@@ -1,6 +1,7 @@
 ﻿namespace DLS.LD39.Generation.Data
 {
     using System.Collections.Generic;
+    using System.Linq;
     using JetBrains.Annotations;
     using UnityEngine;
 
@@ -22,8 +23,15 @@
 
         [Header("Room Types")]
         [Tooltip("Rooms that will be randomly selected and placed.")]
-        public List<RoomProbability> ProbabilityList;
+        public List<RoomProbability> RoomGenerationTable;
+        [Tooltip("Rooms that will always be placed, but at a random location.")]
+        public List<RoomType> RequiredRooms;
         [Tooltip("Rooms that will always be generated at fixed locations.")]
         public List<StaticRoom> StaticRooms;
+
+        public RoomRollTable GetRoomRollTable()
+        {
+            return new RoomRollTable(RoomGenerationTable.Cast<RollTableEntry<RoomType>>());
+        }
     }
 }

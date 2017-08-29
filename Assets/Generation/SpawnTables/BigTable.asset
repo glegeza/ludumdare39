@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac9aaa3e2dbe91241acb587c58f5b892, type: 3}
+  m_Name: BigTable
+  m_EditorClassIdentifier: 
+  MinimumUnits: 1
+  MaximumUnits: 4
+  EnemySpawnChances:
+  - Probability: 10
+    Item: {fileID: 11400000, guid: dbf77332ef6143445b6a9ce21ed15e87, type: 2}
+  - Probability: 10
+    Item: {fileID: 11400000, guid: d3a2fe75f6ab9b7408ab55b7cbbbe93b, type: 2}
+  - Probability: 80
+    Item: {fileID: 11400000, guid: 3ef8216d3c49280498688712c6ec20e8, type: 2}

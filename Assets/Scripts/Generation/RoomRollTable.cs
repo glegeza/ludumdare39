@@ -1,40 +1,14 @@
 ﻿namespace DLS.LD39.Generation
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Data;
     using JetBrains.Annotations;
-    using UnityEngine;
 
-    public class RoomRollTable
+    public class RoomRollTable : RollTable<RoomType>
     {
-        private readonly Dictionary<float, RoomType> _roomTable = new Dictionary<float, RoomType>();
-
-        public RoomRollTable([NotNull] IEnumerable<RoomProbability> probabilityList)
+        public RoomRollTable([NotNull] IEnumerable<RollTableEntry<RoomType>> tableEntries)
+            : base(tableEntries)
         {
-            var roomProbabilities = probabilityList as IList<RoomProbability> ?? probabilityList.ToList();
-
-            var total = roomProbabilities.Sum(p => p.Probability);
-            var curProb = 0.0f;
-            foreach (var prob in roomProbabilities)
-            {
-                curProb += prob.Probability / total;
-                _roomTable.Add(curProb, prob.RoomType);
-            }
-        }
-
-        public RoomType GetRandomRoomType()
-        {
-            var roll = Random.Range(0.0f, 1.0f);
-            var chances = _roomTable.Keys.ToList();
-            foreach (var chance in chances.OrderBy(c => c))
-            {
-                if (roll <= chance)
-                {
-                    return _roomTable[chance];
-                }
-            }
-            return _roomTable[chances.Last()];
         }
     }
 }

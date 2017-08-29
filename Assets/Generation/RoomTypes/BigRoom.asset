@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: big
   BaseTileType: default
+  DefaultSpawnTable: {fileID: 11400000, guid: fa66d20a846ebe748b8c006826d65846, type: 2}
   MinWidth: 10
   MaxWidth: 12
   MinHeight: 10

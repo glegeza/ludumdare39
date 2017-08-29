@@ -4,16 +4,24 @@
     using Units;
     using System;
     using System.Collections.Generic;
+    using Data;
     using Utility;
 
     public class Room : MapElement, IEquatable<Room>
     {
         private HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
 
-        public Room(int x, int y, int width, int height, string id) : base(id)
+        public Room(int x, int y, int width, int height, string id, RoomType type=null) : base(id)
         {
             MapRect = new IntRect(x, y, width, height);
+            Template = type;
             UpdateTiles();
+        }
+
+        public RoomType Template
+        {
+            get;
+            private set;
         }
 
         public int Width
