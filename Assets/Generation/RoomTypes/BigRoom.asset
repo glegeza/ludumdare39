@@ -14,7 +14,7 @@ MonoBehaviour:
   ID: big
   BaseTileType: default
   DefaultSpawnTable: {fileID: 11400000, guid: fa66d20a846ebe748b8c006826d65846, type: 2}
-  MinWidth: 10
-  MaxWidth: 12
-  MinHeight: 10
-  MaxHeight: 12
+  MinWidth: 6
+  MaxWidth: 10
+  MinHeight: 6
+  MaxHeight: 10

@@ -17,6 +17,7 @@ MonoBehaviour:
   GraphicsData: {fileID: 11400000, guid: 338e9468a76b8be4bb41b3dc342ef57e, type: 2}
   SpriteTint: {r: 1, g: 0.08823532, b: 0.08823532, a: 1}
   DefaultState: {fileID: 11400000, guid: 7a4ab9636b9db0b46a3b3fb70e0bf207, type: 2}
-  DefaultPrimaryWeapon: {fileID: 0}
+  DefaultPrimaryWeapon: {fileID: 11400000, guid: 865e26b07fd52ef47a42ffe000b13959,
+    type: 2}
   DefaultSecondaryWeapon: {fileID: 0}
   BatteryPack: {fileID: 0}

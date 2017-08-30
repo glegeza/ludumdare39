@@ -83,7 +83,7 @@
 
         public bool Equals(Room other)
         {
-            throw new NotImplementedException();
+            return other != null && other.MapRect.Equals(MapRect);
         }
 
         public bool Overlaps(Room other)

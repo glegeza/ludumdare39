@@ -14,6 +14,11 @@
         [Tooltip("The width and height of the room.")]
         public Vector2 RoomSize;
 
+        public override IntVector2 GetMaximumRoomSize()
+        {
+            return new IntVector2((int)RoomSize.x, (int)RoomSize.y);
+        }
+
         public override Room GetRoomRandomPosition(TileMap map, string id="")
         {
             id = String.IsNullOrEmpty(id) ? ID : id;

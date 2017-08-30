@@ -33,15 +33,11 @@
             }
         }
 
-        public void SetTiles(TileMap map)
+        public void SetTiles(TileMap map, string type="default")
         {
             foreach (var tile in _tiles)
             {
-                var existingTile = map.GetTile(tile);
-                if (existingTile.Type.ID == "empty")
-                {
-                    map.SetTileAt(tile.X, tile.Y, "default");
-                }
+                map.SetTileAt(tile.X, tile.Y, type);
             }
         }
 
@@ -64,7 +60,7 @@
                 var start = _nodes[i];
                 var target = _nodes[i + 1];
                 var last = start;
-                while (!(last.Equals(target)))
+                while (!last.Equals(target))
                 {
                     if (target.X > last.X)
                     {

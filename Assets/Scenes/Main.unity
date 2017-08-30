@@ -2865,6 +2865,7 @@ GameObject:
   - component: {fileID: 731603495}
   - component: {fileID: 731603494}
   - component: {fileID: 731603500}
+  - component: {fileID: 731603499}
   m_Layer: 8
   m_Name: Big Map
   m_TagString: Untagged
@@ -2941,7 +2942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileData: {fileID: 11400000, guid: 77f31d4c8ca68fb45b2c49242c32ea45, type: 2}
-  DefaultTile: empty
+  DefaultTile: hazard
   Width: 50
   Height: 50
   TileSize: {x: 1, y: 1}
@@ -2965,7 +2966,7 @@ Transform:
   m_Father: {fileID: 455623706}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &731603500
+--- !u!114 &731603499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2973,19 +2974,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 731603493}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6cc2869f6a35748acb92da42f91d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Settings: {fileID: 11400000, guid: 91f1a1c41dad001438c401549a2e51d4, type: 2}
+--- !u!114 &731603500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731603493}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c68e279dfaf372847a3e72b1fe39a773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Settings: {fileID: 11400000, guid: bd0c2ab2e19045d4da4c6afe4d5d6a70, type: 2}
-  TargetRooms: 15
-  MaxFailures: 100
-  RoomMaxWidth: 10
-  RoomMinWidth: 4
-  RoomMaxHeight: 10
-  RoomMinHeight: 4
-  EnemyType: {fileID: 11400000, guid: d8b96c531a1afec498d545653fd8006a, type: 2}
-  MinUnitsPerRoom: 1
-  MaxUnitsPerRoom: 1
 --- !u!1 &882796462
 GameObject:
   m_ObjectHideFlags: 0

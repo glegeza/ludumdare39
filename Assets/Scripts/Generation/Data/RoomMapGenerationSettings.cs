@@ -6,7 +6,7 @@
     using UnityEngine;
 
     [UsedImplicitly]
-    [CreateAssetMenu(menuName = "Map Generation/Room Maps/Map Settings")]
+    [CreateAssetMenu(menuName = "Map Generation/Generator Parameters/Room Map")]
     public class RoomMapGenerationSettings : ScriptableObject
     {
         [Header("Map Size Parameters")]

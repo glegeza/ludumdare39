@@ -140,11 +140,67 @@ namespace DLS.LD39.Generation
             var rooms = _rooms.Values.ToList();
             for (var i = 0; i < rooms.Count - 1; i++)
             {
-                var corridor = new SingleWidthCorridor();
-                corridor.AddNode(rooms[i].MapRect.Center);
-                corridor.AddNode(rooms[i + 1].MapRect.Center);
-                corridor.SetTiles(_map);
+                var roomA = rooms[i];
+                var roomB = rooms[i + 1];
+
+                var verticalDistance = Mathf.Abs(roomA.MapRect.Center.Y - roomB.MapRect.Center.Y);
+                var horizontalDistance = Mathf.Abs(roomA.MapRect.Center.X - roomB.MapRect.Center.X);
+
+                if (horizontalDistance > verticalDistance)
+                {
+                    ConnectHorizontalRooms(roomA, roomB);
+                }
+                else
+                {
+                    ConnectVerticalRooms(roomA, roomB);
+                }
             }
+        }
+
+        private void ConnectHorizontalRooms(Room a, Room b)
+        {
+            var left = a.MapRect.BottomRight.X < b.MapRect.BottomLeft.X
+                ? a
+                : b;
+            var right = left.Equals(a) ? b : a;
+
+            var leftConnectorX = left.MapRect.BottomRight.X;
+            var leftConnectorY = Random.Range(left.MapRect.BottomRight.Y, left.MapRect.TopRight.Y);
+
+            var rightConnectorX = right.MapRect.BottomLeft.X - 1;
+            var rightConnectorY = Random.Range(right.MapRect.BottomLeft.Y, right.MapRect.TopLeft.Y);
+
+            var corridor = new SingleWidthCorridor();
+            corridor.AddNode(new IntVector2(leftConnectorX, leftConnectorY));
+
+            var xDist = Mathf.Abs(leftConnectorX - rightConnectorX);
+            var yDist = Mathf.Abs(leftConnectorY - rightConnectorY);
+            if (xDist > 2 && yDist > 2)
+            {
+                corridor.AddNode(new IntVector2(leftConnectorX + (xDist / 2), leftConnectorY));
+            }
+
+            corridor.AddNode(new IntVector2(rightConnectorX, rightConnectorY));
+            corridor.SetTiles(_map, "white");
+        }
+
+        private void ConnectVerticalRooms(Room a, Room b)
+        {
+            var top = a.MapRect.BottomRight.Y > b.MapRect.TopRight.Y
+                ? a
+                : b;
+            var bottom = top.Equals(a) ? b : a;
+
+            var bottomConnectorY = bottom.MapRect.TopLeft.Y;
+            var bottomConnectorX = Random.Range(bottom.MapRect.TopLeft.X, bottom.MapRect.TopRight.X);
+
+            var topConnectorY = top.MapRect.BottomLeft.Y - 1;
+            var topConnectorX = Random.Range(top.MapRect.BottomLeft.X, top.MapRect.BottomRight.X);
+
+            var corridor = new SingleWidthCorridor();
+            corridor.AddNode(new IntVector2(bottomConnectorX, bottomConnectorY));
+            corridor.AddNode(new IntVector2(topConnectorX, topConnectorY));
+            corridor.SetTiles(_map, "red");
         }
 
         private void SpawnPlayerUnits()
