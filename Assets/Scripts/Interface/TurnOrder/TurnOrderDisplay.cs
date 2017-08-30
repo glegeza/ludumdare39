@@ -17,7 +17,7 @@
         #pragma warning restore 0649
 
         private TurnOrderTracker _tracker;
-        private List<Image> _waitingUnitObjects = new List<Image>();
+        private readonly List<Image> _waitingUnitObjects = new List<Image>();
 
         [UsedImplicitly]
         private void Awake()
@@ -51,34 +51,48 @@
             {
                 unitObject.gameObject.SetActive(false);
             }
+            
         }
 
         [UsedImplicitly]
         private void Start()
         {
             _tracker.TurnOrderUpdated += OnTurnOrderChanged;
+            UpdateTracker();
         }
 
         private void OnTurnOrderChanged(object sender, EventArgs e)
         {
+            UpdateTracker();
+        }
+
+        private void UpdateTracker()
+        {
             var curUnit = _tracker.ActiveUnit;
             var prevUnit = _tracker.PreviousUnit;
-            var waiting = GetWaitingUnits();
 
             SetRenderer(PrevUnit, prevUnit);
             SetRenderer(ActiveUnit, curUnit);
+            SetWaitingObjects(GetAvailableImageSlots());
+        }
 
-            for (var i = 0; i < _waitingUnitObjects.Count; i++)
+        private void SetWaitingObjects(IList<Image> imageSlots)
+        {
+            // returns the number of available turn order slots that haven't been used
+            var remainingSlots = imageSlots.Count;
+            var waiting = GetWaitingUnits();
+
+            for (var i = 0; i < remainingSlots; i++)
             {
                 if (i >= waiting.Count)
                 {
                     break;
                 }
-                SetRenderer(_waitingUnitObjects[i], waiting[i]);
+                SetRenderer(imageSlots[i], waiting[i]);
             }
         }
 
-        private void SetRenderer(Image imgRenderer, GameUnit unit)
+        private static void SetRenderer(Image imgRenderer, GameUnit unit)
         {
             if (unit != null)
             {
@@ -92,24 +106,27 @@
             }
         }
 
+        private IList<Image> GetAvailableImageSlots()
+        {
+            var imageSlots = new List<Image>();
+            if (_tracker.PreviousUnit == null)
+            {
+                imageSlots.Add(PrevUnit);
+            }
+            if (_tracker.ActiveUnit == null)
+            {
+                imageSlots.Add(ActiveUnit);
+            }
+
+            imageSlots.AddRange(_waitingUnitObjects);
+
+            return imageSlots;
+        }
+
         private List<GameUnit> GetWaitingUnits()
         {
-            var waiting = new List<GameUnit>();
-
-            foreach (var unit in _tracker.UnitsWaiting)
-            {
-                if (unit != _tracker.PreviousUnit)
-                {
-                    waiting.Add(unit);
-                }
-            }
-            foreach (var unit in _tracker.UnitsDone)
-            {
-                if (unit != _tracker.PreviousUnit)
-                {
-                    waiting.Add(unit);
-                }
-            }
+            var waiting = _tracker.UnitsWaiting.Where(unit => unit != _tracker.PreviousUnit).ToList();
+            waiting.AddRange(_tracker.UnitsDone.Where(unit => unit != _tracker.PreviousUnit));
 
             return waiting;
         }
