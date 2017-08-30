@@ -18,6 +18,12 @@
         public override bool IsConditionMet()
         {
             var room = GameState.Instance.CurrentMap.GetRoom(RoomID);
+            if (room == null)
+            {
+                Debug.LogErrorFormat("AllFactionUnitsInRoom no room with ID {0}", RoomID);
+                return false;
+            }
+
             var totalUnits = 0;
             foreach (var unit in ActiveUnits.Instance.Units.Where(u => u.Faction == Faction))
             {
