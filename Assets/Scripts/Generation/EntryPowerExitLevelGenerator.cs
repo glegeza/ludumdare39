@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Data;
     using JetBrains.Annotations;
     using Map;
+    using Props;
     using UnityEngine;
     using Utility;
     using Random = UnityEngine.Random;
@@ -24,6 +26,7 @@
         }
 
         public EntryPowerExitGenerationSettings Settings;
+        public string WallType;
 
         private TileMap _map;
         private readonly Dictionary<string, Room> _rooms
@@ -46,6 +49,14 @@
             ConnectRooms(_rooms["entry"], RoomSide.Left, _rooms["generator"], RoomSide.Right);
 
             SpawnPlayerUnits();
+
+            foreach (var tile in _map.Tiles)
+            {
+                if (tile.Type.ID == "empty" && tile.AdjacentTiles.Any(t => t.Type.ID != "empty"))
+                {
+                    PropFactory.Instance.BuildPropAndAddToTile(WallType, tile);
+                }
+            }
         }
 
         private void GenerateTileMap()
