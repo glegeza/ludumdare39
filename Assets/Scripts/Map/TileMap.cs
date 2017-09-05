@@ -174,11 +174,9 @@
         private void SetTileAt(int x, int y, IndexedTile tile)
         {
             var tileObj = GetTile(x, y);
-            if (tileObj != null)
-            {
-                tileObj.SetType(tile.Type);
-                _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
-            }
+            if (tileObj == null) return;
+            tileObj.SetType(tile.Type);
+            _mesh.SetTileUV(tile.BottomLeft, tile.Width, tile.Height, x, y);
         }
 
         private void BuildTiles()

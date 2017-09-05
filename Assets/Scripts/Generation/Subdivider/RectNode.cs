@@ -1,6 +1,9 @@
 ﻿namespace DLS.LD39.Generation.Subdivider
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using JetBrains.Annotations;
+    using Map;
     using UnityEngine;
     using Utility;
     using Random = UnityEngine.Random;
@@ -37,10 +40,45 @@
 
         public RectNode Right { get; set; }
 
-        public bool Split(CutDirection direction, int minSize)
+        public bool IsLeaf
+        {
+            get
+            {
+                return Left == null && Right == null;
+            }
+        }
+
+        public IEnumerable<RectNode> LeafNodes()
+        {
+            var nodesToCheck = new Queue<RectNode>();
+            var leafNodes = new List<RectNode>();
+            nodesToCheck.Enqueue(this);
+            while (nodesToCheck.Any())
+            {
+                var node = nodesToCheck.Dequeue();
+                if (node.IsLeaf)
+                {
+                    leafNodes.Add(node);
+                    continue;
+                }
+
+                if (node.Left != null)
+                {
+                    nodesToCheck.Enqueue(node.Left);
+                }
+                if (node.Right != null)
+                {
+                    nodesToCheck.Enqueue(node.Right);
+                }
+            }
+
+            return leafNodes;
+        }
+
+        public bool Split(CutDirection direction, int minSize, int maxDepth)
         {
             var maxSize = GetMaximum(direction, minSize);
-            if (!CanSplit(minSize, maxSize))
+            if (!CanSplit(minSize, maxSize, maxDepth))
             {
                 return false;
             }
@@ -50,9 +88,34 @@
             return true;
         }
 
-        private bool CanSplit(int minSize, int maxSplitSize)
+        public IEnumerable<IntVector2> Positions()
         {
-            return Left != null && maxSplitSize >= minSize;
+            for (var x = Rect.X; x < Rect.BottomRight.X; x++)
+            {
+                for (var y = Rect.Y; y < Rect.TopLeft.Y; y++)
+                {
+                    yield return new IntVector2(x, y);
+                }
+            }
+        }
+
+        public IEnumerable<Tile> ValidTiles(TileMap map)
+        {
+            return Positions().Select(map.GetTile).Where(tile => tile != null);
+        }
+
+        public void SetTiles(TileMap map, string tileID)
+        {
+            foreach (var position in Positions())
+            {
+                map.SetTileAt(position.X, position.Y, tileID);
+            }
+        }
+
+        private bool CanSplit(int minSize, int maxSplitSize, int maxDepth)
+        {
+            return Left == null && maxSplitSize >= minSize &&
+                (maxDepth < 0 || maxDepth > Depth);
         }
 
         private int GetMaximum(CutDirection direction, int minSize)

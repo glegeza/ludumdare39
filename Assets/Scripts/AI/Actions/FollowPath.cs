@@ -9,7 +9,7 @@ namespace DLS.LD39.AI.Actions
     [CreateAssetMenu(menuName = "AI/Actions/Follow Path")]
     public class FollowPath : AIAction
     {
-        private SimplePathfinder _pathfinder = new SimplePathfinder();
+        private readonly SimplePathfinder _pathfinder = new SimplePathfinder();
 
         public override bool Act(StateController controller)
         {
