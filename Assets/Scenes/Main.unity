@@ -3003,12 +3003,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f72dc1e183bb448909316d4a2b4152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 120
-  Height: 120
-  MaxDepth: 10
-  MinRoomSize: 5
-  MaxRoomSideSize: 10
   TileSet: {fileID: 11400000, guid: 77f31d4c8ca68fb45b2c49242c32ea45, type: 2}
+  SplitChance: 10
+  MinRecursionDepth: 2
+  MaxRecursionDepth: 8
+  MapWidth: 40
+  MapHeight: 40
+  MinRoomSize: 4
+  MaxRoomSideSize: 12
 --- !u!1 &882796462
 GameObject:
   m_ObjectHideFlags: 0

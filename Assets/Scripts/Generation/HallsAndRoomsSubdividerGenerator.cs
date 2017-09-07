@@ -1,6 +1,5 @@
 ﻿namespace DLS.LD39.Generation
 {
-    using System;
     using System.Collections.Generic;
     using JetBrains.Annotations;
     using Map;
@@ -13,15 +12,25 @@
     [RequireComponent(typeof(TileMap))]
     public class HallsAndRoomsSubdividerGenerator : MonoBehaviour
     {
-        public int Width = 40;
-        public int Height = 40;
-        public int MaxDepth = 8;
+        public TileSetData TileSet;
+
+        [Header("Recursion Parameters")]
+        [Range(0, 100)]
+        public int SplitChance = 100;
+        public int MinRecursionDepth = 2;
+        public int MaxRecursionDepth = 8;
+
+        [Header("Map Size Parameters")]
+        public int MapWidth = 40;
+        public int MapHeight = 40;
+
+        [Header("Room Dimensions")]
         public int MinRoomSize = 2;
         public int MaxRoomSideSize = 6;
-        public TileSetData TileSet;
 
         private TileMap _map;
         private RectNode _rootNode;
+        private SubdividedMap _roomMap;
 
         [UsedImplicitly]
         private void Awake()
@@ -34,47 +43,33 @@
         {
             GenerateTileMap();
             SplitRootNode();
-            BuildRooms();
-            BuildCorridors();
+            _roomMap = ConnectionBuilder.GetMap(_rootNode, MinRoomSize, MaxRoomSideSize);
+            BuildConnections();
         }
 
         private void SplitRootNode()
         {
-            _rootNode = new RectNode(0, 0, Width, Height, null);
-            RecursiveRectSplitter.SplitAlternating(_rootNode, MinRoomSize + 2, MaxDepth, RectNode.CutDirection.Horizontal);
+            var chance = SplitChance / 100.0f;
+            _rootNode = new RectNode(0, 0, MapWidth, MapHeight, null);
+            RecursiveRectSplitter.SplitAlternating(_rootNode, MinRoomSize + 2, MaxRecursionDepth, RectNode.CutDirection.Horizontal, chance, MinRecursionDepth);
         }
 
         private void GenerateTileMap()
         {
-            _map.Width = Width;
-            _map.Height = Height;
+            _map.Width = MapWidth;
+            _map.Height = MapHeight;
             _map.RebuildMap();
         }
 
-        private void BuildCorridors()
+        private void BuildConnections()
         {
-            var nodesToCheck = new Queue<RectNode>();
-            nodesToCheck.Enqueue(_rootNode);
-
-            while (nodesToCheck.Any())
+            foreach (var connection in _roomMap.Connections.Distinct())
             {
-                var nextNode = nodesToCheck.Dequeue();
-
-                if (!nextNode.IsLeaf)
-                {
-                    var nodeA = GetRandomRoom(nextNode.Left);
-                    var nodeB = GetRandomRoom(nextNode.Right);
-                    BuildCorridor(nodeA, nodeB);
-                }
-
-                if (nextNode.Left != null)
-                {
-                    nodesToCheck.Enqueue(nextNode.Left);
-                }
-                if (nextNode.Right != null)
-                {
-                    nodesToCheck.Enqueue(nextNode.Right);
-                }
+                BuildCorridor(connection.RoomA.RoomNode, connection.RoomB.RoomNode);
+            }
+            foreach (var room in _roomMap.Rooms)
+            {
+                SetTiles(room.Rect);
             }
         }
 
@@ -86,46 +81,13 @@
             corridor.SetTiles(_map, "default");
         }
 
-        private void BuildCorridor(RectNode node)
+        private void SetTiles(IntRect rect)
         {
-            var corridor = new SingleWidthCorridor();
-            corridor.AddNode(node.Left.Rect.Center);
-            corridor.AddNode(node.Right.Rect.Center);
-            corridor.SetTiles(_map, "default");
-        }
-
-        private void BuildRooms()
-        {
-            foreach (var leaf in _rootNode.LeafNodes())
+            for (var x = rect.TopLeft.X; x < rect.TopRight.X; x++)
             {
-                CreateRoom(leaf);
-            }
-        }
-
-        private RectNode GetRandomRoom(RectNode node)
-        {
-            return node.IsLeaf 
-                ? node 
-                : GetRandomRoom(Random.Range(0.0f, 1.0f) < 0.5f ? node.Left : node.Right);
-        }
-
-        private void CreateRoom(RectNode node)
-        {
-            var size = new IntVector2(
-                Random.Range(MinRoomSize, node.Rect.Width - 2),
-                Random.Range(MinRoomSize, node.Rect.Height - 2));
-
-            var pos = new IntVector2(
-                node.Rect.Center.X - size.X / 2,
-                node.Rect.Center.Y - size.Y / 2);
-
-            for (var x = 0; x < size.X; x++)
-            {
-                for (var y = 0; y < size.Y; y++)
+                for (var y = rect.BottomLeft.Y; y < rect.TopRight.Y; y++)
                 {
-                    var posX = pos.X + x;
-                    var posY = pos.Y + y;
-                    _map.SetTileAt(posX, posY, "default");
+                    _map.SetTileAt(x, y, "default");
                 }
             }
         }

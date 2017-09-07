@@ -141,6 +141,12 @@ namespace DLS.Utility
                 _h == other._h;
         }
 
+        public bool Contains(IntVector2 point)
+        {
+            return (point.X <= _x2 && point.X >= _x1 &&
+                    point.Y <= _y2 && point.Y >= _y1);
+        }
+
         public bool Intersects(IntRect other)
         {
             return (_x1 < other._x2 && _x2 > other._x1 &&

@@ -1,5 +1,6 @@
 ﻿namespace DLS.LD39.Generation.Subdivider
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using JetBrains.Annotations;
@@ -8,7 +9,7 @@
     using Utility;
     using Random = UnityEngine.Random;
 
-    public class RectNode
+    public class RectNode : IEquatable<RectNode>
     {
         public enum CutDirection
         {
@@ -42,10 +43,7 @@
 
         public bool IsLeaf
         {
-            get
-            {
-                return Left == null && Right == null;
-            }
+            get { return Left == null && Right == null; }
         }
 
         public IEnumerable<RectNode> LeafNodes()
@@ -82,7 +80,7 @@
             {
                 return false;
             }
-            
+
             var splitPosition = GetSplitPosition(GetMaximum(direction, minSize), minSize);
             CreateLeaves(direction, splitPosition);
             return true;
@@ -115,14 +113,14 @@
         private bool CanSplit(int minSize, int maxSplitSize, int maxDepth)
         {
             return Left == null && maxSplitSize >= minSize &&
-                (maxDepth < 0 || maxDepth > Depth);
+                   (maxDepth < 0 || maxDepth > Depth);
         }
 
         private int GetMaximum(CutDirection direction, int minSize)
         {
             return (direction == CutDirection.Horizontal
-                ? Rect.Height
-                : Rect.Width) - minSize;
+                       ? Rect.Height
+                       : Rect.Width) - minSize;
         }
 
         private static int GetSplitPosition(int size, int minSize)
@@ -157,6 +155,24 @@
                 Depth += 1;
                 nextLevel = nextLevel.Parent;
             }
+        }
+
+        public bool Equals(RectNode other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return ReferenceEquals(this, other) || Equals(Rect, other.Rect);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == this.GetType() && Equals((RectNode) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Rect != null ? Rect.GetHashCode() : 0);
         }
     }
 }

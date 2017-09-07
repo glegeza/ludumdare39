@@ -19,6 +19,11 @@
             return new IntVector2((int)RoomSize.x, (int)RoomSize.y);
         }
 
+        public override IntVector2 GetMinimumRoomSize()
+        {
+            return new IntVector2((int) RoomSize.x, (int) RoomSize.y);
+        }
+
         public override Room GetRoomRandomPosition(TileMap map, string id="")
         {
             id = String.IsNullOrEmpty(id) ? ID : id;
