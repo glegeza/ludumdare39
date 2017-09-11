@@ -1,13 +1,10 @@
 ﻿namespace DLS.LD39.Generation
 {
-    using System.Collections.Generic;
     using JetBrains.Annotations;
     using Map;
     using Subdivider;
     using UnityEngine;
     using System.Linq;
-    using Utility;
-    using Random = UnityEngine.Random;
 
     [RequireComponent(typeof(TileMap))]
     public class HallsAndRoomsSubdividerGenerator : MonoBehaviour
@@ -32,6 +29,14 @@
         private RectNode _rootNode;
         private SubdividedMap _roomMap;
 
+        public void ResetMap()
+        {
+            GenerateTileMap();
+            SplitRootNode();
+            _roomMap = ConnectionBuilder.GetMap(_rootNode, MinRoomSize, MaxRoomSideSize);
+            BuildConnections();
+        }
+
         [UsedImplicitly]
         private void Awake()
         {
@@ -41,10 +46,16 @@
         [UsedImplicitly]
         private void Start()
         {
-            GenerateTileMap();
-            SplitRootNode();
-            _roomMap = ConnectionBuilder.GetMap(_rootNode, MinRoomSize, MaxRoomSideSize);
-            BuildConnections();
+            ResetMap();
+        }
+
+        [UsedImplicitly]
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ResetMap();
+            }
         }
 
         private void SplitRootNode()
@@ -73,54 +84,13 @@
             }
         }
 
-        private void BuildCorridor(Connection connect)
+        private void BuildCorridor(MapConnection connect)
         {
-            Debug.LogFormat("Building corridor between {0} and {1}", connect.RoomA, connect.RoomB);
+            Debug.LogFormat("Building corridor between {0} and {1}", connect.LocationA, connect.LocationB);
             var corridor = new SingleWidthCorridor();
             corridor.AddNode(connect.AConnect);
             corridor.AddNode(connect.BConnect);
             corridor.SetTiles(_map, "default");
-        }
-
-        private void SetTiles(IEnumerable<IntVector2> tiles)
-        {
-            foreach (var tile in tiles)
-            {
-                _map.SetTileAt(tile.X, tile.Y, "default");
-            }
-        }
-
-        private void SetTiles(IntRect rect)
-        {
-            for (var x = rect.TopLeft.X; x < rect.TopRight.X; x++)
-            {
-                for (var y = rect.BottomLeft.Y; y < rect.TopRight.Y; y++)
-                {
-                    _map.SetTileAt(x, y, "default");
-                }
-            }
-        }
-
-        private void ColorNodes()
-        {
-            var nodesToColor = new Queue<RectNode>();
-            nodesToColor.Enqueue(_rootNode);
-            while (nodesToColor.Any())
-            {
-                var next = nodesToColor.Dequeue();
-                var id = GetRandomTile();
-                next.SetTiles(_map, id);
-
-                if (next.Left == null) continue;
-                nodesToColor.Enqueue(next.Left);
-                nodesToColor.Enqueue(next.Right);
-            }
-        }
-
-        private string GetRandomTile()
-        {
-            var tileIDs = TileSet.TileTypes.Select(t => t.ID).ToList();
-            return tileIDs[Random.Range(0, tileIDs.Count)];
         }
     }
 }

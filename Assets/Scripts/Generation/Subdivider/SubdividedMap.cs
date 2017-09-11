@@ -5,10 +5,10 @@
     public class SubdividedMap
     {
         public SubdividedMap(RectNode root,
-            IEnumerable<Connection> connections,
+            IEnumerable<MapConnection> connections,
             IEnumerable<Room> rooms)
         {
-            Connections = new List<Connection>(connections);
+            Connections = new List<MapConnection>(connections);
             Rooms = new List<Room>(rooms);
             Root = root;
         }
@@ -18,7 +18,7 @@
             get; private set;
         }
 
-        public IEnumerable<Connection> Connections
+        public IEnumerable<MapConnection> Connections
         {
             get; private set;
         }

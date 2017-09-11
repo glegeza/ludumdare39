@@ -23,7 +23,7 @@
 
         public static SubdividedMap GetMap(RectNode root, int minRoomSize, int maxRoomSide)
         {
-            var connections = new List<Connection>();
+            var connections = new List<MapConnection>();
 
             var roomMap = new Dictionary<RectNode, Room>();
             var divConnections = new List<DivisionConnection>();
@@ -63,13 +63,13 @@
             return new SubdividedMap(root, connections, roomMap.Values);
         }
 
-        private static IEnumerable<Connection> GetConnections(DivisionConnection divConnection,
+        private static IEnumerable<MapConnection> GetConnections(DivisionConnection divConnection,
             Dictionary<RectNode, Room> roomMap)
         {
             var roomA = roomMap[divConnection.A];
             var roomB = roomMap[divConnection.B];
 
-            var connections = new List<Connection>();
+            var connections = new List<MapConnection>();
             var startRoom = roomA;
             var currentRoom = roomA;
             var targetRoom = roomB;
@@ -83,7 +83,7 @@
                 {
                     IntVector2 a, b;
                     MapElement.GetClosestConnectionPair(currentRoom, targetRoom, out a, out b);
-                    connections.Add(new Connection(currentRoom, a, targetRoom, b));
+                    connections.Add(new MapConnection(currentRoom, a, targetRoom, b));
                     currentRoom.AddNeighbor(targetRoom);
                     targetRoom.AddNeighbor(currentRoom);
                     break;
@@ -92,7 +92,7 @@
                 {
                     IntVector2 a, b;
                     MapElement.GetClosestConnectionPair(currentRoom, tileRoom, out a, out b);
-                    connections.Add(new Connection(currentRoom, a, tileRoom, b));
+                    connections.Add(new MapConnection(currentRoom, a, tileRoom, b));
                     currentRoom.AddNeighbor(tileRoom);
                     tileRoom.AddNeighbor(currentRoom);
                     currentRoom = tileRoom;
