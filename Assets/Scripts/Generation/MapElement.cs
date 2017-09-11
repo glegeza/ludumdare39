@@ -11,6 +11,7 @@
     {
         private readonly HashSet<IntVector2> _connectors = new HashSet<IntVector2>();
         private readonly HashSet<MapConnection> _connections = new HashSet<MapConnection>();
+        private readonly HashSet<string> _tags = new HashSet<string>();
 
         protected MapElement(string id)
         {
@@ -29,6 +30,11 @@
             get { return _connectors; }
         }
 
+        public IEnumerable<string> Tags
+        {
+            get { return _tags; }
+        }
+
         public abstract IEnumerable<IntVector2> Tiles
         {
             get;
@@ -40,7 +46,7 @@
             if (!a._connectors.Any() || !b._connectors.Any())
             {
                 Debug.LogError("Whu?");
-                throw new System.Exception();
+                throw new Exception();
             }
             var minDistance = int.MaxValue;
             aConnect = a.Connectors.First();
@@ -68,6 +74,17 @@
         public bool TileInElement(Tile tile)
         {
             return TileInElement(tile.X, tile.Y);
+        }
+
+        public void AddTag(string tag)
+        {
+            _tags.Add(tag.ToLower());
+        }
+
+        public bool HasTag(string tag)
+        {
+            var lower = tag.ToLower();
+            return _tags.Contains(lower);
         }
 
         public void AddConnector(IntVector2 connector)

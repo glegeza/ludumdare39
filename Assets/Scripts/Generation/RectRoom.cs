@@ -9,6 +9,7 @@
         {
             Rect = new IntRect(x, y, width, height);
             CreateCornerConnectors();
+            CreateEdgeConnectors();
             SetTiles();
         }
 
@@ -16,6 +17,7 @@
         {
             Rect = rect;
             CreateCornerConnectors();
+            CreateEdgeConnectors();
             SetTiles();
         }
 
@@ -37,6 +39,14 @@
             AddConnector(Rect.TopRight);
             AddConnector(Rect.BottomLeft);
             AddConnector(Rect.BottomRight);
+        }
+
+        private void CreateEdgeConnectors()
+        {
+            AddConnector(new IntVector2(Rect.Left, Rect.Center.Y));
+            AddConnector(new IntVector2(Rect.Right, Rect.Center.Y));
+            AddConnector(new IntVector2(Rect.Center.X, Rect.Top));
+            AddConnector(new IntVector2(Rect.Center.X, Rect.Bottom));
         }
 
         private void SetTiles()

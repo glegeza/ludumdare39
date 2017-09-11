@@ -1,10 +1,12 @@
 ﻿namespace DLS.LD39.Generation
 {
+    using System.Collections.Generic;
     using JetBrains.Annotations;
     using Map;
     using Subdivider;
     using UnityEngine;
     using System.Linq;
+    using Utility;
 
     [RequireComponent(typeof(TileMap))]
     public class HallsAndRoomsSubdividerGenerator : MonoBehaviour
@@ -28,12 +30,16 @@
         private TileMap _map;
         private RectNode _rootNode;
         private SubdividedMap _roomMap;
+        private Room _entryRoom;
+        private Room _exitRoom;
+        private List<Room> _roomsInPath = new List<Room>();
 
         public void ResetMap()
         {
             GenerateTileMap();
             SplitRootNode();
             _roomMap = ConnectionBuilder.GetMap(_rootNode, MinRoomSize, MaxRoomSideSize);
+            IdentityAndTagRooms();
             BuildConnections();
         }
 
@@ -72,15 +78,56 @@
             _map.RebuildMap();
         }
 
+        private void IdentityAndTagRooms()
+        {
+            // Find the room that's closest to the lower left and upper right
+            var entryRoom = _roomMap.Rooms.First();
+            var exitRoom = _roomMap.Rooms.First();
+            var lowerLeft = new IntVector2(0, 0);
+            var upperRight = new IntVector2(MapWidth, MapHeight);
+            var closestDistToLowerLeft = IntVector2.Distance(lowerLeft, upperRight);
+            var closestDistToUpperRight = IntVector2.Distance(lowerLeft, upperRight);
+            foreach (var room in _roomMap.Rooms)
+            {
+                var roomDistToLowerLeft = IntVector2.Distance(room.Position, lowerLeft);
+                var roomDistToUpperRight = IntVector2.Distance(room.Position, upperRight);
+                if (roomDistToLowerLeft < closestDistToLowerLeft)
+                {
+                    closestDistToLowerLeft = roomDistToLowerLeft;
+                    entryRoom = room;
+                }
+                if (roomDistToUpperRight < closestDistToUpperRight)
+                {
+                    closestDistToUpperRight = roomDistToUpperRight;
+                    exitRoom = room;
+                }
+            }
+
+            _entryRoom = entryRoom;
+            _exitRoom = exitRoom;
+
+            entryRoom.AddTag("entry");
+            exitRoom.AddTag("exit");
+        }
+
         private void BuildConnections()
         {
+            foreach (var room in _roomMap.Rooms)
+            {
+                var tileType = "default";
+                if (room.HasTag("entry"))
+                {
+                    tileType = "green";
+                }
+                else if (room.HasTag("exit"))
+                {
+                    tileType = "red";
+                }
+                room.SetTiles(_map, tileType);
+            }
             foreach (var connection in _roomMap.Connections.Distinct())
             {
                 BuildCorridor(connection);
-            }
-            foreach (var room in _roomMap.Rooms)
-            {
-                room.SetTiles(_map, "default");
             }
         }
 
@@ -90,7 +137,7 @@
             var corridor = new SingleWidthCorridor();
             corridor.AddNode(connect.AConnect);
             corridor.AddNode(connect.BConnect);
-            corridor.SetTiles(_map, "default");
+            corridor.SetTiles(_map, "hazard");
         }
     }
 }

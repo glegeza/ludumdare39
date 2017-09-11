@@ -31,6 +31,11 @@
             }
         }
 
+        public IEnumerable<Room> Neighbors
+        {
+            get { return _neighbors; }
+        }
+
         public bool UnitInRoom(GameUnit unit)
         {
             var map = unit.Position.CurrentTile.Map;
