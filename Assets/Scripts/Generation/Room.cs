@@ -5,45 +5,23 @@
     using System;
     using System.Collections.Generic;
     using Data;
+    using UnityEngine;
     using Utility;
 
-    public class Room : MapElement, IEquatable<Room>
+    public abstract class Room : MapElement, IEquatable<Room>
     {
-        private HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
+        private readonly HashSet<IntVector2> _tiles = new HashSet<IntVector2>();
+        private readonly HashSet<Room> _neighbors = new HashSet<Room>();
 
-        public Room(int x, int y, int width, int height, string id, RoomType type=null) : base(id)
+        protected Room(IntVector2 position, string id, RoomType type=null) : base(id)
         {
-            MapRect = new IntRect(x, y, width, height);
             Template = type;
-            UpdateTiles();
+            Position = position;
         }
 
-        public RoomType Template
-        {
-            get;
-            private set;
-        }
+        public RoomType Template { get; private set; }
 
-        public int Width
-        {
-            get
-            {
-                return MapRect.Width;
-            }
-        }
-
-        public int Height
-        {
-            get
-            {
-                return MapRect.Height;
-            }
-        }
-
-        public IntRect MapRect
-        {
-            get; private set;
-        }
+        public IntVector2 Position { get; private set; }
 
         public override IEnumerable<IntVector2> Tiles
         {
@@ -51,11 +29,6 @@
             {
                 return _tiles;
             }
-        }
-
-        public IntVector2 TranslateLocalTileCoords(int x, int y)
-        {
-            return new IntVector2(x + MapRect.X, y + MapRect.Y);
         }
 
         public bool UnitInRoom(GameUnit unit)
@@ -73,7 +46,50 @@
             return false;
         }
 
-        public void SetTiles(TileMap map, string tileID="default")
+        public virtual bool Overlaps(Room other)
+        {
+            return other != null && other._tiles.Overlaps(_tiles);
+        }
+
+        public override bool TileInElement(int x, int y)
+        {
+            return _tiles.Contains(new IntVector2(x, y));
+        }
+
+        public IntVector2 TransformLocalTileCoords(int lX, int lY)
+        {
+            return TransformLocalTileCoords(new IntVector2(lX, lY));
+        }
+
+        public IntVector2 TransformLocalTileCoords(IntVector2 localCoords)
+        {
+            return Position + localCoords;
+        }
+
+        public void AddNeighbor(Room neighbor)
+        {
+            _neighbors.Add(neighbor);
+        }
+
+        public bool Equals(Room other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            return ReferenceEquals(this, other) || string.Equals(ID, other.ID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            return obj.GetType() == GetType() && Equals((Room) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return ID != null ? ID.GetHashCode() : 0;
+        }
+
+        public void SetTiles(TileMap map, string tileID = "default")
         {
             foreach (var tile in _tiles)
             {
@@ -81,38 +97,28 @@
             }
         }
 
-        public bool Equals(Room other)
+        protected void AddTile(IntVector2 tile)
         {
-            return other != null && other.MapRect.Equals(MapRect);
+            _tiles.Add(tile);
         }
 
-        public bool Overlaps(Room other)
+        protected void AddTiles(IEnumerable<IntVector2> tiles)
         {
-            return other != null && MapRect.Intersects(other.MapRect);
-        }
-        
-        public bool Overlaps(Room other, int padding)
-        {
-            var paddedRect = new IntRect(MapRect.X - padding, MapRect.Y - padding,
-                MapRect.Width + padding, MapRect.Height + padding);
-            return other != null && paddedRect.Intersects(other.MapRect);
-        }
-
-        private void UpdateTiles()
-        {
-            _tiles.Clear();
-            for (var xPos = 0; xPos < MapRect.Width; xPos++)
+            foreach (var tile in tiles)
             {
-                for (var yPos = 0; yPos < MapRect.Height; yPos++)
-                {
-                    _tiles.Add(new IntVector2(xPos + MapRect.X, yPos + MapRect.Y));
-                }
+                _tiles.Add(tile);
             }
         }
 
-        public override bool TileInElement(int x, int y)
+        protected void AddTiles(IntRect tiles)
         {
-            return _tiles.Contains(new IntVector2(x, y));
+            for (var x = tiles.X; x <= tiles.BottomRight.X; x++)
+            {
+                for (var y = tiles.Y; y <= tiles.TopRight.Y; y++)
+                {
+                    _tiles.Add(new IntVector2(x, y));
+                }
+            }
         }
     }
 }

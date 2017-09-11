@@ -34,7 +34,7 @@
             var h = Random.Range(MinHeight, MaxHeight);
             var x = Random.Range(0, map.Width - w);
             var y = Random.Range(0, map.Height - h);
-            return new Room(x, y, w, h, id, this);
+            return new RectRoom(x, y, w, h, id, this);
         }
 
         public override Room GetRoomAtPosition(TileMap map, IntVector2 position, string id="")
@@ -42,7 +42,7 @@
             id = String.IsNullOrEmpty(id) ? ID : id;
             var w = Random.Range(MinWidth, MaxWidth);
             var h = Random.Range(MinHeight, MaxHeight);
-            return new Room(position.X, position.Y,
+            return new RectRoom(position.X, position.Y,
                 w, h, id, this);
         }
     }

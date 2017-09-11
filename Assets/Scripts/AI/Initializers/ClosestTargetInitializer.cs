@@ -14,7 +14,7 @@
     {
         // ReSharper disable once FieldCanBeMadeReadOnly.Global
         // ReSharper disable once ConvertToConstant.Global
-        // ReSharper disable once MemberCanBePrivate.Global
+        // ReSharper disable once MemberCanBePrivate.Global 
         public Faction TargetFaction = Faction.Aliens;
 
         public override void OnStateEnter(StateController controller)

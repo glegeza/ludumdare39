@@ -48,6 +48,16 @@ namespace DLS.Utility
             return new Vector3(_x, _y, 0);
         }
 
+        public static float Distance(IntVector2 a, IntVector2 b)
+        {
+            return Mathf.Sqrt(Mathf.Pow(b.X - a.X, 2) + Mathf.Pow(b.Y - a.Y, 2));
+        }
+
+        public static int ManhattanDistance(IntVector2 a, IntVector2 b)
+        {
+            return Mathf.Abs(b.X - a.X) + Mathf.Abs(b.Y - a.Y);
+        }
+
         public override int GetHashCode()
         {
             return SimpleHashBuilder.GetHash(_x, _y);

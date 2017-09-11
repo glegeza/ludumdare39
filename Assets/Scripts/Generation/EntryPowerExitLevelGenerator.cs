@@ -110,54 +110,54 @@
 
         private void ConnectRooms(Room a, RoomSide sideA, Room b, RoomSide sideB)
         {
-            var aTile = GetTileOnSide(a, sideA);
-            var bTile = GetTileOnSide(b, sideB);
-            var corridor = new SingleWidthCorridor();
-            corridor.AddNode(aTile);
-            corridor.AddNode(bTile);
-            corridor.SetTiles(_map);
+            //var aTile = GetTileOnSide(a, sideA);
+            //var bTile = GetTileOnSide(b, sideB);
+            //var corridor = new SingleWidthCorridor();
+            //corridor.AddNode(aTile);
+            //corridor.AddNode(bTile);
+            //corridor.SetTiles(_map);
         }
 
         private void SpawnPlayerUnits()
         {
-            var tile1 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(2, 1));
-            var tile2 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(2, 2));
-            var tile3 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(2, 3));
-            var tile4 = _map.GetTile(_rooms["entry"].TranslateLocalTileCoords(3, 2));
+            var tile1 = _map.GetTile(_rooms["entry"].TransformLocalTileCoords(2, 1));
+            var tile2 = _map.GetTile(_rooms["entry"].TransformLocalTileCoords(2, 2));
+            var tile3 = _map.GetTile(_rooms["entry"].TransformLocalTileCoords(2, 3));
+            var tile4 = _map.GetTile(_rooms["entry"].TransformLocalTileCoords(3, 2));
             UnitSpawner.Instance.SpawnUnit("test_player", tile1);
             UnitSpawner.Instance.SpawnUnit("test_player", tile2);
             UnitSpawner.Instance.SpawnUnit("test_player", tile3);
             UnitSpawner.Instance.SpawnUnit("test_player", tile4);
         }
 
-        private IntVector2 GetTileOnSide(Room room, RoomSide side)
-        {
-            int x, y;
-            var rect = room.MapRect;
-            switch (side)
-            {
-                case RoomSide.Bottom:
-                    y = rect.BottomLeft.Y - 1;
-                    x = Random.Range(rect.BottomLeft.X, rect.BottomRight.X);
-                    break;
-                case RoomSide.Top:
-                    y = rect.TopLeft.Y + 1;
-                    x = Random.Range(rect.TopLeft.X, rect.TopRight.X);
-                    break;
-                case RoomSide.Left:
-                    x = rect.TopLeft.X - 1;
-                    y = Random.Range(rect.BottomLeft.Y, rect.TopLeft.Y);
-                    break;
-                case RoomSide.Right:
-                    x = rect.TopRight.X + 1;
-                    y = Random.Range(rect.BottomRight.Y, rect.BottomLeft.Y);
-                    break;
+        //private IntVector2 GetTileOnSide(Room room, RoomSide side)
+        //{
+        //    int x, y;
+        //    var rect = room.MapRect;
+        //    switch (side)
+        //    {
+        //        case RoomSide.Bottom:
+        //            y = rect.BottomLeft.Y - 1;
+        //            x = Random.Range(rect.BottomLeft.X, rect.BottomRight.X);
+        //            break;
+        //        case RoomSide.Top:
+        //            y = rect.TopLeft.Y + 1;
+        //            x = Random.Range(rect.TopLeft.X, rect.TopRight.X);
+        //            break;
+        //        case RoomSide.Left:
+        //            x = rect.TopLeft.X - 1;
+        //            y = Random.Range(rect.BottomLeft.Y, rect.TopLeft.Y);
+        //            break;
+        //        case RoomSide.Right:
+        //            x = rect.TopRight.X + 1;
+        //            y = Random.Range(rect.BottomRight.Y, rect.BottomLeft.Y);
+        //            break;
 
-                default:
-                    throw new ArgumentOutOfRangeException("side", side, null);
-            }
+        //        default:
+        //            throw new ArgumentOutOfRangeException("side", side, null);
+        //    }
 
-            return new IntVector2(x, y);
-        }
+        //    return new IntVector2(x, y);
+        //}
     }
 }

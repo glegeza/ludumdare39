@@ -43,74 +43,67 @@ namespace DLS.Utility
 
         public int X
         {
-            get
-            {
-                return _x1;
-            }
+            get { return _x1; }
         }
 
         public int Y
         {
-            get
-            {
-                return _y1;
-            }
+            get { return _y1; }
         }
 
         public int Width
         {
-            get
-            {
-                return _w;
-            }
+            get { return _w; }
         }
 
         public int Height
         {
-            get
-            {
-                return _h;
-            }
+            get { return _h; }
+        }
+
+        public int Left
+        {
+            get { return _x1; }
+        }
+
+        public int Right
+        {
+            get { return _x2; }
+        }
+
+        public int Top
+        {
+            get { return _y2; }
+        }
+
+        public int Bottom
+        {
+            get { return _y1; }
         }
 
         public IntVector2 Center
         {
-            get
-            {
-                return _center;
-            }
+            get { return _center; }
         }
 
         public IntVector2 TopLeft
         {
-            get
-            {
-                return _topLeft;
-            }
+            get { return _topLeft; }
         }
 
         public IntVector2 TopRight
         {
-            get
-            {
-                return _topRight;
-            }
+            get { return _topRight; }
         }
 
         public IntVector2 BottomLeft
         {
-            get
-            {
-                return _botLeft;
-            }
+            get { return _botLeft; }
         }
 
         public IntVector2 BottomRight
         {
-            get
-            {
-                return _botRight;
-            }
+            get { return _botRight; }
         }
 
         public override bool Equals(object obj)
@@ -121,7 +114,7 @@ namespace DLS.Utility
             }
             return Equals(obj as IntRect);
         }
-        
+
         public override int GetHashCode()
         {
             return SimpleHashBuilder.GetHash(_x1, _y1, _w, _h);
@@ -135,10 +128,10 @@ namespace DLS.Utility
         public bool Equals(IntRect other)
         {
             return other != null &&
-                _x1 == other._x1 &&
-                _y1 == other._y1 &&
-                _w == other._w &&
-                _h == other._h;
+                   _x1 == other._x1 &&
+                   _y1 == other._y1 &&
+                   _w == other._w &&
+                   _h == other._h;
         }
 
         public bool Contains(IntVector2 point)

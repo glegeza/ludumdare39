@@ -65,20 +65,29 @@
         {
             foreach (var connection in _roomMap.Connections.Distinct())
             {
-                BuildCorridor(connection.RoomA.RoomNode, connection.RoomB.RoomNode);
+                BuildCorridor(connection);
             }
             foreach (var room in _roomMap.Rooms)
             {
-                SetTiles(room.Rect);
+                room.SetTiles(_map, "default");
             }
         }
 
-        private void BuildCorridor(RectNode nodeA, RectNode nodeB)
+        private void BuildCorridor(Connection connect)
         {
+            Debug.LogFormat("Building corridor between {0} and {1}", connect.RoomA, connect.RoomB);
             var corridor = new SingleWidthCorridor();
-            corridor.AddNode(nodeA.Rect.Center);
-            corridor.AddNode(nodeB.Rect.Center);
+            corridor.AddNode(connect.AConnect);
+            corridor.AddNode(connect.BConnect);
             corridor.SetTiles(_map, "default");
+        }
+
+        private void SetTiles(IEnumerable<IntVector2> tiles)
+        {
+            foreach (var tile in tiles)
+            {
+                _map.SetTileAt(tile.X, tile.Y, "default");
+            }
         }
 
         private void SetTiles(IntRect rect)

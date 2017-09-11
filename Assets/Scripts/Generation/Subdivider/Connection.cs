@@ -1,24 +1,25 @@
 ﻿namespace DLS.LD39.Generation.Subdivider
 {
     using System;
+    using Utility;
 
     public class Connection : IEquatable<Connection>
     {
-        public Connection(Room a, Room b)
+        public Connection(Room a, IntVector2 aConnect, Room b, IntVector2 bConnect)
         {
             RoomA = a;
+            AConnect = aConnect;
             RoomB = b;
+            BConnect = bConnect;
         }
 
-        public Room RoomA
-        {
-            get; private set;
-        }
+        public Room RoomA { get; private set; }
 
-        public Room RoomB
-        {
-            get; private set;
-        }
+        public IntVector2 AConnect { get; private set; }
+
+        public Room RoomB { get; private set; }
+
+        public IntVector2 BConnect { get; private set; }
 
         public bool Equals(Connection other)
         {
@@ -32,8 +33,7 @@
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Connection) obj);
+            return obj.GetType() == GetType() && Equals((Connection) obj);
         }
 
         public override int GetHashCode()

@@ -1,9 +1,11 @@
 ﻿namespace DLS.LD39.Generation.Subdivider
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
     using Utility;
+    using Random = UnityEngine.Random;
 
     public static class ConnectionBuilder
     {
@@ -71,22 +73,26 @@
             var startRoom = roomA;
             var currentRoom = roomA;
             var targetRoom = roomB;
-            var currentTile = startRoom.Rect.Center;
-            var targetTile = targetRoom.Rect.Center;
+            IntVector2 currentTile, targetTile;
+            MapElement.GetClosestConnectionPair(startRoom, targetRoom, out currentTile, out targetTile);
 
             while (true)
             {
                 var tileRoom = PointInRoom(currentTile, roomMap.Values);
-                if (targetRoom.Equals(tileRoom))
+                if (currentTile.Equals(targetTile))
                 {
-                    connections.Add(new Connection(currentRoom, targetRoom));
+                    IntVector2 a, b;
+                    MapElement.GetClosestConnectionPair(currentRoom, targetRoom, out a, out b);
+                    connections.Add(new Connection(currentRoom, a, targetRoom, b));
                     currentRoom.AddNeighbor(targetRoom);
                     targetRoom.AddNeighbor(currentRoom);
                     break;
                 }
                 if (tileRoom != null && !currentRoom.Equals(tileRoom))
                 {
-                    connections.Add(new Connection(currentRoom, tileRoom));
+                    IntVector2 a, b;
+                    MapElement.GetClosestConnectionPair(currentRoom, tileRoom, out a, out b);
+                    connections.Add(new Connection(currentRoom, a, tileRoom, b));
                     currentRoom.AddNeighbor(tileRoom);
                     tileRoom.AddNeighbor(currentRoom);
                     currentRoom = tileRoom;
@@ -100,7 +106,7 @@
 
         private static Room PointInRoom(IntVector2 tile, IEnumerable<Room> rooms)
         {
-            return rooms.FirstOrDefault(room => room.Rect.Contains(tile));
+            return rooms.FirstOrDefault(room => room.TileInElement(tile));
         }
 
         private static IntVector2 GetNextTile(IntVector2 currentTile, IntVector2 target)
@@ -140,7 +146,7 @@
                 node.Rect.Center.Y - size.Y / 2);
 
             var roomRect = new IntRect(pos, size.X, size.Y);
-            return new Room(roomRect, node);
+            return new RectRoom(roomRect, Guid.NewGuid().ToString());
         }
 
         private static RectNode GetRandomRoom(RectNode node)

@@ -23,16 +23,22 @@
             RectNode.CutDirection direction, bool alternate, float splitChance=1.0f,
             int requiredLevels=2)
         {
-            if (node.Depth > requiredLevels && Random.Range(0.0f, 1.0f) <= splitChance)
+            Debug.LogFormat("Attempting to split node with depth {0}", node.Depth);
+            var roll = Random.Range(0.0f, 1.0f);
+            Debug.LogFormat("Split check roll: {0}", roll);
+            if (node.Depth > requiredLevels && roll >= splitChance)
             {
+                Debug.LogFormat("Failed split roll");
                 return;
             }
             if (!node.Split(direction, minSize, maxDepth))
             {
+                Debug.LogFormat("Too small to split");
                 return;
             }
 
             var nextDirection = GetNextDirection(direction, alternate);
+            Debug.LogFormat("Splitting {0}", nextDirection);
 
             RecursivelySplitNode(node.Left, minSize, maxDepth, nextDirection, alternate, splitChance, requiredLevels);
             RecursivelySplitNode(node.Right, minSize, maxDepth, nextDirection, alternate, splitChance, requiredLevels);
